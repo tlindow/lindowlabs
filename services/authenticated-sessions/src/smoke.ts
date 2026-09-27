@@ -1,5 +1,5 @@
 import { Browserbase } from "@browserbasehq/sdk";
-import { browserbase } from "@browserbasehq/stagehand";
+import { browserbase, Stagehand } from "@browserbasehq/stagehand";
 import { sessionUrl } from "./session.js";
 
 const VIEWPORT = { width: 1280, height: 720 };
@@ -25,12 +25,18 @@ export async function runSmoke(apiKey: string): Promise<{ sessionId: string; ses
     throw new Error("Browserbase did not return a session id.");
   }
 
+  const stagehand = await Stagehand.create({
+    browser,
+    logging: { level: "error" },
+  });
+
   try {
     const pages = await browser.context.pages();
     const page = pages[0] ?? (await browser.context.newPage());
     await page.setViewportSize(VIEWPORT.width, VIEWPORT.height);
     await page.goto("https://example.com", { waitUntil: "domcontentloaded" });
     const title = await page.title();
+    await stagehand.close();
     await browser.close();
     const session = await bb.sessions.retrieve(sessionId);
     await bb.contexts.delete(context.id);
@@ -41,6 +47,7 @@ export async function runSmoke(apiKey: string): Promise<{ sessionId: string; ses
       status: session.status,
     };
   } catch (error) {
+    await stagehand.close().catch(() => undefined);
     await browser.close().catch(() => undefined);
     await bb.contexts.delete(context.id).catch(() => undefined);
     throw error;
