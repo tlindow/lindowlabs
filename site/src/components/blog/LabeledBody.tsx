@@ -9,7 +9,8 @@ export default function LabeledBody({ paragraphs }: LabeledBodyProps) {
     <article className="space-y-6 font-mono text-sm leading-relaxed text-foreground/90 sm:text-base xl:-ml-[10.5rem] xl:w-[calc(100%+10.5rem)]">
       {paragraphs.map((paragraph, index) => {
         const showLabel =
-          index === 0 || paragraphs[index - 1].label !== paragraph.label;
+          Boolean(paragraph.label) &&
+          (index === 0 || paragraphs[index - 1].label !== paragraph.label);
         return (
           <div
             key={`${paragraph.line}-${index}`}

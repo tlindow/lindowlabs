@@ -34,7 +34,7 @@ export interface BlogPost {
   summary: string;
   previewText?: string;
   slides: SlideData[];
-  content: string[]; // Fallback body. The four case studies live in site/content/blog.
+  content: string[]; // Fallback body. The four case studies live in content/essays.
 }
 
 const defaultAuthor = {

@@ -25,10 +25,10 @@ jobs:
         working-directory: ./site
         run: npm run build
 
-      - name: Verify labeled paragraphs
+      - name: Check labels against catalog
         working-directory: ./site
         run: npm run check:labels
 
-      - name: Report em dashes in built HTML
+      - name: Check em dashes in built HTML
         working-directory: ./site
-        run: node scripts/check-em-dashes.mjs
+        run: npm run check:em-dashes

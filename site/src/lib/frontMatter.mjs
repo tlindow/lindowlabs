@@ -3,9 +3,26 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
-const defaultDir = path.join(here, "../../content/blog");
+const repoRoot = path.join(here, "../../..");
+const defaultDir = path.join(repoRoot, "content/essays");
+const categoriesPath = path.join(repoRoot, "content/categories.md");
 
-export const LABELS = ["Decision", "Result", "How I led it", "Belief", "Context"];
+export function loadAllowedLabels(file = categoriesPath) {
+  if (!existsSync(file)) {
+    throw new Error(`label catalog missing: ${file}`);
+  }
+  const labels = [];
+  for (const line of readFileSync(file, "utf8").split(/\r?\n/)) {
+    const match = line.match(/^- (.+)$/);
+    if (match) labels.push(match[1].trim());
+  }
+  if (labels.length === 0) {
+    throw new Error(`label catalog has no labels: ${file}`);
+  }
+  return labels;
+}
+
+export const LABELS = loadAllowedLabels();
 
 function unquote(raw) {
   const value = raw.trim();
@@ -42,7 +59,7 @@ export function parseFrontMatter(markdown) {
   return result;
 }
 
-export function parseLabeledMarkdown(markdown) {
+export function parseLabeledMarkdown(markdown, allowedLabels = LABELS) {
   const frontMatter = markdown.match(/^---\r?\n[\s\S]*?\r?\n---\r?\n?/);
   const body = frontMatter ? markdown.slice(frontMatter[0].length) : markdown;
   const lineOffset = frontMatter ? (frontMatter[0].match(/\n/g) || []).length : 0;
@@ -55,21 +72,18 @@ export function parseLabeledMarkdown(markdown) {
 
     const match = line.match(/^\[([^\]]+)\][ \t]+(\S.*)$/);
     if (!match) {
-      errors.push(`${lineNo}: paragraph has no label (malformed syntax)`);
+      // Unlabeled paragraph: a writing gap, not a layout fill-in.
+      paragraphs.push({ label: null, text: line.trim(), line: lineNo });
       return;
     }
 
     const label = match[1];
     const text = match[2];
-    if (!LABELS.includes(label)) {
+    if (!allowedLabels.includes(label)) {
       errors.push(`${lineNo}: label is not allowed: ${label}`);
     }
     paragraphs.push({ label, text, line: lineNo });
   });
-
-  if (paragraphs.length === 0) {
-    errors.push("post body has no labeled paragraphs");
-  }
 
   return { paragraphs, errors };
 }

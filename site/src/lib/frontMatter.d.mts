@@ -1,17 +1,22 @@
 export const LABELS: readonly string[];
 
+export function loadAllowedLabels(file?: string): string[];
+
 export type PostFrontMatter = {
   redirectFrom: string[];
 };
 
 export type LabeledParagraph = {
-  label: string;
+  label: string | null;
   text: string;
   line: number;
 };
 
 export function parseFrontMatter(markdown: string): PostFrontMatter;
-export function parseLabeledMarkdown(markdown: string): {
+export function parseLabeledMarkdown(
+  markdown: string,
+  allowedLabels?: readonly string[]
+): {
   paragraphs: LabeledParagraph[];
   errors: string[];
 };
