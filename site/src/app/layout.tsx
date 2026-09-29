@@ -32,13 +32,13 @@ const fraunces = Fraunces({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://tlindow.github.io"),
+  metadataBase: new URL("https://lindowlabs.dev"),
   title: SITE_SHARE_TITLE,
   description: SITE_SUPPORT,
   openGraph: {
     title: SITE_SHARE_TITLE,
     description: SITE_SUPPORT,
-    url: "https://tlindow.github.io",
+    url: "https://lindowlabs.dev",
     siteName: "Tyler Lindow",
     type: "website",
   },

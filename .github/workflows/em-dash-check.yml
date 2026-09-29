@@ -32,3 +32,7 @@ jobs:
       - name: Check em dashes in built HTML
         working-directory: ./site
         run: npm run check:em-dashes
+
+      - name: Check essay locations
+        working-directory: ./site
+        run: npm run check:locations

@@ -88,21 +88,12 @@ export function parseLabeledMarkdown(markdown, allowedLabels = LABELS) {
   return { paragraphs, errors };
 }
 
-function splitQuestionRun(text) {
-  const matches = [...text.matchAll(/“[^”]*”/g)];
-  if (matches.length < 2) return [text];
-  if (matches.map((match) => match[0]).join(" ") !== text) return [text];
-  return matches.map((match) => match[0]);
-}
-
 export function renderLabeledParagraphs(paragraphs) {
-  const rendered = [];
-  for (const paragraph of paragraphs) {
-    for (const text of splitQuestionRun(paragraph.text)) {
-      rendered.push({ label: paragraph.label, text, line: paragraph.line });
-    }
-  }
-  return rendered;
+  return paragraphs.map((paragraph) => ({
+    label: paragraph.label,
+    text: paragraph.text,
+    line: paragraph.line,
+  }));
 }
 
 export function loadAllPostFrontMatter(dir = defaultDir) {

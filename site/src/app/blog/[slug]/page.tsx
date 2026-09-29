@@ -141,7 +141,12 @@ export default async function BlogPostPage({ params }: Props) {
                 className="inline-flex items-start gap-1.5 font-bold text-foreground hover:text-indigo-dark transition-colors group sm:max-w-[46%]"
               >
                 <ArrowLeft size={14} className="mt-0.5 shrink-0 group-hover:-translate-x-0.5 transition-transform" />
-                <span>{previous.title}</span>
+                <span className="flex flex-col gap-0.5">
+                  <span className="text-[10px] font-semibold uppercase tracking-wide text-muted sm:hidden">
+                    Previous
+                  </span>
+                  <span>{previous.title}</span>
+                </span>
               </Link>
             ) : null}
             {next ? (
@@ -150,7 +155,12 @@ export default async function BlogPostPage({ params }: Props) {
                 className="inline-flex items-start gap-1.5 font-bold text-foreground hover:text-indigo-dark transition-colors group sm:max-w-[46%] sm:ml-auto sm:text-right"
                 title={`Read next: ${next.title}`}
               >
-                <span>{next.title}</span>
+                <span className="flex flex-col gap-0.5 sm:items-end">
+                  <span className="text-[10px] font-semibold uppercase tracking-wide text-muted sm:hidden">
+                    Next
+                  </span>
+                  <span>{next.title}</span>
+                </span>
                 <ArrowRight size={14} className="mt-0.5 shrink-0 group-hover:translate-x-0.5 transition-transform" />
               </Link>
             ) : null}

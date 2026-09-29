@@ -48,6 +48,10 @@ jobs:
         working-directory: ./site
         run: npm run check:em-dashes
 
+      - name: Check essay locations
+        working-directory: ./site
+        run: npm run check:locations
+
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
 

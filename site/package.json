@@ -7,6 +7,7 @@
     "build": "node scripts/sync-resume-data.mjs && next build && node scripts/write-redirects.mjs",
     "check:em-dashes": "node scripts/check-em-dashes.mjs",
     "check:labels": "node scripts/verify-labeled-paragraphs.mjs",
+    "check:locations": "node scripts/check-locations.mjs",
     "start": "next start",
     "lint": "eslint",
     "remove-bg": "node scripts/remove-bg.mjs",

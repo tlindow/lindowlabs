@@ -17,7 +17,7 @@ export default function LabeledBody({ paragraphs }: LabeledBodyProps) {
             className="xl:grid xl:grid-cols-[9rem_minmax(0,1fr)] xl:items-start xl:gap-x-6"
           >
             {showLabel ? (
-              <p className="mb-1.5 font-mono text-xs leading-snug tracking-[0.14em] text-indigo-dark [font-variant-caps:all-small-caps] xl:mb-0 xl:pt-1.5 xl:text-right">
+              <p className="mb-1.5 font-mono text-xs font-semibold uppercase tracking-wide text-foreground xl:mb-0 xl:pt-1.5 xl:text-right">
                 {paragraph.label}
               </p>
             ) : (
