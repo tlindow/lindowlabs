@@ -23,29 +23,29 @@ export const VARIANT_PRESETS: Record<string, RemoteConfigValues> = {
   baseline: {
     recruit_cta_label: "Let's talk",
     recruit_cta_style: "forest_solid",
-    hero_headline_variant: "Elevating capital-tech",
+    hero_headline_variant: "Engineering Manager, Developer Fintech",
     hero_subtitle_variant:
-      "Elevating Developer Fintech — with top of funnel marketing and enterprise B2B portals",
+      "Elevating Developer Fintech: engineering leadership for merchant platforms, partner integrations, and enterprise B2B portals.",
   },
   action_oriented: {
     recruit_cta_label: "Let's talk",
     recruit_cta_style: "pulse_accent",
-    hero_headline_variant: "Elevating capital-tech",
+    hero_headline_variant: "Engineering Manager, Developer Fintech",
     hero_subtitle_variant:
-      "Elevating Developer Fintech — with top of funnel marketing and enterprise B2B portals",
+      "Elevating Developer Fintech: engineering leadership for merchant platforms, partner integrations, and enterprise B2B portals.",
   },
   low_friction: {
     recruit_cta_label: "Connect on LinkedIn",
     recruit_cta_style: "sprout_glow",
-    hero_headline_variant: "Elevating capital-tech",
+    hero_headline_variant: "Engineering Manager, Developer Fintech",
     hero_subtitle_variant: "ex-Affirm, ex-founder",
   },
   executive_authority: {
     recruit_cta_label: "Hire Fintech Product-Eng PM",
     recruit_cta_style: "high_contrast",
-    hero_headline_variant: "Elevating capital-tech",
+    hero_headline_variant: "Engineering Manager, Developer Fintech",
     hero_subtitle_variant:
-      "Elevating Developer Fintech — with top of funnel marketing and enterprise B2B portals",
+      "Elevating Developer Fintech: engineering leadership for merchant platforms, partner integrations, and enterprise B2B portals.",
   },
 };
 

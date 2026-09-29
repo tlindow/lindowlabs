@@ -5,11 +5,11 @@ import { GoogleQuadDivider } from "@/components/modules/ModuleCards";
 import { ArrowLeft, Sparkles } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Story deck — Tyler Lindow",
+  title: "Story deck: Tyler Lindow",
   description:
     "Lean public story for Tyler Lindow. The working resume is maintained in Formation.",
   openGraph: {
-    title: "Story deck — Tyler Lindow",
+    title: "Story deck: Tyler Lindow",
     description:
       "Lean public story for Tyler Lindow. The working resume is maintained in Formation.",
     url: "https://tlindow.github.io/modules",
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Story deck — Tyler Lindow",
+    title: "Story deck: Tyler Lindow",
     description:
       "Lean public story for Tyler Lindow. The working resume is maintained in Formation.",
   },

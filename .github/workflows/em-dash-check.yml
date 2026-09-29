@@ -1,25 +1,10 @@
-name: Deploy to GitHub Pages
+name: Em dash check
 
 on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
+  pull_request:
 
 jobs:
-  build-and-deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  report:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -51,15 +36,3 @@ jobs:
       - name: Check essay locations
         working-directory: ./site
         run: npm run check:locations
-
-      - name: Setup GitHub Pages
-        uses: actions/configure-pages@v5
-
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: site/out
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4

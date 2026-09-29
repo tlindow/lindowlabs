@@ -34,7 +34,7 @@ export interface BlogPost {
   summary: string;
   previewText?: string;
   slides: SlideData[];
-  content: string[]; // Markdown/paragraph blocks
+  content: string[]; // Fallback body. The four case studies live in content/essays.
 }
 
 const defaultAuthor = {
@@ -52,9 +52,9 @@ export const blogPosts: BlogPost[] = [
     pretitle: "My work product",
     pillarId: "core",
     pillarLabel: "B2B Fintech Case Study",
-    title: "Marketing as Engineering Leadership",
+    title: "Securing a $500K GMV Win",
     subtitle:
-      "Treating top-of-funnel marketing as engineering leadership — the affirm.com revamp, where engineering and marketing shared one conversion surface.",
+      "How I led my engineers through the affirm.com rebuild, and the additional $500K in GMV we generated in a 3-day pre-Black Friday sale.",
     date: "2026-09-11",
     readTime: "2 min read",
     author: defaultAuthor,
@@ -88,15 +88,7 @@ export const blogPosts: BlogPost[] = [
           "Remind each other that engineering will forever be a human pursuit.",
       },
     ],
-    content: [
-      `In October of 2025, we revamped the affirm.com marketing website in order to create design continuity between web and mobile apps and drive more conversion for the ~1M monthly viewers of the site.`,
-      `And when we were finished, we had generated an additional $500K in GMV through a 3-day pre-Black Friday sale.`,
-      `It was a lot of intense focus for engineers on my team and, frankly, one too many late nights to get this done. And what I told my team at the end of all of the scoping, collaboration, and execution alongside the immense work of product, design, and copy was:`,
-      `> "Engineers are important... and even if we are not seen for all of our efforts right now, you know what you accomplished."`,
-      `In 2026, engineering leadership is about perseverance. And simultaneously, it's about discovering how you lead under pressure.`,
-      `In the wake of developers being told that their jobs are being taken away by AI, it's about reminding them to not lose focus.`,
-      `Remind each other that engineering, and figuratively and literally, lead-generation, will forever be a human pursuit.`,
-    ],
+    content: [],
   },
   {
     id: "building-product-as-system-architecture",
@@ -106,7 +98,7 @@ export const blogPosts: BlogPost[] = [
     pillarLabel: "B2B Fintech Case Study",
     title: "Building Product as System Architecture",
     subtitle:
-      "System architecture is an act of building the core product — the merchant lifecycle work that keeps the portal able to earn trust.",
+      "System architecture is an act of building the core product. This is the merchant lifecycle work that keeps the portal able to earn trust.",
     date: "2026-09-11",
     readTime: "3 min read",
     author: defaultAuthor,
@@ -138,31 +130,20 @@ export const blogPosts: BlogPost[] = [
         id: 3,
         slideNumber: "03/03",
         quote:
-          "It's not a failure to require operational support at a product- and engineering-led company—it's a necessary growth pattern for building a system that feels like a human.",
+          "Requiring operational support at a product- and engineering-led company is a necessary growth pattern for building a system that feels like a human.",
       },
     ],
-    content: [
-      `In September of 2025, I took the lead to bring more cohesion across the merchant engineering organization at Affirm to develop the merchant lifecycle orchestrator deployable target, as groundwork toward a 99.99% availability target.`,
-      `By December of 2025, we had developed the technical architecture, with sign-off from our senior directors: groundwork toward a 99.99% availability target. That work reduced team dependencies and put us in a position to further product-led growth for merchant onboarding.`,
-      `As the engineering manager overseeing this program, I set up working meetings with four separate teams to enable our tech lead to see around architectural corners only the other tech leads would know about (e.g., are we choosing to consolidate this endpoint or will it become deprecated in a future build?). I also set up kickoff and close meetings with upward and peer leadership to say, "Work with us! And if you are too busy, tell us."`,
-      `Building system architecture is too often seen as simply a requirement to appease the high standards of enterprise customers. System architecture, along with any technical debt work, is always an act of building the core product.`,
-      `"Are our systems fast enough to get hesitant users to think, 'that was easy' and go tell their friends?"`,
-      `"By reducing confusion about data discrepancies in our system, will we grow the bottom line?"`,
-      `"If we have another incident, will users leave us, or will they leave us because they just didn't understand how valuable the dashboard was to them?"`,
-      `In this project, I made a clear decision early on when faced with the option to tell another team to do a database migration or drop a dashboard customers found useful:`,
-      `> "Drop the dashboard—the product is causing these users to do more work. And don't migrate the database—the data schemas are correct. I have found a way for our operations teams to provide this dashboard data and provide more holistic support."`,
-      `It's not a failure to require operational support at a product- and engineering-led company—it's a necessary growth pattern for building a system that feels like a human.`,
-    ],
+    content: [],
   },
   {
-    id: "velocity-labs-system-sculpting",
-    slug: "velocity-labs-system-sculpting",
+    id: "velocity-labs",
+    slug: "velocity-labs",
     pretitle: "My work product",
     pillarId: "methodical-enjoyable",
     pillarLabel: "01 Methodical & Empathetic",
-    title: "B2B Portals as Trust Stores",
+    title: "Velocity Labs: 99.9% Availability in One Quarter",
     subtitle:
-      "Merchant portals as trust stores. Velocity Labs gave the team a practice for clearing recurring incidents and keeping the enterprise portal trustworthy.",
+      "Velocity Labs gave my team a practice for working through production incidents on our legacy platform and embracing AI-driven development.",
     date: "2026-09-11",
     readTime: "3 min read",
     author: defaultAuthor,
@@ -196,14 +177,7 @@ export const blogPosts: BlogPost[] = [
           "The intelligence age is helping us move faster, but the real gains in adopting AI technology will help us unlock products that make it easy to try new things and extend trust with customers.",
       },
     ],
-    content: [
-      `In September of 2025, I implemented Velocity Labs for my team in order to manage new and ongoing production incidents occurring on our legacy platform every week and provide ourselves a chance to develop revenue-driving software for Affirm in the new year.`,
-      `Over the span of that quarter, we achieved 99.9% availability (up from as low as 99.7%) and worked through what must have been 10 production incidents (one of them being a blocker to launch with hundreds of thousands of new merchants with Intuit), all while managing the collaborative effort to revamp the backend architecture of the merchant portal and laying groundwork toward a 99.99% availability target.`,
-      `Velocity Labs had a simple objective: get engineers on my team developing more with less, and embracing AI-driven development. Coupled with 1:1s with each of my direct reports, we did the work required to work effectively with AI and change our mindsets from "I can't, I'm still fixing this bug" to "I think we can actually get this done in two days." And I did this by going to San Francisco for two weeks, changing my mental model for how AI works under the hood, and learning that AI is about organizational intelligence. The reason we weren't getting as much done before wasn't because we had adopted a brittle legacy system; it was because, organizationally, we did not have a growth mindset.`,
-      `Shortly before departing Affirm, I initially gained traction with engineers in the larger org to talk about how we could find new ways to grow the engineering practice using AI. And as part of a company-wide AI Paved Paths week, I started to develop an idea for an application that would allow Affirm to expand its merchant platform for in-store mobile use, managed by merchant users.`,
-      `I'll end with this:`,
-      `> "The intelligence age is helping us move faster, but the real gains in adopting AI technology will help us unlock products that make it easy to try new things and extend trust with customers."`,
-    ],
+    content: [],
   },
   {
     id: "building-teams-as-raising-funds",
@@ -213,7 +187,7 @@ export const blogPosts: BlogPost[] = [
     pillarLabel: "01 Methodical & Empathetic",
     title: "Building Teams as Raising Funds",
     subtitle:
-      "Raising funds for your position requires an intentional process—building teams by raising the funding potential of individuals and constructing a personal belief to grow the business.",
+      "Raising funds for your position requires an intentional process: building teams by raising the funding potential of individuals and constructing a personal belief to grow the business.",
     date: "2026-09-11",
     readTime: "2 min read",
     author: defaultAuthor,
@@ -247,15 +221,7 @@ export const blogPosts: BlogPost[] = [
           'Building a team, just like promoting someone, requires constructing a personal belief that "I know how to grow this business."',
       },
     ],
-    content: [
-      `During my first years as an engineering manager in 2022, I promoted a junior engineer to an intermediate position in about 1 year. A few years later, this person was promoted again from a support engineer to a product-building engineer. And through the span of my time managing this person, they received multiple raises and equity grants for their ability to get critical projects over the line and build the organizational intelligence of the team while doing it.`,
-      `Every week, I checked in with this engineer, giving them a space to process their work challenges and come up with paths forward that aligned with growing the business. Every month, I conducted career growth sessions, giving them a space to consider ways they could invest more in themselves and ultimately in the business.`,
-      `In one particular check-in with this person, I asked, "What do you see yourself doing in five years?" And their answer was "I'd like to become a manager." I said, "Tell me how."`,
-      `This work of building teams by raising the funding potential of an individual doesn't happen by mistake, and it also does not happen quickly. Raising funds for your position requires an intentional process, and one that is not taken for granted. A goal and a gift.`,
-      `In similar timing, about six months later, I supported the promotion cycle for another one of my engineers, and over my tenure at Affirm, I had seen the team grow from one (me and one other person) to nine through hiring and the acquisition of engineers from other teams.`,
-      `People come and go... but building a team, just like promoting someone, requires constructing a personal belief that:`,
-      `> "I know how to grow this business."`,
-    ],
+    content: [],
   },
   {
     id: "over-index-on-intuition",
@@ -315,10 +281,19 @@ export const blogPosts: BlogPost[] = [
 ];
 
 export function getBlogPostBySlug(slug: string): BlogPost | undefined {
-  if (slug === "building-teams-by-raising-funds") {
-    return blogPosts.find((p) => p.slug === "building-teams-as-raising-funds");
-  }
   return blogPosts.find((p) => p.slug === slug);
+}
+
+export function getAdjacentPosts(slug: string): {
+  previous?: BlogPost;
+  next?: BlogPost;
+} {
+  const index = blogPosts.findIndex((post) => post.slug === slug);
+  if (index < 0) return {};
+  return {
+    previous: index > 0 ? blogPosts[index - 1] : undefined,
+    next: index < blogPosts.length - 1 ? blogPosts[index + 1] : undefined,
+  };
 }
 
 export function getBlogPostByPillar(pillarId: ValuePillarId): BlogPost | undefined {

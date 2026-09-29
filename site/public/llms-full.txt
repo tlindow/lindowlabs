@@ -8,9 +8,9 @@ The working resume is maintained in Formation (Latest Ready). The summary below 
 Fintech engineering manager with 6+ years at Affirm across Partner Engineering, merchant onboarding, and marketing products. Owned Merchant Portal and affirm.com for the 500,000+ merchant portfolio; scaled developer-support engineering from 1 to 9; owned technical operations and SLA reliability for Amazon ($10B+ GMV) and $100M+ merchant accounts. Ex-founder (Beginner Work Inc.). Targeting Engineering Manager / Senior EM roles in fintech (payments, platform/DevX, partner integrations).
 
 ## Themes
-- Marketing as Engineering Leadership — https://tlindow.github.io/blog/securing-500k-gmv-win
-- Building Product as System Architecture — https://tlindow.github.io/blog/building-product-as-system-architecture
-- B2B Portals as Trust Stores — https://tlindow.github.io/blog/velocity-labs-system-sculpting
+- Securing a $500K GMV Win: https://tlindow.github.io/blog/securing-500k-gmv-win
+- Building Product as System Architecture: https://tlindow.github.io/blog/building-product-as-system-architecture
+- Velocity Labs: 99.9% Availability in One Quarter: https://tlindow.github.io/blog/velocity-labs
 
 ## Experience (lean)
 ### Founder | Beginner Work Inc.

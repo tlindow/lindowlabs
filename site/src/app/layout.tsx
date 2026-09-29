@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Space_Mono, Silkscreen, Fraunces } from "next/font/google";
 import { AnalyticsProvider } from "@/context/AnalyticsProvider";
-import { SITE_SUPPORT, SITE_TITLE } from "@/data/positioning";
+import { SITE_SHARE_TITLE, SITE_SUPPORT, SITE_TITLE } from "@/data/positioning";
 import "./globals.css";
 
 const inter = Inter({
@@ -32,19 +32,19 @@ const fraunces = Fraunces({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://tlindow.github.io"),
-  title: `Tyler Lindow — ${SITE_TITLE}`,
+  metadataBase: new URL("https://lindowlabs.dev"),
+  title: SITE_SHARE_TITLE,
   description: SITE_SUPPORT,
   openGraph: {
-    title: `Tyler Lindow — ${SITE_TITLE}`,
+    title: SITE_SHARE_TITLE,
     description: SITE_SUPPORT,
-    url: "https://tlindow.github.io",
+    url: "https://lindowlabs.dev",
     siteName: "Tyler Lindow",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: `Tyler Lindow — ${SITE_TITLE}`,
+    title: SITE_SHARE_TITLE,
     description: SITE_SUPPORT,
   },
   icons: {

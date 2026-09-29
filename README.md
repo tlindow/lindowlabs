@@ -1,6 +1,6 @@
 # Tyler Lindow
 
-**Elevating capital-tech**  
+**Engineering Manager, Developer Fintech**  
 San Diego, CA (Open to relocation) · [tyler.lindow@gmail.com](mailto:tyler.lindow@gmail.com) · [linkedin.com/in/tlindow](https://www.linkedin.com/in/tlindow) · [github.com/tlindow](https://github.com/tlindow)
 
 ---

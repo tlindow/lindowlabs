@@ -327,13 +327,13 @@ export const brandMarks: BrandMark[] = [
     name: "Window Pane",
     tagline: "Four panes; one lit",
     rationale:
-      "A literal nod to 'Lin-dow.' One pane glows — the experiment that's working. Works in mono as a pure grid.",
+      "A literal nod to 'Lin-dow.' One pane glows: the experiment that's working. Works in mono as a pure grid.",
     Component: WindowPane,
   },
   {
     id: "stacked-l",
     name: "Stacked L",
-    tagline: "Two Ls offset — iteration",
+    tagline: "Two Ls offset: iteration",
     rationale:
       "Two Ls in conversation. Suggests versioning, labs cycles, before/after. Subtle enough not to scream 'logo.'",
     Component: StackedL,
@@ -367,7 +367,7 @@ export const brandMarks: BrandMark[] = [
     name: "Aperture",
     tagline: "Six-blade lens in the full palette",
     rationale:
-      "Most 'designed' of the set. No L reference — leans on shape recognition. Great if the brand expands beyond one person.",
+      "Most 'designed' of the set. No L reference: leans on shape recognition. Great if the brand expands beyond one person.",
     Component: Aperture,
   },
   {

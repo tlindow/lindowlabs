@@ -11,9 +11,6 @@ When you hire or partner with me, here is the concrete return on investment and 
 
 High-stakes engineering leadership requires the ability to communicate with extreme clarity across all layers of an organization. Whether translating technical debt to C-suite executives, mediating multi-director architectural stalemates, or presenting merchant telemetry to enterprise partners like Amazon, I bring a calm, measured, and decisive posture. Sharp without being rigid; approachable without sacrificing standards.
 
-**Proof in Practice:**
-- 📄 [Securing the $500K GMV Win: How to Mediate Technical Deadlocks and Ship](./essays/securing-500k-gmv-win.md)
-
 ---
 
 ## 2. Methodical & Empathetic
@@ -22,7 +19,6 @@ High-stakes engineering leadership requires the ability to communicate with extr
 Process shouldn't feel like bureaucracy—it should feel like a paved path that unleashes developer flow. I believe building software should be thrilling, creative, and constructionist. By establishing lightweight, psychologically safe methods, teams move fast, celebrate milestones, and actually look forward to Monday mornings without the stuffiness of corporate ceremony.
 
 **Proof in Practice:**
-- 📄 [Velocity Labs: Why the Intelligence Age Requires Top-Down System Sculpting](./essays/velocity-labs-system-sculpting.md)
 - 📄 [Building Teams as Raising Funds: Intentional Career Growth & Team Scaling](./essays/building-teams-as-raising-funds.md)
 
 ---

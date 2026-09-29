@@ -4,7 +4,7 @@ import { brandMarks, type BrandMark } from "@/components/brand/marks";
 import MarkDownload from "@/components/brand/MarkDownload";
 
 export const metadata: Metadata = {
-  title: "Brand Marks — Lindow Labs",
+  title: "Brand Marks: Lindow Labs",
   description:
     "A working gallery of brand mark concepts for Lindow Labs, shown at the sizes they'll actually be used.",
 };

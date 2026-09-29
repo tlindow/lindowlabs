@@ -5,22 +5,22 @@ import Navbar from "@/components/Navbar";
 import { blogPosts } from "@/data/blogPosts";
 
 export const metadata: Metadata = {
-  title: "Blog — Tyler Lindow",
+  title: "Blog: Tyler Lindow",
   description:
-    "Writing from an engineering manager in fintech: marketing as engineering leadership, product as system architecture, and B2B portals as trust stores.",
+    "Writing from an engineering manager in fintech: securing a $500K GMV win, product as system architecture, and Velocity Labs.",
   openGraph: {
-    title: "Blog — Tyler Lindow",
+    title: "Blog: Tyler Lindow",
     description:
-      "Writing from an engineering manager in fintech: marketing as engineering leadership, product as system architecture, and B2B portals as trust stores.",
+      "Writing from an engineering manager in fintech: securing a $500K GMV win, product as system architecture, and Velocity Labs.",
     url: "https://tlindow.github.io/blog",
     siteName: "Tyler Lindow",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Blog — Tyler Lindow",
+    title: "Blog: Tyler Lindow",
     description:
-      "Writing from an engineering manager in fintech: marketing as engineering leadership, product as system architecture, and B2B portals as trust stores.",
+      "Writing from an engineering manager in fintech: securing a $500K GMV win, product as system architecture, and Velocity Labs.",
   },
 };
 
@@ -47,7 +47,7 @@ export default function BlogIndexPage() {
             Blog
           </h1>
           <p className="text-sm sm:text-base text-muted font-mono max-w-xl leading-relaxed">
-            Marketing as Engineering Leadership, Building Product as System Architecture, and B2B Portals as Trust Stores.
+            Securing a $500K GMV Win, Building Product as System Architecture, and Velocity Labs: 99.9% Availability in One Quarter.
           </p>
         </header>
 

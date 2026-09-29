@@ -54,9 +54,9 @@ const valuePillars: ValuePillar[] = [
     stories: [
       {
         pretitle: "My work product",
-        title: "Marketing as Engineering Leadership",
+        title: "Securing a $500K GMV Win",
         description:
-          "Treating top-of-funnel marketing as engineering leadership — the affirm.com revamp, where engineering, product, and marketing shared one conversion surface.",
+          "How I led my engineers through the affirm.com rebuild, and the additional $500K in GMV we generated in a 3-day pre-Black Friday sale.",
         screenshots: [
           {
             src: "/affirm-home.png",
@@ -74,7 +74,7 @@ const valuePillars: ValuePillar[] = [
         link: {
           href: "/blog/securing-500k-gmv-win",
           label: "Read blog post",
-          title: "Marketing as Engineering Leadership",
+          title: "Securing a $500K GMV Win",
         },
       },
       {
@@ -105,9 +105,9 @@ const valuePillars: ValuePillar[] = [
     stories: [
       {
         pretitle: "My work product",
-        title: "B2B Portals as Trust Stores",
+        title: "Velocity Labs: 99.9% Availability in One Quarter",
         description:
-          "Merchant portals as trust stores. Velocity Labs gave the team a way to clear recurring incidents and keep the enterprise portal worthy of the developers and merchants on it.",
+          "Velocity Labs gave my team a practice for working through production incidents on our legacy platform and embracing AI-driven development.",
         screenshots: [
           {
             src: "/tinker-beginner-work.png",
@@ -117,9 +117,9 @@ const valuePillars: ValuePillar[] = [
           },
         ],
         link: {
-          href: "/blog/velocity-labs-system-sculpting",
+          href: "/blog/velocity-labs",
           label: "Read blog post",
-          title: "B2B Portals as Trust Stores",
+          title: "Velocity Labs: 99.9% Availability in One Quarter",
         },
       },
       {

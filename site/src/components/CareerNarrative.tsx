@@ -45,15 +45,15 @@ const earlierRoles = [
 const themes = [
   {
     href: "/blog/securing-500k-gmv-win",
-    title: "Marketing as Engineering Leadership",
+    title: "Securing a $500K GMV Win",
   },
   {
     href: "/blog/building-product-as-system-architecture",
     title: "Building Product as System Architecture",
   },
   {
-    href: "/blog/velocity-labs-system-sculpting",
-    title: "B2B Portals as Trust Stores",
+    href: "/blog/velocity-labs",
+    title: "Velocity Labs: 99.9% Availability in One Quarter",
   },
 ];
 

@@ -1,16 +1,11 @@
-At Affirm, I inherited a merchant network of over 500,000 merchants while managing the engineering team and building the system for all things merchant advocacy.
+[Decision] I put the affirm.com rebuild first because it had the biggest long-term revenue upside.
 
-I started in the partner engineering organization, specifically within the developer support engineering team, and there are two things that I noticed immediately.
+[Context] In October of 2025, we revamped the affirm.com marketing website in order to create design continuity between web and mobile apps and drive more conversion for the ~1M monthly viewers of the site.
 
-First, what I understood is that even though the partner engineering organization was part of the larger engineering organization, it was in many ways a second-class engineering team (this is empirically true just by looking at the job descriptions and the pay grade). And secondly, that working with merchants as your customers at a B2B2C business like Affirm, merchants were second-class customers.
+[Result] And when we were finished, we had generated an additional $500K in GMV through a 3-day pre-Black Friday sale.
 
-I think I always wanted to figure out for myself how to be treated as a first-class engineer. And for our customer segment, merchants, figure out how to have them treated as first-class customers.
+[How I led it] It was a lot of intense focus for engineers on my team and, frankly, one too many late nights to get this done. And what I told my team at the end of all of the scoping, collaboration, and execution alongside the immense work of product, design, and copy was: “Engineers are important... and even if we are not seen for all of our efforts right now, you know what you accomplished.”
 
-In October of 2025, I saw an opportunity to expand our merchant network natively—meaning onboarding merchants directly onto our platform via the technology that Affirm had built to reduce risk in onboarding new merchants and help them integrate themselves with the Affirm payment method by using resources found in their Merchant Portal.
+[Belief] In 2026, engineering leadership is about perseverance. And simultaneously, it's about discovering how we lead each other under pressure.
 
-And the opportunity I saw was twofold: (1) to improve the existing technical architecture of the Merchant Portal, and (2) to enlarge the funnel for customers and merchants by improving the marketing site, affirm.com. Continuing to enhance our own merchant onboarding pipeline would reduce the risk of a growing merchant portfolio being disintermediated by a partner payment network like Stripe or Shopify.
-
---
-
---
-
+[Belief] In the wake of developers being told that their jobs are being taken away by AI, it's about reminding them to not lose focus.
