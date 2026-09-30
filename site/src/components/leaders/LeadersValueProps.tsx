@@ -12,7 +12,7 @@ const pillars = [
   {
     id: "rediscover",
     pretitle: "Rediscover.",
-    title: "Find what got you into engineering.",
+    title: "Rediscover what got you into engineering.",
     body: "We talk about the ideas and problems that light you up.",
   },
   {
