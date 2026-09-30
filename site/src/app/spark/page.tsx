@@ -8,7 +8,7 @@ import LeadersFooterCta from "@/components/leaders/LeadersFooterCta";
 
 const PAGE_TITLE = "Get your spark back | Lindow Labs";
 const PAGE_DESCRIPTION =
-  "Your off-the-record thinking partner. Say the hard stuff out loud and work through it together.";
+  "A space to practice saying the honest thing and thinking it through with rigor.";
 
 export const metadata: Metadata = {
   title: PAGE_TITLE,
