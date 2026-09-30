@@ -23,7 +23,7 @@ export default function LeadersEssay() {
             <div className="space-y-5 text-sm sm:text-base text-foreground/90 leading-relaxed">
               <p>
                 I help engineering directors build a culture where teams work as
-                close to the work as possible. That is the path to getting your
+                close to the metal as possible. That is the path to getting your
                 time back: less overwhelm around culture, and teams closer to
                 what actually matters.
               </p>
@@ -42,7 +42,7 @@ export default function LeadersEssay() {
                 I&apos;m not here to take your job. I&apos;m here to help you
                 get promoted too. You don&apos;t need a private coach. You need
                 someone who will help you build culture and get your teams
-                working as close to the work as possible.
+                working as close to the metal as possible.
               </p>
 
               <p>When you&apos;re ready, choose a time.</p>
