@@ -45,7 +45,7 @@ export default function Footer() {
               <span>Contact me</span>
             </a>
             <Link
-              href="/spark"
+              href="/get-your-time-back"
               className="text-xs font-mono text-muted hover:text-indigo-dark transition-colors underline-offset-4 hover:underline"
             >
               For engineering leaders

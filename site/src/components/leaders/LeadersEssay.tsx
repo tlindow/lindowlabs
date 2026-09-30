@@ -17,41 +17,35 @@ export default function LeadersEssay() {
               id="essay-title"
               className="text-base sm:text-lg font-bold tracking-tight text-foreground mb-5 sm:mb-6"
             >
-              Get me on your team
+              How I help you get your time back
             </h2>
 
             <div className="space-y-5 text-sm sm:text-base text-foreground/90 leading-relaxed">
               <p>
-                I am and always will be someone who prioritizes inspiring
-                engineers.
+                I help engineering directors build a culture where teams work as
+                close to the work as possible. That is the path to getting your
+                time back: less overwhelm around culture, and teams closer to
+                what actually matters.
               </p>
 
               <p>
-                I&apos;m just good at it. It&apos;s what I was first hired to
-                do. Even in high school, my teacher asked me to be a private
-                tutor for someone struggling in algebra, and I got paid for it.
-                I got paid for it at The Tech Museum and at the Computer History
-                Museum. And even at Affirm, I got that job because I had a
-                vision for where I wanted to be in five years, and I got there:
-                developer advocate.
-              </p>
-
-              <p>There&apos;s a market for that.</p>
-
-              <p>
-                So what I&apos;m looking to get paid for is to be a coach for
-                directors, and give them the tools they need to not feel so
-                overwhelmed by building culture. The elephant in the room is
-                that I would be in a more junior position, so I need to come
-                across as &quot;I&apos;m not here to take your job. I&apos;m
-                here to get you promoted too.&quot;
+                I&apos;m Tyler Lindow. I prioritize inspiring engineers. In high
+                school my teacher asked me to tutor someone struggling in
+                algebra, and I got paid for it. I got paid for that work at The
+                Tech Museum and at the Computer History Museum. At Affirm I
+                spent 6+ years and became a developer advocate because I had a
+                vision for where I wanted to be. I am also the ex-founder of
+                Beginner Work. My brand line is Elevating Developer Fintech.
               </p>
 
               <p>
-                Get me on your team. You don&apos;t need a private coach. You
-                need someone who is going to get your teams working as close to
-                the work as possible.
+                I&apos;m not here to take your job. I&apos;m here to help you
+                get promoted too. You don&apos;t need a private coach. You need
+                someone who will help you build culture and get your teams
+                working as close to the work as possible.
               </p>
+
+              <p>When you&apos;re ready, choose a time.</p>
             </div>
           </article>
         </div>
