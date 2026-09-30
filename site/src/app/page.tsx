@@ -187,8 +187,17 @@ export default function Home() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  // Keep body/overscroll in sync with the homepage lavender surface only.
+  useEffect(() => {
+    const previous = document.body.style.background;
+    document.body.style.background = "#F3EEF8";
+    return () => {
+      document.body.style.background = previous;
+    };
+  }, []);
+
   return (
-    <div className="min-h-screen bg-background text-foreground selection:bg-indigo-light selection:text-indigo-dark font-mono flex flex-col justify-between overflow-x-clip">
+    <div className="homepage-theme min-h-screen bg-background text-foreground selection:bg-indigo-light selection:text-indigo-dark font-mono flex flex-col justify-between overflow-x-clip">
       {/* Scroll-animated profile picture bridging hero, navbar, and contact section */}
       <ScrollMorphAvatar
         progress={avatarProgress}
