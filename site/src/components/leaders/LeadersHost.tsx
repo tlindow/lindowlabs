@@ -36,7 +36,9 @@ export default function LeadersHost() {
             <p className="text-sm sm:text-base font-mono text-muted leading-relaxed">
               I&apos;m Tyler Lindow, a fintech engineering leader, ex-Affirm and
               ex-founder. I build teams where people get to be themselves, and
-              I&apos;m opening that space up to other leaders.
+              I&apos;m opening that space up to other leaders. In a world full of
+              AI, I bring the human side of leadership: listening, empathy, and
+              a little fun.
             </p>
           </div>
         </motion.div>

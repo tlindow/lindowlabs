@@ -2,13 +2,13 @@ import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import LeadersHero from "@/components/leaders/LeadersHero";
 import LeadersValueProps from "@/components/leaders/LeadersValueProps";
-import LeadersExhibits from "@/components/leaders/LeadersExhibits";
+import LeadersTopics from "@/components/leaders/LeadersTopics";
 import LeadersHost from "@/components/leaders/LeadersHost";
 import LeadersFooterCta from "@/components/leaders/LeadersFooterCta";
 
 const PAGE_TITLE = "Get your spark back | Lindow Labs";
 const PAGE_DESCRIPTION =
-  "A hands-on museum for engineering managers. Come hang out, explore, and leave feeling like a kid again.";
+  "Your off-the-record thinking partner. Say the hard stuff out loud and work through it together.";
 
 export const metadata: Metadata = {
   title: PAGE_TITLE,
@@ -36,7 +36,7 @@ export default function LeadersPage() {
         <main className="w-full">
           <LeadersHero />
           <LeadersValueProps />
-          <LeadersExhibits />
+          <LeadersTopics />
           <LeadersHost />
         </main>
       </div>
