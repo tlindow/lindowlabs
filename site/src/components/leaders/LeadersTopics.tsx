@@ -4,7 +4,7 @@ import Link from "next/link";
 import { ArrowUpRight, ExternalLink } from "lucide-react";
 import { motion } from "framer-motion";
 
-interface Exhibit {
+interface Topic {
   id: string;
   title: string;
   description: string;
@@ -12,7 +12,7 @@ interface Exhibit {
   external?: boolean;
 }
 
-const exhibits: Exhibit[] = [
+const topics: Topic[] = [
   {
     id: "reliability",
     title: "Making reliability second nature",
@@ -43,10 +43,10 @@ const exhibits: Exhibit[] = [
   },
 ];
 
-export default function LeadersExhibits() {
+export default function LeadersTopics() {
   return (
     <section
-      id="exhibits"
+      id="dig-into"
       className="w-full border-t border-border/80 bg-background pt-16 pb-16 sm:pt-20 sm:pb-24 scroll-mt-20 relative font-mono"
     >
       <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 md:px-8 space-y-10 sm:space-y-12">
@@ -58,19 +58,19 @@ export default function LeadersExhibits() {
           className="space-y-3 max-w-2xl"
         >
           <span className="text-xs sm:text-sm font-mono font-bold uppercase tracking-widest text-indigo-dark block">
-            Exhibits
+            What we can dig into
           </span>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold font-mono tracking-tight text-foreground">
-            Things we explore together
+            Threads worth unpacking
           </h2>
           <p className="text-xs sm:text-sm font-mono text-muted leading-relaxed">
-            Pinned rooms in the museum. Pick one that sparks something, or just
-            wander.
+            Start with one of these, or bring whatever is weighing on you. No
+            script. No judgment.
           </p>
         </motion.div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
-          {exhibits.map((exhibit, index) => {
+          {topics.map((topic, index) => {
             const cardClassName =
               "group flex flex-col justify-between gap-4 rounded-xl border border-border bg-surface p-5 sm:p-6 shadow-xs hover:border-foreground/30 hover:bg-surface-alt transition-all h-full";
 
@@ -79,9 +79,9 @@ export default function LeadersExhibits() {
                 <div className="space-y-2">
                   <div className="flex items-start justify-between gap-3">
                     <h3 className="text-base sm:text-lg font-bold font-mono tracking-tight text-foreground group-hover:text-indigo-dark transition-colors leading-snug">
-                      {exhibit.title}
+                      {topic.title}
                     </h3>
-                    {exhibit.external ? (
+                    {topic.external ? (
                       <ExternalLink
                         size={16}
                         className="shrink-0 text-muted group-hover:text-indigo-dark transition-colors mt-0.5"
@@ -94,7 +94,7 @@ export default function LeadersExhibits() {
                     )}
                   </div>
                   <p className="text-xs sm:text-sm font-mono text-muted leading-relaxed">
-                    {exhibit.description}
+                    {topic.description}
                   </p>
                 </div>
               </>
@@ -102,7 +102,7 @@ export default function LeadersExhibits() {
 
             return (
               <motion.div
-                key={exhibit.id}
+                key={topic.id}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.15 }}
@@ -112,21 +112,21 @@ export default function LeadersExhibits() {
                   ease: [0.25, 0.4, 0.25, 1],
                 }}
               >
-                {exhibit.external ? (
+                {topic.external ? (
                   <a
-                    href={exhibit.href}
+                    href={topic.href}
                     target="_blank"
                     rel="noopener noreferrer"
                     className={cardClassName}
-                    title={exhibit.title}
+                    title={topic.title}
                   >
                     {content}
                   </a>
                 ) : (
                   <Link
-                    href={exhibit.href}
+                    href={topic.href}
                     className={cardClassName}
-                    title={exhibit.title}
+                    title={topic.title}
                   >
                     {content}
                   </Link>

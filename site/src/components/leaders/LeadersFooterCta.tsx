@@ -21,7 +21,8 @@ export default function LeadersFooterCta() {
               Get your spark back.
             </h2>
             <p className="text-xs sm:text-sm font-mono text-muted max-w-md mx-auto leading-relaxed">
-              Thirty minutes. No agenda. Just space to hang out and explore.
+              Thirty minutes. No agenda. A place to think out loud and get it off
+              your chest.
             </p>
           </div>
 

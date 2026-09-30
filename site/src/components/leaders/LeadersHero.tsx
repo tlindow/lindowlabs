@@ -22,8 +22,8 @@ export default function LeadersHero() {
         </h1>
 
         <p className="text-sm sm:text-base md:text-lg font-mono text-muted mx-auto max-w-2xl leading-relaxed pt-2">
-          A hands-on museum for engineering managers. Come hang out, explore,
-          and leave feeling like a kid again.
+          Your off-the-record thinking partner. Say the hard stuff out loud and
+          work through it together.
         </p>
       </ScrollReveal>
 
@@ -40,11 +40,11 @@ export default function LeadersHero() {
         </a>
 
         <a
-          href="#exhibits"
+          href="#dig-into"
           className="inline-flex items-center gap-2 rounded-xl bg-surface hover:bg-surface-alt text-foreground border border-border px-6 py-3 text-xs sm:text-sm font-mono font-bold shadow-xs transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
-          title="See what we explore"
+          title="See what we can dig into"
         >
-          <span>See what we explore</span>
+          <span>See what we can dig into</span>
           <ArrowDown size={15} className="shrink-0" />
         </a>
       </ScrollReveal>
