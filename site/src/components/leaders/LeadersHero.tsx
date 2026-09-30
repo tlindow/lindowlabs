@@ -22,9 +22,8 @@ export default function LeadersHero() {
         </h1>
 
         <p className="text-sm sm:text-base md:text-lg font-mono text-muted mx-auto max-w-2xl leading-relaxed pt-2">
-          Your off-the-record thinking partner. Not a bot, not a framework, just
-          a human who gets it. Say the hard stuff out loud and work through it
-          together.
+          A space to practice saying the honest thing and thinking it through
+          with rigor.
         </p>
       </ScrollReveal>
 
