@@ -1,12 +1,9 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import LeadersHero from "@/components/leaders/LeadersHero";
-import LeadersValueProps from "@/components/leaders/LeadersValueProps";
-import LeadersTopics from "@/components/leaders/LeadersTopics";
-import LeadersHost from "@/components/leaders/LeadersHost";
-import LeadersFooterCta from "@/components/leaders/LeadersFooterCta";
+import LeadersEssay from "@/components/leaders/LeadersEssay";
 
-const PAGE_TITLE = "Get your spark back | Lindow Labs";
+const PAGE_TITLE = "Get your time back | Lindow Labs";
 const PAGE_DESCRIPTION =
   "A space to practice saying the honest thing and thinking it through with rigor.";
 
@@ -35,13 +32,9 @@ export default function LeadersPage() {
       <div className="no-print w-full">
         <main className="w-full">
           <LeadersHero />
-          <LeadersValueProps />
-          <LeadersTopics />
-          <LeadersHost />
+          <LeadersEssay />
         </main>
       </div>
-
-      <LeadersFooterCta />
     </div>
   );
 }
