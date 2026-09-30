@@ -187,7 +187,7 @@ export default function Home() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  // Keep body/overscroll in sync with the homepage lavender surface only.
+  // Keep body/overscroll in sync with the homepage purple surface only.
   useEffect(() => {
     const previous = document.body.style.background;
     document.body.style.background = "#F3EEF8";
