@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Mail, BookOpen, ArrowUpRight } from "lucide-react";
 
 export default function Footer() {
@@ -34,7 +35,7 @@ export default function Footer() {
             </p>
           </div>
 
-          <div className="pt-2 flex justify-center">
+          <div className="pt-2 flex flex-col items-center gap-4">
             <a
               href="mailto:tyler.lindow@gmail.com"
               className="inline-flex items-center justify-center gap-2 rounded-xl px-7 py-3.5 text-sm font-mono font-bold transition-all hover:scale-[1.02] active:scale-[0.98] bg-foreground text-background hover:bg-foreground/90 shadow-xs"
@@ -43,6 +44,12 @@ export default function Footer() {
               <Mail size={15} className="shrink-0" />
               <span>Contact me</span>
             </a>
+            <Link
+              href="/leaders"
+              className="text-xs font-mono text-muted hover:text-indigo-dark transition-colors underline-offset-4 hover:underline"
+            >
+              For engineering leaders
+            </Link>
           </div>
         </div>
       </section>
