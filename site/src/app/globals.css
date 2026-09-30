@@ -78,12 +78,12 @@ body {
    the deep contact band. */
 .homepage-theme {
   --hp-lavender: #F3EEF8;
-  --hp-lavender-deep: #E6DCF2;
+  --hp-lavender-deep: #D9CDEA;
   --hp-surface: #FBF8FE;
-  --hp-surface-alt: #E8DFF3;
+  --hp-surface-alt: #E4D8F0;
   --hp-sand: #EDE6F6;
-  --hp-border: #D0C4E4;
-  --hp-border-subtle: #E0D6ED;
+  --hp-border: #C9B9DF;
+  --hp-border-subtle: #DDD0EA;
   --hp-ink: #1A1428;
   --hp-muted: #564D66;
   --hp-deep: #3B2A5C;
