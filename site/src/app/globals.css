@@ -70,39 +70,279 @@ body {
   letter-spacing: -0.015em;
 }
 
-/* Recruiter homepage only: warm creamy lavender surface with dark text.
+/* Recruiter homepage only: cohesive purple palette (light lavender through
+   deeper violet tints). /spark and other routes keep the cream paper theme.
    Tailwind @theme inline bakes token hexes into utilities, so override those
    under .homepage-theme instead of relying on CSS variable inheritance alone.
-   Muted is darkened slightly so body copy stays WCAG AA on #F3EEF8. */
+   Text pairs target WCAG AA: dark purple ink on light surfaces, light ink on
+   the deep contact band. */
 .homepage-theme {
-  --color-background: #F3EEF8;
-  --color-cream: #F3EEF8;
-  --color-muted: #655F59;
-  background-color: #F3EEF8;
+  --hp-lavender: #F3EEF8;
+  --hp-lavender-deep: #D9CDEA;
+  --hp-surface: #FBF8FE;
+  --hp-surface-alt: #E4D8F0;
+  --hp-sand: #EDE6F6;
+  --hp-border: #C9B9DF;
+  --hp-border-subtle: #DDD0EA;
+  --hp-ink: #1A1428;
+  --hp-muted: #564D66;
+  --hp-deep: #3B2A5C;
+  --hp-deep-muted: #C9BDE0;
+  --hp-deep-border: #5A4578;
+  --hp-accent: #4F46E5;
+
+  --color-background: var(--hp-lavender);
+  --color-cream: var(--hp-lavender);
+  --color-surface: var(--hp-surface);
+  --color-surface-alt: var(--hp-surface-alt);
+  --color-sand: var(--hp-sand);
+  --color-border: var(--hp-border);
+  --color-border-subtle: var(--hp-border-subtle);
+  --color-foreground: var(--hp-ink);
+  --color-muted: var(--hp-muted);
+  --color-labs-ink: var(--hp-ink);
+  --color-labs-charcoal: #2A2340;
+
+  color: var(--hp-ink);
+  background-color: var(--hp-lavender);
 }
 
+/* ---- Baked utility overrides (surfaces) ---- */
 .homepage-theme .bg-background {
-  background-color: #F3EEF8;
+  background-color: var(--hp-lavender);
 }
 
 .homepage-theme .bg-background\/85 {
-  background-color: color-mix(in srgb, #F3EEF8 85%, transparent);
+  background-color: color-mix(in srgb, var(--hp-lavender) 85%, transparent);
 }
 
 .homepage-theme .bg-background\/90 {
-  background-color: color-mix(in srgb, #F3EEF8 90%, transparent);
+  background-color: color-mix(in srgb, var(--hp-lavender) 90%, transparent);
 }
 
 .homepage-theme .bg-background\/95 {
-  background-color: color-mix(in srgb, #F3EEF8 95%, transparent);
+  background-color: color-mix(in srgb, var(--hp-lavender) 95%, transparent);
+}
+
+.homepage-theme .bg-surface {
+  background-color: var(--hp-surface);
+}
+
+.homepage-theme .bg-surface\/90 {
+  background-color: color-mix(in srgb, var(--hp-surface) 90%, transparent);
+}
+
+.homepage-theme .bg-surface\/95 {
+  background-color: color-mix(in srgb, var(--hp-surface) 95%, transparent);
+}
+
+.homepage-theme .bg-surface-alt {
+  background-color: var(--hp-surface-alt);
+}
+
+.homepage-theme .bg-surface-alt\/50 {
+  background-color: color-mix(in srgb, var(--hp-surface-alt) 50%, transparent);
+}
+
+.homepage-theme .bg-surface-alt\/70 {
+  background-color: color-mix(in srgb, var(--hp-surface-alt) 70%, transparent);
+}
+
+.homepage-theme .hover\:bg-surface-alt:hover {
+  background-color: var(--hp-surface-alt);
+}
+
+.homepage-theme .hover\:bg-surface:hover {
+  background-color: var(--hp-surface);
+}
+
+.homepage-theme .bg-sand {
+  background-color: var(--hp-sand);
+}
+
+.homepage-theme .bg-sand\/80 {
+  background-color: color-mix(in srgb, var(--hp-sand) 80%, transparent);
+}
+
+.homepage-theme .hover\:bg-sand:hover {
+  background-color: var(--hp-sand);
+}
+
+.homepage-theme .bg-foreground {
+  background-color: var(--hp-ink);
+}
+
+.homepage-theme .hover\:bg-foreground\/90:hover {
+  background-color: color-mix(in srgb, var(--hp-ink) 90%, transparent);
+}
+
+.homepage-theme .bg-indigo-light {
+  background-color: #EDE9FE;
+}
+
+.homepage-theme .bg-violet-light {
+  background-color: #F3EEFF;
+}
+
+/* ---- Text ---- */
+.homepage-theme .text-foreground {
+  color: var(--hp-ink);
+}
+
+.homepage-theme .text-foreground\/80 {
+  color: color-mix(in srgb, var(--hp-ink) 80%, transparent);
+}
+
+.homepage-theme .text-foreground\/90 {
+  color: color-mix(in srgb, var(--hp-ink) 90%, transparent);
+}
+
+.homepage-theme .hover\:text-foreground:hover {
+  color: var(--hp-ink);
+}
+
+.homepage-theme .text-background {
+  color: var(--hp-lavender);
+}
+
+.homepage-theme .text-background\/80 {
+  color: color-mix(in srgb, var(--hp-lavender) 80%, transparent);
+}
+
+.homepage-theme .group:hover .group-hover\:text-background {
+  color: var(--hp-lavender);
 }
 
 .homepage-theme .text-muted {
-  color: #655F59;
+  color: var(--hp-muted);
 }
 
 .homepage-theme .text-muted\/50 {
-  color: color-mix(in srgb, #655F59 50%, transparent);
+  color: color-mix(in srgb, var(--hp-muted) 50%, transparent);
+}
+
+.homepage-theme .text-muted\/60 {
+  color: color-mix(in srgb, var(--hp-muted) 60%, transparent);
+}
+
+.homepage-theme .text-muted\/70 {
+  color: color-mix(in srgb, var(--hp-muted) 70%, transparent);
+}
+
+.homepage-theme .text-indigo-dark {
+  color: var(--hp-accent);
+}
+
+.homepage-theme .hover\:text-indigo-dark:hover {
+  color: var(--hp-accent);
+}
+
+.homepage-theme .group:hover .group-hover\:text-indigo-dark {
+  color: var(--hp-accent);
+}
+
+/* ---- Borders ---- */
+.homepage-theme .border-border {
+  border-color: var(--hp-border);
+}
+
+.homepage-theme .border-border\/60 {
+  border-color: color-mix(in srgb, var(--hp-border) 60%, transparent);
+}
+
+.homepage-theme .border-border\/70 {
+  border-color: color-mix(in srgb, var(--hp-border) 70%, transparent);
+}
+
+.homepage-theme .border-border\/80 {
+  border-color: color-mix(in srgb, var(--hp-border) 80%, transparent);
+}
+
+.homepage-theme .hover\:border-foreground\/30:hover {
+  border-color: color-mix(in srgb, var(--hp-ink) 30%, transparent);
+}
+
+.homepage-theme .hover\:border-foreground\/40:hover {
+  border-color: color-mix(in srgb, var(--hp-ink) 40%, transparent);
+}
+
+/* Alternating section bands: light lavender <-> slightly deeper purple tint.
+   Selectors include the baked utility classes so opacity variants lose. */
+.homepage-theme #hero {
+  background-color: var(--hp-lavender);
+}
+
+.homepage-theme #about {
+  background-color: var(--hp-lavender-deep);
+}
+
+.homepage-theme #what-you-get,
+.homepage-theme #what-you-get.bg-surface-alt\/70 {
+  background-color: var(--hp-lavender);
+}
+
+.homepage-theme #philosophy,
+.homepage-theme #philosophy.bg-background {
+  background-color: var(--hp-lavender);
+}
+
+/* Soft purple band behind employer / education logo strips */
+.homepage-theme #trusted-partners,
+.homepage-theme #education {
+  border-radius: 1rem;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  background-color: color-mix(in srgb, var(--hp-surface-alt) 55%, var(--hp-lavender));
+}
+
+/* Deep purple contact CTA: light text on deep violet */
+.homepage-theme #contact,
+.homepage-theme #contact.bg-surface-alt\/70 {
+  background-color: var(--hp-deep);
+  color: var(--hp-lavender);
+}
+
+.homepage-theme #contact.border-border\/70,
+.homepage-theme #contact {
+  border-color: var(--hp-deep-border);
+}
+
+.homepage-theme #contact .text-foreground {
+  color: var(--hp-lavender);
+}
+
+.homepage-theme #contact .text-muted {
+  color: var(--hp-deep-muted);
+}
+
+.homepage-theme #contact .text-indigo-dark {
+  color: #C4B5FD;
+}
+
+.homepage-theme #contact .bg-foreground {
+  background-color: var(--hp-lavender);
+}
+
+.homepage-theme #contact .text-background {
+  color: var(--hp-deep);
+}
+
+.homepage-theme #contact .hover\:bg-foreground\/90:hover {
+  background-color: color-mix(in srgb, var(--hp-lavender) 90%, white);
+}
+
+.homepage-theme #contact .hover\:text-indigo-dark:hover {
+  color: #DDD6FE;
+}
+
+.homepage-theme #contact a[href="/spark"],
+.homepage-theme #contact a[href$="/spark"] {
+  color: var(--hp-deep-muted);
+}
+
+.homepage-theme #contact a[href="/spark"]:hover,
+.homepage-theme #contact a[href$="/spark"]:hover {
+  color: #DDD6FE;
 }
 
 ::selection {
