@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: PAGE_TITLE,
     description: PAGE_DESCRIPTION,
-    url: "https://lindowlabs.dev/spark",
+    url: "https://lindowlabs.dev/get-your-time-back",
     siteName: "Lindow Labs",
     type: "website",
   },

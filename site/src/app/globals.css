@@ -71,7 +71,7 @@ body {
 }
 
 /* Recruiter homepage only: cohesive purple palette (light lavender through
-   deeper violet tints). /spark and other routes keep the cream paper theme.
+   deeper violet tints). /get-your-time-back and other routes keep the cream paper theme.
    Tailwind @theme inline bakes token hexes into utilities, so override those
    under .homepage-theme instead of relying on CSS variable inheritance alone.
    Text pairs target WCAG AA: dark purple ink on light surfaces, light ink on
@@ -335,13 +335,13 @@ body {
   color: #DDD6FE;
 }
 
-.homepage-theme #contact a[href="/spark"],
-.homepage-theme #contact a[href$="/spark"] {
+.homepage-theme #contact a[href="/get-your-time-back"],
+.homepage-theme #contact a[href$="/get-your-time-back"] {
   color: var(--hp-deep-muted);
 }
 
-.homepage-theme #contact a[href="/spark"]:hover,
-.homepage-theme #contact a[href$="/spark"]:hover {
+.homepage-theme #contact a[href="/get-your-time-back"]:hover,
+.homepage-theme #contact a[href$="/get-your-time-back"]:hover {
   color: #DDD6FE;
 }
 
