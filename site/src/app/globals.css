@@ -70,6 +70,41 @@ body {
   letter-spacing: -0.015em;
 }
 
+/* Recruiter homepage only: warm creamy lavender surface with dark text.
+   Tailwind @theme inline bakes token hexes into utilities, so override those
+   under .homepage-theme instead of relying on CSS variable inheritance alone.
+   Muted is darkened slightly so body copy stays WCAG AA on #F3EEF8. */
+.homepage-theme {
+  --color-background: #F3EEF8;
+  --color-cream: #F3EEF8;
+  --color-muted: #655F59;
+  background-color: #F3EEF8;
+}
+
+.homepage-theme .bg-background {
+  background-color: #F3EEF8;
+}
+
+.homepage-theme .bg-background\/85 {
+  background-color: color-mix(in srgb, #F3EEF8 85%, transparent);
+}
+
+.homepage-theme .bg-background\/90 {
+  background-color: color-mix(in srgb, #F3EEF8 90%, transparent);
+}
+
+.homepage-theme .bg-background\/95 {
+  background-color: color-mix(in srgb, #F3EEF8 95%, transparent);
+}
+
+.homepage-theme .text-muted {
+  color: #655F59;
+}
+
+.homepage-theme .text-muted\/50 {
+  color: color-mix(in srgb, #655F59 50%, transparent);
+}
+
 ::selection {
   background-color: #C4B5FD45;
   color: #1E1B4B;
