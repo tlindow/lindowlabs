@@ -32,10 +32,10 @@ export default function LeadersFooterCta() {
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 rounded-xl px-8 py-4 text-sm sm:text-base font-mono font-bold transition-all hover:scale-[1.02] active:scale-[0.98] bg-foreground text-background hover:bg-foreground/90 shadow-xs"
-              title="Book a free session with Tyler Lindow"
+              title="Choose a time with Tyler Lindow"
             >
               <Calendar size={16} className="shrink-0" />
-              <span>Book a free session</span>
+              <span>Choose a time</span>
             </a>
 
             <Link

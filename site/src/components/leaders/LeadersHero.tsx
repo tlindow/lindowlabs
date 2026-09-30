@@ -33,10 +33,10 @@ export default function LeadersHero() {
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 rounded-xl bg-foreground text-background hover:bg-foreground/90 px-6 py-3 text-xs sm:text-sm font-mono font-bold shadow-xs transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
-          title="Book a free session with Tyler Lindow"
+          title="Choose a time with Tyler Lindow"
         >
           <Calendar size={15} className="shrink-0" />
-          <span>Book a free session</span>
+          <span>Choose a time</span>
         </a>
 
         <a
