@@ -64,7 +64,7 @@ export default function LeadersExhibits() {
             Things we explore together
           </h2>
           <p className="text-xs sm:text-sm font-mono text-muted leading-relaxed">
-            Pinned rooms in the museum — pick one that sparks something, or just
+            Pinned rooms in the museum. Pick one that sparks something, or just
             wander.
           </p>
         </motion.div>
