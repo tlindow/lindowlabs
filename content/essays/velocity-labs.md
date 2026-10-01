@@ -1,8 +1,3 @@
----
-redirect_from:
-  - /blog/velocity-labs-system-sculpting
----
-
 [Decision] In September of 2025, I implemented Velocity Labs for my team in order to manage new and ongoing production incidents occurring on our legacy platform every week and provide ourselves a chance to develop revenue-driving software for Affirm in the new year.
 
 [Result] Over the span of that quarter, we worked through what must have been 10 production incidents (one of them being a blocker to launch with hundreds of thousands of new merchants with Intuit), all while managing the collaborative effort to revamp the backend architecture of the merchant portal.

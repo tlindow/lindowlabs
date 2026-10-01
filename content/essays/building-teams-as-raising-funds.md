@@ -1,8 +1,3 @@
----
-redirect_from:
-  - /blog/building-teams-by-raising-funds
----
-
 [Decision] This work of building teams by raising the funding potential of an individual doesn't happen by mistake, and it also does not happen quickly.
 
 [Result] During my first years as an engineering manager in 2022, I promoted a junior engineer to an intermediate position in about 1 year. A few years later, this person was promoted again from a support engineer to a product-building engineer. And through the span of my time managing this person, they received multiple raises and equity grants for their ability to get critical projects over the line and build the organizational intelligence of the team while doing it.
