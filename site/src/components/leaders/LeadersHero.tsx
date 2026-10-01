@@ -9,7 +9,7 @@ export default function LeadersHero() {
   return (
     <header
       id="hero"
-      className="flex flex-col justify-center items-center text-center px-4 max-w-5xl mx-auto space-y-6 sm:space-y-8 relative pt-28 sm:pt-32 pb-10 sm:pb-12 scroll-mt-20"
+      className="flex flex-col justify-center items-center text-center px-4 max-w-5xl mx-auto space-y-6 sm:space-y-8 relative pt-8 sm:pt-10 pb-10 sm:pb-12 scroll-mt-20"
     >
       <ScrollReveal className="space-y-4 sm:space-y-6 text-center max-w-4xl mx-auto flex flex-col items-center">
         <span className="text-xs sm:text-sm font-mono font-bold text-indigo-dark uppercase tracking-widest block">
