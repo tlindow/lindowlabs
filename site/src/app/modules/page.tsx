@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import PageAudioPlayer from "@/components/PageAudioPlayer";
 import DraggableResumeCanvas from "@/components/modules/DraggableResumeCanvas";
 import { GoogleQuadDivider } from "@/components/modules/ModuleCards";
-import { pageAudio, pageAudioLabel } from "@/data/pageAudio";
 import { ArrowLeft, Sparkles } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -58,14 +56,6 @@ export default function ResumeModulesPage() {
 
         {/* Google Quad-Color Spectrum Divider */}
         <GoogleQuadDivider className="mb-6 h-[3px] no-print" />
-
-        <div className="no-print mb-6">
-          <PageAudioPlayer
-            src={pageAudio["/modules"].src}
-            label={pageAudioLabel(pageAudio["/modules"].durationSeconds)}
-            className="w-full px-0 pt-0 pb-0"
-          />
-        </div>
 
         {/* Draggable & Stackable Workbench Canvas */}
         <DraggableResumeCanvas />
