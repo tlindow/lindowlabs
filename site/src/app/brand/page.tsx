@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { brandMarks, type BrandMark } from "@/components/brand/marks";
 import MarkDownload from "@/components/brand/MarkDownload";
+import PageAudioPlayer, { pageAudioLabel } from "@/components/PageAudioPlayer";
+import { pageAudio } from "@/data/pageAudio";
 
 export const metadata: Metadata = {
   title: "Brand Marks: Lindow Labs",
@@ -114,6 +116,13 @@ export default function BrandPage() {
           >
             ← Lindow Labs
           </Link>
+          <div className="mt-6 mb-6">
+            <PageAudioPlayer
+              src={pageAudio["/brand"].src}
+              label={pageAudioLabel(pageAudio["/brand"].durationSeconds)}
+              className="w-full px-0 pt-0 pb-0"
+            />
+          </div>
           <h1 className="mt-6 font-display text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-foreground">
             Brand Marks
           </h1>

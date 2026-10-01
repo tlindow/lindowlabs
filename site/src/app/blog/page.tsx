@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, FileText } from "lucide-react";
 import Navbar from "@/components/Navbar";
+import PageAudioPlayer, { pageAudioLabel } from "@/components/PageAudioPlayer";
 import { blogPosts } from "@/data/blogPosts";
+import { pageAudio } from "@/data/pageAudio";
 
 export const metadata: Metadata = {
   title: "Blog: Tyler Lindow",
@@ -39,6 +41,14 @@ export default function BlogIndexPage() {
             <ArrowLeft size={14} />
             <span>Home</span>
           </Link>
+        </div>
+
+        <div className="mb-10">
+          <PageAudioPlayer
+            src={pageAudio["/blog"].src}
+            label={pageAudioLabel(pageAudio["/blog"].durationSeconds)}
+            className="w-full px-0 pt-0 pb-0"
+          />
         </div>
 
         {/* Minimalist Header */}

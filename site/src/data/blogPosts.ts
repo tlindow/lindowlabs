@@ -35,6 +35,9 @@ export interface BlogPost {
   previewText?: string;
   slides: SlideData[];
   content: string[]; // Fallback body. The four case studies live in content/essays.
+  /** Optional commentary clip under public/audio/pages/. Omit for no player. */
+  audioSrc?: string;
+  audioDurationSeconds?: number;
 }
 
 const defaultAuthor = {
@@ -89,6 +92,8 @@ export const blogPosts: BlogPost[] = [
       },
     ],
     content: [],
+    audioSrc: "/audio/pages/blog-affirm-dot-com-rebuild.mp3",
+    audioDurationSeconds: 48.72,
   },
   {
     id: "building-product-as-system-architecture",
@@ -134,6 +139,8 @@ export const blogPosts: BlogPost[] = [
       },
     ],
     content: [],
+    audioSrc: "/audio/pages/blog-building-product-as-system-architecture.mp3",
+    audioDurationSeconds: 54.65,
   },
   {
     id: "velocity-labs",
@@ -178,6 +185,8 @@ export const blogPosts: BlogPost[] = [
       },
     ],
     content: [],
+    audioSrc: "/audio/pages/blog-velocity-labs.mp3",
+    audioDurationSeconds: 55.2,
   },
   {
     id: "building-teams-as-raising-funds",
@@ -222,6 +231,8 @@ export const blogPosts: BlogPost[] = [
       },
     ],
     content: [],
+    audioSrc: "/audio/pages/blog-building-teams-as-raising-funds.mp3",
+    audioDurationSeconds: 46.94,
   },
   {
     id: "over-index-on-intuition",
@@ -277,6 +288,8 @@ export const blogPosts: BlogPost[] = [
       `One question to ask yourself is: *What does it mean to tap into my creative energy safely? And what does it mean for me to have an opinion about a product?* A great place to start is to look at the software products you already love, and figure out why you love them. Dissect them, and reverse-engineer the product a bit.`,
       `I think that is going to be a critical, must-master skill to survive in this transition into an AI world where the only thing we really have left is what makes us human—what makes us understand when something feels right. That is one of the most valuable things we have left, and so we need to over-index on that and bring that to the forefront as engineers.`,
     ],
+    audioSrc: "/audio/pages/blog-over-index-on-intuition.mp3",
+    audioDurationSeconds: 47.23,
   },
 ];
 

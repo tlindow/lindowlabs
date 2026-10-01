@@ -4,6 +4,7 @@ import { useEffect, useRef, useCallback } from "react";
 import { useScroll, useMotionValue, useSpring } from "framer-motion";
 import { FileText } from "lucide-react";
 import Navbar from "@/components/Navbar";
+import PageAudioPlayer, { pageAudioLabel } from "@/components/PageAudioPlayer";
 import {
   TrustedPartnersBar,
   EducationInstitutionsBar,
@@ -15,6 +16,7 @@ import ScrollMorphAvatar, {
   HERO_PIN_SCROLL_DISTANCE,
 } from "@/components/animations/ScrollMorphAvatar";
 import { useAnalytics } from "@/context/AnalyticsProvider";
+import { pageAudio } from "@/data/pageAudio";
 import { SITE_SUPPORT } from "@/data/positioning";
 
 export default function Home() {
@@ -221,10 +223,15 @@ export default function Home() {
       {/* ========================================================= */}
       <div className="no-print w-full">
         <main className="w-full">
+          <PageAudioPlayer
+            src={pageAudio["/"].src}
+            label={pageAudioLabel(pageAudio["/"].durationSeconds)}
+          />
+
           {/* FULL PAGE HERO HEADER SECTION */}
           <header
             id="hero"
-            className="flex flex-col justify-center items-center text-center px-4 max-w-5xl mx-auto space-y-6 sm:space-y-8 relative pt-28 sm:pt-32 pb-12 sm:pb-16 scroll-mt-20"
+            className="flex flex-col justify-center items-center text-center px-4 max-w-5xl mx-auto space-y-6 sm:space-y-8 relative pt-4 sm:pt-6 pb-12 sm:pb-16 scroll-mt-20"
           >
             {/* Typographic Product Title */}
             <div className="space-y-4 sm:space-y-6 text-center max-w-4xl mx-auto flex flex-col items-center">
