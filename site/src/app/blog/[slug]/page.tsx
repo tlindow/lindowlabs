@@ -6,7 +6,7 @@ import Navbar from "@/components/Navbar";
 import PageAudioPlayer from "@/components/PageAudioPlayer";
 import LabeledBody from "@/components/blog/LabeledBody";
 import { blogPosts, getAdjacentPosts, getBlogPostBySlug } from "@/data/blogPosts";
-import { pageAudioLabel } from "@/data/pageAudio";
+import { PAGE_AUDIO_ENABLED, pageAudioLabel } from "@/data/pageAudio";
 import { findRedirectTarget, loadRenderedParagraphs } from "@/lib/frontMatter.mjs";
 
 interface Props {
@@ -71,7 +71,7 @@ export default async function BlogPostPage({ params }: Props) {
           </Link>
         </div>
 
-        {post.audioSrc ? (
+        {PAGE_AUDIO_ENABLED && post.audioSrc ? (
           <div className="mb-10">
             <PageAudioPlayer
               src={post.audioSrc}

@@ -16,7 +16,7 @@ import ScrollMorphAvatar, {
   HERO_PIN_SCROLL_DISTANCE,
 } from "@/components/animations/ScrollMorphAvatar";
 import { useAnalytics } from "@/context/AnalyticsProvider";
-import { pageAudio, pageAudioLabel } from "@/data/pageAudio";
+import { PAGE_AUDIO_ENABLED, pageAudio, pageAudioLabel } from "@/data/pageAudio";
 import { SITE_SUPPORT } from "@/data/positioning";
 
 export default function Home() {
@@ -223,10 +223,12 @@ export default function Home() {
       {/* ========================================================= */}
       <div className="no-print w-full">
         <main className="w-full">
-          <PageAudioPlayer
-            src={pageAudio["/"].src}
-            label={pageAudioLabel(pageAudio["/"].durationSeconds)}
-          />
+          {PAGE_AUDIO_ENABLED ? (
+            <PageAudioPlayer
+              src={pageAudio["/"].src}
+              label={pageAudioLabel(pageAudio["/"].durationSeconds)}
+            />
+          ) : null}
 
           {/* FULL PAGE HERO HEADER SECTION */}
           <header

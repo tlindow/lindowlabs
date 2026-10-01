@@ -4,6 +4,12 @@ export type PageAudioClip = {
   durationSeconds: number;
 };
 
+/**
+ * Master switch for all PageAudioPlayer mounts (home, resume, blog, /time).
+ * Off until professional voice-clone clips are ready — flip to `true` to re-enable.
+ */
+export const PAGE_AUDIO_ENABLED = false;
+
 /** Round seconds for the visible duration hint, e.g. "(59 sec)". */
 export function pageAudioLabel(durationSeconds: number): string {
   return `Listen to Tyler walk through this page (${Math.round(durationSeconds)} sec)`;

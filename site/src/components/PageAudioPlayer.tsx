@@ -1,5 +1,7 @@
 "use client";
 
+import { PAGE_AUDIO_ENABLED } from "@/data/pageAudio";
+
 type PageAudioPlayerProps = {
   src: string;
   label: string;
@@ -14,6 +16,8 @@ export default function PageAudioPlayer({
   ariaLabel = "Listen to Tyler walk through this page",
   className = "w-full px-4 sm:px-6 pt-24 sm:pt-28 pb-2 sm:pb-4 scroll-mt-20",
 }: PageAudioPlayerProps) {
+  if (!PAGE_AUDIO_ENABLED) return null;
+
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
   const resolvedSrc = src.startsWith("/")
     ? `${basePath}${src}`
