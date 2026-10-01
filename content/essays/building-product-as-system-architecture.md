@@ -1,6 +1,6 @@
 [Decision] In this project, I made a clear decision early on when faced with the option to tell another team to do a database migration or drop a dashboard customers found useful: “Drop the dashboard. The product is causing these users to do more work. And don't migrate the database. The data schemas are correct. I have found a way for our operations teams to provide this dashboard data and provide more holistic support.”
 
-[Context] In September of 2025, I took the lead to bring more cohesion across the merchant engineering organization at Affirm to develop the merchant lifecycle orchestrator deployable target, as groundwork toward a 99.99% availability target.
+[Context] In September of 2025, I took the lead to bring more cohesion across the merchant engineering organization at Affirm to develop the merchant lifecycle orchestrator deployable target.
 
 [How I led it] As the engineering manager overseeing this program, I set up working meetings with four separate teams to enable our tech lead to see around architectural corners only the other tech leads would know about (e.g., are we choosing to consolidate this endpoint or will it become deprecated in a future build?). I also set up kickoff and close meetings with upward and peer leadership to say, “Work with us! And if you are too busy, tell us.”
 

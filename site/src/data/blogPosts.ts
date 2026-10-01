@@ -50,14 +50,14 @@ const defaultAuthor = {
 
 export const blogPosts: BlogPost[] = [
   {
-    id: "securing-500k-gmv-win",
-    slug: "securing-500k-gmv-win",
+    id: "leading-the-affirm-dot-com-redesign",
+    slug: "leading-the-affirm-dot-com-redesign",
     pretitle: "My work product",
     pillarId: "core",
     pillarLabel: "B2B Fintech Case Study",
-    title: "Securing a $500K GMV Win",
+    title: "Leading the affirm.com Redesign",
     subtitle:
-      "How I led my engineers through the affirm.com rebuild, and the additional $500K in GMV we generated in a 3-day pre-Black Friday sale.",
+      "How I led my engineers through the affirm.com rebuild.",
     date: "2026-09-11",
     readTime: "2 min read",
     author: defaultAuthor,
@@ -65,7 +65,6 @@ export const blogPosts: BlogPost[] = [
       "Engineering Leadership",
       "Affirm",
       "Perseverance",
-      "Black Friday",
     ],
     summary:
       "In October of 2025, we revamped the affirm.com marketing website in order to create design continuity between web and mobile apps and drive more conversion for the ~1M monthly viewers of the site.",
@@ -115,7 +114,7 @@ export const blogPosts: BlogPost[] = [
       "Reliability",
     ],
     summary:
-      "In September of 2025, I took the lead to bring more cohesion across the merchant engineering organization at Affirm to develop the merchant lifecycle orchestrator deployable target, as groundwork toward a 99.99% availability target.",
+      "In September of 2025, I took the lead to bring more cohesion across the merchant engineering organization at Affirm to develop the merchant lifecycle orchestrator deployable target.",
     previewText:
       "Building system architecture is too often seen as simply a requirement to appease enterprise customers. System architecture, along with any technical debt work, is always an act of building the core product.",
     slides: [
@@ -129,7 +128,7 @@ export const blogPosts: BlogPost[] = [
         id: 2,
         slideNumber: "02/03",
         quote:
-          "By December of 2025, we had director sign-off on the architecture: groundwork toward a 99.99% availability target.",
+          "By December of 2025, we had director sign-off on the architecture.",
       },
       {
         id: 3,
@@ -148,7 +147,7 @@ export const blogPosts: BlogPost[] = [
     pretitle: "My work product",
     pillarId: "methodical-enjoyable",
     pillarLabel: "01 Methodical & Empathetic",
-    title: "Velocity Labs: 99.9% Availability in One Quarter",
+    title: "Velocity Labs",
     subtitle:
       "Velocity Labs gave my team a practice for working through production incidents on our legacy platform and embracing AI-driven development.",
     date: "2026-09-11",
