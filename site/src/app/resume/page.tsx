@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { ArrowLeft } from "lucide-react";
 import SpaceMonoResume from "@/components/SpaceMonoResume";
 import Navbar from "@/components/Navbar";
+import PageAudioPlayer from "@/components/PageAudioPlayer";
+import { pageAudio, pageAudioLabel } from "@/data/pageAudio";
 import { parsedResume } from "@/data/resumeMarkdown";
 
 export const metadata: Metadata = {
@@ -38,6 +40,13 @@ export default function ResumePageRoute() {
           <ArrowLeft size={13} className="text-indigo-dark transition-transform group-hover:-translate-x-0.5" />
           <span>Back to Home</span>
         </a>
+      </div>
+      <div className="no-print max-w-4xl mx-auto px-4 sm:px-6 pb-2 sm:pb-4">
+        <PageAudioPlayer
+          src={pageAudio["/resume"].src}
+          label={pageAudioLabel(pageAudio["/resume"].durationSeconds)}
+          className="w-full px-0 pt-0 pb-0"
+        />
       </div>
       <div className="print:pt-0 print:p-0 print:m-0">
         <SpaceMonoResume parsedResume={parsedResume} />

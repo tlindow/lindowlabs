@@ -3,8 +3,10 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Navbar from "@/components/Navbar";
+import PageAudioPlayer from "@/components/PageAudioPlayer";
 import LabeledBody from "@/components/blog/LabeledBody";
 import { blogPosts, getAdjacentPosts, getBlogPostBySlug } from "@/data/blogPosts";
+import { pageAudioLabel } from "@/data/pageAudio";
 import { findRedirectTarget, loadRenderedParagraphs } from "@/lib/frontMatter.mjs";
 
 interface Props {
@@ -68,6 +70,16 @@ export default async function BlogPostPage({ params }: Props) {
             <span>All posts</span>
           </Link>
         </div>
+
+        {post.audioSrc ? (
+          <div className="mb-10">
+            <PageAudioPlayer
+              src={post.audioSrc}
+              label={pageAudioLabel(post.audioDurationSeconds ?? 0)}
+              className="w-full px-0 pt-0 pb-0"
+            />
+          </div>
+        ) : null}
 
         {/* Article Header (Purple pre-title, Title, Content format) */}
         <header className="mb-12 space-y-2">

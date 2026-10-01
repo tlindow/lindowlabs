@@ -44,8 +44,8 @@ const earlierRoles = [
 
 const themes = [
   {
-    href: "/blog/securing-500k-gmv-win",
-    title: "Securing a $500K GMV Win",
+    href: "/blog/leading-the-affirm-dot-com-redesign",
+    title: "Leading the affirm.com Redesign",
   },
   {
     href: "/blog/building-product-as-system-architecture",
@@ -53,7 +53,7 @@ const themes = [
   },
   {
     href: "/blog/velocity-labs",
-    title: "Velocity Labs: 99.9% Availability in One Quarter",
+    title: "Velocity Labs",
   },
 ];
 

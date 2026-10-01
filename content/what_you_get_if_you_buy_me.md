@@ -44,7 +44,7 @@ Great engineering leaders don't just solve problems; they eliminate classes of p
 ## 5. Results-Oriented
 > **Software products have clear attribution to revenue generation and make the business's job easier.**
 
-Engineering and business goals must never live in separate silos. My work connects directly to top-line impact—from driving an incremental **$500K GMV** during critical promotional revamps to safeguarding a **$10B+ GMV** enterprise merchant portfolio. Every technical initiative carries clear attribution to revenue generation, operational efficiency, and simplifying the business.
+Engineering and business goals must never live in separate silos. My work connects directly to top-line impact from safeguarding a **$10B+ GMV** enterprise merchant portfolio. Every technical initiative carries clear attribution to revenue generation, operational efficiency, and simplifying the business.
 
 ---
 

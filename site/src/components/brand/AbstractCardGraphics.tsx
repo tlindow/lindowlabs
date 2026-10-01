@@ -122,7 +122,7 @@ export function AbstractTelemetryPulse() {
         {/* SLA Threshold Target Line */}
         <line x1="20" y1="70" x2="380" y2="70" stroke="url(#sla-line)" strokeWidth="1" strokeDasharray="4 4" />
         <text x="320" y="64" fill="#FFBD2E" fontSize="9" fontFamily="monospace" opacity="0.8">
-          99.99% target
+          SLA target
         </text>
 
         {/* Filled Wave Area */}

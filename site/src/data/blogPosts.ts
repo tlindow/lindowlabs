@@ -35,6 +35,9 @@ export interface BlogPost {
   previewText?: string;
   slides: SlideData[];
   content: string[]; // Fallback body. The four case studies live in content/essays.
+  /** Optional commentary clip under public/audio/pages/. Omit for no player. */
+  audioSrc?: string;
+  audioDurationSeconds?: number;
 }
 
 const defaultAuthor = {
@@ -47,14 +50,14 @@ const defaultAuthor = {
 
 export const blogPosts: BlogPost[] = [
   {
-    id: "securing-500k-gmv-win",
-    slug: "securing-500k-gmv-win",
+    id: "leading-the-affirm-dot-com-redesign",
+    slug: "leading-the-affirm-dot-com-redesign",
     pretitle: "My work product",
     pillarId: "core",
     pillarLabel: "B2B Fintech Case Study",
-    title: "Securing a $500K GMV Win",
+    title: "Leading the affirm.com Redesign",
     subtitle:
-      "How I led my engineers through the affirm.com rebuild, and the additional $500K in GMV we generated in a 3-day pre-Black Friday sale.",
+      "How I led my engineers through the affirm.com rebuild.",
     date: "2026-09-11",
     readTime: "2 min read",
     author: defaultAuthor,
@@ -62,7 +65,6 @@ export const blogPosts: BlogPost[] = [
       "Engineering Leadership",
       "Affirm",
       "Perseverance",
-      "Black Friday",
     ],
     summary:
       "In October of 2025, we revamped the affirm.com marketing website in order to create design continuity between web and mobile apps and drive more conversion for the ~1M monthly viewers of the site.",
@@ -89,6 +91,8 @@ export const blogPosts: BlogPost[] = [
       },
     ],
     content: [],
+    audioSrc: "/audio/pages/blog-affirm-dot-com-rebuild.mp3",
+    audioDurationSeconds: 48.72,
   },
   {
     id: "building-product-as-system-architecture",
@@ -110,7 +114,7 @@ export const blogPosts: BlogPost[] = [
       "Reliability",
     ],
     summary:
-      "In September of 2025, I took the lead to bring more cohesion across the merchant engineering organization at Affirm to develop the merchant lifecycle orchestrator deployable target, as groundwork toward a 99.99% availability target.",
+      "In September of 2025, I took the lead to bring more cohesion across the merchant engineering organization at Affirm to develop the merchant lifecycle orchestrator deployable target.",
     previewText:
       "Building system architecture is too often seen as simply a requirement to appease enterprise customers. System architecture, along with any technical debt work, is always an act of building the core product.",
     slides: [
@@ -124,7 +128,7 @@ export const blogPosts: BlogPost[] = [
         id: 2,
         slideNumber: "02/03",
         quote:
-          "By December of 2025, we had director sign-off on the architecture: groundwork toward a 99.99% availability target.",
+          "By December of 2025, we had director sign-off on the architecture.",
       },
       {
         id: 3,
@@ -134,6 +138,8 @@ export const blogPosts: BlogPost[] = [
       },
     ],
     content: [],
+    audioSrc: "/audio/pages/blog-building-product-as-system-architecture.mp3",
+    audioDurationSeconds: 54.65,
   },
   {
     id: "velocity-labs",
@@ -141,7 +147,7 @@ export const blogPosts: BlogPost[] = [
     pretitle: "My work product",
     pillarId: "methodical-enjoyable",
     pillarLabel: "01 Methodical & Empathetic",
-    title: "Velocity Labs: 99.9% Availability in One Quarter",
+    title: "Velocity Labs",
     subtitle:
       "Velocity Labs gave my team a practice for working through production incidents on our legacy platform and embracing AI-driven development.",
     date: "2026-09-11",
@@ -178,6 +184,8 @@ export const blogPosts: BlogPost[] = [
       },
     ],
     content: [],
+    audioSrc: "/audio/pages/blog-velocity-labs.mp3",
+    audioDurationSeconds: 55.2,
   },
   {
     id: "building-teams-as-raising-funds",
@@ -222,6 +230,8 @@ export const blogPosts: BlogPost[] = [
       },
     ],
     content: [],
+    audioSrc: "/audio/pages/blog-building-teams-as-raising-funds.mp3",
+    audioDurationSeconds: 46.94,
   },
   {
     id: "over-index-on-intuition",
@@ -277,6 +287,8 @@ export const blogPosts: BlogPost[] = [
       `One question to ask yourself is: *What does it mean to tap into my creative energy safely? And what does it mean for me to have an opinion about a product?* A great place to start is to look at the software products you already love, and figure out why you love them. Dissect them, and reverse-engineer the product a bit.`,
       `I think that is going to be a critical, must-master skill to survive in this transition into an AI world where the only thing we really have left is what makes us human—what makes us understand when something feels right. That is one of the most valuable things we have left, and so we need to over-index on that and bring that to the forefront as engineers.`,
     ],
+    audioSrc: "/audio/pages/blog-over-index-on-intuition.mp3",
+    audioDurationSeconds: 47.23,
   },
 ];
 

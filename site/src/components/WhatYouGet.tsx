@@ -54,9 +54,9 @@ const valuePillars: ValuePillar[] = [
     stories: [
       {
         pretitle: "My work product",
-        title: "Securing a $500K GMV Win",
+        title: "Leading the affirm.com Redesign",
         description:
-          "How I led my engineers through the affirm.com rebuild, and the additional $500K in GMV we generated in a 3-day pre-Black Friday sale.",
+          "Led the affirm.com redesign, set the priorities, took the team through the rebuild, and kept the design consistent across web and mobile.",
         screenshots: [
           {
             src: "/affirm-home.png",
@@ -72,9 +72,9 @@ const valuePillars: ValuePillar[] = [
           },
         ],
         link: {
-          href: "/blog/securing-500k-gmv-win",
+          href: "/blog/leading-the-affirm-dot-com-redesign",
           label: "Read blog post",
-          title: "Securing a $500K GMV Win",
+          title: "Leading the affirm.com Redesign",
         },
       },
       {
@@ -105,7 +105,7 @@ const valuePillars: ValuePillar[] = [
     stories: [
       {
         pretitle: "My work product",
-        title: "Velocity Labs: 99.9% Availability in One Quarter",
+        title: "Velocity Labs",
         description:
           "Velocity Labs gave my team a practice for working through production incidents on our legacy platform and embracing AI-driven development.",
         screenshots: [
@@ -119,7 +119,7 @@ const valuePillars: ValuePillar[] = [
         link: {
           href: "/blog/velocity-labs",
           label: "Read blog post",
-          title: "Velocity Labs: 99.9% Availability in One Quarter",
+          title: "Velocity Labs",
         },
       },
       {

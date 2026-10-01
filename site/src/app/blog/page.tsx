@@ -2,16 +2,18 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, FileText } from "lucide-react";
 import Navbar from "@/components/Navbar";
+import PageAudioPlayer from "@/components/PageAudioPlayer";
 import { blogPosts } from "@/data/blogPosts";
+import { pageAudio, pageAudioLabel } from "@/data/pageAudio";
 
 export const metadata: Metadata = {
   title: "Blog: Tyler Lindow",
   description:
-    "Writing from an engineering manager in fintech: securing a $500K GMV win, product as system architecture, and Velocity Labs.",
+    "Writing from an engineering manager in fintech: leading the affirm.com redesign, product as system architecture, and Velocity Labs.",
   openGraph: {
     title: "Blog: Tyler Lindow",
     description:
-      "Writing from an engineering manager in fintech: securing a $500K GMV win, product as system architecture, and Velocity Labs.",
+      "Writing from an engineering manager in fintech: leading the affirm.com redesign, product as system architecture, and Velocity Labs.",
     url: "https://tlindow.github.io/blog",
     siteName: "Tyler Lindow",
     type: "website",
@@ -20,7 +22,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Blog: Tyler Lindow",
     description:
-      "Writing from an engineering manager in fintech: securing a $500K GMV win, product as system architecture, and Velocity Labs.",
+      "Writing from an engineering manager in fintech: leading the affirm.com redesign, product as system architecture, and Velocity Labs.",
   },
 };
 
@@ -41,13 +43,21 @@ export default function BlogIndexPage() {
           </Link>
         </div>
 
+        <div className="mb-10">
+          <PageAudioPlayer
+            src={pageAudio["/blog"].src}
+            label={pageAudioLabel(pageAudio["/blog"].durationSeconds)}
+            className="w-full px-0 pt-0 pb-0"
+          />
+        </div>
+
         {/* Minimalist Header */}
         <header className="mb-16 space-y-3">
           <h1 className="text-4xl sm:text-6xl font-black tracking-tighter text-foreground font-mono">
             Blog
           </h1>
           <p className="text-sm sm:text-base text-muted font-mono max-w-xl leading-relaxed">
-            Securing a $500K GMV Win, Building Product as System Architecture, and Velocity Labs: 99.9% Availability in One Quarter.
+            Leading the affirm.com Redesign, Building Product as System Architecture, and Velocity Labs.
           </p>
         </header>
 
