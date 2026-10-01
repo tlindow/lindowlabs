@@ -6,9 +6,9 @@ export type PageAudioClip = {
 
 /**
  * Master switch for all PageAudioPlayer mounts (home, resume, blog, /time).
- * Off until professional voice-clone clips are ready — flip to `true` to re-enable.
+ * Professional voice-clone clips are live.
  */
-export const PAGE_AUDIO_ENABLED = false;
+export const PAGE_AUDIO_ENABLED = true;
 
 /** Round seconds for the visible duration hint, e.g. "(59 sec)". */
 export function pageAudioLabel(durationSeconds: number): string {
@@ -18,14 +18,14 @@ export function pageAudioLabel(durationSeconds: number): string {
 export const pageAudio: Record<string, PageAudioClip> = {
   "/": {
     src: "/audio/pages/home.mp3",
-    durationSeconds: 58.78,
+    durationSeconds: 61.15,
   },
   "/resume": {
     src: "/audio/pages/resume.mp3",
-    durationSeconds: 61.02,
+    durationSeconds: 62.96,
   },
   "/blog": {
     src: "/audio/pages/blog.mp3",
-    durationSeconds: 42.95,
+    durationSeconds: 47.18,
   },
 };
