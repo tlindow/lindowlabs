@@ -7,7 +7,7 @@ export default function LeadersAudio() {
   return (
     <PageAudioPlayer
       src="/audio/time-note.mp3"
-      label="Listen to Tyler read this (50 sec)"
+      label="Listen to Tyler read this (40 sec)"
       ariaLabel="Listen to Tyler read this note"
     />
   );
