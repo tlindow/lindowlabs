@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { brandMarks, type BrandMark } from "@/components/brand/marks";
 import MarkDownload from "@/components/brand/MarkDownload";
-import PageAudioPlayer, { pageAudioLabel } from "@/components/PageAudioPlayer";
-import { pageAudio } from "@/data/pageAudio";
+import PageAudioPlayer from "@/components/PageAudioPlayer";
+import { pageAudio, pageAudioLabel } from "@/data/pageAudio";
 
 export const metadata: Metadata = {
   title: "Brand Marks: Lindow Labs",

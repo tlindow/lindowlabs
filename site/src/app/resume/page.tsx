@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { ArrowLeft } from "lucide-react";
 import SpaceMonoResume from "@/components/SpaceMonoResume";
 import Navbar from "@/components/Navbar";
-import PageAudioPlayer, { pageAudioLabel } from "@/components/PageAudioPlayer";
-import { pageAudio } from "@/data/pageAudio";
+import PageAudioPlayer from "@/components/PageAudioPlayer";
+import { pageAudio, pageAudioLabel } from "@/data/pageAudio";
 import { parsedResume } from "@/data/resumeMarkdown";
 
 export const metadata: Metadata = {

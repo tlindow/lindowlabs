@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, FileText } from "lucide-react";
 import Navbar from "@/components/Navbar";
-import PageAudioPlayer, { pageAudioLabel } from "@/components/PageAudioPlayer";
+import PageAudioPlayer from "@/components/PageAudioPlayer";
 import { blogPosts } from "@/data/blogPosts";
-import { pageAudio } from "@/data/pageAudio";
+import { pageAudio, pageAudioLabel } from "@/data/pageAudio";
 
 export const metadata: Metadata = {
   title: "Blog: Tyler Lindow",

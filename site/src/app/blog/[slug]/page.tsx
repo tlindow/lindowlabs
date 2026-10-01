@@ -3,9 +3,10 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Navbar from "@/components/Navbar";
-import PageAudioPlayer, { pageAudioLabel } from "@/components/PageAudioPlayer";
+import PageAudioPlayer from "@/components/PageAudioPlayer";
 import LabeledBody from "@/components/blog/LabeledBody";
 import { blogPosts, getAdjacentPosts, getBlogPostBySlug } from "@/data/blogPosts";
+import { pageAudioLabel } from "@/data/pageAudio";
 import { findRedirectTarget, loadRenderedParagraphs } from "@/lib/frontMatter.mjs";
 
 interface Props {

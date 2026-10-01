@@ -39,8 +39,3 @@ export default function PageAudioPlayer({
     </section>
   );
 }
-
-/** Round seconds for the visible duration hint, e.g. "(59 sec)". */
-export function pageAudioLabel(durationSeconds: number): string {
-  return `Listen to Tyler walk through this page (${Math.round(durationSeconds)} sec)`;
-}

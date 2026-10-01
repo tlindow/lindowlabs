@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import PageAudioPlayer, { pageAudioLabel } from "@/components/PageAudioPlayer";
+import PageAudioPlayer from "@/components/PageAudioPlayer";
 import DraggableResumeCanvas from "@/components/modules/DraggableResumeCanvas";
 import { GoogleQuadDivider } from "@/components/modules/ModuleCards";
-import { pageAudio } from "@/data/pageAudio";
+import { pageAudio, pageAudioLabel } from "@/data/pageAudio";
 import { ArrowLeft, Sparkles } from "lucide-react";
 
 export const metadata: Metadata = {

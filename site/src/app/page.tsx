@@ -4,7 +4,7 @@ import { useEffect, useRef, useCallback } from "react";
 import { useScroll, useMotionValue, useSpring } from "framer-motion";
 import { FileText } from "lucide-react";
 import Navbar from "@/components/Navbar";
-import PageAudioPlayer, { pageAudioLabel } from "@/components/PageAudioPlayer";
+import PageAudioPlayer from "@/components/PageAudioPlayer";
 import {
   TrustedPartnersBar,
   EducationInstitutionsBar,
@@ -16,7 +16,7 @@ import ScrollMorphAvatar, {
   HERO_PIN_SCROLL_DISTANCE,
 } from "@/components/animations/ScrollMorphAvatar";
 import { useAnalytics } from "@/context/AnalyticsProvider";
-import { pageAudio } from "@/data/pageAudio";
+import { pageAudio, pageAudioLabel } from "@/data/pageAudio";
 import { SITE_SUPPORT } from "@/data/positioning";
 
 export default function Home() {
