@@ -92,7 +92,7 @@ export const blogPosts: BlogPost[] = [
     ],
     content: [],
     audioSrc: "/audio/pages/blog-affirm-dot-com-rebuild.mp3",
-    audioDurationSeconds: 48.72,
+    audioDurationSeconds: 54.94,
   },
   {
     id: "building-product-as-system-architecture",
@@ -139,7 +139,7 @@ export const blogPosts: BlogPost[] = [
     ],
     content: [],
     audioSrc: "/audio/pages/blog-building-product-as-system-architecture.mp3",
-    audioDurationSeconds: 54.65,
+    audioDurationSeconds: 57.91,
   },
   {
     id: "velocity-labs",
@@ -185,7 +185,7 @@ export const blogPosts: BlogPost[] = [
     ],
     content: [],
     audioSrc: "/audio/pages/blog-velocity-labs.mp3",
-    audioDurationSeconds: 55.2,
+    audioDurationSeconds: 61.47,
   },
   {
     id: "building-teams-as-raising-funds",
@@ -231,7 +231,7 @@ export const blogPosts: BlogPost[] = [
     ],
     content: [],
     audioSrc: "/audio/pages/blog-building-teams-as-raising-funds.mp3",
-    audioDurationSeconds: 46.94,
+    audioDurationSeconds: 54.05,
   },
   {
     id: "over-index-on-intuition",
@@ -288,7 +288,7 @@ export const blogPosts: BlogPost[] = [
       `I think that is going to be a critical, must-master skill to survive in this transition into an AI world where the only thing we really have left is what makes us human—what makes us understand when something feels right. That is one of the most valuable things we have left, and so we need to over-index on that and bring that to the forefront as engineers.`,
     ],
     audioSrc: "/audio/pages/blog-over-index-on-intuition.mp3",
-    audioDurationSeconds: 47.23,
+    audioDurationSeconds: 48.67,
   },
 ];
 
