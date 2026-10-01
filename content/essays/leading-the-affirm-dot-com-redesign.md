@@ -1,8 +1,3 @@
----
-redirect_from:
-  - /blog/securing-500k-gmv-win
----
-
 [Decision] I put the affirm.com rebuild first because it had the biggest long-term revenue upside.
 
 [Context] In October of 2025, we revamped the affirm.com marketing website in order to create design continuity between web and mobile apps and drive more conversion for the ~1M monthly viewers of the site.
