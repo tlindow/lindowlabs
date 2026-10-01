@@ -35,7 +35,7 @@ export default function LeadersEssay() {
                 Tech Museum and at the Computer History Museum. At Affirm I
                 spent 6+ years and became a developer advocate because I had a
                 vision for where I wanted to be. I am also the ex-founder of
-                Beginner Work. My brand line is Elevating Developer Fintech.
+                Beginner Work.
               </p>
 
               <p>
