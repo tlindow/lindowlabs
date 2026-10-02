@@ -5,6 +5,36 @@ This repository contains **Tyler Lindow's workspace**, organized into three core
 2. **`content/`** — Personal journal entries, essays, and polished post repository (public and private drafts).
 3. **`site/`** — The living Next.js application powering Tyler's personal website and interactive portfolio.
 
+### Inner vs outer loop
+
+- **Inner loop (Cursor agents):** pre-push work. Catch CI failures locally before anything hits `main`.
+- **Outer loop (GitHub Copilot coding agent):** post-push CI fix-ups. See `.github/copilot-instructions.md`.
+- Hand off through the repo only. Read [`docs/loop-log.md`](docs/loop-log.md) before starting site work. When you add or change a check, append one line to that log.
+
+### Pre-push checks (required)
+
+From `site/`, every Cursor agent must run and pass before push:
+
+```bash
+cd site
+npm run check
+```
+
+That runs, in order:
+
+1. `npm run lint`
+2. `npm run typecheck`
+3. `npm run check:client-imports` (server files must not import camelCase helpers from `"use client"` modules)
+4. `npm run check:em-dashes -- --source` (U+2014 in live copy/data; prints `file:line`)
+5. `npm run build` (production static export)
+6. `npm run check:labels`
+7. `npm run check:em-dashes` (U+2014 in `site/out/**/*.html`)
+8. `npm run check:locations`
+
+### Shared helpers (client vs server)
+
+Keep pure helpers (formatters, labels, data) in `site/src/data/` or `site/src/lib/`, not in `"use client"` component files. Server pages may render client components, but must not import non-component exports from them.
+
 ### Planning mode
 
 The first prompt of the session should always enter a planning mode, unless otherwise stated.

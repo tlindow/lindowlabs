@@ -78,7 +78,7 @@ ${exp.bullets.map((b) => `* **${b.tag}** ${b.text}`).join("\n")}
           md += `# ${resumeContact.name}
 **${resumeContact.title}**
 ${resumeContact.subtitle ? `*${resumeContact.subtitle}*\n` : ""}${resumeContact.location}${
-            resumeContact.relocation ? ` — **${resumeContact.relocation}**` : ""
+            resumeContact.relocation ? ` - **${resumeContact.relocation}**` : ""
           }
 ${resumeContact.phone} | ${resumeContact.email}
 [${resumeContact.linkedinDisplay}](${resumeContact.linkedin}) | [${resumeContact.githubDisplay}](${
@@ -122,7 +122,7 @@ ${resumeContact.phone} | ${resumeContact.email}
             md += `# ${resumeContact.name}
 **${resumeContact.title}**
 ${resumeContact.subtitle ? `*${resumeContact.subtitle}*\n` : ""}${resumeContact.location}${
-              resumeContact.relocation ? ` — **${resumeContact.relocation}**` : ""
+              resumeContact.relocation ? ` - **${resumeContact.relocation}**` : ""
             }
 ${resumeContact.phone} | ${resumeContact.email}
 [${resumeContact.linkedinDisplay}](${resumeContact.linkedin}) | [${resumeContact.githubDisplay}](${
