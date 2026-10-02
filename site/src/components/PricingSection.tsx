@@ -55,7 +55,7 @@ const columns: ColumnDefinition[] = [
     title: "B2B",
     tagline: "0-to-1 B2B Fintech & Scale",
     stats: [
-      { value: "$10.11B+", label: "GMV Scaled", sublabel: "Affirm" },
+      { value: "Flagship", label: "Partner Support", sublabel: "Affirm" },
       { value: "300+", label: "Devs Supported", sublabel: "Affirm Flagship SRE" },
     ],
     scope: [

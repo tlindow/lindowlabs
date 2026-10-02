@@ -11,7 +11,7 @@ export default function CheckoutDrawer() {
   const [isSectionInView, setIsSectionInView] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [devCountText, setDevCountText] = useState("500+ DEVs");
-  const [gmvText, setGmvText] = useState("$400K GMV");
+  const [volumeText, setVolumeText] = useState("$400K volume");
 
   const { logRecruitClick } = useAnalytics();
   const { recruit_cta_label, recruit_cta_style } = useExperiment();
@@ -41,7 +41,7 @@ export default function CheckoutDrawer() {
       const clamped = Math.max(0, Math.min(1, rawProgress));
       setScrollProgress(clamped);
 
-      // Increment DEVs and GMV right when each card comes into view (top crosses bottom 85% of viewport)
+      // Increment DEVs and volume right when each card comes into view (top crosses bottom 85% of viewport)
       const isInView = (el: HTMLElement | null, ratio = 0.85) => {
         if (!el) return false;
         const r = el.getBoundingClientRect();
@@ -66,24 +66,24 @@ export default function CheckoutDrawer() {
         setDevCountText("500+ DEVs");
       }
 
-      // GMV accumulates right when each card / milestone enters view
+      // Volume accumulates right when each card / milestone enters view
       if (isInView(begEl)) {
-        setGmvText("$10.11B+ GMV");
+        setVolumeText("Flagship partner volume");
       } else if (isInView(affirmEl)) {
         const affRect = affirmEl!.getBoundingClientRect();
         const viewLine = windowHeight * 0.85;
         const progressInAffirm = (viewLine - affRect.top) / Math.max(1, affRect.height);
         if (progressInAffirm >= 0.6) {
-          setGmvText("$10.11B+ GMV");
+          setVolumeText("Flagship partner volume");
         } else if (progressInAffirm >= 0.3) {
-          setGmvText("$110.4M+ GMV");
+          setVolumeText("$110.4M+ volume");
         } else {
-          setGmvText("$10.4M+ GMV");
+          setVolumeText("$10.4M+ volume");
         }
       } else if (isInView(galvEl)) {
-        setGmvText("$400K GMV");
+        setVolumeText("$400K volume");
       } else {
-        setGmvText("$400K GMV");
+        setVolumeText("$400K volume");
       }
     };
 
@@ -145,19 +145,19 @@ export default function CheckoutDrawer() {
                   </motion.span>
                 </div>
 
-                {/* Attributed GMV Subtotal */}
+                {/* Attributed volume subtotal */}
                 <div className="sm:pl-5 flex items-baseline gap-1 sm:gap-1.5 shrink-0">
                   <span className="text-[10px] sm:text-xs font-bold text-muted uppercase tracking-wider whitespace-nowrap">
-                    Attributed GMV:
+                    Attributed volume:
                   </span>
                   <motion.span
-                    key={gmvText}
+                    key={volumeText}
                     initial={{ scale: 1.08 }}
                     animate={{ scale: 1 }}
                     transition={{ duration: 0.2 }}
                     className="text-xs sm:text-base md:text-lg font-black font-mono text-indigo-dark tracking-tight whitespace-nowrap"
                   >
-                    {gmvText}
+                    {volumeText}
                   </motion.span>
                 </div>
               </div>
