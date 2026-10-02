@@ -286,9 +286,8 @@ body {
   background-color: var(--hp-lavender);
 }
 
-/* Soft purple band behind employer / education logo strips */
-.homepage-theme #trusted-partners,
-.homepage-theme #education {
+/* Soft purple band behind the combined employer + education logo panel */
+.homepage-theme #trusted-partners {
   border-radius: 1rem;
   padding-left: 0.75rem;
   padding-right: 0.75rem;

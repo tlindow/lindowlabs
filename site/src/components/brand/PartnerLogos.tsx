@@ -169,7 +169,7 @@ export function OlinCollegeLogo({ className = "h-4 sm:h-5 w-auto" }: { className
 
 export function TrustedPartnersBar() {
   return (
-    <div className="pt-8 sm:pt-10 pb-1 flex flex-col items-center gap-3.5 text-center">
+    <div className="pt-5 sm:pt-6 pb-1 flex flex-col items-center gap-3.5 text-center">
       <span className="text-[10px] sm:text-[11px] font-mono uppercase tracking-widest text-muted font-bold">
         Previous Employers
       </span>
@@ -210,7 +210,7 @@ export function TrustedPartnersBar() {
 
 export function EducationInstitutionsBar() {
   return (
-    <div className="pt-4 pb-2 flex flex-col items-center gap-3.5 text-center">
+    <div className="pt-5 sm:pt-6 pb-5 sm:pb-6 flex flex-col items-center gap-3.5 text-center">
       <span className="text-[10px] sm:text-[11px] font-mono uppercase tracking-widest text-muted font-bold">
         DevX &amp; educational institutions
       </span>
