@@ -179,27 +179,42 @@ export default function Home() {
   }, [rawContactProgress, computeContactProgress]);
 
   // When the below-h1 stack (support, CTA, logos) paints past the 100svh stage,
-  // reserve matching flow space so About is not covered. Keeps h1 at 50svh.
+  // reserve matching flow space so About is not covered. Also ensure a minimum
+  // gap below the logo panel (spill-only height left the panel flush on About).
+  // Spacer lives outside the 100svh grid, so h1 stays at 50svh.
   useEffect(() => {
     const stage = document.getElementById("hero-stage");
     const below = document.getElementById("hero-below");
     const spacer = document.getElementById("hero-overflow-spacer");
+    const panel = document.getElementById("trusted-partners");
     if (!stage || !below || !spacer) return;
 
     const syncOverflow = () => {
+      const stageBottom = stage.getBoundingClientRect().bottom;
       // Grid row box can be shorter than painted children (overflow: visible).
       const contentBottom = Math.max(
         below.getBoundingClientRect().bottom,
         ...Array.from(below.children, (child) => child.getBoundingClientRect().bottom)
       );
-      const spill = Math.max(0, Math.ceil(contentBottom - stage.getBoundingClientRect().bottom));
-      spacer.style.height = `${spill}px`;
+      const spill = Math.max(0, Math.ceil(contentBottom - stageBottom));
+
+      // ~2.5rem mobile / ~3.5rem desktop breathing room under the logo panel.
+      const minGapPx = window.matchMedia("(min-width: 640px)").matches ? 56 : 40;
+      const panelBottom = panel
+        ? panel.getBoundingClientRect().bottom
+        : contentBottom;
+      // Natural lavender gap already inside the stage, below the panel.
+      const naturalGap = stageBottom - panelBottom;
+      // About starts at stageBottom + spacerHeight; require >= minGapPx under panel.
+      const gapPad = Math.max(0, Math.ceil(minGapPx - naturalGap));
+      spacer.style.height = `${Math.max(spill, gapPad)}px`;
     };
 
     syncOverflow();
     const ro = new ResizeObserver(syncOverflow);
     ro.observe(below);
     ro.observe(stage);
+    if (panel) ro.observe(panel);
     window.addEventListener("resize", syncOverflow);
     return () => {
       ro.disconnect();
