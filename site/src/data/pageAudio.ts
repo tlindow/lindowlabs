@@ -6,9 +6,9 @@ export type PageAudioClip = {
 
 /**
  * Master switch for all PageAudioPlayer mounts (home, resume, blog, /time).
- * Professional voice-clone clips are live.
+ * Set false to hide every page audio player site-wide.
  */
-export const PAGE_AUDIO_ENABLED = true;
+export const PAGE_AUDIO_ENABLED = false;
 
 /** Round seconds for the visible duration hint, e.g. "(59 sec)". */
 export function pageAudioLabel(durationSeconds: number): string {
