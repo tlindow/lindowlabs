@@ -115,10 +115,9 @@ export function getRemoteConfigValues(): RemoteConfigValues {
       rawSubtitle.includes("B2B SaaS Scale on GenAI Rails") ||
       rawSubtitle.includes("B2B SaaS on GenAI Rails") ||
       rawSubtitle.includes("B2B SaaS on Safe, GenAI Rails") ||
-      rawSubtitle.includes("B2B SaaS on Builder-safe GenAI Rails") ||
-      rawSubtitle.includes("· $0 – $10B+ GMV enterprises")
+      rawSubtitle.includes("B2B SaaS on Builder-safe GenAI Rails")
         ? DEFAULT_REMOTE_CONFIG.hero_subtitle_variant
-        : rawSubtitle.replace(/\s*·\s*\$0\s*–\s*\$10B\+\s*GMV\s*enterprises/gi, "").trim();
+        : rawSubtitle.trim();
 
     const rawHeadline = getValue(remoteConfigInstance, "hero_headline_variant").asString();
     const cleanHeadline =

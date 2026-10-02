@@ -10,11 +10,11 @@ import {
 } from "@/components/brand/PartnerLogos";
 import { BeginnerSeedMark } from "@/components/brand/BeginnerMarks";
 
-export interface GMVLineItem {
+export interface VolumeLineItem {
   id: string;
   year: string;
   title: string;
-  gmv?: string;
+  volume?: string;
   users: string;
   ownership: string;
   description: string;
@@ -34,7 +34,7 @@ export interface BeginnerStyleCard {
   brandMark: React.ReactNode;
   linkedinUrl: string;
   totalVolumeSummary: string;
-  lineItems: GMVLineItem[];
+  lineItems: VolumeLineItem[];
 }
 
 export const companyCards: BeginnerStyleCard[] = [
@@ -97,7 +97,7 @@ export const companyCards: BeginnerStyleCard[] = [
     id: "galvanize",
     companyName: "Galvanize",
     wordmark: "galvanize",
-    cardKind: "GMV",
+    cardKind: "Volume",
     cardNumber: "•••• 2019",
     holderName: "Tyler Lindow",
     frontBgStyle: { background: "#ffffff" },
@@ -112,7 +112,7 @@ export const companyCards: BeginnerStyleCard[] = [
         id: "galv-1",
         year: "2019",
         title: "Developer Onboarding & Multi-Repo Reviews",
-        gmv: "$400K GMV",
+        volume: "$400K volume",
         users: "20 DEVs",
         ownership: "Lead Immersive Resident",
         description: "$400k revenue & 20 developers onboarded",
@@ -125,7 +125,7 @@ export const companyCards: BeginnerStyleCard[] = [
     id: "affirm",
     companyName: "Affirm",
     wordmark: "affirm",
-    cardKind: "GMV",
+    cardKind: "Volume",
     cardNumber: "•••• 2024",
     holderName: "Tyler Lindow",
     frontBgStyle: { background: "#ffffff" },
@@ -134,16 +134,16 @@ export const companyCards: BeginnerStyleCard[] = [
     trimColor: "#6EE7B7",
     brandMark: <AffirmLogo className="h-5 sm:h-6 w-auto" />,
     linkedinUrl: "https://www.linkedin.com/in/tlindow/details/experience/",
-    totalVolumeSummary: "10.11B+ GMV & 300+ developers supported",
+    totalVolumeSummary: "Flagship partner volume & 300+ developers supported",
     lineItems: [
       {
         id: "aff-1",
         year: "2024",
         title: "Enterprise Scale, SLA & Merchant Telemetry",
-        gmv: "$10.11B+ GMV",
+        volume: "Flagship partner volume",
         users: "300+ DEVs",
         ownership: "Engineering Lead, Flagship SRE",
-        description: "10.11B+ GMV & 300+ developers supported",
+        description: "Flagship partner volume & 300+ developers supported",
       },
     ],
   },

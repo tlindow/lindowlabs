@@ -177,7 +177,6 @@ export const allBusinessToolkitSkills: string[] = [
   "Developer Advocacy & Evangelism",
   "Partner Engineering",
   "Enterprise B2B portals",
-  "GMV Attribution & Revenue Acceleration",
   "Go-To-Market (GTM) Strategy",
   "Developer Paved Paths & Enablement",
   "Cross-Functional Stakeholder Alignment",
