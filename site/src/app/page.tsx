@@ -230,55 +230,55 @@ export default function Home() {
             />
           ) : null}
 
-          {/* FULL PAGE HERO HEADER SECTION */}
+          {/* FULL PAGE HERO: core block vertically centered; logo panel below */}
           <header
             id="hero"
-            className="flex flex-col justify-center items-center text-center px-4 max-w-5xl mx-auto space-y-6 sm:space-y-8 relative pt-4 sm:pt-6 pb-12 sm:pb-16 scroll-mt-20"
+            className="flex flex-col items-center text-center px-4 max-w-5xl mx-auto relative min-h-[100svh] pt-20 sm:pt-24 pb-8 sm:pb-10 scroll-mt-20"
           >
-            {/* Typographic Product Title */}
-            <div className="space-y-4 sm:space-y-6 text-center max-w-4xl mx-auto flex flex-col items-center">
-              {/* Enlarged Profile Picture Slot Centered Above ex-affirm, ex-founder */}
-              <div
-                id="hero-avatar-anchor"
-                className="w-24 h-24 sm:w-28 sm:h-28 rounded-full shrink-0 relative"
-              />
+            <div className="flex-1 flex flex-col justify-center items-center w-full space-y-6 sm:space-y-8 min-h-0">
+              {/* Typographic Product Title */}
+              <div className="space-y-4 sm:space-y-6 text-center max-w-4xl mx-auto flex flex-col items-center">
+                {/* Enlarged Profile Picture Slot Centered Above ex-affirm, ex-founder */}
+                <div
+                  id="hero-avatar-anchor"
+                  className="w-24 h-24 sm:w-28 sm:h-28 rounded-full shrink-0 relative"
+                />
 
-              <span className="text-xs sm:text-sm font-mono font-bold text-indigo-dark uppercase tracking-widest block">
-                ex-Affirm, ex-founder
-              </span>
+                <span className="text-xs sm:text-sm font-mono font-bold text-indigo-dark uppercase tracking-widest block">
+                  ex-Affirm, ex-founder
+                </span>
 
-              <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight text-foreground leading-[1.05] mx-auto">
-                <span className="block">Elevating</span>
-                <span className="block">capital-tech</span>
-              </h1>
+                <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight text-foreground leading-[1.05] mx-auto">
+                  <span className="block">Elevating</span>
+                  <span className="block">capital-tech</span>
+                </h1>
 
-              <div className="pt-2">
-                <p className="text-sm sm:text-base md:text-lg font-mono text-muted mx-auto">
-                  {SITE_SUPPORT}
-                </p>
+                <div className="pt-2">
+                  <p className="text-sm sm:text-base md:text-lg font-mono text-muted mx-auto">
+                    {SITE_SUPPORT}
+                  </p>
+                </div>
+              </div>
+
+              <div className="pt-2 flex justify-center">
+                <a
+                  href={`${basePath}/resume`}
+                  onClick={() => logResumeView("hero_cta")}
+                  className="inline-flex items-center gap-2 rounded-xl bg-surface hover:bg-surface-alt text-foreground border border-border px-5 py-2.5 text-xs sm:text-sm font-mono font-bold shadow-xs transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+                  title="Read Tyler Lindow's resume"
+                >
+                  <FileText size={15} className="shrink-0" />
+                  <span>Read resume</span>
+                </a>
               </div>
             </div>
 
-            <div className="pt-2 flex justify-center">
-              <a
-                href={`${basePath}/resume`}
-                onClick={() => logResumeView("hero_cta")}
-                className="inline-flex items-center gap-2 rounded-xl bg-surface hover:bg-surface-alt text-foreground border border-border px-5 py-2.5 text-xs sm:text-sm font-mono font-bold shadow-xs transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
-                title="Read Tyler Lindow's resume"
-              >
-                <FileText size={15} className="shrink-0" />
-                <span>Read resume</span>
-              </a>
-            </div>
-
-            {/* Trusted Partners (Previous Employers) */}
-            <div id="trusted-partners" className="w-full scroll-mt-24">
+            {/* Previous employers + DevX / education logos in one panel */}
+            <div id="trusted-partners" className="w-full shrink-0 scroll-mt-24">
               <TrustedPartnersBar />
-            </div>
-
-            {/* Educational Institutions */}
-            <div id="education" className="w-full scroll-mt-24">
-              <EducationInstitutionsBar />
+              <div id="education" className="w-full scroll-mt-24">
+                <EducationInstitutionsBar />
+              </div>
             </div>
           </header>
 
