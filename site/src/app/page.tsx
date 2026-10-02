@@ -230,14 +230,14 @@ export default function Home() {
             />
           ) : null}
 
-          {/* FULL PAGE HERO: core block vertically centered; logo panel below */}
+          {/* FULL PAGE HERO: photo near viewport center; logo panel below */}
           <header
             id="hero"
-            className="flex flex-col items-center text-center px-4 max-w-5xl mx-auto relative min-h-[100svh] pt-20 sm:pt-24 pb-8 sm:pb-10 scroll-mt-20"
+            className="flex flex-col items-center text-center px-4 max-w-5xl mx-auto relative min-h-[100svh] pt-[max(5.5rem,calc(50svh-3.5rem))] pb-8 sm:pb-10 scroll-mt-20"
           >
-            <div className="flex-1 flex flex-col justify-center items-center w-full space-y-6 sm:space-y-8 min-h-0">
+            <div className="flex flex-col items-center w-full space-y-5 sm:space-y-6">
               {/* Typographic Product Title */}
-              <div className="space-y-4 sm:space-y-6 text-center max-w-4xl mx-auto flex flex-col items-center">
+              <div className="space-y-3 sm:space-y-4 text-center max-w-4xl mx-auto flex flex-col items-center">
                 {/* Enlarged Profile Picture Slot Centered Above ex-affirm, ex-founder */}
                 <div
                   id="hero-avatar-anchor"
@@ -253,14 +253,14 @@ export default function Home() {
                   <span className="block">capital-tech</span>
                 </h1>
 
-                <div className="pt-2">
+                <div className="pt-1">
                   <p className="text-sm sm:text-base md:text-lg font-mono text-muted mx-auto">
                     {SITE_SUPPORT}
                   </p>
                 </div>
               </div>
 
-              <div className="pt-2 flex justify-center">
+              <div className="flex justify-center">
                 <a
                   href={`${basePath}/resume`}
                   onClick={() => logResumeView("hero_cta")}
@@ -274,7 +274,7 @@ export default function Home() {
             </div>
 
             {/* Previous employers + DevX / education logos in one panel */}
-            <div id="trusted-partners" className="w-full shrink-0 scroll-mt-24">
+            <div id="trusted-partners" className="w-full scroll-mt-24 mt-6 sm:mt-8">
               <TrustedPartnersBar />
               <div id="education" className="w-full scroll-mt-24">
                 <EducationInstitutionsBar />
