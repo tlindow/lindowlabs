@@ -230,54 +230,50 @@ export default function Home() {
             />
           ) : null}
 
-          {/* FULL PAGE HERO: photo near viewport center; logo panel below */}
+          {/* FULL PAGE HERO: h1 vertical midpoint at viewport center; photo/label above, CTA + logos below */}
           <header
             id="hero"
-            className="flex flex-col items-center text-center px-4 max-w-5xl mx-auto relative min-h-[100svh] pt-[max(5.5rem,calc(50svh-3.5rem))] pb-8 sm:pb-10 scroll-mt-20"
+            className="grid grid-rows-[minmax(0,1fr)_auto_minmax(0,1fr)] justify-items-center text-center px-4 max-w-5xl mx-auto relative min-h-[100svh] pb-8 sm:pb-10 scroll-mt-20"
           >
-            <div className="flex flex-col items-center w-full space-y-5 sm:space-y-6">
-              {/* Typographic Product Title */}
-              <div className="space-y-3 sm:space-y-4 text-center max-w-4xl mx-auto flex flex-col items-center">
-                {/* Enlarged Profile Picture Slot Centered Above ex-affirm, ex-founder */}
-                <div
-                  id="hero-avatar-anchor"
-                  className="w-24 h-24 sm:w-28 sm:h-28 rounded-full shrink-0 relative"
-                />
+            {/* Above: photo + label, pinned to the bottom of the top 1fr so they sit just over the h1 */}
+            <div className="flex flex-col items-center justify-end gap-3 sm:gap-4 w-full self-stretch pb-3 sm:pb-4 min-h-0">
+              <div
+                id="hero-avatar-anchor"
+                className="w-24 h-24 sm:w-28 sm:h-28 rounded-full shrink-0 relative"
+              />
 
-                <span className="text-xs sm:text-sm font-mono font-bold text-indigo-dark uppercase tracking-widest block">
-                  ex-Affirm, ex-founder
-                </span>
-
-                <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight text-foreground leading-[1.05] mx-auto">
-                  <span className="block">Elevating</span>
-                  <span className="block">capital-tech</span>
-                </h1>
-
-                <div className="pt-1">
-                  <p className="text-sm sm:text-base md:text-lg font-mono text-muted mx-auto">
-                    {SITE_SUPPORT}
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex justify-center">
-                <a
-                  href={`${basePath}/resume`}
-                  onClick={() => logResumeView("hero_cta")}
-                  className="inline-flex items-center gap-2 rounded-xl bg-surface hover:bg-surface-alt text-foreground border border-border px-5 py-2.5 text-xs sm:text-sm font-mono font-bold shadow-xs transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
-                  title="Read Tyler Lindow's resume"
-                >
-                  <FileText size={15} className="shrink-0" />
-                  <span>Read resume</span>
-                </a>
-              </div>
+              <span className="text-xs sm:text-sm font-mono font-bold text-indigo-dark uppercase tracking-widest block">
+                ex-Affirm, ex-founder
+              </span>
             </div>
 
-            {/* Previous employers + DevX / education logos in one panel */}
-            <div id="trusted-partners" className="w-full scroll-mt-24 mt-6 sm:mt-8">
-              <TrustedPartnersBar />
-              <div id="education" className="w-full scroll-mt-24">
-                <EducationInstitutionsBar />
+            <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight text-foreground leading-[1.05] mx-auto">
+              <span className="block">Elevating</span>
+              <span className="block">capital-tech</span>
+            </h1>
+
+            {/* Below: support, CTA, logo panel — top of bottom 1fr; may extend past 100svh on short viewports */}
+            <div className="flex flex-col items-center justify-start gap-5 sm:gap-6 w-full self-stretch pt-3 sm:pt-4 min-h-0">
+              <p className="text-sm sm:text-base md:text-lg font-mono text-muted mx-auto">
+                {SITE_SUPPORT}
+              </p>
+
+              <a
+                href={`${basePath}/resume`}
+                onClick={() => logResumeView("hero_cta")}
+                className="inline-flex items-center gap-2 rounded-xl bg-surface hover:bg-surface-alt text-foreground border border-border px-5 py-2.5 text-xs sm:text-sm font-mono font-bold shadow-xs transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+                title="Read Tyler Lindow's resume"
+              >
+                <FileText size={15} className="shrink-0" />
+                <span>Read resume</span>
+              </a>
+
+              {/* Previous employers + DevX / education logos in one panel */}
+              <div id="trusted-partners" className="w-full scroll-mt-24">
+                <TrustedPartnersBar />
+                <div id="education" className="w-full scroll-mt-24">
+                  <EducationInstitutionsBar />
+                </div>
               </div>
             </div>
           </header>
