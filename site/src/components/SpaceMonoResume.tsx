@@ -46,7 +46,7 @@ To elevate the creative and financial position of software developers through ed
 *San Diego, CA | Mar 2026 – Jul 2026 (5 mos)*
 * **Developer Engagement:** Built and launched a progressive web app enabling technical founders to refine pitches and practice fundraising in-person with potential customers, successfully acquiring initial paying users.
 * **Community Architecture:** Established a local technical network by hosting targeted networking events for product-focused tech professionals and engineers in the San Diego ecosystem.
-* **Market Advocacy:** Traveled across major tech hubs (NYC, SF)—including weekly trips to LA over a 2-month period—to conduct user research, gather developer feedback, and evangelize the product framework directly to target audiences.
+* **Market Advocacy:** Traveled across major tech hubs (NYC, SF) - including weekly trips to LA over a 2-month period - to conduct user research, gather developer feedback, and evangelize the product framework directly to target audiences.
 
 ### Affirm | Software Engineering Manager (L7), Merchant Advocacy
 *San Diego, CA (Remote) | Mar 2025 – Feb 2026*
