@@ -178,6 +178,35 @@ export default function Home() {
     };
   }, [rawContactProgress, computeContactProgress]);
 
+  // When the below-h1 stack (support, CTA, logos) paints past the 100svh stage,
+  // reserve matching flow space so About is not covered. Keeps h1 at 50svh.
+  useEffect(() => {
+    const stage = document.getElementById("hero-stage");
+    const below = document.getElementById("hero-below");
+    const spacer = document.getElementById("hero-overflow-spacer");
+    if (!stage || !below || !spacer) return;
+
+    const syncOverflow = () => {
+      // Grid row box can be shorter than painted children (overflow: visible).
+      const contentBottom = Math.max(
+        below.getBoundingClientRect().bottom,
+        ...Array.from(below.children, (child) => child.getBoundingClientRect().bottom)
+      );
+      const spill = Math.max(0, Math.ceil(contentBottom - stage.getBoundingClientRect().bottom));
+      spacer.style.height = `${spill}px`;
+    };
+
+    syncOverflow();
+    const ro = new ResizeObserver(syncOverflow);
+    ro.observe(below);
+    ro.observe(stage);
+    window.addEventListener("resize", syncOverflow);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", syncOverflow);
+    };
+  }, []);
+
   const handleReturnToHero = () => {
     hasReachedContactRef.current = true;
     wasAtTopRef.current = false;
@@ -230,52 +259,62 @@ export default function Home() {
             />
           ) : null}
 
-          {/* FULL PAGE HERO: h1 vertical midpoint at viewport center; photo/label above, CTA + logos below */}
+          {/* FULL PAGE HERO: definite 100svh stage so 1fr rows resolve; h1 midpoint at 50svh */}
           <header
             id="hero"
-            className="grid grid-rows-[minmax(0,1fr)_auto_minmax(0,1fr)] justify-items-center text-center px-4 max-w-5xl mx-auto relative min-h-[100svh] pb-8 sm:pb-10 scroll-mt-20"
+            className="relative text-center px-4 max-w-5xl mx-auto scroll-mt-20"
           >
-            {/* Above: photo + label, pinned to the bottom of the top 1fr so they sit just over the h1 */}
-            <div className="flex flex-col items-center justify-end gap-3 sm:gap-4 w-full self-stretch pb-3 sm:pb-4 min-h-0">
+            <div
+              id="hero-stage"
+              className="grid h-[100svh] grid-rows-[minmax(0,1fr)_auto_minmax(0,1fr)] justify-items-center"
+            >
+              {/* Above: photo + label, pinned to the bottom of the top 1fr */}
+              <div className="flex flex-col items-center justify-end gap-3 sm:gap-4 w-full min-h-0 pb-3 sm:pb-4">
+                <div
+                  id="hero-avatar-anchor"
+                  className="w-24 h-24 sm:w-28 sm:h-28 rounded-full shrink-0 relative"
+                />
+
+                <span className="text-xs sm:text-sm font-mono font-bold text-indigo-dark uppercase tracking-widest block">
+                  ex-Affirm, ex-founder
+                </span>
+              </div>
+
+              <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight text-foreground leading-[1.05] mx-auto">
+                <span className="block">Elevating</span>
+                <span className="block">capital-tech</span>
+              </h1>
+
+              {/* Below: support, CTA, logo panel — top of bottom 1fr; overflow paints into spacer */}
               <div
-                id="hero-avatar-anchor"
-                className="w-24 h-24 sm:w-28 sm:h-28 rounded-full shrink-0 relative"
-              />
-
-              <span className="text-xs sm:text-sm font-mono font-bold text-indigo-dark uppercase tracking-widest block">
-                ex-Affirm, ex-founder
-              </span>
-            </div>
-
-            <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight text-foreground leading-[1.05] mx-auto">
-              <span className="block">Elevating</span>
-              <span className="block">capital-tech</span>
-            </h1>
-
-            {/* Below: support, CTA, logo panel — top of bottom 1fr; may extend past 100svh on short viewports */}
-            <div className="flex flex-col items-center justify-start gap-5 sm:gap-6 w-full self-stretch pt-3 sm:pt-4 min-h-0">
-              <p className="text-sm sm:text-base md:text-lg font-mono text-muted mx-auto">
-                {SITE_SUPPORT}
-              </p>
-
-              <a
-                href={`${basePath}/resume`}
-                onClick={() => logResumeView("hero_cta")}
-                className="inline-flex items-center gap-2 rounded-xl bg-surface hover:bg-surface-alt text-foreground border border-border px-5 py-2.5 text-xs sm:text-sm font-mono font-bold shadow-xs transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
-                title="Read Tyler Lindow's resume"
+                id="hero-below"
+                className="flex flex-col items-center justify-start gap-5 sm:gap-6 w-full min-h-0 pt-3 sm:pt-4 pb-8 sm:pb-10"
               >
-                <FileText size={15} className="shrink-0" />
-                <span>Read resume</span>
-              </a>
+                <p className="text-sm sm:text-base md:text-lg font-mono text-muted mx-auto">
+                  {SITE_SUPPORT}
+                </p>
 
-              {/* Previous employers + DevX / education logos in one panel */}
-              <div id="trusted-partners" className="w-full scroll-mt-24">
-                <TrustedPartnersBar />
-                <div id="education" className="w-full scroll-mt-24">
-                  <EducationInstitutionsBar />
+                <a
+                  href={`${basePath}/resume`}
+                  onClick={() => logResumeView("hero_cta")}
+                  className="inline-flex items-center gap-2 rounded-xl bg-surface hover:bg-surface-alt text-foreground border border-border px-5 py-2.5 text-xs sm:text-sm font-mono font-bold shadow-xs transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+                  title="Read Tyler Lindow's resume"
+                >
+                  <FileText size={15} className="shrink-0" />
+                  <span>Read resume</span>
+                </a>
+
+                {/* Previous employers + DevX / education logos in one panel */}
+                <div id="trusted-partners" className="w-full scroll-mt-24">
+                  <TrustedPartnersBar />
+                  <div id="education" className="w-full scroll-mt-24">
+                    <EducationInstitutionsBar />
+                  </div>
                 </div>
               </div>
             </div>
+            {/* Reserves flow space when #hero-below paints past the 100svh stage */}
+            <div id="hero-overflow-spacer" className="w-full" aria-hidden="true" />
           </header>
 
           <About />
