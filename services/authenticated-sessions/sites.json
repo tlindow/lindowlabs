@@ -1,0 +1,17 @@
+{
+  "sites": [
+    {
+      "id": "practice-login",
+      "label": "Practice login form",
+      "loginUrl": "https://the-internet.herokuapp.com/login",
+      "usernameField": "Username",
+      "passwordField": "Password",
+      "submitButton": "Login",
+      "loggedInUrlIncludes": "/secure",
+      "secrets": {
+        "username": "op://Browserbase Agent/Practice Login/username",
+        "password": "op://Browserbase Agent/Practice Login/password"
+      }
+    }
+  ]
+}
