@@ -5,7 +5,7 @@ Public story for https://tlindow.github.io
 The working resume is maintained in Formation (Latest Ready). The summary below is the locked Formation text. Experience here stays dates-and-scope only.
 
 ## Summary
-Fintech engineering manager who grew Affirm’s developer-support engineering from 1 to 9 engineers and turned it into a software engineering team (Merchant Advocacy Engineering), then led it on Merchant Portal and affirm.com. 6+ years at Affirm across Partner Engineering and marketing products, including leading the developer-support engineering team supporting Affirm’s flagship partner integration with Amazon. Ex-founder (Beginner Work Inc.). Targeting Engineering Manager / Senior EM roles in fintech (payments, platform/DevX, partner integrations).
+Fintech engineering manager who grew Affirm’s developer-support engineering from 1 to 9 engineers and turned it into a software engineering team (Merchant Advocacy Engineering), then led it on Merchant Portal. 6+ years at Affirm across Partner Engineering and marketing products, including leading the developer-support engineering team supporting Affirm’s flagship partner integration with Amazon. Ex-founder (Beginner Work Inc.). Targeting Engineering Manager / Senior EM roles in fintech (payments, platform/DevX, partner integrations).
 
 ## Themes
 - Leading the affirm.com Redesign: https://tlindow.github.io/blog/leading-the-affirm-dot-com-redesign
@@ -18,7 +18,7 @@ Mar 2026 – Jul 2026
 
 ### Software Engineering Manager, Merchant Advocacy | Affirm
 Mar 2025 – Feb 2026
-Company-scale engineering management for top-of-funnel marketing on affirm.com and the enterprise merchant portal.
+Company-scale engineering management for the enterprise merchant portal.
 
 ### Developer Support Engineering Manager, Partner Engineering | Affirm
 Jul 2021 – Mar 2025
