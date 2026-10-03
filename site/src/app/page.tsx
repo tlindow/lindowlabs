@@ -296,8 +296,8 @@ export default function Home() {
               </div>
 
               <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight text-foreground leading-[1.05] mx-auto">
-                <span className="block">Elevating</span>
-                <span className="block">capital-tech</span>
+                <span className="block">Engineering leadership</span>
+                <span className="block">for fintech platforms</span>
               </h1>
 
               {/* Below: support, CTA, logo panel — top of bottom 1fr; overflow paints into spacer */}

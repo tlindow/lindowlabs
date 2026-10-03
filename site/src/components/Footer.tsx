@@ -31,7 +31,7 @@ export default function Footer() {
               />
             </div>
             <p className="text-xs sm:text-sm font-mono text-muted max-w-md mx-auto leading-relaxed">
-              Open to strategic advisory, technical leadership roles, and developer-first enterprise B2B platforms.
+              Open to Engineering Manager and Senior EM roles in fintech: payments, platform and developer experience, and partner integrations.
             </p>
           </div>
 
@@ -111,7 +111,7 @@ export default function Footer() {
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
                 <span className="text-muted font-normal text-[11px]">Current read:</span>
                 <BookOpen size={13} className="shrink-0 text-[#FF9900]" />
-                <span>amazon.com</span>
+                <span>The Life-Changing Magic of Tidying Up</span>
                 <ArrowUpRight
                   size={13}
                   className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 shrink-0"

@@ -42,9 +42,9 @@ interface ValuePillar {
 const valuePillars: ValuePillar[] = [
   {
     id: "culture-builder",
-    pretitle: "10x your TAM",
-    title: "Capture your developer market",
-    ctaSubtext: "By addressing developers' entrepreneurial needs",
+    title: "Founder, Beginner Work.",
+    ctaSubtext:
+      "Built and launched a fundraising pitch simulator as a solo founder, and validated demand through 92 in-person conversations and 28 early users.",
     coinType: "tinker",
     link: {
       href: "https://www.beginner.work",
@@ -93,9 +93,9 @@ const valuePillars: ValuePillar[] = [
   },
   {
     id: "methodical-enjoyable",
-    pretitle: "Recruit enterprise developers",
-    title: "Retain enterprise customers",
-    ctaSubtext: "By showcasing your code strategy in a portal",
+    title: "How I lead teams.",
+    ctaSubtext:
+      "Practices for incident response, AI-assisted development, and growing engineers.",
     coinType: "github",
     link: {
       href: "https://github.com/tlindow",

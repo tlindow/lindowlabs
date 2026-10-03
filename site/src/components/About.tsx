@@ -12,7 +12,7 @@ export default function About() {
             About
           </span>
           <h2 className="mt-3 font-mono text-xl sm:text-2xl md:text-3xl tracking-tight text-foreground font-bold leading-snug">
-            Elevating Developer Fintech
+            Engineering Manager, Fintech Platforms
           </h2>
         </ScrollReveal>
 
