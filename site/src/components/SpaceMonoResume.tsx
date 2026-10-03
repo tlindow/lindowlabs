@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { motion, type Variants } from "framer-motion";
 import {
   Download,
@@ -22,6 +22,44 @@ import {
 } from "@/data/resumeData";
 import { useAnalytics } from "@/context/AnalyticsProvider";
 import type { ParsedResume } from "@/lib/parseResumeMarkdown";
+
+const RESUME_INLINE_LINK_CLASS =
+  "text-foreground hover:text-indigo-dark transition-colors underline underline-offset-2";
+
+/** Turn `[text](url)` into real anchors; leave all other copy untouched. */
+function renderInlineMarkdown(text: string): ReactNode {
+  const nodes: ReactNode[] = [];
+  const linkRe = /\[([^\]]+)\]\(([^)\s]+)\)/g;
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+  let key = 0;
+
+  while ((match = linkRe.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      nodes.push(text.slice(lastIndex, match.index));
+    }
+    nodes.push(
+      <a
+        key={`md-link-${key++}`}
+        href={match[2]}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={RESUME_INLINE_LINK_CLASS}
+      >
+        {match[1]}
+      </a>,
+    );
+    lastIndex = match.index + match[0].length;
+  }
+
+  if (lastIndex < text.length) {
+    nodes.push(text.slice(lastIndex));
+  }
+
+  if (nodes.length === 0) return text;
+  if (nodes.length === 1) return nodes[0];
+  return <>{nodes}</>;
+}
 
 const FALLBACK_RAW_MARKDOWN = `# Tyler Lindow
 
@@ -315,26 +353,45 @@ export default function SpaceMonoResume({ parsedResume }: SpaceMonoResumeProps) 
             <SectionHeader title="Professional Experience" />
 
             <div className="space-y-7 sm:space-y-9">
-              {experiences.map((item) => (
+              {experiences.map((item) => {
+                const hasRoleAndCompany = Boolean(item.role && item.company);
+                const sectionHeading = item.role || item.company;
+                const hasLocationOrPeriod = Boolean(item.location || item.period);
+
+                return (
                 <div key={item.id} className="resume-experience-item">
-                  {/* Role Header: Position | Company */}
+                  {/* Role Header: Position | Company (or plain section heading) */}
                   <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
                     <h3 className="text-sm sm:text-base text-foreground font-mono flex flex-wrap items-baseline gap-2">
-                      <span className="font-bold text-foreground">{item.role}</span>
-                      <span className="text-muted text-xs">|</span>
-                      <span className="font-medium text-indigo-dark">{item.company}</span>
+                      {hasRoleAndCompany ? (
+                        <>
+                          <span className="font-bold text-foreground">{item.role}</span>
+                          <span className="text-muted text-xs">|</span>
+                          <span className="font-medium text-indigo-dark">{item.company}</span>
+                        </>
+                      ) : (
+                        <span className="font-bold text-foreground">{sectionHeading}</span>
+                      )}
                     </h3>
                   </div>
 
                   {/* Location & Period */}
-                  <p className="mt-0.5 text-xs font-mono text-muted flex flex-wrap items-center gap-2">
-                    <span className="inline-flex items-center gap-1">
-                      <MapPin size={11} className="text-indigo-dark shrink-0" />
-                      {item.location}
-                    </span>
-                    <span className="text-border select-none">|</span>
-                    <span>{item.period}{item.duration ? ` (${item.duration})` : ""}</span>
-                  </p>
+                  {hasLocationOrPeriod && (
+                    <p className="mt-0.5 text-xs font-mono text-muted flex flex-wrap items-center gap-2">
+                      {item.location ? (
+                        <span className="inline-flex items-center gap-1">
+                          <MapPin size={11} className="text-indigo-dark shrink-0" />
+                          {item.location}
+                        </span>
+                      ) : null}
+                      {item.location && item.period ? (
+                        <span className="text-border select-none">|</span>
+                      ) : null}
+                      {item.period ? (
+                        <span>{item.period}{item.duration ? ` (${item.duration})` : ""}</span>
+                      ) : null}
+                    </p>
+                  )}
 
                   {/* Bullets with Summary Callout */}
                   <ul className="mt-2.5 space-y-2.5 text-xs sm:text-sm font-mono text-muted leading-loose pl-0.5">
@@ -344,8 +401,10 @@ export default function SpaceMonoResume({ parsedResume }: SpaceMonoResumeProps) 
                         return (
                           <li key={bIdx} className="list-none pt-0.5 pb-1">
                             <div className="text-xs sm:text-sm font-mono text-foreground/90 bg-surface-alt/70 p-3 rounded-xl border-l-2 border-indigo-dark">
-                              <strong className="font-bold text-foreground mr-1.5">{bullet.category}:</strong>
-                              <span>{bullet.text}</span>
+                              <strong className="font-bold text-foreground mr-1.5">
+                                {renderInlineMarkdown(`${bullet.category}:`)}
+                              </strong>
+                              <span>{renderInlineMarkdown(bullet.text)}</span>
                             </div>
                           </li>
                         );
@@ -356,17 +415,20 @@ export default function SpaceMonoResume({ parsedResume }: SpaceMonoResumeProps) 
                           <div>
                             {bullet.category && (
                               <strong className="font-bold text-foreground mr-1">
-                                {bullet.category}:
+                                {renderInlineMarkdown(`${bullet.category}:`)}
                               </strong>
                             )}
-                            <span className="text-foreground/85">{bullet.text}</span>
+                            <span className="text-foreground/85">
+                              {renderInlineMarkdown(bullet.text)}
+                            </span>
                           </div>
                         </li>
                       );
                     })}
                   </ul>
                 </div>
-              ))}
+                );
+              })}
             </div>
           </motion.section>
 

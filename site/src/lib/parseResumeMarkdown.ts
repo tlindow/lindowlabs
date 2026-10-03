@@ -194,7 +194,10 @@ export function parseResumeMarkdown(markdownText: string): ParsedResume {
         let category: string | undefined = undefined;
         let text = bulletContent;
 
-        const categoryMatch = bulletContent.match(/^\*\*([^*]+?):\*\*\s*(.*)$/);
+        // Allow markdown links inside the bold label (URLs contain ':').
+        const categoryMatch = bulletContent.match(
+          /^\*\*((?:(?!\*\*).)+):\*\*\s*(.*)$/,
+        );
         if (categoryMatch) {
           category = categoryMatch[1].trim();
           text = categoryMatch[2].trim();
@@ -203,6 +206,7 @@ export function parseResumeMarkdown(markdownText: string): ParsedResume {
         currentExp.bullets = currentExp.bullets || [];
         currentExp.bullets.push({
           category,
+          // Keep [text](url) for the resume renderer; strip leftover bold only.
           text: text.replace(/\*\*(.*?)\*\*/g, "$1"),
         });
       }
