@@ -4,25 +4,23 @@ import SpaceMonoResume from "@/components/SpaceMonoResume";
 import Navbar from "@/components/Navbar";
 import PageAudioPlayer from "@/components/PageAudioPlayer";
 import { PAGE_AUDIO_ENABLED, pageAudio, pageAudioLabel } from "@/data/pageAudio";
+import { FORMATION_SUMMARY, HEADLINE } from "@/data/positioning";
 import { parsedResume } from "@/data/resumeMarkdown";
 
 export const metadata: Metadata = {
-  title: "Resume | Tyler Lindow (Engineering Manager | Fintech Platform & 0→1 | Ex-Founder)",
-  description:
-    "Fintech engineering manager with 6+ years at Affirm across Partner Engineering, merchant onboarding, and marketing products. Ex-founder (Beginner Work Inc.).",
+  title: `Resume | Tyler Lindow (${HEADLINE})`,
+  description: FORMATION_SUMMARY,
   openGraph: {
-    title: "Resume | Tyler Lindow (Engineering Manager | Fintech Platform & 0→1 | Ex-Founder)",
-    description:
-      "Fintech engineering manager with 6+ years at Affirm across Partner Engineering, merchant onboarding, and marketing products. Ex-founder (Beginner Work Inc.).",
+    title: `Resume | Tyler Lindow (${HEADLINE})`,
+    description: FORMATION_SUMMARY,
     url: "https://tlindow.github.io/resume",
     siteName: "Tyler Lindow",
     type: "profile",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Resume | Tyler Lindow (Engineering Manager | Fintech Platform & 0→1 | Ex-Founder)",
-    description:
-      "Fintech engineering manager with 6+ years at Affirm across Partner Engineering, merchant onboarding, and marketing products. Ex-founder (Beginner Work Inc.).",
+    title: `Resume | Tyler Lindow (${HEADLINE})`,
+    description: FORMATION_SUMMARY,
   },
 };
 

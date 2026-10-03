@@ -209,19 +209,15 @@ export const experiences: ExperienceEntry[] = [
     id: "beginner",
     company: "Beginner Work Inc.",
     role: "Founder",
-    locationAndPeriod: "San Diego, CA | Mar 2026 – Jul 2026",
+    locationAndPeriod: "San Diego, CA | Mar 2026 – Jul 2026 (wound down before a raise)",
     bullets: [],
   },
   {
     id: "affirm-swe-mgr",
     company: "Affirm",
     role: "Software Engineering Manager (L7), Merchant Advocacy",
-    locationAndPeriod: "San Diego, CA (Remote) | Mar 2025 – Feb 2026",
+    locationAndPeriod: "San Diego, CA (Remote) | Mar 2025 – Feb 2026 (role eliminated)",
     bullets: [
-      {
-        tag: "Top of funnel:",
-        text: "Company-scale engineering management for the affirm.com marketing surface.",
-      },
       {
         tag: "Merchant portal:",
         text: "Company-scale engineering management for the enterprise B2B portal developers and merchants trust.",
@@ -231,7 +227,7 @@ export const experiences: ExperienceEntry[] = [
   {
     id: "affirm-dse-mgr",
     company: "Affirm",
-    role: "Developer Support Engineering Manager (L6 → L7), Partner Engineering",
+    role: "Developer Support Engineering Manager (L6 to L7), Partner Engineering",
     locationAndPeriod: "San Diego, CA (Remote) | Jul 2021 – Mar 2025",
     bullets: [
       {
@@ -247,7 +243,7 @@ export const experiences: ExperienceEntry[] = [
   {
     id: "affirm-dse",
     company: "Affirm",
-    role: "Developer Support Engineer (L4 → L5), Partner Engineering",
+    role: "Developer Support Engineer (L4 to L5), Partner Engineering",
     locationAndPeriod: "San Francisco, CA (Hybrid) | Sep 2019 – Jul 2021",
     bullets: [
       {
