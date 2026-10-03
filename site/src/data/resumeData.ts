@@ -219,10 +219,6 @@ export const experiences: ExperienceEntry[] = [
     locationAndPeriod: "San Diego, CA (Remote) | Mar 2025 – Feb 2026",
     bullets: [
       {
-        tag: "Top of funnel:",
-        text: "Company-scale engineering management for the affirm.com marketing surface.",
-      },
-      {
         tag: "Merchant portal:",
         text: "Company-scale engineering management for the enterprise B2B portal developers and merchants trust.",
       },

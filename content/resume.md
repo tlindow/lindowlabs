@@ -9,7 +9,7 @@ San Diego, CA | Open to relocation
 
 ## Summary
 
-Fintech engineering manager who grew Affirm’s developer-support engineering from 1 to 9 engineers and turned it into a software engineering team (Merchant Advocacy Engineering), then led it on Merchant Portal and affirm.com. 6+ years at Affirm across Partner Engineering and marketing products, including leading the developer-support engineering team supporting Affirm’s flagship partner integration with Amazon. Ex-founder (Beginner Work Inc.). Targeting Engineering Manager / Senior EM roles in fintech (payments, platform/DevX, partner integrations).
+Fintech engineering manager who grew Affirm’s developer-support engineering from 1 to 9 engineers and turned it into a software engineering team (Merchant Advocacy Engineering), then led it on Merchant Portal. 6+ years at Affirm across Partner Engineering and marketing products, including leading the developer-support engineering team supporting Affirm’s flagship partner integration with Amazon. Ex-founder (Beginner Work Inc.). Targeting Engineering Manager / Senior EM roles in fintech (payments, platform/DevX, partner integrations).
 
 ---
 
@@ -30,9 +30,10 @@ Fintech engineering manager who grew Affirm’s developer-support engineering fr
 
 *San Diego, CA (Remote) | Mar 2025 – Feb 2026*
 
-- **Scope:** Led the former developer-support team as Merchant Advocacy Engineering (6 engineers), a product engineering team partnering with Product, Design, and Content. Owned Merchant Portal (React, TypeScript), the API-key and transaction-view surface for merchants integrated via ecommerce platforms or direct API. Took over affirm.com after a peer EM departed, with no backfill.
+- **Scope:** Led the former developer-support team as Merchant Advocacy Engineering (6 engineers), a product engineering team partnering with Product, Design, and Content. Owned Merchant Portal (React, TypeScript), the API-key and transaction-view surface for merchants integrated via ecommerce platforms or direct API.
+- **Support-to-engineering transition:** Hired a SWE I and onboarded a Staff SWE and a contractor. Kept taking Tier-2 escalations, but in an advisory role: coached Tier-2 support to self-serve in Snowflake and work directly with the ecommerce platform teams where most issues started. That cut the team's requirement-translation work and moved 50%+ of its time to building in the codebase.
 - **Merchant Portal reliability:** Raised availability 99.7% → 99.9% in one quarter by clearing long-standing bugs and errant or mislabeled 5xx status codes, unblocking an Intuit launch covering hundreds of thousands of new merchants; ran weekly AI-tooling sessions to find and remove unused code paths.
-- **People leadership:** Raised the performance bar mid-role, reshaping a 9-engineer team to 6 by managing two underperformers (one a below-level tech lead) through to exits and moving one engineer to a better-fit team.
+- **People leadership:** Raised the performance bar mid-role, reshaping a 9-engineer team to 6: managed two underperformers (one a below-level tech lead) through Poland’s labor-law termination process and moved one engineer to a better-fit team. Then moved the team to Kanban with incidents always at the top of the board, which cut confusion in check-ins and got more work delivered on time.
 
 
 
@@ -43,7 +44,6 @@ Fintech engineering manager who grew Affirm’s developer-support engineering fr
 - **Support to software engineering:** Set the goal of turning developer support into a software engineering team: grew the function from 1 to 9 engineers, owned interview rubrics and early-team hiring decisions, and shifted Tier-1/Tier-2 load to operations so the team could become the Merchant Advocacy software engineering team.
 - **Amazon, flagship partner:** Led the developer-support engineering team for Affirm’s flagship partner, Amazon, across checkout and confirmation-flow integrations via partner REST APIs and webhooks; with Sales Engineers, Technical Writers, and plugin partners, delivered the Snowflake-based availability report that kept Affirm in compliance with Amazon partnership requirements.
 - **People development:** Delivered 2 promotions, including a junior engineer to intermediate in ~1 year who then moved into product-building engineering. Ran monthly career-growth reviews across the 9-engineer team.
-- **Partner APIs & strategic merchants:** Supported strategic merchant accounts across the same checkout and confirmation-flow integrations; shared metrics dashboards with Partner APIs and SRE to coordinate incident response across application code, infrastructure, and communications.
 - **Observability:** Built per-merchant dashboards and alerting that cut detection time for higher-volume merchant-scoped outages to under 5 minutes (previously 20 minutes–2 hours unnoticed).
 
 
