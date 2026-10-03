@@ -2,11 +2,9 @@
 
 *Reflections on the affirm.com redesign and engineering perseverance in the age of AI.*
 
-> Source: [gist.github.com/tlindow/7a0669f9e513d9f8d2fe13b5467de034](https://gist.github.com/tlindow/7a0669f9e513d9f8d2fe13b5467de034)
-
 ---
 
-In October of 2025, we revamped the affirm.com marketing website in order to create design continuity between web and mobile apps and drive more conversion for the ~1M monthly viewers of the site.
+In October of 2025, we revamped the affirm.com marketing website in order to create design continuity between web and mobile apps and drive more conversion.
 
 It was a lot of intense focus for engineers on my team and, frankly, one too many late nights to get this done. What I told my team at the end of all the scoping, collaboration, and execution that was put into the program, I shared with the core developer group:
 

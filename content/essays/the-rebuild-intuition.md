@@ -22,7 +22,7 @@ How do you develop the intuition for when to stop patching and rebuild? Look for
 2. **Cascading Side Effects**: When fixing a bug in one module silently degrades an unrelated subsystem across the boundary.
 3. **Operational Drag**: When senior engineers are spending more than 15% of their weekly bandwidth babysitting flaky cron jobs, manual data reconciliations, or tier-2 support queues.
 
-At Affirm, our merchant operations team was losing 16+ hours every month to manual SLA reporting toil. We didn't add another script to the cron pile. We stopped, diagnosed the structural breakdown, and built an automated real-time SLA reporting engine that eliminated 80% of operational interventions permanently.
+At Affirm, monthly SLA reports for our merchants took ~2 weeks to turn around. We didn't add another script to the cron pile. We stopped, diagnosed the structural breakdown, and released an SLA reporting feature in Merchant Portal that let Technical Account Managers share SLA reports directly with their merchants, cutting each report's turnaround to ~1 week.
 
 ## Rebuilding is Not Reckless; It is Disciplined
 

@@ -63,7 +63,7 @@ function renderInlineMarkdown(text: string): ReactNode {
 
 const FALLBACK_RAW_MARKDOWN = `# Tyler Lindow
 
-**Engineering Manager | Fintech Platform & 0-to-1 | Ex-Founder**  
+**Engineering Manager | Fintech platform, merchant & partner integrations | Ex-Affirm | Ex-founder**  
 San Diego, CA | Open to relocation  
 (650) 580-5788 | [tyler.lindow@gmail.com](mailto:tyler.lindow@gmail.com)  
 [linkedin.com/in/tlindow](https://linkedin.com/in/tlindow) | [github.com/tlindow](https://github.com/tlindow)

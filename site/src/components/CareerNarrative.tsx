@@ -68,8 +68,8 @@ export default function CareerNarrative() {
           {HEADLINE}
         </h1>
         <p className="text-sm sm:text-base text-muted leading-relaxed max-w-2xl">
-          The working resume is maintained in Formation. This page repeats that
-          summary and keeps experience lean.
+          The working resume is at /resume. This page repeats that summary and
+          keeps experience lean.
         </p>
       </header>
 
