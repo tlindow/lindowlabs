@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
-import LeadersAudio from "@/components/leaders/LeadersAudio";
 import LeadersHero from "@/components/leaders/LeadersHero";
 import LeadersEssay from "@/components/leaders/LeadersEssay";
 
@@ -32,7 +31,6 @@ export default function LeadersPage() {
 
       <div className="no-print w-full">
         <main className="w-full">
-          <LeadersAudio />
           <LeadersHero />
           <LeadersEssay />
         </main>

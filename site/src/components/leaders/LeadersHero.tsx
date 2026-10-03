@@ -3,7 +3,7 @@
 import { Calendar } from "lucide-react";
 import ScrollReveal from "@/components/animations/ScrollReveal";
 
-const CALENDLY_URL = "https://calendly.com/tylerlindow/connect";
+const CALENDLY_URL = "https://calendly.com/tylerlindow/get-your-time-back";
 
 export default function LeadersHero() {
   return (
