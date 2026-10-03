@@ -46,8 +46,8 @@ Create the following parameters with default values:
 |---|---|---|---|
 | `recruit_cta_label` | String | `Let's talk` | CTA button text across navbar, hero, and floating trigger |
 | `recruit_cta_style` | String | `forest_solid` | Visual style (`forest_solid`, `pulse_accent`, `sprout_glow`, `high_contrast`) |
-| `hero_headline_variant` | String | `Engineering Manager, Developer Fintech` | Main hero H1 text |
-| `hero_subtitle_variant` | String | `Elevating Developer Fintech: engineering leadership for merchant platforms, partner integrations, and enterprise B2B portals.` | Hero subtitle text |
+| `hero_headline_variant` | String | `Engineering Manager, Fintech Platforms` | Main hero H1 text |
+| `hero_subtitle_variant` | String | `Engineering manager for fintech platforms and merchant and partner integrations. 6+ years at Affirm, then founder of Beginner Work.` | Hero subtitle text |
 
 ---
 
@@ -58,26 +58,26 @@ The codebase includes 4 tested content variation presets ready for A/B testing:
 ### Preset 1: Baseline / Control
 - **`recruit_cta_label`**: `"Let's talk"`
 - **`recruit_cta_style`**: `"forest_solid"`
-- **`hero_headline_variant`**: `"Engineering Manager, Developer Fintech"`
-- **`hero_subtitle_variant`**: `"Elevating Developer Fintech: engineering leadership for merchant platforms, partner integrations, and enterprise B2B portals."`
+- **`hero_headline_variant`**: `"Engineering Manager, Fintech Platforms"`
+- **`hero_subtitle_variant`**: `"Engineering manager for fintech platforms and merchant and partner integrations. 6+ years at Affirm, then founder of Beginner Work."`
 
 ### Preset 2: Action-Oriented (Developer Framing)
 - **`recruit_cta_label`**: `"Let's talk"`
 - **`recruit_cta_style`**: `"pulse_accent"` *(Pulsing glowing ring)*
-- **`hero_headline_variant`**: `"Engineering Manager, Developer Fintech"`
-- **`hero_subtitle_variant`**: `"Elevating Developer Fintech: engineering leadership for merchant platforms, partner integrations, and enterprise B2B portals."`
+- **`hero_headline_variant`**: `"Engineering Manager, Fintech Platforms"`
+- **`hero_subtitle_variant`**: `"Engineering manager for fintech platforms and merchant and partner integrations. 6+ years at Affirm, then founder of Beginner Work."`
 
 ### Preset 3: Low-Friction (Approachability & Networking)
 - **`recruit_cta_label`**: `"Connect on LinkedIn"`
 - **`recruit_cta_style`**: `"sprout_glow"` *(Soft green glow with shadow)*
-- **`hero_headline_variant`**: `"Engineering Manager, Developer Fintech"`
+- **`hero_headline_variant`**: `"Engineering Manager, Fintech Platforms"`
 - **`hero_subtitle_variant`**: `"ex-Affirm, ex-founder"`
 
 ### Preset 4: Executive Authority (High Track Record)
 - **`recruit_cta_label`**: `"Hire Fintech Product-Eng PM"`
 - **`recruit_cta_style`**: `"high_contrast"` *(Bold monochrome dark badge)*
-- **`hero_headline_variant`**: `"Engineering Manager, Developer Fintech"`
-- **`hero_subtitle_variant`**: `"Elevating Developer Fintech: engineering leadership for merchant platforms, partner integrations, and enterprise B2B portals."`
+- **`hero_headline_variant`**: `"Engineering Manager, Fintech Platforms"`
+- **`hero_subtitle_variant`**: `"Engineering manager for fintech platforms and merchant and partner integrations. 6+ years at Affirm, then founder of Beginner Work."`
 
 ---
 

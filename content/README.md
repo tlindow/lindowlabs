@@ -10,7 +10,7 @@ This directory serves as Tyler's **personal journal, essay drafts, and polished 
 | :--- | :--- | :--- |
 | [`typing_is_learning.md`](./typing_is_learning.md) | **Essay / Manifesto** | On the irreplaceable role of manual typing in learning and engineering intuition. |
 | [`what_you_get_if_you_buy_me.md`](./what_you_get_if_you_buy_me.md) | **Value Proposition / Manifesto** | The core ROI, executive presence, and unique cultural perspective brought to engineering leadership. |
-| [`resume.md`](./resume.md) | **Historical draft** | Formation (Latest Ready) owns the working resume. The site tells the public story and does not treat this file as a second master. |
+| [`resume.md`](./resume.md) | **Historical draft** | The working resume is at `/resume` on the site. This file is not treated as a second master. |
 
 ---
 

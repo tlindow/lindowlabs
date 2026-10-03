@@ -6,12 +6,10 @@ import { ArrowLeft, Sparkles } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Story deck: Tyler Lindow",
-  description:
-    "Lean public story for Tyler Lindow. The working resume is maintained in Formation.",
+  description: "Lean public story for Tyler Lindow. The working resume is at /resume.",
   openGraph: {
     title: "Story deck: Tyler Lindow",
-    description:
-      "Lean public story for Tyler Lindow. The working resume is maintained in Formation.",
+    description: "Lean public story for Tyler Lindow. The working resume is at /resume.",
     url: "https://tlindow.github.io/modules",
     siteName: "Tyler Lindow",
     type: "website",
@@ -19,8 +17,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Story deck: Tyler Lindow",
-    description:
-      "Lean public story for Tyler Lindow. The working resume is maintained in Formation.",
+    description: "Lean public story for Tyler Lindow. The working resume is at /resume.",
   },
 };
 
@@ -42,7 +39,7 @@ export default function ResumeModulesPage() {
               Story deck
             </h1>
             <p className="mt-1 text-xs sm:text-sm text-[#5F6368] font-mono">
-              A lean public story. The working resume is maintained in Formation.
+              A lean public story. The working resume is at /resume.
             </p>
           </div>
 

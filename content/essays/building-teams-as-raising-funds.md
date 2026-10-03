@@ -1,8 +1,8 @@
 [Decision] This work of building teams by raising the funding potential of an individual doesn't happen by mistake, and it also does not happen quickly.
 
-[Result] During my first years as an engineering manager in 2022, I promoted a junior engineer to an intermediate position in about 1 year. A few years later, this person was promoted again from a support engineer to a product-building engineer. And through the span of my time managing this person, they received multiple raises and equity grants for their ability to get critical projects over the line and build the organizational intelligence of the team while doing it.
+[Result] During my first years as an engineering manager, I promoted a junior engineer to an intermediate position in about 1 year. A few years later, this person moved from support engineering into product-building engineering. And through the span of my time managing this person, they kept getting critical projects over the line and building the organizational intelligence of the team while doing it.
 
-[Result] Over my tenure at Affirm, I had seen the team grow from one (me and one other person) to nine through hiring and the acquisition of engineers from other teams.
+[Result] Over my tenure at Affirm, my team grew from 1 to 9 engineers, through hiring and 5 engineers who joined through reorgs.
 
 [How I led it] Every week, I checked in with this engineer, giving them a space to process their work challenges and come up with paths forward that aligned with growing the business. Every month, I conducted career growth sessions, giving them a space to consider ways they could invest more in themselves and ultimately in the business.
 

@@ -23,27 +23,27 @@ export const VARIANT_PRESETS: Record<string, RemoteConfigValues> = {
   baseline: {
     recruit_cta_label: "Let's talk",
     recruit_cta_style: "forest_solid",
-    hero_headline_variant: "Engineering leadership for fintech platforms",
+    hero_headline_variant: "Engineering Manager, Fintech Platforms",
     hero_subtitle_variant:
       "Engineering manager for fintech platforms and merchant and partner integrations. 6+ years at Affirm, then founder of Beginner Work.",
   },
   action_oriented: {
     recruit_cta_label: "Let's talk",
     recruit_cta_style: "pulse_accent",
-    hero_headline_variant: "Engineering leadership for fintech platforms",
+    hero_headline_variant: "Engineering Manager, Fintech Platforms",
     hero_subtitle_variant:
       "Engineering manager for fintech platforms and merchant and partner integrations. 6+ years at Affirm, then founder of Beginner Work.",
   },
   low_friction: {
     recruit_cta_label: "Connect on LinkedIn",
     recruit_cta_style: "sprout_glow",
-    hero_headline_variant: "Engineering leadership for fintech platforms",
+    hero_headline_variant: "Engineering Manager, Fintech Platforms",
     hero_subtitle_variant: "ex-Affirm, ex-founder",
   },
   executive_authority: {
     recruit_cta_label: "Hire Fintech Product-Eng PM",
     recruit_cta_style: "high_contrast",
-    hero_headline_variant: "Engineering leadership for fintech platforms",
+    hero_headline_variant: "Engineering Manager, Fintech Platforms",
     hero_subtitle_variant:
       "Engineering manager for fintech platforms and merchant and partner integrations. 6+ years at Affirm, then founder of Beginner Work.",
   },

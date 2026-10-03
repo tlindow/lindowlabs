@@ -8,7 +8,7 @@ export const SITE_SHARE_TITLE = `Tyler Lindow | ${SITE_TITLE}`;
 export const SITE_SUPPORT =
   "Engineering manager for fintech platforms and merchant and partner integrations. 6+ years at Affirm, then founder of Beginner Work.";
 
-/** Locked Formation Latest Ready copy. Use verbatim on the lean narrative; do not paraphrase metrics. */
+/** Locked public resume summary. Use verbatim on the lean narrative; do not paraphrase metrics. */
 export const HEADLINE =
   "Engineering Manager | Fintech platform, merchant & partner integrations | Ex-Affirm | Ex-founder";
 

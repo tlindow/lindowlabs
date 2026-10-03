@@ -42,7 +42,7 @@ export interface BlogPost {
 
 const defaultAuthor = {
   name: "Tyler Lindow",
-    role: "Engineering Manager | Fintech Platform & 0→1 | Ex-Founder",
+    role: "Engineering Manager | Fintech platform, merchant & partner integrations | Ex-Affirm | Ex-founder",
   avatar: "/IMG_0548.jpeg",
   handle: "@tlindow",
   linkedin: "https://www.linkedin.com/in/tlindow",
@@ -67,9 +67,9 @@ export const blogPosts: BlogPost[] = [
       "Perseverance",
     ],
     summary:
-      "In October of 2025, we revamped the affirm.com marketing website in order to create design continuity between web and mobile apps and drive more conversion for the ~1M monthly viewers of the site.",
+      "In October of 2025, we revamped the affirm.com marketing website in order to create design continuity between web and mobile apps and drive more conversion.",
     previewText:
-      "In October of 2025, we revamped the affirm.com marketing website in order to create design continuity between web and mobile apps and drive more conversion for the ~1M monthly viewers of the site.",
+      "In October of 2025, we revamped the affirm.com marketing website in order to create design continuity between web and mobile apps and drive more conversion.",
     slides: [
       {
         id: 1,
@@ -114,7 +114,7 @@ export const blogPosts: BlogPost[] = [
       "Reliability",
     ],
     summary:
-      "In September of 2025, I took the lead to bring more cohesion across the merchant engineering organization at Affirm to develop the merchant lifecycle orchestrator deployable target.",
+      "In 2025, I took the lead to bring more cohesion across Partner and Merchant Engineering at Affirm through a merchant-domain architecture review that set which team owns which merchant data.",
     previewText:
       "Building system architecture is too often seen as simply a requirement to appease enterprise customers. System architecture, along with any technical debt work, is always an act of building the core product.",
     slides: [
@@ -128,7 +128,7 @@ export const blogPosts: BlogPost[] = [
         id: 2,
         slideNumber: "02/03",
         quote:
-          "By December of 2025, we had director sign-off on the architecture.",
+          "We got sign-off from 2 Directors, the Principal Architect, and every team's EM.",
       },
       {
         id: 3,
@@ -138,8 +138,6 @@ export const blogPosts: BlogPost[] = [
       },
     ],
     content: [],
-    audioSrc: "/audio/pages/blog-building-product-as-system-architecture.mp3",
-    audioDurationSeconds: 57.91,
   },
   {
     id: "velocity-labs",
@@ -206,7 +204,7 @@ export const blogPosts: BlogPost[] = [
       "Career Growth",
     ],
     summary:
-      "During my first years as an engineering manager in 2022, I promoted a junior engineer to an intermediate position in about 1 year. Over my tenure at Affirm, I had seen the team grow from one to nine.",
+      "During my first years as an engineering manager, I promoted a junior engineer to an intermediate position in about 1 year. Over my tenure at Affirm, my team grew from 1 to 9 engineers.",
     previewText:
       "Building teams by raising the funding potential of an individual doesn't happen by mistake and it also does not happen quickly. Raising funds for your position requires an intentional process, and one that is not taken for granted.",
     slides: [
@@ -230,8 +228,6 @@ export const blogPosts: BlogPost[] = [
       },
     ],
     content: [],
-    audioSrc: "/audio/pages/blog-building-teams-as-raising-funds.mp3",
-    audioDurationSeconds: 54.05,
   },
   {
     id: "over-index-on-intuition",
