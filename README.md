@@ -31,7 +31,7 @@ This repository is structured into three clear pillars:
 
 The live narrative is on [tlindow.github.io](https://tlindow.github.io). The working resume is maintained in Formation (Latest Ready).
 
-- **Summary:** Fintech engineering manager with 4+ years leading teams of up to 9 software engineers at Affirm. Cut detection of higher-volume merchant outages from 20 minutes–2 hours to under 5, and held Merchant Portal at 99.9% availability with zero incidents during BFCM 2025. Ex-founder (Beginner Work Inc.). Targeting Engineering Manager / Senior EM roles in fintech (payments, platform/DevX, partner integrations).
+- **Summary:** Fintech engineering manager with 4+ years leading teams of up to 9 engineers at Affirm. Cut detection of higher-volume merchant outages from 20 minutes–2 hours to under 5, and held Merchant Portal at 99.9% availability with zero incidents during BFCM 2025. Ex-founder (Beginner Work Inc.). Targeting Engineering Manager / Senior EM roles in fintech (payments, platform/DevX, partner integrations).
 - **Beginner | Founder** — Mar 2026 – Jul 2026 (dates only on the public narrative).
 - **Affirm** carries the experience: engineering management for top-of-funnel marketing and the enterprise merchant portal, then partner engineering.
 - **About** on the site uses that Formation summary verbatim. Beginner stays dates-only on the lean narrative. Affirm carries the experience.
