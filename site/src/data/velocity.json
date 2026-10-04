@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-04T06:46:48.518Z",
+  "generatedAt": "2026-10-04T16:51:37.122Z",
   "beginnerIncluded": false,
   "repos": [
     {
@@ -19,8 +19,8 @@
     }
   ],
   "headline": {
-    "prsLast7Days": 155,
-    "weeklyAverage4Weeks": 42.5,
+    "prsLast7Days": 161,
+    "weeklyAverage4Weeks": 44,
     "medianHoursToMerge4Weeks": 0.2
   },
   "weeks": [
@@ -83,13 +83,49 @@
     {
       "weekStart": "2026-09-28",
       "counts": {
-        "lindowlabs": 32,
-        "tinker": 123,
+        "lindowlabs": 36,
+        "tinker": 125,
         "beginner": 0
       }
     }
   ],
   "recentShipped": [
+    {
+      "title": "Make This is everything save with visible feedback",
+      "repo": "tinker",
+      "mergedAt": "2026-10-04",
+      "url": "https://github.com/beginner-work/tinker/pull/454"
+    },
+    {
+      "title": "Remove Engineering leadership back link from Velocity and Learning",
+      "repo": "lindowlabs",
+      "mergedAt": "2026-10-04",
+      "url": "https://github.com/tlindow/lindowlabs/pull/72"
+    },
+    {
+      "title": "Tighten schedule-time hero spacing after back-link removal",
+      "repo": "lindowlabs",
+      "mergedAt": "2026-10-04",
+      "url": "https://github.com/tlindow/lindowlabs/pull/71"
+    },
+    {
+      "title": "Add Velocity and Learning to the sticky top nav",
+      "repo": "lindowlabs",
+      "mergedAt": "2026-10-04",
+      "url": "https://github.com/tlindow/lindowlabs/pull/70"
+    },
+    {
+      "title": "Pin mobile Keep crafting above the home indicator",
+      "repo": "tinker",
+      "mergedAt": "2026-10-04",
+      "url": "https://github.com/beginner-work/tinker/pull/453"
+    },
+    {
+      "title": "Add /velocity and /learning homepage leaf pages",
+      "repo": "lindowlabs",
+      "mergedAt": "2026-10-04",
+      "url": "https://github.com/tlindow/lindowlabs/pull/69"
+    },
     {
       "title": "Keep sticky top nav fully visible at scroll 0",
       "repo": "lindowlabs",
@@ -125,42 +161,6 @@
       "repo": "tinker",
       "mergedAt": "2026-10-04",
       "url": "https://github.com/beginner-work/tinker/pull/449"
-    },
-    {
-      "title": "Use tyler@lindowlabs.dev sitewide; blur resume personal email",
-      "repo": "lindowlabs",
-      "mergedAt": "2026-10-04",
-      "url": "https://github.com/tlindow/lindowlabs/pull/65"
-    },
-    {
-      "title": "Continuous /repo page scroll + styled Keep crafting questions",
-      "repo": "tinker",
-      "mergedAt": "2026-10-04",
-      "url": "https://github.com/beginner-work/tinker/pull/448"
-    },
-    {
-      "title": "Fix Keep crafting inline scroll + sign-in on /repo",
-      "repo": "tinker",
-      "mergedAt": "2026-10-04",
-      "url": "https://github.com/beginner-work/tinker/pull/447"
-    },
-    {
-      "title": "Fix Location place select + floating island over the pad",
-      "repo": "tinker",
-      "mergedAt": "2026-10-04",
-      "url": "https://github.com/beginner-work/tinker/pull/446"
-    },
-    {
-      "title": "Remove Velocity Labs from published pitch",
-      "repo": "lindowlabs",
-      "mergedAt": "2026-10-04",
-      "url": "https://github.com/tlindow/lindowlabs/pull/64"
-    },
-    {
-      "title": "Remove affirm.com redesign from published pitch",
-      "repo": "lindowlabs",
-      "mergedAt": "2026-10-04",
-      "url": "https://github.com/tlindow/lindowlabs/pull/62"
     }
   ]
 }
