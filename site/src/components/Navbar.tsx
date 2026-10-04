@@ -8,7 +8,7 @@ import { LinkedInIcon } from "@/components/brand/PartnerLogos";
 import { useNavbarActions } from "@/context/NavbarActions";
 
 const NAV_LINKS = [
-  { href: "/velocity", label: "Velocity" },
+  { href: "/visitors", label: "Visitors" },
   { href: "/learning", label: "Learning" },
 ] as const;
 
