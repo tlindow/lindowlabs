@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Space_Mono, Silkscreen, Fraunces } from "next/font/google";
+import SiteChrome from "@/components/SiteChrome";
 import { AnalyticsProvider } from "@/context/AnalyticsProvider";
 import { SITE_SHARE_TITLE, SITE_SUPPORT, SITE_TITLE } from "@/data/positioning";
 import "./globals.css";
@@ -98,7 +99,9 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${spaceMono.variable} ${silkscreen.variable} ${fraunces.variable} font-mono antialiased bg-background text-foreground selection:bg-indigo-light selection:text-indigo-dark`}
       >
-        <AnalyticsProvider>{children}</AnalyticsProvider>
+        <AnalyticsProvider>
+          <SiteChrome>{children}</SiteChrome>
+        </AnalyticsProvider>
       </body>
     </html>
   );

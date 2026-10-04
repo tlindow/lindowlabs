@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import Navbar from "@/components/Navbar";
 import PageAudioPlayer from "@/components/PageAudioPlayer";
 import LabeledBody from "@/components/blog/LabeledBody";
 import { blogPosts, getAdjacentPosts, getBlogPostBySlug } from "@/data/blogPosts";
@@ -62,10 +61,8 @@ export default async function BlogPostPage({ params }: Props) {
 
   return (
     <div className="min-h-screen bg-background text-foreground selection:bg-indigo-light selection:text-indigo-dark font-mono flex flex-col justify-between">
-      <Navbar />
-
-      <main className="w-full max-w-3xl mx-auto px-4 sm:px-6 pt-24 sm:pt-32 pb-20 sm:pb-32 flex-1">
-        {/* Back Navigation */}
+      <main className="w-full max-w-3xl mx-auto px-4 sm:px-6 pt-10 sm:pt-14 pb-20 sm:pb-32 flex-1">
+        {/* Section nav within blog (not a site chrome back link) */}
         <div className="mb-10">
           <Link
             href="/blog"
@@ -182,13 +179,6 @@ export default async function BlogPostPage({ params }: Props) {
               </Link>
             ) : null}
           </div>
-          <Link
-            href="/"
-            className="inline-flex items-center gap-1.5 font-bold text-indigo-dark hover:text-indigo-dark/80 transition-colors w-fit"
-          >
-            <ArrowLeft size={14} />
-            <span>Back to home</span>
-          </Link>
         </div>
       </main>
     </div>

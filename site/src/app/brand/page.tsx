@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { brandMarks, type BrandMark } from "@/components/brand/marks";
 import MarkDownload from "@/components/brand/MarkDownload";
 
@@ -106,15 +105,9 @@ function MarkCard({ mark, index }: { mark: BrandMark; index: number }) {
 export default function BrandPage() {
   return (
     <main className="min-h-screen bg-background">
-      <div className="mx-auto max-w-5xl px-4 sm:px-6 py-16 sm:py-24">
+      <div className="mx-auto max-w-5xl px-4 sm:px-6 py-10 sm:py-16">
         <header className="mb-12 sm:mb-16">
-          <Link
-            href="/"
-            className="text-xs font-medium tracking-widest uppercase text-muted hover:text-foreground transition-colors"
-          >
-            ← Lindow Labs
-          </Link>
-          <h1 className="mt-6 font-display text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-foreground">
+          <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-foreground">
             Brand Marks
           </h1>
           <p className="mt-4 max-w-2xl text-base sm:text-lg leading-relaxed text-muted">

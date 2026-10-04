@@ -3,7 +3,6 @@
 import { useEffect, useRef, useCallback } from "react";
 import { useScroll, useMotionValue, useSpring } from "framer-motion";
 import { FileText } from "lucide-react";
-import Navbar from "@/components/Navbar";
 import PageAudioPlayer from "@/components/PageAudioPlayer";
 import {
   TrustedPartnersBar,
@@ -16,6 +15,7 @@ import ScrollMorphAvatar, {
   HERO_PIN_SCROLL_DISTANCE,
 } from "@/components/animations/ScrollMorphAvatar";
 import { useAnalytics } from "@/context/AnalyticsProvider";
+import { useRegisterReturnToHero } from "@/context/NavbarActions";
 import { PAGE_AUDIO_ENABLED, pageAudio, pageAudioLabel } from "@/data/pageAudio";
 import { SITE_SUPPORT } from "@/data/positioning";
 
@@ -222,7 +222,7 @@ export default function Home() {
     };
   }, []);
 
-  const handleReturnToHero = () => {
+  const handleReturnToHero = useCallback(() => {
     hasReachedContactRef.current = true;
     wasAtTopRef.current = false;
     directToHero.set(1);
@@ -231,7 +231,15 @@ export default function Home() {
     rawContactProgress.set(0);
     contactProgress.jump(0);
     window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+  }, [
+    avatarProgress,
+    contactProgress,
+    directToHero,
+    rawContactProgress,
+    rawProgress,
+  ]);
+
+  useRegisterReturnToHero(handleReturnToHero);
 
   // Keep body/overscroll in sync with the homepage purple surface only.
   useEffect(() => {
@@ -252,19 +260,6 @@ export default function Home() {
         onReturnToHero={handleReturnToHero}
       />
 
-      {/* ========================================================= */}
-      {/* 1. TOP NAVIGATION BAR (FIXED, NO-PRINT) */}
-      {/* ========================================================= */}
-      <Navbar
-        progress={avatarProgress}
-        contactProgress={contactProgress}
-        directToHero={directToHero}
-        onReturnToHero={handleReturnToHero}
-      />
-
-      {/* ========================================================= */}
-      {/* 2. MAIN VIEW */}
-      {/* ========================================================= */}
       <div className="no-print w-full">
         <main className="w-full">
           {PAGE_AUDIO_ENABLED ? (
@@ -274,14 +269,14 @@ export default function Home() {
             />
           ) : null}
 
-          {/* FULL PAGE HERO: definite 100svh stage so 1fr rows resolve; h1 midpoint at 50svh */}
+          {/* FULL PAGE HERO: fill viewport under sticky nav so 1fr rows resolve */}
           <header
             id="hero"
             className="@container relative text-center px-4 max-w-5xl mx-auto scroll-mt-20"
           >
             <div
               id="hero-stage"
-              className="grid h-[100svh] grid-rows-[minmax(0,1fr)_auto_minmax(0,1fr)] justify-items-center"
+              className="grid h-[calc(100svh-3.5rem)] sm:h-[calc(100svh-4rem)] grid-rows-[minmax(0,1fr)_auto_minmax(0,1fr)] justify-items-center"
             >
               {/* Above: photo + label, pinned to the bottom of the top 1fr */}
               <div className="flex flex-col items-center justify-end gap-3 sm:gap-4 w-full min-h-0 pb-3 sm:pb-4">
