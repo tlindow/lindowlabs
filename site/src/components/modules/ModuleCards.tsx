@@ -4,12 +4,12 @@ import React from "react";
 import {
   GripVertical,
   MapPin,
-  Phone,
   Mail,
   Github,
   ExternalLink,
 } from "lucide-react";
 import { LinkedInIcon } from "@/components/brand/PartnerLogos";
+import RevealPhone from "@/components/RevealPhone";
 import {
   resumeContact,
   visionText,
@@ -71,13 +71,12 @@ export function HeaderModuleCard() {
 
         {/* Line 2: Phone | Email */}
         <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-          <a
-            href={`tel:${resumeContact.phone.replace(/[^0-9]/g, "")}`}
-            className="inline-flex items-center gap-1.5 text-[#202124] hover:text-[#1A73E8] transition-colors"
-          >
-            <Phone size={13} className="text-[#1A73E8]" />
-            <span>{resumeContact.phone}</span>
-          </a>
+          <RevealPhone
+            obscured={resumeContact.phoneObscured}
+            className="inline-flex items-center gap-1.5 text-[#202124]"
+            iconClassName="text-[#1A73E8]"
+            iconSize={13}
+          />
           <span className="text-[#DADCE0] select-none">|</span>
 
           <a

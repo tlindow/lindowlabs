@@ -22,6 +22,7 @@ import {
   visionText,
   experiences,
   education,
+  assembleResumePhone,
   type UnifiedDeckCard,
   type ResumeModuleItem,
 } from "@/data/resumeData";
@@ -66,7 +67,8 @@ ${exp.bullets.map((b) => `* **${b.tag}** ${b.text}`).join("\n")}
 `;
   };
 
-  // Generate dynamic Markdown reflecting current sequence
+  // Generate dynamic Markdown reflecting current sequence.
+  // Phone is assembled only when copying (client gesture), never baked into HTML.
   const dynamicMarkdown = useMemo(() => {
     let md = "";
 
@@ -80,7 +82,7 @@ ${exp.bullets.map((b) => `* **${b.tag}** ${b.text}`).join("\n")}
 ${resumeContact.subtitle ? `*${resumeContact.subtitle}*\n` : ""}${resumeContact.location}${
             resumeContact.relocation ? ` - **${resumeContact.relocation}**` : ""
           }
-${resumeContact.phone} | ${resumeContact.email}
+${resumeContact.phoneObscured} | ${resumeContact.email}
 [${resumeContact.linkedinDisplay}](${resumeContact.linkedin}) | [${resumeContact.githubDisplay}](${
             resumeContact.github
           })
@@ -124,7 +126,7 @@ ${resumeContact.phone} | ${resumeContact.email}
 ${resumeContact.subtitle ? `*${resumeContact.subtitle}*\n` : ""}${resumeContact.location}${
               resumeContact.relocation ? ` - **${resumeContact.relocation}**` : ""
             }
-${resumeContact.phone} | ${resumeContact.email}
+${resumeContact.phoneObscured} | ${resumeContact.email}
 [${resumeContact.linkedinDisplay}](${resumeContact.linkedin}) | [${resumeContact.githubDisplay}](${
               resumeContact.github
             })
@@ -156,10 +158,14 @@ ${resumeContact.phone} | ${resumeContact.email}
     return md;
   }, [cards, atomicModules, deckViewMode]);
 
-  // Copy Markdown
+  // Copy Markdown (assemble phone only on gesture so SSR HTML stays clean)
   const handleCopyMarkdown = async () => {
+    const md = dynamicMarkdown.replaceAll(
+      resumeContact.phoneObscured,
+      assembleResumePhone(),
+    );
     try {
-      await navigator.clipboard.writeText(dynamicMarkdown);
+      await navigator.clipboard.writeText(md);
       setCopiedMd(true);
       setTimeout(() => setCopiedMd(false), 2200);
     } catch {

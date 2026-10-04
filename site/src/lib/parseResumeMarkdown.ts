@@ -5,6 +5,7 @@ import {
   ExperienceItem,
   EducationItem,
   PUBLIC_CONTACT_EMAIL,
+  RESUME_PHONE_OBSCURED,
   professionalSummary as defaultSummary,
 } from "@/data/resumeData";
 
@@ -37,8 +38,7 @@ export function parseResumeMarkdown(markdownText: string): ParsedResume {
     subtitle: "B2B SaaS on curiosity-safe, GenAI Rails",
     location: "San Diego, CA",
     relocation: "Open to relocation",
-    phone: "(650) 580-5788",
-    phoneObscured: "(650) •••-••••",
+    phoneObscured: RESUME_PHONE_OBSCURED,
     email: PUBLIC_CONTACT_EMAIL,
     linkedin: "https://linkedin.com/in/tlindow",
     linkedinDisplay: "linkedin.com/in/tlindow",
@@ -86,12 +86,15 @@ export function parseResumeMarkdown(markdownText: string): ParsedResume {
         } else if (part.includes("@")) {
           const emailMatch = part.match(/([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/);
           if (emailMatch) contact.email = emailMatch[1];
-        } else if (part.match(/\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/)) {
-          const phoneMatch = part.match(/\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/);
-          if (phoneMatch) {
-            contact.phone = phoneMatch[0];
-            contact.phoneObscured = `${phoneMatch[0].slice(0, 5)} •••-••••`;
-          }
+        } else if (
+          part.includes("•••") ||
+          part.match(/\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/)
+        ) {
+          // Never keep full digits in parsed contact (serialized into page props).
+          const area = part.match(/\(?(\d{3})\)?/);
+          contact.phoneObscured = area
+            ? `(${area[1]}) •••-••••`
+            : RESUME_PHONE_OBSCURED;
         } else if (part.toLowerCase().includes("relocat")) {
           contact.relocation = part;
         } else if (part.includes(",") || part.toLowerCase().includes("diego") || part.toLowerCase().includes("seattle") || part.toLowerCase().includes("francisco")) {

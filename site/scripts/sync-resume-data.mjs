@@ -10,13 +10,22 @@ const repoRoot = path.resolve(projectRoot, "..");
 const mdPath = path.join(repoRoot, "content", "resume.md");
 const targetTsPath = path.join(projectRoot, "src", "data", "resumeMarkdown.ts");
 
+/** Strip contiguous phone digits so they never enter the TS/JS bundle. */
+function redactPhoneDigits(markdown) {
+  return markdown
+    .replace(/\(650\)\s*580-5788/g, "(650) •••-••••")
+    .replace(/650[-.\s]?580[-.\s]?5788/g, "(650) •••-••••")
+    .replace(/580-5788/g, "•••-••••")
+    .replace(/5805788/g, "•••••••");
+}
+
 export function syncResumeMarkdownToTs() {
   if (!fs.existsSync(mdPath)) {
     console.error(`❌ Could not find ${mdPath}`);
     return;
   }
 
-  const rawMarkdown = fs.readFileSync(mdPath, "utf-8");
+  const rawMarkdown = redactPhoneDigits(fs.readFileSync(mdPath, "utf-8"));
   // Escape backticks and backslashes for JS template literal
   const escapedMarkdown = rawMarkdown
     .replace(/\\/g, "\\\\")

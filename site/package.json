@@ -5,11 +5,12 @@
   "scripts": {
     "dev": "node scripts/sync-resume-data.mjs && (node scripts/watch-resume.mjs & next dev)",
     "build": "node scripts/sync-resume-data.mjs && next build && node scripts/write-redirects.mjs",
-    "check": "npm run lint && npm run typecheck && npm run check:client-imports && npm run check:em-dashes -- --source && npm run build && npm run check:labels && npm run check:em-dashes && npm run check:locations",
+    "check": "npm run lint && npm run typecheck && npm run check:client-imports && npm run check:em-dashes -- --source && npm run build && npm run check:labels && npm run check:em-dashes && npm run check:locations && npm run check:phone-leak",
     "check:em-dashes": "node scripts/check-em-dashes.mjs",
     "check:client-imports": "node scripts/check-client-imports.mjs",
     "check:labels": "node scripts/verify-labeled-paragraphs.mjs",
     "check:locations": "node scripts/check-locations.mjs",
+    "check:phone-leak": "node scripts/check-phone-leak.mjs",
     "typecheck": "tsc --noEmit",
     "start": "next start",
     "lint": "eslint",

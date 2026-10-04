@@ -12,3 +12,4 @@ Format: `YYYY-MM-DD | loop | failure type | fixing PR | prevention`
 | 2026-10-01 | inner: Cursor | server page imports helper from `"use client"` module | #52 | `check:client-imports` + helpers stay in `data/`/`lib/`; AGENTS.md note |
 | 2026-10-04 | inner: Cursor | none (added pages) | n/a | `/velocity` data refreshed by `.github/workflows/velocity-data.yml` daily into `site/src/data/velocity.json` |
 | 2026-10-04 | inner: Cursor | none (replaced page) | n/a | `/velocity` removed; `/visitors` reads live totals from `tinker.beginner.work/api/site/visitors` with empty-state fallback |
+| 2026-10-04 | inner: Cursor | phone digits in static HTML / JSON-LD / props | n/a | `check:phone-leak` scans `site/out` for `580-5788` / `5805788`; phone assembled client-side from char codes; removed from JSON-LD |
