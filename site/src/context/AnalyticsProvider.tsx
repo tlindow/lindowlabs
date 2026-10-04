@@ -19,6 +19,7 @@ import {
   logScrollDepth,
   RecruitClickParams,
 } from "@/lib/firebase/analytics";
+import { sendSitePing } from "@/lib/sitePing";
 import {
   initRemoteConfig,
   getRemoteConfigValues,
@@ -97,13 +98,14 @@ export function AnalyticsProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  // Track page view on route change
+  // Track page view on route change (Firebase + privacy-respecting site ping)
   useEffect(() => {
     if (pathname) {
       trackEvent("page_view", {
         page_path: pathname,
         page_title: typeof document !== "undefined" ? document.title : "",
       });
+      sendSitePing(pathname);
     }
   }, [pathname]);
 
