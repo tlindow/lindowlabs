@@ -277,7 +277,7 @@ export default function Home() {
           {/* FULL PAGE HERO: definite 100svh stage so 1fr rows resolve; h1 midpoint at 50svh */}
           <header
             id="hero"
-            className="relative text-center px-4 max-w-5xl mx-auto scroll-mt-20"
+            className="@container relative text-center px-4 max-w-5xl mx-auto scroll-mt-20"
           >
             <div
               id="hero-stage"
@@ -295,9 +295,11 @@ export default function Home() {
                 </span>
               </div>
 
-              <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight text-foreground leading-[1.05] mx-auto">
-                <span className="block">Engineering leadership</span>
-                <span className="block">for fintech platforms</span>
+              {/* Fluid size: fixed text-4xl..8xl overflowed Space Mono black at common widths
+                  (each phrase wrapped). Clamp + nowrap keeps exactly two lines, as large as fits. */}
+              <h1 className="w-full max-w-full text-[length:clamp(1.55rem,7.7cqi,4.7rem)] font-black tracking-tight text-foreground leading-[1.05] mx-auto">
+                <span className="block whitespace-nowrap">Engineering leadership</span>
+                <span className="block whitespace-nowrap">for fintech platforms</span>
               </h1>
 
               {/* Below: support, CTA, logo panel — top of bottom 1fr; overflow paints into spacer */}
