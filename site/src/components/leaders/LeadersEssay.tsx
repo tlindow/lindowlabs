@@ -17,7 +17,7 @@ export default function LeadersEssay() {
               id="essay-title"
               className="text-base sm:text-lg font-bold tracking-tight text-foreground mb-5 sm:mb-6"
             >
-              Tell me about yourself
+              Who you&apos;ll work with
             </h2>
 
             <div className="space-y-5 text-sm sm:text-base text-foreground/90 leading-relaxed">
