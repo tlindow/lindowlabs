@@ -130,7 +130,7 @@ export default function Mentoring() {
                 pressure, just a conversation.
               </p>
               <a
-                href="mailto:tyler.lindow@gmail.com"
+                href="mailto:tyler@lindowlabs.dev"
                 className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-violet hover:underline group"
               >
                 Send me a message

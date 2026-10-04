@@ -7,7 +7,8 @@ export const rawResumeMarkdown = `# Tyler Lindow
 
 **Engineering Manager | Fintech platform, merchant & partner integrations | Ex-Affirm | Ex-founder**  
 San Diego, CA | Open to relocation  
-(650) 580-5788 | [tyler.lindow@gmail.com](mailto:tyler.lindow@gmail.com)  
+(650) 580-5788  
+
 [linkedin.com/in/tlindow](https://linkedin.com/in/tlindow) | [github.com/tlindow](https://github.com/tlindow)
 
 ---

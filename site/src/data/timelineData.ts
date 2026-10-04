@@ -107,7 +107,7 @@ export const timelineMilestones: TimelineItem[] = [
       },
       {
         label: "Send a Message",
-        href: "mailto:tyler.lindow@gmail.com",
+        href: "mailto:tyler@lindowlabs.dev",
         variant: "secondary",
       },
     ],
@@ -236,7 +236,7 @@ export const timelineMilestones: TimelineItem[] = [
       },
       {
         label: "Inquire for Speaking",
-        href: "mailto:tyler.lindow@gmail.com",
+        href: "mailto:tyler@lindowlabs.dev",
         variant: "secondary",
       },
     ],

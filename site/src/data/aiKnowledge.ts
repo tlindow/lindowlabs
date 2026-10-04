@@ -74,7 +74,7 @@ export const knowledgeBase: KnowledgeTopic[] = [
     actions: [
       { label: "Book a 1:1 Session on Calendly", href: "https://calendly.com/tylerlindow/elevate", isExternal: true, variant: "primary" },
       { label: "View Pricing & Engagement", href: "#pricing", variant: "secondary" },
-      { label: "Send an Email Inquiry", href: "mailto:tyler.lindow@gmail.com", isExternal: true, variant: "outline" },
+      { label: "Send an Email Inquiry", href: "mailto:tyler@lindowlabs.dev", isExternal: true, variant: "outline" },
     ],
     suggestedFollowUps: [
       "What are Tyler's pricing and engagement tiers?",
@@ -105,7 +105,7 @@ export const knowledgeBase: KnowledgeTopic[] = [
     actions: [
       { label: "View Pricing Tiers", href: "#pricing", variant: "primary" },
       { label: "Book 1:1 on Calendly", href: "https://calendly.com/tylerlindow/elevate", isExternal: true, variant: "secondary" },
-      { label: "Inquire via Email", href: "mailto:tyler.lindow@gmail.com", isExternal: true, variant: "outline" },
+      { label: "Inquire via Email", href: "mailto:tyler@lindowlabs.dev", isExternal: true, variant: "outline" },
     ],
     suggestedFollowUps: [
       "How do I book a 1:1 session?",
@@ -200,7 +200,7 @@ export const knowledgeBase: KnowledgeTopic[] = [
     actions: [
       { label: "Watch DEVx Talk on YouTube", href: "https://www.youtube.com/watch?v=STI5pw5F5Lo&t=631s", isExternal: true, variant: "primary" },
       { label: "Explore Speaking Topics", href: "#speaking", variant: "secondary" },
-      { label: "Invite Tyler to Speak", href: "mailto:tyler.lindow@gmail.com?subject=Speaking%20Inquiry", isExternal: true, variant: "outline" },
+      { label: "Invite Tyler to Speak", href: "mailto:tyler@lindowlabs.dev?subject=Speaking%20Inquiry", isExternal: true, variant: "outline" },
     ],
     suggestedFollowUps: [
       "Tell me about the Human Minds & AI Models talk",
@@ -253,13 +253,13 @@ export const knowledgeBase: KnowledgeTopic[] = [
     summary:
       "You can connect with Tyler directly via Email, LinkedIn, GitHub, or schedule a dedicated video call through Calendly.",
     details: [
-      "📧 Email: tyler.lindow@gmail.com",
+      "📧 Email: tyler@lindowlabs.dev",
       "💼 LinkedIn: linkedin.com/in/tlindow",
       "🐙 GitHub: github.com/tlindow",
       "📅 Calendly: calendly.com/tylerlindow/elevate",
     ],
     actions: [
-      { label: "Send Email (tyler.lindow@gmail.com)", href: "mailto:tyler.lindow@gmail.com", isExternal: true, variant: "primary" },
+      { label: "Send Email (tyler@lindowlabs.dev)", href: "mailto:tyler@lindowlabs.dev", isExternal: true, variant: "primary" },
       { label: "LinkedIn Profile", href: "https://www.linkedin.com/in/tlindow", isExternal: true, variant: "secondary" },
       { label: "Book 1:1 on Calendly", href: "https://calendly.com/tylerlindow/elevate", isExternal: true, variant: "outline" },
     ],

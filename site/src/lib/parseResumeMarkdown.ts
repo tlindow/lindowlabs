@@ -4,6 +4,7 @@ import {
   ContactInfo,
   ExperienceItem,
   EducationItem,
+  PUBLIC_CONTACT_EMAIL,
   professionalSummary as defaultSummary,
 } from "@/data/resumeData";
 
@@ -38,7 +39,7 @@ export function parseResumeMarkdown(markdownText: string): ParsedResume {
     relocation: "Open to relocation",
     phone: "(650) 580-5788",
     phoneObscured: "(650) •••-••••",
-    email: "tyler.lindow@gmail.com",
+    email: PUBLIC_CONTACT_EMAIL,
     linkedin: "https://linkedin.com/in/tlindow",
     linkedinDisplay: "linkedin.com/in/tlindow",
     github: "https://github.com/tlindow",
