@@ -220,7 +220,7 @@ export const experiences: ExperienceEntry[] = [
     bullets: [
       {
         tag: "Merchant portal:",
-        text: "Company-scale engineering management for the enterprise B2B portal developers and merchants trust.",
+        text: "Company-scale engineering management for Merchant Portal, the API-key and transaction-view surface for merchants integrated via ecommerce platforms or direct API.",
       },
     ],
   },
@@ -401,7 +401,7 @@ export const deckSections: Record<string, DeckSectionData> = {
     category: "COMPANY-SCALE EM",
     headline: "Affirm carries the experience",
     summary:
-      "Company-scale engineering management for top-of-funnel marketing and the enterprise merchant portal.",
+      "Company-scale engineering management for Merchant Portal, the API-key and transaction-view surface for merchants integrated via ecommerce platforms or direct API.",
     theme: "blue",
   },
   "deck-section-ecosystem": {

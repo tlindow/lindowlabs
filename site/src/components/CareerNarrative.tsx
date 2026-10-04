@@ -8,7 +8,7 @@ const affirmRoles = [
     role: "Software Engineering Manager, Merchant Advocacy",
     when: "San Diego, CA (Remote) · Mar 2025 – Feb 2026",
     detail:
-      "Company-scale engineering management for top-of-funnel marketing on affirm.com and the enterprise merchant portal.",
+      "Company-scale engineering management for Merchant Portal, the API-key and transaction-view surface for merchants integrated via ecommerce platforms or direct API.",
   },
   {
     role: "Developer Support Engineering Manager, Partner Engineering",
@@ -43,10 +43,6 @@ const earlierRoles = [
 ];
 
 const themes = [
-  {
-    href: "/blog/leading-the-affirm-dot-com-redesign",
-    title: "Leading the affirm.com Redesign",
-  },
   {
     href: "/blog/building-product-as-system-architecture",
     title: "Building Product as System Architecture",

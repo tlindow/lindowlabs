@@ -9,11 +9,11 @@ import { PAGE_AUDIO_ENABLED, pageAudio, pageAudioLabel } from "@/data/pageAudio"
 export const metadata: Metadata = {
   title: "Blog: Tyler Lindow",
   description:
-    "Writing from an engineering manager in fintech: leading the affirm.com redesign, product as system architecture, and Velocity Labs.",
+    "Writing from an engineering manager in fintech: product as system architecture and Velocity Labs.",
   openGraph: {
     title: "Blog: Tyler Lindow",
     description:
-      "Writing from an engineering manager in fintech: leading the affirm.com redesign, product as system architecture, and Velocity Labs.",
+      "Writing from an engineering manager in fintech: product as system architecture and Velocity Labs.",
     url: "https://tlindow.github.io/blog",
     siteName: "Tyler Lindow",
     type: "website",
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Blog: Tyler Lindow",
     description:
-      "Writing from an engineering manager in fintech: leading the affirm.com redesign, product as system architecture, and Velocity Labs.",
+      "Writing from an engineering manager in fintech: product as system architecture and Velocity Labs.",
   },
 };
 
@@ -59,7 +59,7 @@ export default function BlogIndexPage() {
             Blog
           </h1>
           <p className="text-sm sm:text-base text-muted font-mono max-w-xl leading-relaxed">
-            Leading the affirm.com Redesign, Building Product as System Architecture, and Velocity Labs.
+            Building Product as System Architecture and Velocity Labs.
           </p>
         </header>
 

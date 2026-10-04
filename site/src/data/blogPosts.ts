@@ -34,7 +34,7 @@ export interface BlogPost {
   summary: string;
   previewText?: string;
   slides: SlideData[];
-  content: string[]; // Fallback body. The four case studies live in content/essays.
+  content: string[]; // Fallback body. Published case studies live in content/essays.
   /** Optional commentary clip under public/audio/pages/. Omit for no player. */
   audioSrc?: string;
   audioDurationSeconds?: number;
@@ -49,51 +49,6 @@ const defaultAuthor = {
 };
 
 export const blogPosts: BlogPost[] = [
-  {
-    id: "leading-the-affirm-dot-com-redesign",
-    slug: "leading-the-affirm-dot-com-redesign",
-    pretitle: "My work product",
-    pillarId: "core",
-    pillarLabel: "B2B Fintech Case Study",
-    title: "Leading the affirm.com Redesign",
-    subtitle:
-      "How I led my engineers through the affirm.com rebuild.",
-    date: "2026-09-11",
-    readTime: "2 min read",
-    author: defaultAuthor,
-    tags: [
-      "Engineering Leadership",
-      "Affirm",
-      "Perseverance",
-    ],
-    summary:
-      "In October of 2025, we revamped the affirm.com marketing website in order to create design continuity between web and mobile apps and drive more conversion.",
-    previewText:
-      "In October of 2025, we revamped the affirm.com marketing website in order to create design continuity between web and mobile apps and drive more conversion.",
-    slides: [
-      {
-        id: 1,
-        slideNumber: "01/03",
-        quote:
-          "Engineers are important... and even if we are not seen for all of our efforts right now, you know what you accomplished.",
-      },
-      {
-        id: 2,
-        slideNumber: "02/03",
-        quote:
-          "In 2026, engineering leadership is about perseverance. In the wake of developers being told that their jobs are being taken away by AI, it's about reminding them to not lose focus.",
-      },
-      {
-        id: 3,
-        slideNumber: "03/03",
-        quote:
-          "Remind each other that engineering will forever be a human pursuit.",
-      },
-    ],
-    content: [],
-    audioSrc: "/audio/pages/blog-affirm-dot-com-rebuild.mp3",
-    audioDurationSeconds: 54.94,
-  },
   {
     id: "building-product-as-system-architecture",
     slug: "building-product-as-system-architecture",
