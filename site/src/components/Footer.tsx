@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Mail, BookOpen, ArrowUpRight } from "lucide-react";
+import { Calendar, BookOpen, ArrowUpRight } from "lucide-react";
 
 export default function Footer() {
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
@@ -9,7 +9,7 @@ export default function Footer() {
   return (
     <footer className="no-print font-mono w-full">
       {/* ========================================================= */}
-      {/* SECTION 3: CONTACT ME CTA (NO COLOR CHANGE FROM SECTION 2)*/}
+      {/* SECTION 3: CONTACT CTA                                    */}
       {/* ========================================================= */}
       <section
         id="contact"
@@ -21,7 +21,12 @@ export default function Footer() {
               Get in Touch
             </span>
             <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground font-mono">
-              Let&apos;s talk
+              <Link
+                href="/get-your-time-back"
+                className="hover:text-indigo-dark transition-colors underline-offset-4 hover:underline"
+              >
+                Let&apos;s talk
+              </Link>
             </h3>
             {/* Slot for profile coin when contact section reaches middle of viewport */}
             <div className="flex justify-center items-center py-2 min-h-[72px] sm:min-h-[88px]">
@@ -36,19 +41,13 @@ export default function Footer() {
           </div>
 
           <div className="pt-2 flex flex-col items-center gap-4">
-            <a
-              href="mailto:tyler.lindow@gmail.com"
-              className="inline-flex items-center justify-center gap-2 rounded-xl px-7 py-3.5 text-sm font-mono font-bold transition-all hover:scale-[1.02] active:scale-[0.98] bg-foreground text-background hover:bg-foreground/90 shadow-xs"
-              title="Contact Tyler Lindow"
-            >
-              <Mail size={15} className="shrink-0" />
-              <span>Contact me</span>
-            </a>
             <Link
               href="/get-your-time-back"
-              className="text-xs font-mono text-muted hover:text-indigo-dark transition-colors underline-offset-4 hover:underline"
+              className="inline-flex items-center justify-center gap-2 rounded-xl px-7 py-3.5 text-sm font-mono font-bold transition-all hover:scale-[1.02] active:scale-[0.98] bg-foreground text-background hover:bg-foreground/90 shadow-xs"
+              title="Book 30 minutes with Tyler Lindow"
             >
-              For engineering leaders
+              <Calendar size={15} className="shrink-0" />
+              <span>Book 30 minutes</span>
             </Link>
           </div>
         </div>
