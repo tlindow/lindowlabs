@@ -148,7 +148,7 @@ export default function Speaking() {
               I love engaging audiences with thoughtful, grounded technical storytelling.
             </p>
             <a
-              href="mailto:tyler.lindow@gmail.com"
+              href="mailto:tyler@lindowlabs.dev"
               className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-violet hover:underline group"
             >
               Let&rsquo;s discuss speaking

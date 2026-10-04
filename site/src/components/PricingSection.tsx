@@ -136,7 +136,7 @@ export default function PricingSection() {
               {col.id === "col-3" && (
                 <div className="mt-6 pt-4 border-t border-border/60">
                   <a
-                    href={`mailto:tyler.lindow@gmail.com?subject=${encodeURIComponent(`Inquiry: ${col.title}`)}`}
+                    href={`mailto:tyler@lindowlabs.dev?subject=${encodeURIComponent(`Inquiry: ${col.title}`)}`}
                     className="w-full inline-flex items-center justify-center gap-2 rounded-xl py-2.5 px-4 text-xs sm:text-sm font-bold font-mono transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer shadow-xs bg-indigo-dark text-sand hover:bg-labs-primary-dark"
                   >
                     <Mail size={14} />

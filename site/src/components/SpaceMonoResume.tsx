@@ -4,12 +4,12 @@ import { useState, type ReactNode } from "react";
 import { motion, type Variants } from "framer-motion";
 import {
   Github,
-  Mail,
   Phone,
   MapPin,
   ArrowUpRight,
 } from "lucide-react";
 import { LinkedInIcon } from "@/components/brand/PartnerLogos";
+import BlurredResumeEmail from "@/components/BlurredResumeEmail";
 import {
   resumeContact,
   professionalSummary,
@@ -177,13 +177,7 @@ export default function SpaceMonoResume({ parsedResume }: SpaceMonoResumeProps) 
                 </div>
                 <span className="text-border select-none">|</span>
 
-                <a
-                  href={`mailto:${contact.email}`}
-                  className="inline-flex items-center gap-1.5 text-foreground hover:text-indigo-dark transition-colors underline underline-offset-2"
-                >
-                  <Mail size={12} className="text-indigo-dark shrink-0" />
-                  {contact.email}
-                </a>
+                <BlurredResumeEmail />
               </div>
 
               {/* Line 3: LinkedIn | GitHub */}

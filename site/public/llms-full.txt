@@ -30,7 +30,7 @@ Developer-facing merchant integration support on the partner surface.
 Galvanize Inc (May 2019 – Aug 2019), The Tech Interactive (May 2017 – Jan 2019), Computer History Museum (Mar 2017 – Nov 2018). Beginner and DevX inside educational institutions.
 
 ## Contact
-tyler.lindow@gmail.com
+tyler@lindowlabs.dev
 https://www.linkedin.com/in/tlindow
 https://github.com/tlindow
 https://tlindow.github.io/#about

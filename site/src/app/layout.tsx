@@ -65,7 +65,7 @@ const jsonLd = {
       "name": "Tyler Lindow",
       "jobTitle": SITE_TITLE,
       "telephone": "(650) 580-5788",
-      "email": "tyler.lindow@gmail.com",
+      "email": "tyler@lindowlabs.dev",
       "address": {
         "@type": "PostalAddress",
         "addressLocality": "San Diego",

@@ -1,7 +1,7 @@
 # Tyler Lindow
 
 **Engineering Manager, Fintech Platforms**  
-San Diego, CA (Open to relocation) · [tyler.lindow@gmail.com](mailto:tyler.lindow@gmail.com) · [linkedin.com/in/tlindow](https://www.linkedin.com/in/tlindow) · [github.com/tlindow](https://github.com/tlindow)
+San Diego, CA (Open to relocation) · [tyler@lindowlabs.dev](mailto:tyler@lindowlabs.dev) · [linkedin.com/in/tlindow](https://www.linkedin.com/in/tlindow) · [github.com/tlindow](https://github.com/tlindow)
 
 ---
 

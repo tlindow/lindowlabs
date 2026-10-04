@@ -66,6 +66,23 @@ export interface ContactInfo {
   githubDisplay: string;
 }
 
+/** Public contact for mailto, JSON-LD, AI surfaces, and shared resumeContact.email. */
+export const PUBLIC_CONTACT_EMAIL = "tyler@lindowlabs.dev";
+
+/**
+ * Personal resume address as split parts (joined only on the client for the
+ * blurred /resume line). Kept out of contiguous source/HTML for scrapers.
+ */
+export const RESUME_EMAIL_PARTS = [
+  "tyler",
+  ".",
+  "lindow",
+  "@",
+  "gmail",
+  ".",
+  "com",
+] as const;
+
 export const resumeContact: ContactInfo = {
   name: "Tyler Lindow",
   title: HEADLINE,
@@ -73,7 +90,7 @@ export const resumeContact: ContactInfo = {
   relocation: "Open to relocation",
   phone: "(650) 580-5788",
   phoneObscured: "(650) •••-••••",
-  email: "tyler.lindow@gmail.com",
+  email: PUBLIC_CONTACT_EMAIL,
   linkedin: "https://www.linkedin.com/in/tlindow",
   linkedinDisplay: "linkedin.com/in/tlindow",
   github: "https://github.com/tlindow",
