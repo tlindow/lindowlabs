@@ -5,16 +5,7 @@ import ScrollReveal from "@/components/animations/ScrollReveal";
 
 const CALENDLY_URL = "https://calendly.com/tylerlindow/get-your-time-back";
 
-const DEFAULT_SUBTITLE =
-  "A space to practice saying the honest thing and thinking it through with rigor.";
-
-type LeadersHeroProps = {
-  subtitle?: string;
-};
-
-export default function LeadersHero({
-  subtitle = DEFAULT_SUBTITLE,
-}: LeadersHeroProps) {
+export default function LeadersHero() {
   return (
     <header
       id="hero"
@@ -30,7 +21,8 @@ export default function LeadersHero({
         </h1>
 
         <p className="text-sm sm:text-base md:text-lg font-mono text-muted mx-auto max-w-2xl leading-relaxed pt-2">
-          {subtitle}
+          A working session with a fintech engineering manager. Bring the
+          integration, incident or team problem that&apos;s eating your week.
         </p>
       </ScrollReveal>
 

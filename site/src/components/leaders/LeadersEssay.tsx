@@ -2,19 +2,7 @@
 
 import ScrollReveal from "@/components/animations/ScrollReveal";
 
-const DEFAULT_PARAGRAPHS = [
-  "My name is Tyler Lindow. I was most recently an engineering manager at Affirm, leading the merchant onboarding product for the payment network. After that, I founded my own startup, Beginner, which helped developers journal and develop pitch lines for enterprise fundraising.",
-  "I focus on domain-driven architectures for onboarding products within financial technology, using AI-native development with technologies like Python, Protobuf interfaces, and logging and metrics stacks like Sentry and Grafana.",
-  "I'm seeking an engineering management position that leverages strong operational systems to grow talent and allow engineers to become more specialized within large-scale software.",
-];
-
-type LeadersEssayProps = {
-  paragraphs?: string[];
-};
-
-export default function LeadersEssay({
-  paragraphs = DEFAULT_PARAGRAPHS,
-}: LeadersEssayProps) {
+export default function LeadersEssay() {
   return (
     <section
       id="essay"
@@ -33,9 +21,24 @@ export default function LeadersEssay({
             </h2>
 
             <div className="space-y-5 text-sm sm:text-base text-foreground/90 leading-relaxed">
-              {paragraphs.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
-              ))}
+              <p>
+                My name is Tyler Lindow. I&apos;m an engineering manager for
+                fintech platforms and merchant and partner integrations. I spent
+                6+ years at Affirm, most recently leading the engineering team
+                that owned Merchant Portal, and then founded Beginner Work.
+              </p>
+
+              <p>
+                In 30 minutes, we pick one thing that&apos;s costing you time,
+                like a partner integration that keeps slipping, an on-call
+                rotation that wears your team out, or a reliability gap nobody
+                owns. You leave with a next step you can act on this week.
+              </p>
+
+              <p>
+                If that sounds useful, choose a time above. And if your team
+                needs an engineering manager, say so.
+              </p>
             </div>
           </article>
         </div>

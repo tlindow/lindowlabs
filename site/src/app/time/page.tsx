@@ -2,25 +2,25 @@ import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import LeadersHero from "@/components/leaders/LeadersHero";
 import LeadersEssay from "@/components/leaders/LeadersEssay";
-
-const PAGE_TITLE = "Get your time back | Lindow Labs";
-const PAGE_DESCRIPTION =
-  "A space to practice saying the honest thing and thinking it through with rigor.";
+import {
+  LEADERS_PAGE_DESCRIPTION,
+  LEADERS_PAGE_TITLE,
+} from "@/data/leadersPage";
 
 export const metadata: Metadata = {
-  title: PAGE_TITLE,
-  description: PAGE_DESCRIPTION,
+  title: LEADERS_PAGE_TITLE,
+  description: LEADERS_PAGE_DESCRIPTION,
   openGraph: {
-    title: PAGE_TITLE,
-    description: PAGE_DESCRIPTION,
+    title: LEADERS_PAGE_TITLE,
+    description: LEADERS_PAGE_DESCRIPTION,
     url: "https://lindowlabs.dev/time",
     siteName: "Lindow Labs",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: PAGE_TITLE,
-    description: PAGE_DESCRIPTION,
+    title: LEADERS_PAGE_TITLE,
+    description: LEADERS_PAGE_DESCRIPTION,
   },
 };
 
