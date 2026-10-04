@@ -1,26 +1,8 @@
-import type { Metadata } from "next";
 import LeadersPage from "@/components/leaders/LeadersPage";
-import {
-  LEADERS_PAGE_DESCRIPTION,
-  LEADERS_PAGE_TITLE,
-} from "@/data/leadersPage";
+import { leadersPageMetadata } from "@/data/leadersPage";
 
-export const metadata: Metadata = {
-  title: LEADERS_PAGE_TITLE,
-  description: LEADERS_PAGE_DESCRIPTION,
-  openGraph: {
-    title: LEADERS_PAGE_TITLE,
-    description: LEADERS_PAGE_DESCRIPTION,
-    url: "https://lindowlabs.dev/time",
-    siteName: "Lindow Labs",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: LEADERS_PAGE_TITLE,
-    description: LEADERS_PAGE_DESCRIPTION,
-  },
-};
+/** Same contact page as /schedule-time; canonical + og:url point there. No redirect. */
+export const metadata = leadersPageMetadata;
 
 export default function TimePageRoute() {
   return <LeadersPage />;

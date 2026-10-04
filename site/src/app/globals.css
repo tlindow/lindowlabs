@@ -70,7 +70,7 @@ body {
   letter-spacing: -0.015em;
 }
 
-/* Recruiter homepage + contact leaf (/get-your-time-back, /time): cohesive
+/* Recruiter homepage + contact leaf (/schedule-time and aliases): cohesive
    purple palette (light lavender through deeper violet tints). Other routes keep
    the cream paper theme. Tailwind @theme inline bakes token hexes into utilities,
    so override those under .homepage-theme instead of relying on CSS variable

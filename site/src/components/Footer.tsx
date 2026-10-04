@@ -22,7 +22,7 @@ export default function Footer() {
             </span>
             <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground font-mono">
               <Link
-                href="/get-your-time-back"
+                href="/schedule-time"
                 className="hover:text-indigo-dark transition-colors underline-offset-4 hover:underline"
               >
                 Let&apos;s talk
@@ -42,7 +42,7 @@ export default function Footer() {
 
           <div className="pt-2 flex flex-col items-center gap-4">
             <Link
-              href="/get-your-time-back"
+              href="/schedule-time"
               className="inline-flex items-center justify-center gap-2 rounded-xl px-7 py-3.5 text-sm font-mono font-bold transition-all hover:scale-[1.02] active:scale-[0.98] bg-foreground text-background hover:bg-foreground/90 shadow-xs"
               title="Book 30 minutes with Tyler Lindow"
             >
