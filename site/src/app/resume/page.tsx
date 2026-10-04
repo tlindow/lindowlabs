@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { ArrowLeft } from "lucide-react";
 import SpaceMonoResume from "@/components/SpaceMonoResume";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import PageAudioPlayer from "@/components/PageAudioPlayer";
 import { PAGE_AUDIO_ENABLED, pageAudio, pageAudioLabel } from "@/data/pageAudio";
 import { FORMATION_SUMMARY, HEADLINE } from "@/data/positioning";
@@ -51,6 +52,7 @@ export default function ResumePageRoute() {
       <div className="print:pt-0 print:p-0 print:m-0">
         <SpaceMonoResume parsedResume={parsedResume} />
       </div>
+      <Footer />
     </div>
   );
 }
