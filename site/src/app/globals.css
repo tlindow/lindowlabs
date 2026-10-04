@@ -63,6 +63,16 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Clear the sticky top nav when jumping to in-page anchors / headings. */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  scroll-margin-top: 5.5rem;
+}
+
 body {
   background: var(--color-background);
   color: var(--color-foreground);

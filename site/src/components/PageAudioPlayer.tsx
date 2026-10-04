@@ -14,7 +14,7 @@ export default function PageAudioPlayer({
   src,
   label,
   ariaLabel = "Listen to Tyler walk through this page",
-  className = "w-full px-4 sm:px-6 pt-24 sm:pt-28 pb-2 sm:pb-4 scroll-mt-20",
+  className = "w-full px-4 sm:px-6 pt-6 sm:pt-8 pb-2 sm:pb-4 scroll-mt-20",
 }: PageAudioPlayerProps) {
   if (!PAGE_AUDIO_ENABLED) return null;
 

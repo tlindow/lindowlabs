@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowLeft, FileText } from "lucide-react";
-import Navbar from "@/components/Navbar";
+import { FileText } from "lucide-react";
 import PageAudioPlayer from "@/components/PageAudioPlayer";
 import { blogPosts } from "@/data/blogPosts";
 import { PAGE_AUDIO_ENABLED, pageAudio, pageAudioLabel } from "@/data/pageAudio";
@@ -29,20 +28,7 @@ export const metadata: Metadata = {
 export default function BlogIndexPage() {
   return (
     <div className="min-h-screen bg-background text-foreground selection:bg-indigo-light selection:text-indigo-dark font-mono flex flex-col justify-between">
-      <Navbar />
-
-      <main className="w-full max-w-3xl mx-auto px-4 sm:px-6 pt-24 sm:pt-32 pb-20 sm:pb-32 flex-1">
-        {/* Back Navigation */}
-        <div className="mb-10">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 text-xs font-bold text-muted hover:text-indigo-dark transition-colors py-1"
-          >
-            <ArrowLeft size={14} />
-            <span>Home</span>
-          </Link>
-        </div>
-
+      <main className="w-full max-w-3xl mx-auto px-4 sm:px-6 pt-10 sm:pt-14 pb-20 sm:pb-32 flex-1">
         {PAGE_AUDIO_ENABLED ? (
           <div className="mb-10">
             <PageAudioPlayer
