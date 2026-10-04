@@ -8,7 +8,7 @@ const affirmRoles = [
     role: "Software Engineering Manager, Merchant Advocacy",
     when: "San Diego, CA (Remote) · Mar 2025 – Feb 2026",
     detail:
-      "Company-scale engineering management for the enterprise B2B portal developers and merchants trust.",
+      "Company-scale engineering management for Merchant Portal, the API-key and transaction-view surface for merchants integrated via ecommerce platforms or direct API.",
   },
   {
     role: "Developer Support Engineering Manager, Partner Engineering",

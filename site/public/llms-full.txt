@@ -17,7 +17,7 @@ Mar 2026 – Jul 2026
 
 ### Software Engineering Manager, Merchant Advocacy | Affirm
 Mar 2025 – Feb 2026
-Company-scale engineering management for the enterprise merchant portal.
+Company-scale engineering management for Merchant Portal, the API-key and transaction-view surface for merchants integrated via ecommerce platforms or direct API.
 
 ### Developer Support Engineering Manager, Partner Engineering | Affirm
 Jul 2021 – Mar 2025
