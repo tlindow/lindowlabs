@@ -18,9 +18,10 @@ export type VisitorsPage = {
   views: number;
 };
 
+/** Resume is the site root of the funnel; explore rolls up home + blog + /visitors + /learning. */
 export type VisitorsFunnel = {
-  home: number;
-  resume_or_blog: number;
+  resume: number;
+  explore: number;
   schedule_time: number;
   booked: number | null;
 };
@@ -37,8 +38,8 @@ export const FUNNEL_STEPS: {
   key: keyof VisitorsFunnel;
   label: string;
 }[] = [
-  { key: "home", label: "Home" },
-  { key: "resume_or_blog", label: "Resume or blog" },
+  { key: "resume", label: "Resume" },
+  { key: "explore", label: "Explore" },
   { key: "schedule_time", label: "Schedule time" },
   { key: "booked", label: "Calendly booking" },
 ];
