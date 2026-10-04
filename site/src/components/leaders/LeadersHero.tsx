@@ -1,9 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { Calendar } from "lucide-react";
-import ScrollReveal from "@/components/animations/ScrollReveal";
-
-const CALENDLY_URL = "https://calendly.com/tylerlindow/connect";
+import { LEADERS_CALENDLY_URL } from "@/data/leadersPage";
 
 export default function LeadersHero() {
   return (
@@ -11,9 +10,16 @@ export default function LeadersHero() {
       id="hero"
       className="flex flex-col justify-center items-center text-center px-4 max-w-5xl mx-auto space-y-6 sm:space-y-8 relative pt-8 sm:pt-10 pb-10 sm:pb-12 scroll-mt-20"
     >
-      <ScrollReveal className="space-y-4 sm:space-y-6 text-center max-w-4xl mx-auto flex flex-col items-center">
+      <Link
+        href="/"
+        className="inline-flex text-xs sm:text-sm font-mono font-medium text-muted hover:text-indigo-dark transition-colors underline-offset-4 hover:underline"
+      >
+        Engineering leadership for fintech platforms
+      </Link>
+
+      <div className="space-y-4 sm:space-y-6 text-center max-w-4xl mx-auto flex flex-col items-center">
         <span className="text-xs sm:text-sm font-mono font-bold text-indigo-dark uppercase tracking-widest block">
-          30 focused minutes for engineering leaders
+          Let&apos;s talk
         </span>
 
         <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight text-foreground leading-[1.05] mx-auto">
@@ -21,14 +27,14 @@ export default function LeadersHero() {
         </h1>
 
         <p className="text-sm sm:text-base md:text-lg font-mono text-muted mx-auto max-w-2xl leading-relaxed pt-2">
-          A space to practice saying the honest thing and thinking it through
-          with rigor.
+          A working session with a fintech engineering manager. Bring the
+          integration, incident or team problem that&apos;s eating your week.
         </p>
-      </ScrollReveal>
+      </div>
 
-      <ScrollReveal delay={0.1} className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+      <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
         <a
-          href={CALENDLY_URL}
+          href={LEADERS_CALENDLY_URL}
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 rounded-xl bg-foreground text-background hover:bg-foreground/90 px-6 py-3 text-xs sm:text-sm font-mono font-bold shadow-xs transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
@@ -37,7 +43,7 @@ export default function LeadersHero() {
           <Calendar size={15} className="shrink-0" />
           <span>Choose a time</span>
         </a>
-      </ScrollReveal>
+      </div>
     </header>
   );
 }
