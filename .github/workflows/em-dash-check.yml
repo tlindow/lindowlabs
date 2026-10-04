@@ -36,3 +36,7 @@ jobs:
       - name: Check essay locations
         working-directory: ./site
         run: npm run check:locations
+
+      - name: Check phone digits are absent from export
+        working-directory: ./site
+        run: npm run check:phone-leak

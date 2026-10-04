@@ -2,7 +2,7 @@
 
 **Engineering Manager | Fintech platform, merchant & partner integrations | Ex-Affirm | Ex-founder**  
 San Diego, CA | Open to relocation  
-(650) 580-5788  
+(650) •••-••••  
 
 [linkedin.com/in/tlindow](https://linkedin.com/in/tlindow) | [github.com/tlindow](https://github.com/tlindow)
 

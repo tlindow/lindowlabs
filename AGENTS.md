@@ -30,6 +30,7 @@ That runs, in order:
 6. `npm run check:labels`
 7. `npm run check:em-dashes` (U+2014 in `site/out/**/*.html`)
 8. `npm run check:locations`
+9. `npm run check:phone-leak` (`580-5788` / `5805788` must not appear in `site/out`)
 
 ### Shared helpers (client vs server)
 

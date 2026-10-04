@@ -57,8 +57,8 @@ export interface ContactInfo {
   subtitle?: string;
   location: string;
   relocation?: string;
-  phone: string;
-  phoneObscured?: string;
+  /** Masked display only. Full digits are never stored here. */
+  phoneObscured: string;
   email: string;
   linkedin: string;
   linkedinDisplay: string;
@@ -83,13 +83,44 @@ export const RESUME_EMAIL_PARTS = [
   "com",
 ] as const;
 
+/**
+ * Masked phone shown in static HTML / serialized props. Full digits are never
+ * stored as a contiguous string in source, JSON-LD, or page data.
+ */
+export const RESUME_PHONE_OBSCURED = "(650) •••-••••";
+
+/**
+ * Phone as split char-code parts. Assembled only in client click handlers so
+ * neither HTML nor JS bundles contain a regex-matchable phone number.
+ */
+const RESUME_PHONE_CODES_A = [40, 54, 53, 48, 41, 32] as const; // "(650) "
+const RESUME_PHONE_CODES_B = [53, 56, 48] as const; // exchange
+const RESUME_PHONE_CODES_C = [45] as const; // "-"
+const RESUME_PHONE_CODES_D = [53, 55, 56, 56] as const; // line
+
+/** Join encoded char codes into the display phone. Call only on the client. */
+export function assembleResumePhone(): string {
+  return [
+    ...RESUME_PHONE_CODES_A,
+    ...RESUME_PHONE_CODES_B,
+    ...RESUME_PHONE_CODES_C,
+    ...RESUME_PHONE_CODES_D,
+  ]
+    .map((code) => String.fromCharCode(code))
+    .join("");
+}
+
+/** Digits-only form for tel: links. Call only on the client. */
+export function assembleResumePhoneDigits(): string {
+  return assembleResumePhone().replace(/\D/g, "");
+}
+
 export const resumeContact: ContactInfo = {
   name: "Tyler Lindow",
   title: HEADLINE,
   location: "San Diego, CA",
   relocation: "Open to relocation",
-  phone: "(650) 580-5788",
-  phoneObscured: "(650) •••-••••",
+  phoneObscured: RESUME_PHONE_OBSCURED,
   email: PUBLIC_CONTACT_EMAIL,
   linkedin: "https://www.linkedin.com/in/tlindow",
   linkedinDisplay: "linkedin.com/in/tlindow",

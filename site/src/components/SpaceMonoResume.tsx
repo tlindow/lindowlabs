@@ -1,15 +1,15 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { type ReactNode } from "react";
 import { motion, type Variants } from "framer-motion";
 import {
   Github,
-  Phone,
   MapPin,
   ArrowUpRight,
 } from "lucide-react";
 import { LinkedInIcon } from "@/components/brand/PartnerLogos";
 import BlurredResumeEmail from "@/components/BlurredResumeEmail";
+import RevealPhone from "@/components/RevealPhone";
 import {
   resumeContact,
   professionalSummary,
@@ -90,8 +90,6 @@ interface SpaceMonoResumeProps {
 }
 
 export default function SpaceMonoResume({ parsedResume }: SpaceMonoResumeProps) {
-  const [revealPhone, setRevealPhone] = useState(false);
-
   const contact = parsedResume?.contact || resumeContact;
   const summaryTitle = parsedResume?.summaryTitle || "Summary";
   const vision = parsedResume?.visionText || professionalSummary.text;
@@ -150,31 +148,7 @@ export default function SpaceMonoResume({ parsedResume }: SpaceMonoResumeProps) 
 
               {/* Line 2: Phone & Email */}
               <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-                <div className="inline-flex items-center gap-1.5 text-foreground">
-                  <Phone size={12} className="text-indigo-dark shrink-0" />
-                  <span className="print:hidden">
-                    {revealPhone ? (
-                      <a
-                        href={`tel:${contact.phone.replace(/[^0-9]/g, "")}`}
-                        className="text-foreground hover:text-indigo-dark transition-colors"
-                      >
-                        {contact.phone}
-                      </a>
-                    ) : (
-                      <button
-                        type="button"
-                        onClick={() => setRevealPhone(true)}
-                        className="text-foreground hover:text-indigo-dark transition-colors cursor-pointer text-left font-mono"
-                        title="Click to reveal phone number"
-                      >
-                        {contact.phoneObscured || "(650) •••-••••"}
-                      </button>
-                    )}
-                  </span>
-                  <span className="hidden print:inline text-foreground">
-                    {contact.phone}
-                  </span>
-                </div>
+                <RevealPhone obscured={contact.phoneObscured} />
                 <span className="text-border select-none">|</span>
 
                 <BlurredResumeEmail />
