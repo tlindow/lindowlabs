@@ -76,8 +76,7 @@ const valuePillars: ValuePillar[] = [
   {
     id: "methodical-enjoyable",
     title: "How I lead teams.",
-    ctaSubtext:
-      "Practices for incident response, AI-assisted development, and growing engineers.",
+    ctaSubtext: "Practices for growing engineers.",
     coinType: "github",
     link: {
       href: "https://github.com/tlindow",
@@ -85,25 +84,6 @@ const valuePillars: ValuePillar[] = [
       title: "Tyler Lindow - GitHub (github.com/tlindow)",
     },
     stories: [
-      {
-        pretitle: "My work product",
-        title: "Velocity Labs",
-        description:
-          "Velocity Labs gave my team a practice for working through production incidents on our legacy platform and embracing AI-driven development.",
-        screenshots: [
-          {
-            src: "/tinker-beginner-work.png",
-            alt: "Tinker by Beginner.work sign in app",
-            domain: "tinker.beginner.work",
-            href: "https://tinker.beginner.work",
-          },
-        ],
-        link: {
-          href: "/blog/velocity-labs",
-          label: "Read blog post",
-          title: "Velocity Labs",
-        },
-      },
       {
         pretitle: "My work product",
         title: "Building Teams as Raising Funds",

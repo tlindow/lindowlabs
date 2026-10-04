@@ -9,7 +9,6 @@ Fintech engineering manager with 4+ years leading teams of up to 9 engineers at 
 
 ## Themes
 - Building Product as System Architecture: https://tlindow.github.io/blog/building-product-as-system-architecture
-- Velocity Labs: https://tlindow.github.io/blog/velocity-labs
 
 ## Experience (lean)
 ### Founder | Beginner Work Inc.
@@ -17,7 +16,7 @@ Mar 2026 – Jul 2026
 
 ### Software Engineering Manager, Merchant Advocacy | Affirm
 Mar 2025 – Feb 2026
-Company-scale engineering management for Merchant Portal, the API-key and transaction-view surface for merchants integrated via ecommerce platforms or direct API.
+Led Merchant Advocacy Engineering (9 engineers, later 6), owning Merchant Portal, the API-key and transaction-view surface for merchants integrated via ecommerce platforms or direct API.
 
 ### Developer Support Engineering Manager, Partner Engineering | Affirm
 Jul 2021 – Mar 2025

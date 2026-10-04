@@ -8,7 +8,7 @@ const affirmRoles = [
     role: "Software Engineering Manager, Merchant Advocacy",
     when: "San Diego, CA (Remote) · Mar 2025 – Feb 2026",
     detail:
-      "Company-scale engineering management for Merchant Portal, the API-key and transaction-view surface for merchants integrated via ecommerce platforms or direct API.",
+      "Led Merchant Advocacy Engineering (9 engineers, later 6), owning Merchant Portal, the API-key and transaction-view surface for merchants integrated via ecommerce platforms or direct API.",
   },
   {
     role: "Developer Support Engineering Manager, Partner Engineering",
@@ -46,10 +46,6 @@ const themes = [
   {
     href: "/blog/building-product-as-system-architecture",
     title: "Building Product as System Architecture",
-  },
-  {
-    href: "/blog/velocity-labs",
-    title: "Velocity Labs",
   },
 ];
 

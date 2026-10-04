@@ -95,52 +95,6 @@ export const blogPosts: BlogPost[] = [
     content: [],
   },
   {
-    id: "velocity-labs",
-    slug: "velocity-labs",
-    pretitle: "My work product",
-    pillarId: "methodical-enjoyable",
-    pillarLabel: "01 Methodical & Empathetic",
-    title: "Velocity Labs",
-    subtitle:
-      "Velocity Labs gave my team a practice for working through production incidents on our legacy platform and embracing AI-driven development.",
-    date: "2026-09-11",
-    readTime: "3 min read",
-    author: defaultAuthor,
-    tags: [
-      "Velocity Labs",
-      "Affirm",
-      "AI Development",
-      "Reliability",
-    ],
-    summary:
-      "In September of 2025, I implemented Velocity Labs for my team in order to manage new and ongoing production incidents occurring on our legacy platform every week and provide ourselves a chance to develop revenue-driving software for Affirm in the new year.",
-    previewText:
-      "In September of 2025, I implemented Velocity Labs for my team in order to manage new and ongoing production incidents occurring on our legacy platform every week and provide ourselves a chance to develop revenue-driving software for Affirm in the new year.",
-    slides: [
-      {
-        id: 1,
-        slideNumber: "01/03",
-        quote:
-          "Velocity Labs had a simple objective: get engineers on my team developing more with less, and embracing AI-driven development.",
-      },
-      {
-        id: 2,
-        slideNumber: "02/03",
-        quote:
-          "The reason we weren't getting as much done before wasn't because we had adopted a brittle legacy system; it was because organizationally, we did not have a growth mindset.",
-      },
-      {
-        id: 3,
-        slideNumber: "03/03",
-        quote:
-          "The intelligence age is helping us move faster, but the real gains in adopting AI technology will help us unlock products that make it easy to try new things and extend trust with customers.",
-      },
-    ],
-    content: [],
-    audioSrc: "/audio/pages/blog-velocity-labs.mp3",
-    audioDurationSeconds: 61.47,
-  },
-  {
     id: "building-teams-as-raising-funds",
     slug: "building-teams-as-raising-funds",
     pretitle: "My work product",
