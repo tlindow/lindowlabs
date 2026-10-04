@@ -54,16 +54,10 @@ const valuePillars: ValuePillar[] = [
     stories: [
       {
         pretitle: "My work product",
-        title: "Leading the affirm.com Redesign",
+        title: "Building Product as System Architecture",
         description:
-          "Led the affirm.com redesign, set the priorities, took the team through the rebuild, and kept the design consistent across web and mobile.",
+          "The merchant lifecycle work at Affirm: system architecture treated as the product, so the portal can keep earning trust as the surface grows.",
         screenshots: [
-          {
-            src: "/affirm-home.png",
-            alt: "Affirm.com homepage website revamp",
-            domain: "affirm.com",
-            href: "https://www.affirm.com",
-          },
           {
             src: "/beginner-work.png",
             alt: "Beginner.work tinker app and word as currency",
@@ -71,18 +65,6 @@ const valuePillars: ValuePillar[] = [
             href: "https://www.beginner.work",
           },
         ],
-        link: {
-          href: "/blog/leading-the-affirm-dot-com-redesign",
-          label: "Read blog post",
-          title: "Leading the affirm.com Redesign",
-        },
-      },
-      {
-        pretitle: "My work product",
-        title: "Building Product as System Architecture",
-        description:
-          "The merchant lifecycle work at Affirm: system architecture treated as the product, so the portal can keep earning trust as the surface grows.",
-        screenshots: [],
         link: {
           href: "/blog/building-product-as-system-architecture",
           label: "Read blog post",

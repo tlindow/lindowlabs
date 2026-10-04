@@ -30,8 +30,8 @@ function redirectHtml(href) {
 function writeRedirect(oldSlug, href) {
   const flat = path.join(outDir, "blog", `${oldSlug}.html`);
   const nestedDir = path.join(outDir, "blog", oldSlug);
-  const sampleFlat = path.join(outDir, "blog", "leading-the-affirm-dot-com-redesign.html");
-  const sampleNested = path.join(outDir, "blog", "leading-the-affirm-dot-com-redesign", "index.html");
+  const sampleFlat = path.join(outDir, "blog", "building-product-as-system-architecture.html");
+  const sampleNested = path.join(outDir, "blog", "building-product-as-system-architecture", "index.html");
   const html = redirectHtml(href);
   const wrote = [];
 

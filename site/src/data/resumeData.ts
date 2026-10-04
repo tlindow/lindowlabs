@@ -401,7 +401,7 @@ export const deckSections: Record<string, DeckSectionData> = {
     category: "COMPANY-SCALE EM",
     headline: "Affirm carries the experience",
     summary:
-      "Company-scale engineering management for top-of-funnel marketing and the enterprise merchant portal.",
+      "Company-scale engineering management for the enterprise B2B portal developers and merchants trust.",
     theme: "blue",
   },
   "deck-section-ecosystem": {
