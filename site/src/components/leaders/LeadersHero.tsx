@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { Calendar } from "lucide-react";
-import ScrollReveal from "@/components/animations/ScrollReveal";
 import { LEADERS_CALENDLY_URL } from "@/data/leadersPage";
 
 export default function LeadersHero() {
@@ -11,19 +10,14 @@ export default function LeadersHero() {
       id="hero"
       className="flex flex-col justify-center items-center text-center px-4 max-w-5xl mx-auto space-y-6 sm:space-y-8 relative pt-8 sm:pt-10 pb-10 sm:pb-12 scroll-mt-20"
     >
-      <ScrollReveal className="w-full">
-        <Link
-          href="/"
-          className="inline-flex text-xs sm:text-sm font-mono font-medium text-muted hover:text-indigo-dark transition-colors underline-offset-4 hover:underline"
-        >
-          Engineering leadership for fintech platforms
-        </Link>
-      </ScrollReveal>
-
-      <ScrollReveal
-        delay={0.05}
-        className="space-y-4 sm:space-y-6 text-center max-w-4xl mx-auto flex flex-col items-center"
+      <Link
+        href="/"
+        className="inline-flex text-xs sm:text-sm font-mono font-medium text-muted hover:text-indigo-dark transition-colors underline-offset-4 hover:underline"
       >
+        Engineering leadership for fintech platforms
+      </Link>
+
+      <div className="space-y-4 sm:space-y-6 text-center max-w-4xl mx-auto flex flex-col items-center">
         <span className="text-xs sm:text-sm font-mono font-bold text-indigo-dark uppercase tracking-widest block">
           Let&apos;s talk
         </span>
@@ -36,12 +30,9 @@ export default function LeadersHero() {
           A working session with a fintech engineering manager. Bring the
           integration, incident or team problem that&apos;s eating your week.
         </p>
-      </ScrollReveal>
+      </div>
 
-      <ScrollReveal
-        delay={0.1}
-        className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4"
-      >
+      <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
         <a
           href={LEADERS_CALENDLY_URL}
           target="_blank"
@@ -52,7 +43,7 @@ export default function LeadersHero() {
           <Calendar size={15} className="shrink-0" />
           <span>Choose a time</span>
         </a>
-      </ScrollReveal>
+      </div>
     </header>
   );
 }

@@ -3,7 +3,12 @@
 import Link from "next/link";
 import { Calendar, BookOpen, ArrowUpRight } from "lucide-react";
 
-export default function Footer() {
+type FooterProps = {
+  /** Contact leaf: drop duplicate Let's talk heading; hide unused avatar slot. */
+  contactLeaf?: boolean;
+};
+
+export default function Footer({ contactLeaf = false }: FooterProps) {
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
   return (
@@ -20,21 +25,25 @@ export default function Footer() {
             <span className="text-xs font-mono font-bold uppercase tracking-widest text-indigo-dark block">
               Get in Touch
             </span>
-            <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground font-mono">
-              <Link
-                href="/schedule-time"
-                className="hover:text-indigo-dark transition-colors underline-offset-4 hover:underline"
-              >
-                Let&apos;s talk
-              </Link>
-            </h3>
-            {/* Slot for profile coin when contact section reaches middle of viewport */}
-            <div className="flex justify-center items-center py-2 min-h-[72px] sm:min-h-[88px]">
-              <div
-                id="contact-avatar-target"
-                className="w-16 h-16 sm:w-20 sm:h-20 rounded-full opacity-0 pointer-events-none"
-              />
-            </div>
+            {!contactLeaf ? (
+              <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground font-mono">
+                <Link
+                  href="/schedule-time"
+                  className="hover:text-indigo-dark transition-colors underline-offset-4 hover:underline"
+                >
+                  Let&apos;s talk
+                </Link>
+              </h3>
+            ) : null}
+            {/* Homepage morph avatar slot; unused on the contact leaf */}
+            {!contactLeaf ? (
+              <div className="flex justify-center items-center py-2 min-h-[72px] sm:min-h-[88px]">
+                <div
+                  id="contact-avatar-target"
+                  className="w-16 h-16 sm:w-20 sm:h-20 rounded-full opacity-0 pointer-events-none"
+                />
+              </div>
+            ) : null}
             <p className="text-xs sm:text-sm font-mono text-muted max-w-md mx-auto leading-relaxed">
               Open to Engineering Manager and Senior EM roles in fintech: payments, platform and developer experience, and partner integrations.
             </p>

@@ -19,7 +19,7 @@ export default function LeadersPage() {
           <LeadersReach />
         </main>
       </div>
-      <Footer />
+      <Footer contactLeaf />
     </HomepageTheme>
   );
 }

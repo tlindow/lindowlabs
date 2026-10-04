@@ -1,7 +1,6 @@
 "use client";
 
 import { Mail } from "lucide-react";
-import ScrollReveal from "@/components/animations/ScrollReveal";
 import { LinkedInIcon } from "@/components/brand/PartnerLogos";
 import { resumeContact } from "@/data/resumeData";
 
@@ -10,9 +9,9 @@ export default function LeadersReach() {
     <section
       id="reach"
       aria-labelledby="reach-title"
-      className="w-full px-4 sm:px-6 pb-16 sm:pb-24 scroll-mt-20"
+      className="w-full px-4 sm:px-6 pb-12 sm:pb-16 scroll-mt-20"
     >
-      <ScrollReveal className="mx-auto max-w-3xl text-center space-y-6">
+      <div className="mx-auto max-w-3xl text-center space-y-6">
         <h2
           id="reach-title"
           className="text-base sm:text-lg font-bold tracking-tight text-foreground font-mono"
@@ -42,7 +41,7 @@ export default function LeadersReach() {
             <span>{resumeContact.linkedinDisplay}</span>
           </a>
         </div>
-      </ScrollReveal>
+      </div>
     </section>
   );
 }

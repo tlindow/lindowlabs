@@ -1,7 +1,5 @@
 "use client";
 
-import ScrollReveal from "@/components/animations/ScrollReveal";
-
 export default function LeadersWho() {
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
@@ -9,9 +7,9 @@ export default function LeadersWho() {
     <section
       id="who"
       aria-labelledby="who-title"
-      className="w-full px-4 sm:px-6 pb-12 sm:pb-16 scroll-mt-20"
+      className="w-full px-4 sm:px-6 pb-10 sm:pb-14 scroll-mt-20"
     >
-      <ScrollReveal className="mx-auto max-w-3xl">
+      <div className="mx-auto max-w-3xl">
         <div className="rounded-2xl bg-sand px-6 py-8 sm:px-8 sm:py-10 md:px-10 md:py-12 border border-border/70">
           <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 sm:gap-8">
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -36,7 +34,7 @@ export default function LeadersWho() {
             </div>
           </div>
         </div>
-      </ScrollReveal>
+      </div>
     </section>
   );
 }
