@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import Footer from "@/components/Footer";
 import HomepageTheme from "@/components/HomepageTheme";
@@ -85,13 +84,7 @@ export default function LearningPage() {
     <HomepageTheme>
       <div className="no-print w-full">
         <main className="w-full">
-          <header className="flex flex-col justify-center items-center text-center px-4 max-w-5xl mx-auto space-y-4 sm:space-y-5 relative pt-8 sm:pt-10 pb-10 sm:pb-12 scroll-mt-20">
-            <Link
-              href="/"
-              className="inline-flex text-xs sm:text-sm font-mono font-medium text-muted hover:text-indigo-dark transition-colors underline-offset-4 hover:underline"
-            >
-              Engineering leadership for fintech platforms
-            </Link>
+          <header className="flex flex-col justify-center items-center text-center px-4 max-w-5xl mx-auto space-y-4 sm:space-y-5 relative pt-6 sm:pt-8 pb-10 sm:pb-12 scroll-mt-20">
             <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight text-foreground leading-[1.05] mx-auto">
               Learning
             </h1>
