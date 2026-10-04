@@ -45,6 +45,7 @@ async function fetchVisitors(): Promise<VisitorsData | null> {
     if (!res.ok) return null;
     const json: unknown = await res.json();
     if (!isValidVisitorsData(json)) return null;
+    // since: null means counting has not started; ignore zeros / empty lists
     if (json.since == null || json.since === "") return null;
     return json;
   } catch {
@@ -123,7 +124,7 @@ function VisitorsSections({ data }: { data: VisitorsData }) {
                 <li key={`${row.source}-${i}`}>
                   <ScrollReveal delay={Math.min(i, 6) * 0.04}>
                     <StatRow
-                      label={row.source || "direct"}
+                      label={row.source}
                       value={formatViews(row.views)}
                     />
                   </ScrollReveal>
@@ -190,6 +191,7 @@ export default function VisitorsPage() {
 
   useEffect(() => {
     let active = true;
+    // One-shot fetch. Endpoint is cached ~5 minutes; do not poll.
     fetchVisitors().then((result) => {
       if (!active) return;
       setData(result);

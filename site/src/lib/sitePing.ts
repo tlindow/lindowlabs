@@ -57,7 +57,8 @@ export function sendSitePing(pathname: string): void {
 
   try {
     if (typeof navigator.sendBeacon === "function") {
-      const blob = new Blob([body], { type: "application/json" });
+      // text/plain avoids a CORS preflight on simple beacon posts
+      const blob = new Blob([body], { type: "text/plain" });
       if (navigator.sendBeacon(SITE_PING_URL, blob)) return;
     }
   } catch {
@@ -67,7 +68,7 @@ export function sendSitePing(pathname: string): void {
   try {
     void fetch(SITE_PING_URL, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "text/plain" },
       body,
       keepalive: true,
       mode: "cors",
