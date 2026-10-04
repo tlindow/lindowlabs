@@ -20,12 +20,20 @@ export default function SiteChrome({ children }: { children: ReactNode }) {
   const pathname = usePathname() || "/";
   const lavenderNav = LAVENDER_ROUTES.has(pathname);
 
+  // Sticky nav must share a tall scroll container with page content. A nav-only
+  // wrapper is only as tall as the header, so position:sticky cannot pin.
   return (
     <NavbarActionsProvider>
-      <div className={lavenderNav ? "homepage-theme" : undefined}>
+      <div
+        className={
+          lavenderNav
+            ? "homepage-theme min-h-screen"
+            : "min-h-screen"
+        }
+      >
         <Navbar />
+        {children}
       </div>
-      {children}
     </NavbarActionsProvider>
   );
 }
