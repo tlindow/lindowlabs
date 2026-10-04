@@ -72,7 +72,7 @@ San Diego, CA | Open to relocation
 
 ## Summary
 
-Fintech engineering manager with 4+ years leading teams of up to 9 engineers at Affirm. Cut detection of higher-volume merchant outages from 20 minutes–2 hours to under 5, and held Merchant Portal at 99.9% availability with zero incidents during BFCM 2025. Ex-founder (Beginner Work Inc.). Targeting Engineering Manager / Senior EM roles in fintech (payments, platform/DevX, partner integrations).
+Fintech engineering manager with 4+ years leading teams of up to 9 engineers at Affirm. Cut detection of higher-volume merchant outages from ~1 hour on average to under 5 minutes, and held Merchant Portal at 99.9% availability with zero incidents during BFCM 2025. Ex-founder (Beginner Work Inc.). Targeting Engineering Manager / Senior EM roles in fintech (payments, platform/DevX, partner integrations).
 
 ---
 
@@ -104,7 +104,7 @@ Fintech engineering manager with 4+ years leading teams of up to 9 engineers at 
 *San Diego, CA (Remote) | Jul 2021 – Mar 2025*
 
 - **Scope:** Managed a team that grew from 1 to 9 engineers (all software engineers by early 2025), building and running the tooling behind Affirm's merchant and partner integrations: per-merchant observability and alerting, the Snowflake availability reporting behind the Amazon partnership, and partner REST API and webhook support.
-- **Observability:** Built per-merchant dashboards and alerting that cut detection time for outages at higher-volume merchants to under 5 minutes (previously 20 minutes–2 hours unnoticed).
+- **Observability:** Built per-merchant dashboards and alerting that cut detection time for outages at higher-volume merchants from ~1 hour on average to under 5 minutes.
 - **Amazon, flagship partner ([21% of Affirm’s GMV in FY2024](https://www.sec.gov/Archives/edgar/data/1820953/000182095325000080/afrm-20250630.htm)):** Supported Amazon from before its [August 2021](https://investors.affirm.com/news-releases/news-release-details/amazon-partners-with-affirm) launch, then led my team's build of the Snowflake availability report Affirm used to meet Amazon's partnership requirements, later the baseline for the VP of Engineering's spring 2025 reliability sprint.
 - **Merchant Portal SLA reports:** Acted as tech lead (no Staff engineers on the team yet) for an SLA reporting feature released in Merchant Portal in late 2024 to early 2025, letting Technical Account Managers share SLA reports directly with their merchants and cutting each monthly report's turnaround from ~2 weeks to ~1 week. Wrote the tech spec every direct report built from.
 - **Team building:** Owned interview rubrics and hiring decisions for 4 hires (2 developer support engineers and 2 SWEs, one in Poland) and integrated 5 engineers who joined through reorgs.
