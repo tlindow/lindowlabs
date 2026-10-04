@@ -9,8 +9,11 @@ export default function Navbar() {
   const pathname = usePathname() || "/";
   const { returnToHero } = useNavbarActions();
 
+  // Always painted at scroll 0. No scroll-linked opacity, visibility, or
+  // translate: the old fade-in (scrollY / hero progress) was removed so the
+  // bar is persistent from first paint and stays sticky while scrolling.
   return (
-    <header className="sticky top-0 z-50 w-full bg-background/85 backdrop-blur-md border-b border-border/80 no-print">
+    <header className="sticky top-0 z-50 w-full bg-background opacity-100 border-b border-border no-print">
       <div className="max-w-5xl mx-auto px-3 sm:px-6 md:px-8 h-14 sm:h-16 flex items-center justify-between gap-2 min-w-0">
         <div className="flex items-center justify-between w-full min-w-0 gap-2">
           <Link
