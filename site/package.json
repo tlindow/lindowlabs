@@ -18,7 +18,8 @@
     "export:pdf": "node scripts/sync-resume-gdrive.mjs --pdf-only",
     "sync:gdrive": "node scripts/sync-resume-gdrive.mjs",
     "export:gdoc": "node scripts/export-resume-gdoc.mjs --local-only",
-    "sync:gdoc": "node scripts/export-resume-gdoc.mjs"
+    "sync:gdoc": "node scripts/export-resume-gdoc.mjs",
+    "fetch:velocity": "node scripts/fetch-velocity.mjs"
   },
   "dependencies": {
     "@types/three": "^0.185.4",
