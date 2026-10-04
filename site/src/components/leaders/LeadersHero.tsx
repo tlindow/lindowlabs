@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { Calendar } from "lucide-react";
 import { LEADERS_CALENDLY_URL } from "@/data/leadersPage";
 
@@ -10,13 +9,6 @@ export default function LeadersHero() {
       id="hero"
       className="flex flex-col justify-center items-center text-center px-4 max-w-5xl mx-auto space-y-6 sm:space-y-8 relative pt-8 sm:pt-10 pb-10 sm:pb-12 scroll-mt-20"
     >
-      <Link
-        href="/"
-        className="inline-flex text-xs sm:text-sm font-mono font-medium text-muted hover:text-indigo-dark transition-colors underline-offset-4 hover:underline"
-      >
-        Engineering leadership for fintech platforms
-      </Link>
-
       <div className="space-y-4 sm:space-y-6 text-center max-w-4xl mx-auto flex flex-col items-center">
         <span className="text-xs sm:text-sm font-mono font-bold text-indigo-dark uppercase tracking-widest block">
           Let&apos;s talk
