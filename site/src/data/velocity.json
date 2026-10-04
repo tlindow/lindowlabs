@@ -1,0 +1,166 @@
+{
+  "generatedAt": "2026-10-04T06:46:48.518Z",
+  "beginnerIncluded": false,
+  "repos": [
+    {
+      "id": "lindowlabs",
+      "fullName": "tlindow/lindowlabs",
+      "public": true
+    },
+    {
+      "id": "tinker",
+      "fullName": "beginner-work/tinker",
+      "public": true
+    },
+    {
+      "id": "beginner",
+      "fullName": "beginner-work/beginner",
+      "public": false
+    }
+  ],
+  "headline": {
+    "prsLast7Days": 155,
+    "weeklyAverage4Weeks": 42.5,
+    "medianHoursToMerge4Weeks": 0.2
+  },
+  "weeks": [
+    {
+      "weekStart": "2026-08-10",
+      "counts": {
+        "lindowlabs": 0,
+        "tinker": 0,
+        "beginner": 0
+      }
+    },
+    {
+      "weekStart": "2026-08-17",
+      "counts": {
+        "lindowlabs": 0,
+        "tinker": 0,
+        "beginner": 0
+      }
+    },
+    {
+      "weekStart": "2026-08-24",
+      "counts": {
+        "lindowlabs": 0,
+        "tinker": 0,
+        "beginner": 0
+      }
+    },
+    {
+      "weekStart": "2026-08-31",
+      "counts": {
+        "lindowlabs": 1,
+        "tinker": 0,
+        "beginner": 0
+      }
+    },
+    {
+      "weekStart": "2026-09-07",
+      "counts": {
+        "lindowlabs": 0,
+        "tinker": 0,
+        "beginner": 0
+      }
+    },
+    {
+      "weekStart": "2026-09-14",
+      "counts": {
+        "lindowlabs": 1,
+        "tinker": 0,
+        "beginner": 0
+      }
+    },
+    {
+      "weekStart": "2026-09-21",
+      "counts": {
+        "lindowlabs": 6,
+        "tinker": 8,
+        "beginner": 0
+      }
+    },
+    {
+      "weekStart": "2026-09-28",
+      "counts": {
+        "lindowlabs": 32,
+        "tinker": 123,
+        "beginner": 0
+      }
+    }
+  ],
+  "recentShipped": [
+    {
+      "title": "Keep sticky top nav fully visible at scroll 0",
+      "repo": "lindowlabs",
+      "mergedAt": "2026-10-04",
+      "url": "https://github.com/tlindow/lindowlabs/pull/68"
+    },
+    {
+      "title": "Add discoverable Sign in / Sign up on signed-out /repo",
+      "repo": "tinker",
+      "mergedAt": "2026-10-04",
+      "url": "https://github.com/beginner-work/tinker/pull/452"
+    },
+    {
+      "title": "Fix sticky top nav containment so it stays pinned while scrolling",
+      "repo": "lindowlabs",
+      "mergedAt": "2026-10-04",
+      "url": "https://github.com/tlindow/lindowlabs/pull/67"
+    },
+    {
+      "title": "Fix /repo Keep crafting, restore structure sidebar, pin mobile actions",
+      "repo": "tinker",
+      "mergedAt": "2026-10-04",
+      "url": "https://github.com/beginner-work/tinker/pull/451"
+    },
+    {
+      "title": "Make the top nav sticky on every lindowlabs.dev route",
+      "repo": "lindowlabs",
+      "mergedAt": "2026-10-04",
+      "url": "https://github.com/tlindow/lindowlabs/pull/66"
+    },
+    {
+      "title": "Lock public contact email to tyler@lindowlabs.dev",
+      "repo": "tinker",
+      "mergedAt": "2026-10-04",
+      "url": "https://github.com/beginner-work/tinker/pull/449"
+    },
+    {
+      "title": "Use tyler@lindowlabs.dev sitewide; blur resume personal email",
+      "repo": "lindowlabs",
+      "mergedAt": "2026-10-04",
+      "url": "https://github.com/tlindow/lindowlabs/pull/65"
+    },
+    {
+      "title": "Continuous /repo page scroll + styled Keep crafting questions",
+      "repo": "tinker",
+      "mergedAt": "2026-10-04",
+      "url": "https://github.com/beginner-work/tinker/pull/448"
+    },
+    {
+      "title": "Fix Keep crafting inline scroll + sign-in on /repo",
+      "repo": "tinker",
+      "mergedAt": "2026-10-04",
+      "url": "https://github.com/beginner-work/tinker/pull/447"
+    },
+    {
+      "title": "Fix Location place select + floating island over the pad",
+      "repo": "tinker",
+      "mergedAt": "2026-10-04",
+      "url": "https://github.com/beginner-work/tinker/pull/446"
+    },
+    {
+      "title": "Remove Velocity Labs from published pitch",
+      "repo": "lindowlabs",
+      "mergedAt": "2026-10-04",
+      "url": "https://github.com/tlindow/lindowlabs/pull/64"
+    },
+    {
+      "title": "Remove affirm.com redesign from published pitch",
+      "repo": "lindowlabs",
+      "mergedAt": "2026-10-04",
+      "url": "https://github.com/tlindow/lindowlabs/pull/62"
+    }
+  ]
+}

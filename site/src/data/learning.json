@@ -1,0 +1,56 @@
+[
+  {
+    "type": "Reading",
+    "name": "Domain-Driven Design",
+    "author": "Eric Evans",
+    "topic": "System design",
+    "status": "In progress",
+    "note": "Chapter 1 done; now on Chapter 2, Communication and the Use of Language (17 sections)."
+  },
+  {
+    "type": "Reading",
+    "name": "Payments Systems in the U.S.",
+    "author": "Glenbrook Partners",
+    "topic": "Payments",
+    "status": "Not started"
+  },
+  {
+    "type": "Reading",
+    "name": "Designing Data-Intensive Applications",
+    "author": "Martin Kleppmann",
+    "topic": "System design",
+    "status": "Not started"
+  },
+  {
+    "type": "Exercise",
+    "name": "Formation: Persistent Storage",
+    "topic": "System design",
+    "status": "In progress",
+    "link": "https://formation.dev",
+    "note": "Current Formation system design module."
+  },
+  {
+    "type": "Exercise",
+    "name": "Sending a touch marks it sent",
+    "topic": "Outreach",
+    "status": "Not started",
+    "link": "https://github.com/beginner-work/tinker/blob/a59a47bf42fc31e7348e22d5539ff5f11e20fc62/exercises/mark-touch-sent.js",
+    "note": "markTouchSent(touch, sentAt) returns a new touch with status sent. From a real Tinker bug. Spec plus 3 failing tests."
+  },
+  {
+    "type": "Exercise",
+    "name": "Keep 9:00 AM after daylight saving ends",
+    "topic": "Scheduling",
+    "status": "Not started",
+    "link": "https://github.com/beginner-work/tinker/blob/a59a47bf42fc31e7348e22d5539ff5f11e20fc62/exercises/pacific-wall-time.js",
+    "note": "Keep a saved America/Los_Angeles wall time at 9:00 AM across the Nov 1, 2026 fall-back. Spec plus 3 failing tests."
+  },
+  {
+    "type": "Exercise",
+    "name": "Stripe PaymentIntent (test mode)",
+    "topic": "Payments",
+    "status": "Not started",
+    "link": "https://github.com/beginner-work/tinker/blob/a59a47bf42fc31e7348e22d5539ff5f11e20fc62/exercises/stripe-payment-intent.js",
+    "note": "Read client_secret, amount, currency and livemode from a PaymentIntent create fixture, no network. Spec plus 4 failing tests."
+  }
+]
