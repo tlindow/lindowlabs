@@ -3,7 +3,8 @@
 import ScrollReveal, { StaggerContainer, StaggerItem } from "@/components/animations/ScrollReveal";
 import { Mic, ExternalLink, Video } from "lucide-react";
 import { BeginnerSeedMark, HapiCupMark } from "@/components/brand/BeginnerMarks";
-import { TinkerMark, TINKER_URL } from "@/components/brand/TinkerLogo";
+import { TinkerMark } from "@/components/brand/TinkerLogo";
+import { BEGINNER_HAPI_URL, BEGINNER_URL } from "@/data/urls";
 
 export default function ResumeVentures() {
   return (
@@ -62,7 +63,7 @@ export default function ResumeVentures() {
         <StaggerContainer className="grid grid-cols-1 sm:grid-cols-3 gap-4" staggerDelay={0.08}>
           <StaggerItem>
             <a
-              href={TINKER_URL}
+              href={BEGINNER_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="group block rounded-2xl bg-surface border border-border p-5 hover:border-indigo/40 hover:shadow-md transition-all duration-200 h-full"
@@ -84,7 +85,7 @@ export default function ResumeVentures() {
 
           <StaggerItem>
             <a
-              href={TINKER_URL}
+              href={BEGINNER_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="group block rounded-2xl bg-surface border border-border p-5 hover:border-indigo/40 hover:shadow-md transition-all duration-200 h-full"
@@ -107,7 +108,7 @@ export default function ResumeVentures() {
 
           <StaggerItem>
             <a
-              href="https://www.beginner.work/hapi"
+              href={BEGINNER_HAPI_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="group block rounded-2xl bg-surface border border-border p-5 hover:border-indigo/40 hover:shadow-md transition-all duration-200 h-full"

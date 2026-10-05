@@ -14,6 +14,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { BEGINNER_HAPI_URL, BEGINNER_URL } from "@/data/urls";
 
 export interface JourneyOption {
   id: string;
@@ -73,7 +74,7 @@ const journeyOptions: JourneyOption[] = [
       "92 in-person conversations (including 5 VCs) and 28 early users",
     ],
     actions: [
-      { label: "Open Tinker", href: "https://tinker.beginner.work", isExternal: true, variant: "primary" },
+      { label: "Open Tinker", href: BEGINNER_URL, isExternal: true, variant: "primary" },
       { label: "Book Mentoring", href: "https://calendly.com/tylerlindow/elevate", isExternal: true, variant: "secondary" },
     ],
   },
@@ -115,7 +116,7 @@ const journeyOptions: JourneyOption[] = [
       "Source at github.com/beginner-work/tinker",
     ],
     actions: [
-      { label: "Open Tinker", href: "https://tinker.beginner.work", isExternal: true, variant: "primary" },
+      { label: "Open Tinker", href: BEGINNER_URL, isExternal: true, variant: "primary" },
       { label: "View source", href: "https://github.com/beginner-work/tinker", isExternal: true, variant: "secondary" },
     ],
   },
@@ -137,7 +138,7 @@ const journeyOptions: JourneyOption[] = [
     ],
     actions: [
       { label: "Skip to hāpi in Timeline", href: "#hapi", variant: "primary" },
-      { label: "Explore Brand Details", href: "https://www.beginner.work/hapi", isExternal: true, variant: "secondary" },
+      { label: "Explore Brand Details", href: BEGINNER_HAPI_URL, isExternal: true, variant: "secondary" },
     ],
   },
   {

@@ -19,6 +19,7 @@ import {
   TinkerGlobeMark,
   HapiCupMark,
 } from "@/components/brand/BeginnerMarks";
+import { BEGINNER_HAPI_URL, BEGINNER_URL } from "@/data/urls";
 
 export interface TimelineAction {
   label: string;
@@ -134,7 +135,7 @@ export const timelineMilestones: TimelineItem[] = [
     actions: [
       {
         label: "Open Tinker",
-        href: "https://tinker.beginner.work",
+        href: BEGINNER_URL,
         isExternal: true,
         variant: "primary",
       },
@@ -168,7 +169,7 @@ export const timelineMilestones: TimelineItem[] = [
     actions: [
       {
         label: "Explore hāpi",
-        href: "https://www.beginner.work/hapi",
+        href: BEGINNER_HAPI_URL,
         isExternal: true,
         variant: "primary",
       },
@@ -196,7 +197,7 @@ export const timelineMilestones: TimelineItem[] = [
     actions: [
       {
         label: "Open Tinker",
-        href: "https://tinker.beginner.work",
+        href: BEGINNER_URL,
         isExternal: true,
         variant: "primary",
       },
@@ -319,7 +320,7 @@ export const featuredVentures = [
     description:
       "Writing tool built solo in JavaScript, Node.js, Electron, and Postgres; shipped as desktop and web apps. Helped technical founders explain their work in their own voice.",
     tech: ["JavaScript", "Node.js", "Electron", "Postgres"],
-    url: "https://tinker.beginner.work",
+    url: BEGINNER_URL,
     icon: TinkerGlobeMark,
     accent: "group-hover:border-violet/50 border-border",
     badge: "Writing tool",
@@ -333,7 +334,7 @@ export const featuredVentures = [
     description:
       "Ran Beginner Work as sole founder from March to July 2026. Built Tinker; validated across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users. Beginner's research phase ended in July 2026.",
     tech: ["JavaScript", "Node.js", "Electron", "Postgres"],
-    url: "https://tinker.beginner.work",
+    url: BEGINNER_URL,
     icon: BeginnerSeedMark,
     accent: "group-hover:border-sprout/50 border-border",
     badge: "Founder",
@@ -347,7 +348,7 @@ export const featuredVentures = [
     description:
       "A San Diego craft beverage brand and mobile ordering PWA. Hop-based botanicals, community events, and frictionless tap-to-order experiences.",
     tech: ["TypeScript", "PWA", "Design System", "Mobile-First"],
-    url: "https://www.beginner.work/hapi",
+    url: BEGINNER_HAPI_URL,
     icon: HapiCupMark,
     accent: "group-hover:border-amber/50 border-border",
     badge: "Craft & Commerce",

@@ -4,8 +4,11 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowUpRight, ChevronLeft, ChevronRight, FileText } from "lucide-react";
-import WebGLCoin from "@/components/WebGLCoin";
-import { TinkerMark, TINKER_URL } from "@/components/brand/TinkerLogo";
+import WebGLCoin, { type WebGLCoinType } from "@/components/WebGLCoin";
+import { TinkerMark } from "@/components/brand/TinkerLogo";
+import { BeginnerSeedMark } from "@/components/brand/BeginnerMarks";
+import { AffirmLogo } from "@/components/brand/PartnerLogos";
+import { BEGINNER_HOST, BEGINNER_URL } from "@/data/urls";
 
 interface ScreenshotItem {
   src: string;
@@ -31,7 +34,7 @@ interface ValuePillar {
   pretitle?: string;
   title: string;
   ctaSubtext?: string;
-  coinType: "tinker" | "github";
+  coinType: WebGLCoinType;
   link: {
     href: string;
     label: string;
@@ -46,11 +49,11 @@ const valuePillars: ValuePillar[] = [
     title: "Founder, Beginner Work.",
     ctaSubtext:
       "Ran Beginner Work as sole founder from March to July 2026. Built Tinker, a writing tool that helped technical founders explain their work in their own voice; validated across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users. Beginner's research phase ended in July 2026.",
-    coinType: "tinker",
+    coinType: "beginner",
     link: {
-      href: TINKER_URL,
-      label: "Tinker",
-      title: "Tinker (tinker.beginner.work)",
+      href: BEGINNER_URL,
+      label: "Beginner",
+      title: "Beginner",
     },
     stories: [
       {
@@ -62,8 +65,8 @@ const valuePillars: ValuePillar[] = [
           {
             src: "/beginner-work.png",
             alt: "Tinker writing tool from Beginner Work",
-            domain: "tinker.beginner.work",
-            href: TINKER_URL,
+            domain: BEGINNER_HOST,
+            href: BEGINNER_URL,
           },
         ],
         link: {
@@ -78,11 +81,11 @@ const valuePillars: ValuePillar[] = [
     id: "methodical-enjoyable",
     title: "How I lead teams.",
     ctaSubtext: "Practices for growing engineers.",
-    coinType: "github",
+    coinType: "affirm",
     link: {
-      href: "https://github.com/tlindow",
-      label: "github.com/tlindow",
-      title: "Tyler Lindow - GitHub (github.com/tlindow)",
+      href: "/resume",
+      label: "Affirm",
+      title: "Tyler Lindow at Affirm (resume)",
     },
     stories: [
       {
@@ -360,13 +363,17 @@ export default function WhatYouGet() {
 
                     <a
                       href={pillar.link.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      {...(pillar.link.href.startsWith("http")
+                        ? { target: "_blank", rel: "noopener noreferrer" }
+                        : {})}
                       className="group inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-xs sm:text-sm font-mono font-bold transition-all hover:scale-[1.02] active:scale-[0.98] bg-foreground text-background hover:bg-foreground/90 shadow-xs"
                       title={pillar.link.title}
                     >
-                      {pillar.id === "culture-builder" ? (
-                        <TinkerMark className="h-4 w-4" alt="" />
+                      {pillar.coinType === "beginner" ? (
+                        <BeginnerSeedMark className="h-4 w-4 rounded-sm shrink-0" />
+                      ) : null}
+                      {pillar.coinType === "affirm" ? (
+                        <AffirmLogo className="h-4 w-auto brightness-0 invert" />
                       ) : null}
                       <span>{pillar.link.label}</span>
                       <ArrowUpRight

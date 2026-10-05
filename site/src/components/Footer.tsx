@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { Calendar, BookOpen, ArrowUpRight } from "lucide-react";
-import { TinkerMark, TINKER_URL } from "@/components/brand/TinkerLogo";
+import { BeginnerSeedMark } from "@/components/brand/BeginnerMarks";
+import { BEGINNER_URL } from "@/data/urls";
 
 type FooterProps = {
   /** Contact leaf: drop duplicate Let's talk heading; hide unused avatar slot. */
@@ -61,11 +62,11 @@ export default function Footer({ contactLeaf = false }: FooterProps) {
             </Link>
 
             <a
-              href={TINKER_URL}
+              href={BEGINNER_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="group inline-flex items-center gap-2 rounded-xl px-4 py-2 text-xs sm:text-sm font-mono font-bold text-foreground/90 hover:text-indigo-dark border border-border hover:border-indigo-dark/40 bg-surface hover:bg-surface-alt shadow-2xs transition-all"
-              title="Products: Tinker"
+              title="Products: Beginner"
             >
               <span className="text-[10px] sm:text-[11px] uppercase tracking-widest text-muted font-bold">
                 Products
@@ -73,8 +74,8 @@ export default function Footer({ contactLeaf = false }: FooterProps) {
               <span className="text-border select-none" aria-hidden="true">
                 |
               </span>
-              <TinkerMark className="h-4 w-4 sm:h-5 sm:w-5" alt="" />
-              <span>Tinker</span>
+              <BeginnerSeedMark className="h-4 w-4 sm:h-5 sm:w-5 rounded-md shrink-0 shadow-xs" />
+              <span>Beginner</span>
               <ArrowUpRight
                 size={13}
                 className="opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0"

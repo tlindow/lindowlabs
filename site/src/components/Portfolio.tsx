@@ -3,7 +3,8 @@
 import { ExternalLink, Sparkles, Layers } from "lucide-react";
 import ScrollReveal, { StaggerContainer, StaggerItem } from "@/components/animations/ScrollReveal";
 import { BeginnerSeedMark, HapiCupMark } from "@/components/brand/BeginnerMarks";
-import { TinkerMark, TINKER_URL } from "@/components/brand/TinkerLogo";
+import { TinkerMark } from "@/components/brand/TinkerLogo";
+import { BEGINNER_HAPI_URL, BEGINNER_URL } from "@/data/urls";
 
 const ventures = [
   {
@@ -12,7 +13,7 @@ const ventures = [
     description:
       "Ran Beginner Work as sole founder from March to July 2026. Built Tinker, a writing tool that helped technical founders explain their work in their own voice; validated across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users. Beginner's research phase ended in July 2026.",
     tech: ["JavaScript", "Node.js", "Electron", "Postgres"],
-    url: TINKER_URL,
+    url: BEGINNER_URL,
     github: "https://github.com/beginner-work/tinker",
     icon: BeginnerSeedMark,
     accent: "group-hover:border-indigo/40 border-indigo/20",
@@ -27,7 +28,7 @@ const ventures = [
     description:
       "Writing tool built solo in JavaScript, Node.js, Electron, and Postgres; shipped as desktop and web apps. Source published at github.com/beginner-work/tinker.",
     tech: ["JavaScript", "Node.js", "Electron", "Postgres"],
-    url: TINKER_URL,
+    url: BEGINNER_URL,
     github: "https://github.com/beginner-work/tinker",
     icon: TinkerMark,
     accent: "group-hover:border-violet/40",
@@ -42,7 +43,7 @@ const ventures = [
     description:
       "A San Diego craft beverage brand and mobile ordering PWA. Hop-based botanicals, community events, and frictionless tap-to-order experiences.",
     tech: ["TypeScript", "PWA", "Design System", "Mobile-First"],
-    url: "https://www.beginner.work/hapi",
+    url: BEGINNER_HAPI_URL,
     github: "https://github.com/tlindow",
     icon: HapiCupMark,
     accent: "group-hover:border-leaf/40",
