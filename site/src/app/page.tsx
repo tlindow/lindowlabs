@@ -272,11 +272,11 @@ export default function Home() {
           {/* FULL PAGE HERO: fill viewport under sticky nav so 1fr rows resolve */}
           <header
             id="hero"
-            className="@container relative text-center px-4 max-w-5xl mx-auto scroll-mt-20"
+            className="@container relative text-center px-4 max-w-5xl mx-auto scroll-mt-20 min-w-0 w-full overflow-x-clip"
           >
             <div
               id="hero-stage"
-              className="grid h-[calc(100svh-3.5rem)] sm:h-[calc(100svh-4rem)] grid-rows-[minmax(0,1fr)_auto_minmax(0,1fr)] justify-items-center"
+              className="grid h-[calc(100svh-3.5rem)] sm:h-[calc(100svh-4rem)] grid-rows-[minmax(0,1fr)_auto_minmax(0,1fr)] justify-items-center min-w-0 w-full"
             >
               {/* Above: photo + label, pinned to the bottom of the top 1fr */}
               <div className="flex flex-col items-center justify-end gap-3 sm:gap-4 w-full min-h-0 pb-3 sm:pb-4">
@@ -290,19 +290,19 @@ export default function Home() {
                 </span>
               </div>
 
-              {/* Fluid size: fixed text-4xl..8xl overflowed Space Mono black at common widths
-                  (each phrase wrapped). Clamp + nowrap keeps exactly two lines, as large as fits. */}
-              <h1 className="w-full max-w-full text-[length:clamp(1.55rem,7.7cqi,4.7rem)] font-black tracking-tight text-foreground leading-[1.05] mx-auto">
-                <span className="block whitespace-nowrap">Engineering leadership</span>
-                <span className="block whitespace-nowrap">for developer experience</span>
+              {/* Fluid size: clamp to container so Space Mono never overflows at
+                  320-430px. Block spans prefer two lines; wrap if still tight. */}
+              <h1 className="w-full max-w-full min-w-0 px-0.5 text-[length:clamp(1.05rem,min(6.2cqi,calc(100cqi/15.5)),4.7rem)] font-black tracking-tight text-foreground leading-[1.08] mx-auto overflow-x-clip">
+                <span className="block">Engineering leadership</span>
+                <span className="block">for developer experience</span>
               </h1>
 
               {/* Below: support, CTA, logo panel — top of bottom 1fr; overflow paints into spacer */}
               <div
                 id="hero-below"
-                className="flex flex-col items-center justify-start gap-5 sm:gap-6 w-full min-h-0 pt-3 sm:pt-4 pb-8 sm:pb-10"
+                className="flex flex-col items-center justify-start gap-5 sm:gap-6 w-full min-h-0 min-w-0 max-w-full pt-3 sm:pt-4 pb-8 sm:pb-10"
               >
-                <p className="text-sm sm:text-base md:text-lg font-mono text-muted mx-auto">
+                <p className="text-sm sm:text-base md:text-lg font-mono text-muted mx-auto w-full max-w-full min-w-0 text-pretty px-1">
                   {SITE_SUPPORT}
                 </p>
 
@@ -316,10 +316,10 @@ export default function Home() {
                   <span>Read resume</span>
                 </a>
 
-                {/* Previous employers + DevX / education logos in one panel */}
-                <div id="trusted-partners" className="w-full scroll-mt-24">
+                {/* Previous employers + education logos in one panel */}
+                <div id="trusted-partners" className="w-full min-w-0 max-w-full scroll-mt-24">
                   <TrustedPartnersBar />
-                  <div id="education" className="w-full scroll-mt-24">
+                  <div id="education" className="w-full min-w-0 max-w-full scroll-mt-24">
                     <EducationInstitutionsBar />
                   </div>
                 </div>

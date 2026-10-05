@@ -12,6 +12,12 @@ const NAV_LINKS = [
   { href: "/learning", label: "Learning" },
 ] as const;
 
+/** Matches HERO_PIN_SCROLL_DISTANCE in ScrollMorphAvatar (keep in sync). */
+const AVATAR_MORPH_SCROLL_DISTANCE = 240;
+
+/** Scroll progress at which the profile coin is treated as docked in the nav. */
+const AVATAR_DOCK_THRESHOLD = 0.72;
+
 function linkClass(active: boolean) {
   return [
     "text-xs sm:text-sm font-mono font-bold transition-colors whitespace-nowrap",
@@ -25,7 +31,11 @@ export default function Navbar() {
   const pathname = usePathname() || "/";
   const { returnToHero } = useNavbarActions();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolledPastDock, setScrolledPastDock] = useState(false);
   const menuId = useId();
+  const isHome = pathname === "/";
+  // Non-home routes have no morphing coin: keep the name left-aligned.
+  const avatarDocked = !isHome || scrolledPastDock;
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -36,15 +46,35 @@ export default function Navbar() {
     return () => window.removeEventListener("keydown", onKey);
   }, [menuOpen]);
 
+  // Homepage: track when the morphing profile coin docks into the nav slot.
+  useEffect(() => {
+    if (!isHome) return;
+
+    const update = () => {
+      const progress = Math.min(
+        Math.max(window.scrollY / AVATAR_MORPH_SCROLL_DISTANCE, 0),
+        1
+      );
+      setScrolledPastDock(progress >= AVATAR_DOCK_THRESHOLD);
+    };
+
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    return () => window.removeEventListener("scroll", update);
+  }, [isHome]);
+
+  // Name hugs the menu until the coin fills the top-left slot; then left-aligns.
+  const nameByMenu = isHome && !avatarDocked;
+
   // Always painted at scroll 0. No scroll-linked opacity, visibility, or
   // translate: the old fade-in (scrollY / hero progress) was removed so the
   // bar is persistent from first paint and stays sticky while scrolling.
   return (
-    <header className="sticky top-0 z-50 w-full bg-background opacity-100 border-b border-border no-print">
-      <div className="max-w-5xl mx-auto px-3 sm:px-6 md:px-8 h-14 sm:h-16 flex items-center justify-between gap-2 min-w-0">
+    <header className="sticky top-0 z-50 w-full bg-background opacity-100 border-b border-border no-print overflow-x-clip">
+      <div className="max-w-5xl mx-auto px-3 sm:px-6 md:px-8 h-14 sm:h-16 flex items-center gap-2 min-w-0">
         <Link
           href="/"
-          className="flex items-center gap-2 sm:gap-3 group cursor-pointer focus:outline-none min-w-0"
+          className="flex items-center gap-2 sm:gap-3 group cursor-pointer focus:outline-none flex-1 min-w-0"
           aria-label="Tyler Lindow - Back to top"
           onClick={(e) => {
             if (pathname !== "/") return;
@@ -62,7 +92,12 @@ export default function Navbar() {
             <div className="w-full h-full rounded-full opacity-0 pointer-events-none" />
           </div>
 
-          <div className="flex flex-col text-left min-w-0">
+          <div
+            className={[
+              "flex flex-col min-w-0 transition-[margin] duration-500 ease-out",
+              nameByMenu ? "ml-auto text-right" : "ml-0 text-left",
+            ].join(" ")}
+          >
             <span className="font-bold text-sm sm:text-base text-foreground group-hover:text-indigo-dark transition-colors leading-tight font-mono truncate">
               Tyler Lindow
             </span>
