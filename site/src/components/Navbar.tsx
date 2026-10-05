@@ -9,7 +9,6 @@ import { useNavbarActions } from "@/context/NavbarActions";
 
 const NAV_LINKS = [
   { href: "/visitors", label: "Visitors" },
-  { href: "/learning", label: "Learning" },
 ] as const;
 
 /** Matches HERO_PIN_SCROLL_DISTANCE in ScrollMorphAvatar (keep in sync). */

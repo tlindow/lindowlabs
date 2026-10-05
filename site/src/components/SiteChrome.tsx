@@ -11,7 +11,6 @@ const LAVENDER_ROUTES = new Set([
   "/time",
   "/get-your-time-back",
   "/visitors",
-  "/learning",
 ]);
 
 /**
