@@ -35,18 +35,14 @@ const GITHUB_SVG = `
 </svg>
 `;
 
-/** Beginner seed mark on a cream coin face (matches Previous Employers Beginner logo). */
+/** Green circular Beginner disc with white seed glyph (fills the coin face). */
 const BEGINNER_SVG = `
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="512" height="512">
-  <circle cx="100" cy="100" r="96" fill="#FFFDF7"/>
-  <circle cx="100" cy="100" r="94" fill="none" stroke="#E6E2D8" stroke-width="2.5"/>
-  <g transform="translate(28 28)">
-    <rect width="144" height="144" rx="32" fill="#2d5a3d"/>
-    <path d="M54.4 30.4 L54.4 110.4" stroke="#f5f3ef" stroke-width="8.4" stroke-linecap="round"/>
-    <path d="M54.4 65.6 C54.4 54.4, 65.6 46.4, 80 46.4 C97.6 46.4, 105.6 57.6, 105.6 72 C105.6 86.4, 97.6 97.6, 80 97.6 C65.6 97.6, 54.4 89.6, 54.4 78.4Z" stroke="#f5f3ef" stroke-width="8.4" fill="none" stroke-linejoin="round"/>
-    <path d="M54.4 44.8 C52.8 35.2, 62.4 27.2, 73.6 30.4 C70.4 35.2, 59.2 40, 54.4 44.8Z" fill="#7bc47a"/>
-    <path d="M54.4 38.4 C53.6 33.6, 48 30.4, 43.2 32 C44.8 35.2, 51.2 37.6, 54.4 38.4Z" fill="#5aad58" opacity="0.7"/>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" width="512" height="512">
+  <circle cx="90" cy="90" r="90" fill="#2d5a3d"/>
+  <path d="M68 38 L68 138" stroke="#f5f3ef" stroke-width="10.5" stroke-linecap="round"/>
+  <path d="M68 82 C68 68, 82 58, 100 58 C122 58, 132 72, 132 90 C132 108, 122 122, 100 122 C82 122, 68 112, 68 98Z" stroke="#f5f3ef" stroke-width="10.5" fill="none" stroke-linejoin="round"/>
+  <path d="M68 56 C66 44, 78 34, 92 38 C88 44, 74 50, 68 56Z" fill="#7bc47a"/>
+  <path d="M68 48 C67 42, 60 38, 54 40 C56 44, 64 47, 68 48Z" fill="#5aad58" opacity="0.7"/>
 </svg>
 `;
 

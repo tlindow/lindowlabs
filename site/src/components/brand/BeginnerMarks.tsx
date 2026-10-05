@@ -13,7 +13,7 @@ export function BeginnerSeedMark({
       className={className}
       {...props}
     >
-      <rect width="180" height="180" rx="40" fill="#2d5a3d" />
+      <circle cx="90" cy="90" r="90" fill="#2d5a3d" />
       <path
         d="M68 38 L68 138"
         stroke="#f5f3ef"
