@@ -47,7 +47,7 @@ export default function Footer({ contactLeaf = false }: FooterProps) {
               </div>
             ) : null}
             <p className="text-xs sm:text-sm font-mono text-muted max-w-md mx-auto leading-relaxed">
-              Open to Engineering Manager and Senior EM roles in developer experience, developer platforms, and partner integrations, including fintech.
+              Open to Engineering Manager and Senior EM roles in developer experience, developer platforms, and partner integrations.
             </p>
           </div>
 
