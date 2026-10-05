@@ -10,7 +10,7 @@ San Diego, CA | Open to relocation
 
 ## Summary
 
-Engineering manager with 4+ years leading teams of up to 9 engineers on Affirm's merchant and partner integrations and developer experience. Led 4+ Partner and Merchant Engineering teams through a merchant-domain architecture review that reshaped Affirm's merchant org, cut detection of higher-volume merchant outages from ~1 hour to under 5 minutes, and held Merchant Portal at 99.9% availability with zero incidents during BFCM 2025. As founder of Beginner Work, built a writing tool that helped technical founders explain their work in their own voice, bridging non-technical and technical builders. Targeting Engineering Manager / Senior EM roles in developer experience, developer platforms, and partner integrations.
+Engineering manager with 4+ years leading teams of up to 9 engineers on Affirm's merchant and partner integrations and developer experience. Built per-merchant dashboards and alerting that cut detection of higher-volume merchant outages from ~1 hour to under 5 minutes. Led 4+ Partner and Merchant Engineering teams through a merchant-domain architecture review that reshaped Affirm's merchant org, and held Merchant Portal at 99.9% availability with zero incidents during BFCM 2025. As founder of Beginner Work, built a writing tool that helped technical founders explain their work in their own voice, bridging non-technical and technical builders. Targeting Engineering Manager / Senior EM roles in developer experience, developer platforms, and partner integrations.
 
 ---
 
@@ -24,7 +24,7 @@ Engineering manager with 4+ years leading teams of up to 9 engineers on Affirm's
 
 *San Diego, CA | Mar 2026 – Jul 2026 (wound down before a raise)*
 
-- Built a writing tool as sole founder that helped founders, especially technical founders, develop their pitch in their personal voice; owned product discovery, architecture, and GTM. Validated demand across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users, some of them paying. Wound it down in July 2026 when paying users didn't keep using it.
+- Built a writing tool as sole founder that helped founders, especially technical founders, develop their pitch in their personal voice; owned product discovery, architecture, and GTM. Tested demand across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users, including 6 paying. Wound it down in July 2026 when paying users didn't keep using it.
 - Built Tinker solo in JavaScript, Node.js, Electron, and Postgres, shipped it as desktop and web apps, and published the source at [github.com/beginner-work/tinker](https://github.com/beginner-work/tinker).
 
 ### Software Engineering Manager, Merchant Advocacy | Affirm
