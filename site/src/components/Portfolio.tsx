@@ -2,35 +2,36 @@
 
 import { ExternalLink, Sparkles, Layers } from "lucide-react";
 import ScrollReveal, { StaggerContainer, StaggerItem } from "@/components/animations/ScrollReveal";
-import { BeginnerSeedMark, TinkerGlobeMark, HapiCupMark } from "@/components/brand/BeginnerMarks";
+import { BeginnerSeedMark, HapiCupMark } from "@/components/brand/BeginnerMarks";
+import { TinkerMark, TINKER_URL } from "@/components/brand/TinkerLogo";
 
 const ventures = [
   {
     title: "beginner",
-    tagline: "Everyone is a founder",
+    tagline: "Writing tool for technical founders",
     description:
-      "A founder platform and installable PWA App Store where diverse makers, healers, and builders mint their own web apps and receive direct community funding.",
-    tech: ["Next.js", "TypeScript", "PWA", "Stripe Connect", "PostgreSQL"],
-    url: "https://www.beginner.work",
-    github: "https://github.com/tlindow",
+      "Beginner Work ran March to July 2026 as sole founder. Built Tinker, a writing tool that helped technical founders explain their work in their own voice; validated across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users. Beginner's research phase ended in July 2026.",
+    tech: ["JavaScript", "Node.js", "Electron", "Postgres"],
+    url: TINKER_URL,
+    github: "https://github.com/beginner-work/tinker",
     icon: BeginnerSeedMark,
     accent: "group-hover:border-indigo/40 border-indigo/20",
-    badge: "Company & Platform",
+    badge: "Research phase ended 2026",
     badgeColor: "bg-indigo-light text-indigo-dark",
     hover: "group-hover:text-indigo-dark",
     glow: "group-hover:shadow-indigo/10",
   },
   {
     title: "tinker",
-    tagline: "A quiet place to be on the web",
+    tagline: "Explain your work in your own voice",
     description:
-      "An ad-free, distraction-free web shell powered by Claude on the search edge. Features phone/PIN auth, plain-language interview flows, and direct answer synthesis.",
-    tech: ["Anthropic Claude", "TypeScript", "Serverless", "PWA"],
-    url: "https://www.beginner.work",
-    github: "https://github.com/tlindow",
-    icon: TinkerGlobeMark,
+      "Writing tool built solo in JavaScript, Node.js, Electron, and Postgres; shipped as desktop and web apps. Source published at github.com/beginner-work/tinker.",
+    tech: ["JavaScript", "Node.js", "Electron", "Postgres"],
+    url: TINKER_URL,
+    github: "https://github.com/beginner-work/tinker",
+    icon: TinkerMark,
     accent: "group-hover:border-violet/40",
-    badge: "AI Product",
+    badge: "Writing tool",
     badgeColor: "bg-violet-light text-violet",
     hover: "group-hover:text-violet",
     glow: "group-hover:shadow-violet/10",
@@ -111,8 +112,8 @@ export default function Portfolio() {
           </div>
           <div className="mt-2 h-1 w-16 rounded-full bg-peach" />
           <p className="mt-3 sm:mt-4 text-muted text-[15px] sm:text-lg max-w-2xl">
-            A look at the companies, software products, and creative systems I&rsquo;m
-            building. More on{" "}
+            A look at companies, software products, and creative systems I&rsquo;ve
+            built. More on{" "}
             <a
               href="https://github.com/tlindow?tab=repositories"
               target="_blank"

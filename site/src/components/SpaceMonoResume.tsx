@@ -276,6 +276,7 @@ export default function SpaceMonoResume({ parsedResume }: SpaceMonoResumeProps) 
                                 {renderInlineMarkdown(`${bullet.category}:`)}
                               </strong>
                             )}
+                            {bullet.category ? " " : null}
                             <span className="text-foreground/85">
                               {renderInlineMarkdown(bullet.text)}
                             </span>

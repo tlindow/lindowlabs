@@ -2,7 +2,8 @@
 
 import ScrollReveal, { StaggerContainer, StaggerItem } from "@/components/animations/ScrollReveal";
 import { Mic, ExternalLink, Video } from "lucide-react";
-import { TinkerGlobeMark, BeginnerSeedMark, HapiCupMark } from "@/components/brand/BeginnerMarks";
+import { BeginnerSeedMark, HapiCupMark } from "@/components/brand/BeginnerMarks";
+import { TinkerMark, TINKER_URL } from "@/components/brand/TinkerLogo";
 
 export default function ResumeVentures() {
   return (
@@ -61,7 +62,7 @@ export default function ResumeVentures() {
         <StaggerContainer className="grid grid-cols-1 sm:grid-cols-3 gap-4" staggerDelay={0.08}>
           <StaggerItem>
             <a
-              href="https://www.beginner.work"
+              href={TINKER_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="group block rounded-2xl bg-surface border border-border p-5 hover:border-indigo/40 hover:shadow-md transition-all duration-200 h-full"
@@ -76,29 +77,30 @@ export default function ResumeVentures() {
                 beginner
               </h4>
               <p className="text-xs text-muted font-sans mt-1 leading-snug">
-                PWA App Store &amp; platform empowering diverse creators and independent makers.
+                Beginner Work ran March to July 2026 as sole founder. Built Tinker; Beginner&apos;s research phase ended in July 2026.
               </p>
             </a>
           </StaggerItem>
 
           <StaggerItem>
             <a
-              href="https://www.beginner.work"
+              href={TINKER_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="group block rounded-2xl bg-surface border border-border p-5 hover:border-indigo/40 hover:shadow-md transition-all duration-200 h-full"
             >
               <div className="flex items-center justify-between mb-3">
                 <div className="p-1.5 rounded-xl bg-violet-light text-violet">
-                  <TinkerGlobeMark className="w-5 h-5" />
+                  <TinkerMark className="w-5 h-5" alt="" />
                 </div>
                 <ExternalLink size={13} className="text-muted group-hover:text-indigo-dark transition-colors" />
               </div>
-              <h4 className="font-serif text-base font-normal text-foreground group-hover:text-indigo-dark transition-colors">
-                tinker
+              <h4 className="font-serif text-base font-normal text-foreground group-hover:text-indigo-dark transition-colors inline-flex items-center gap-1.5">
+                <TinkerMark className="w-4 h-4" alt="" />
+                Tinker
               </h4>
               <p className="text-xs text-muted font-sans mt-1 leading-snug">
-                Ad-free, quiet web shell running Claude on the search edge for deep writing.
+                Writing tool that helped technical founders explain their work in their own voice. Validated across successive prototypes through 92 conversations and 28 early users.
               </p>
             </a>
           </StaggerItem>

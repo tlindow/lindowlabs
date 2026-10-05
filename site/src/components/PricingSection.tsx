@@ -40,13 +40,13 @@ const columns: ColumnDefinition[] = [
     title: "B2B",
     tagline: "Community & Enablement",
     stats: [
-      { value: "1,000+", label: "Engineers Inspired", sublabel: "The Tech Interactive" },
-      { value: "27", label: "Founders Reached", sublabel: "Beginner" },
+      { value: "92", label: "Conversations", sublabel: "Beginner" },
+      { value: "28", label: "Early Users", sublabel: "Tinker" },
     ],
     scope: [
       "Technical curriculum & workshop design",
       "Developer community architecture",
-      "Founder research & developer discovery",
+      "Founder research & writing-tool discovery",
     ],
   },
   {
