@@ -15,7 +15,7 @@ Engineering manager with 4+ years leading teams of up to 9 engineers on Affirm's
 Mar 2026 – Jul 2026
 Built Tinker as sole founder, a writing tool that helped technical founders explain their work in their own voice. Validated across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users. Beginner's research phase ended in July 2026. Product: https://www.beginner.work Source: https://github.com/beginner-work/tinker
 
-### Software Engineering Manager, Merchant Advocacy | Affirm
+### Software Engineering Manager, Merchant Engineering | Affirm
 Mar 2025 – Feb 2026
 Led Merchant Advocacy Engineering (9 engineers, later 6), owning Merchant Portal, the API-key and transaction-view surface for merchants integrated via ecommerce platforms or direct API.
 

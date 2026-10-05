@@ -27,7 +27,7 @@ Engineering manager with 4+ years leading teams of up to 9 engineers on Affirm's
 - Built a writing tool as sole founder that helped founders, especially technical founders, develop their pitch in their personal voice; owned product discovery, architecture, and GTM. Tested demand across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users, including 6 paying. Wound it down in July 2026 when paying users didn't keep using it.
 - Built Tinker solo in JavaScript, Node.js, Electron, and Postgres, shipped it as desktop and web apps, and published the source at [github.com/beginner-work/tinker](https://github.com/beginner-work/tinker).
 
-### Software Engineering Manager, Merchant Advocacy | Affirm
+### Software Engineering Manager, Merchant Engineering | Affirm
 
 *San Diego, CA (Remote) | Mar 2025 – Feb 2026 (role eliminated)*
 
