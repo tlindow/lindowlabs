@@ -44,7 +44,7 @@ const valuePillars: ValuePillar[] = [
     id: "culture-builder",
     title: "Founder, Beginner Work.",
     ctaSubtext:
-      "Built and launched a fundraising pitch simulator as a solo founder, and validated demand through 92 in-person conversations and 28 early users.",
+      "Built a coding tool as a solo founder to develop developers and bridge non-technical and technical builders, and validated demand across successive prototypes through 92 in-person conversations and 28 early users.",
     coinType: "tinker",
     link: {
       href: "https://www.beginner.work",
