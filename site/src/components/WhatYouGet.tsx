@@ -45,7 +45,7 @@ const valuePillars: ValuePillar[] = [
     id: "culture-builder",
     title: "Founder, Beginner Work.",
     ctaSubtext:
-      "Beginner Work ran March to July 2026 as sole founder. Built Tinker, a writing tool that helped technical founders explain their work in their own voice; validated across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users. Beginner's research phase ended in July 2026.",
+      "Ran Beginner Work as sole founder from March to July 2026. Built Tinker, a writing tool that helped technical founders explain their work in their own voice; validated across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users. Beginner's research phase ended in July 2026.",
     coinType: "tinker",
     link: {
       href: TINKER_URL,
@@ -340,8 +340,8 @@ export default function WhatYouGet() {
                       <p className="text-xs sm:text-sm font-mono text-muted leading-snug text-center lg:text-left">
                         {pillar.id === "culture-builder" ? (
                           <>
-                            Beginner Work ran March to July 2026 as sole founder.
-                            Built{" "}
+                            Ran Beginner Work as sole founder from March to July
+                            2026. Built{" "}
                             <span className="inline-flex items-center gap-1 font-bold text-foreground/85 align-baseline">
                               <TinkerMark className="h-3.5 w-3.5" alt="" />
                               Tinker

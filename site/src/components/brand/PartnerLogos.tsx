@@ -212,7 +212,7 @@ export function EducationInstitutionsBar() {
   return (
     <div className="pt-5 sm:pt-6 pb-5 sm:pb-6 flex flex-col items-center gap-3.5 text-center">
       <span className="text-[10px] sm:text-[11px] font-mono uppercase tracking-widest text-muted font-bold">
-        DevX &amp; educational institutions
+        Devs &amp; educational institutions
       </span>
       <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-9 text-foreground/80 hover:text-foreground transition-colors">
         {/* UC San Diego Badge */}

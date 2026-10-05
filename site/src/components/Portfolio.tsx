@@ -10,7 +10,7 @@ const ventures = [
     title: "beginner",
     tagline: "Writing tool for technical founders",
     description:
-      "Beginner Work ran March to July 2026 as sole founder. Built Tinker, a writing tool that helped technical founders explain their work in their own voice; validated across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users. Beginner's research phase ended in July 2026.",
+      "Ran Beginner Work as sole founder from March to July 2026. Built Tinker, a writing tool that helped technical founders explain their work in their own voice; validated across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users. Beginner's research phase ended in July 2026.",
     tech: ["JavaScript", "Node.js", "Electron", "Postgres"],
     url: TINKER_URL,
     github: "https://github.com/beginner-work/tinker",

@@ -77,7 +77,7 @@ export default function ResumeVentures() {
                 beginner
               </h4>
               <p className="text-xs text-muted font-sans mt-1 leading-snug">
-                Beginner Work ran March to July 2026 as sole founder. Built Tinker; Beginner&apos;s research phase ended in July 2026.
+                Ran Beginner Work as sole founder from March to July 2026. Built Tinker; Beginner&apos;s research phase ended in July 2026.
               </p>
             </a>
           </StaggerItem>
