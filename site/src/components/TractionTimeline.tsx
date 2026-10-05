@@ -160,7 +160,7 @@ export const companyCards: BeginnerStyleCard[] = [
     boxShadow: "0 4px 24px rgba(0,0,0,0.08)",
     borderClass: "border-orange-200",
     trimColor: "#FDBA74",
-    brandMark: <BeginnerSeedMark className="w-6 h-6 rounded-lg shrink-0 shadow-xs" />,
+    brandMark: <BeginnerSeedMark className="w-6 h-6 shrink-0 shadow-xs" />,
     linkedinUrl: "https://www.linkedin.com/in/tlindow/details/experience/",
     totalVolumeSummary: "92 conversations, 28 early users",
     lineItems: [

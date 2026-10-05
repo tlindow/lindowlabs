@@ -41,7 +41,7 @@ export function BeginnerLogo({ className = "h-6 sm:h-7" }: { className?: string 
         fontWeight: 600,
       }}
     >
-      <BeginnerSeedMark className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg shrink-0 shadow-xs" />
+      <BeginnerSeedMark className="w-6 h-6 sm:w-7 sm:h-7 shrink-0 shadow-xs" />
       <span className="leading-none lowercase tracking-tight">beginner</span>
     </div>
   );

@@ -74,7 +74,7 @@ export default function Footer({ contactLeaf = false }: FooterProps) {
               <span className="text-border select-none" aria-hidden="true">
                 |
               </span>
-              <BeginnerSeedMark className="h-4 w-4 sm:h-5 sm:w-5 rounded-md shrink-0 shadow-xs" />
+              <BeginnerSeedMark className="h-4 w-4 sm:h-5 sm:w-5 shrink-0 shadow-xs" />
               <span>Beginner</span>
               <ArrowUpRight
                 size={13}
