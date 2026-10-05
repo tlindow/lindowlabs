@@ -61,6 +61,12 @@
 html {
   font-size: 105%;
   scroll-behavior: smooth;
+  overflow-x: clip;
+}
+
+html,
+body {
+  max-width: 100%;
 }
 
 /* Clear the sticky top nav when jumping to in-page anchors / headings. */
@@ -78,6 +84,7 @@ body {
   color: var(--color-foreground);
   font-family: var(--font-space-mono), monospace;
   letter-spacing: -0.015em;
+  overflow-x: clip;
 }
 
 /* Recruiter homepage + contact leaf (/schedule-time and aliases): cohesive
@@ -302,6 +309,11 @@ body {
   padding-left: 0.75rem;
   padding-right: 0.75rem;
   background-color: color-mix(in srgb, var(--hp-surface-alt) 55%, var(--hp-lavender));
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  overflow-x: clip;
 }
 
 /* Deep purple contact CTA: light text on deep violet */

@@ -169,39 +169,39 @@ export function OlinCollegeLogo({ className = "h-4 sm:h-5 w-auto" }: { className
 
 export function TrustedPartnersBar() {
   return (
-    <div className="pt-5 sm:pt-6 pb-1 flex flex-col items-center gap-3.5 text-center">
+    <div className="pt-5 sm:pt-6 pb-1 flex flex-col items-center gap-3.5 text-center w-full min-w-0 max-w-full">
       <span className="text-[10px] sm:text-[11px] font-mono uppercase tracking-widest text-muted font-bold">
         Previous Employers
       </span>
-      <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 md:gap-7 text-foreground/80 hover:text-foreground transition-colors">
+      <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-3 sm:gap-x-6 sm:gap-y-4 md:gap-7 w-full min-w-0 max-w-full text-foreground/80 hover:text-foreground transition-colors">
         {/* Beginner Partner Badge */}
-        <div className="flex items-center gap-2 px-2 py-1 rounded-xl hover:bg-surface-alt transition-colors">
-          <BeginnerLogo />
+        <div className="flex items-center gap-2 px-1.5 sm:px-2 py-1 rounded-xl hover:bg-surface-alt transition-colors max-w-full shrink">
+          <BeginnerLogo className="h-5 sm:h-7" />
         </div>
 
         {/* Affirm Partner Badge */}
-        <div className="flex items-center gap-2 px-2 py-1 rounded-xl hover:bg-surface-alt transition-colors">
-          <AffirmLogo className="h-5 sm:h-6 w-auto" />
+        <div className="flex items-center gap-2 px-1.5 sm:px-2 py-1 rounded-xl hover:bg-surface-alt transition-colors max-w-full shrink">
+          <AffirmLogo className="h-4 sm:h-6 w-auto max-w-[5.5rem] sm:max-w-none" />
         </div>
 
         {/* Galvanize Badge */}
-        <div className="flex items-center gap-2 px-2 py-1 rounded-xl hover:bg-surface-alt transition-colors">
-          <GalvanizeLogo className="h-4 sm:h-5 w-auto" />
+        <div className="flex items-center gap-2 px-1.5 sm:px-2 py-1 rounded-xl hover:bg-surface-alt transition-colors max-w-full shrink">
+          <GalvanizeLogo className="h-3.5 sm:h-5 w-auto max-w-[5.5rem] sm:max-w-none" />
         </div>
 
         {/* The Tech Interactive Badge */}
-        <div className="flex items-center gap-2 px-2 py-1 rounded-xl hover:bg-surface-alt transition-colors">
-          <TheTechLogo className="h-5 sm:h-6 w-auto" />
+        <div className="flex items-center gap-2 px-1.5 sm:px-2 py-1 rounded-xl hover:bg-surface-alt transition-colors max-w-full shrink">
+          <TheTechLogo className="h-4 sm:h-6 w-auto max-w-[6.5rem] sm:max-w-none" />
         </div>
 
         {/* Computer History Museum Badge */}
-        <div className="flex items-center gap-2 px-2 py-1 rounded-xl hover:bg-surface-alt transition-colors">
-          <CHMLogo className="h-5 sm:h-6 w-auto" />
+        <div className="flex items-center gap-2 px-1.5 sm:px-2 py-1 rounded-xl hover:bg-surface-alt transition-colors max-w-full shrink">
+          <CHMLogo className="h-4 sm:h-6 w-auto max-w-[5.5rem] sm:max-w-none" />
         </div>
 
         {/* UC San Diego Badge */}
-        <div className="flex items-center gap-2 px-2 py-1 rounded-xl hover:bg-surface-alt transition-colors">
-          <UCSDLogo className="h-4 sm:h-5 w-auto" />
+        <div className="flex items-center gap-2 px-1.5 sm:px-2 py-1 rounded-xl hover:bg-surface-alt transition-colors max-w-full shrink">
+          <UCSDLogo className="h-3.5 sm:h-5 w-auto max-w-[5.5rem] sm:max-w-none" />
         </div>
       </div>
     </div>
@@ -210,34 +210,34 @@ export function TrustedPartnersBar() {
 
 export function EducationInstitutionsBar() {
   return (
-    <div className="pt-5 sm:pt-6 pb-5 sm:pb-6 flex flex-col items-center gap-3.5 text-center">
+    <div className="pt-5 sm:pt-6 pb-5 sm:pb-6 flex flex-col items-center gap-3.5 text-center w-full min-w-0 max-w-full">
       <span className="text-[10px] sm:text-[11px] font-mono uppercase tracking-widest text-muted font-bold">
         Devs &amp; educational institutions
       </span>
-      <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-9 text-foreground/80 hover:text-foreground transition-colors">
+      <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-3 sm:gap-x-9 sm:gap-y-4 w-full min-w-0 max-w-full text-foreground/80 hover:text-foreground transition-colors">
         {/* UC San Diego Badge */}
-        <div className="flex items-center gap-2 px-2.5 py-1 rounded-xl hover:bg-surface-alt transition-colors">
-          <UCSDLogo className="h-4 sm:h-5 w-auto" />
+        <div className="flex items-center gap-2 px-1.5 sm:px-2.5 py-1 rounded-xl hover:bg-surface-alt transition-colors max-w-full shrink">
+          <UCSDLogo className="h-3.5 sm:h-5 w-auto max-w-[5.5rem] sm:max-w-none" />
         </div>
 
         {/* Northwestern University Badge */}
-        <div className="flex items-center gap-2 px-2.5 py-1 rounded-xl hover:bg-surface-alt transition-colors">
-          <NorthwesternLogo className="h-5 sm:h-6 md:h-7 w-auto" />
+        <div className="flex items-center gap-2 px-1.5 sm:px-2.5 py-1 rounded-xl hover:bg-surface-alt transition-colors max-w-full shrink">
+          <NorthwesternLogo className="h-4 sm:h-6 md:h-7 w-auto max-w-[7rem] sm:max-w-none" />
         </div>
 
         {/* Olin College of Engineering Badge */}
-        <div className="flex items-center gap-2 px-2.5 py-1 rounded-xl hover:bg-surface-alt transition-colors">
-          <OlinCollegeLogo className="h-4 sm:h-5 w-auto" />
+        <div className="flex items-center gap-2 px-1.5 sm:px-2.5 py-1 rounded-xl hover:bg-surface-alt transition-colors max-w-full shrink">
+          <OlinCollegeLogo className="h-3.5 sm:h-5 w-auto max-w-[5.5rem] sm:max-w-none" />
         </div>
 
         {/* Hack Reactor Badge */}
-        <div className="flex items-center gap-2 px-2.5 py-1 rounded-xl hover:bg-surface-alt transition-colors">
-          <HackReactorLogo className="h-4 sm:h-5 w-auto" />
+        <div className="flex items-center gap-2 px-1.5 sm:px-2.5 py-1 rounded-xl hover:bg-surface-alt transition-colors max-w-full shrink">
+          <HackReactorLogo className="h-3.5 sm:h-5 w-auto max-w-[5.5rem] sm:max-w-none" />
         </div>
 
         {/* Deep Atlas Badge */}
-        <div className="flex items-center gap-2 px-2.5 py-1 rounded-xl hover:bg-surface-alt transition-colors">
-          <DeepAtlasLogo className="h-3.5 sm:h-4.5 w-auto" />
+        <div className="flex items-center gap-2 px-1.5 sm:px-2.5 py-1 rounded-xl hover:bg-surface-alt transition-colors max-w-full shrink">
+          <DeepAtlasLogo className="h-3 sm:h-4.5 w-auto max-w-[5rem] sm:max-w-none" />
         </div>
       </div>
     </div>
