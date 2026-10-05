@@ -67,6 +67,8 @@ html {
 html,
 body {
   max-width: 100%;
+  /* Pan only: blocks pinch-zoom / double-tap zoom on iOS Safari (with viewport lock). */
+  touch-action: pan-x pan-y;
 }
 
 /* Clear the sticky top nav when jumping to in-page anchors / headings. */
