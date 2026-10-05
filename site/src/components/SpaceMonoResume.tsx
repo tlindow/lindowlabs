@@ -123,8 +123,32 @@ export default function SpaceMonoResume({ parsedResume }: SpaceMonoResumeProps) 
               <h1 className="text-2xl sm:text-4xl font-mono font-bold tracking-tight text-foreground">
                 {contact.name}
               </h1>
-              <p className="mt-1.5 text-xs sm:text-sm font-mono font-bold text-indigo-dark uppercase tracking-wider">
-                {contact.title}
+              <p className="mt-1.5 text-xs sm:text-sm font-mono font-bold text-indigo-dark uppercase tracking-wider print:tracking-normal print:text-[10.5px]">
+                {(() => {
+                  const parts = contact.title.split(" | ");
+                  const lead = parts.filter((part) => !/^Ex-/i.test(part));
+                  const trail = parts.filter((part) => /^Ex-/i.test(part));
+                  return (
+                    <>
+                      {lead.map((part, index) => (
+                        <span key={part}>
+                          {index > 0 ? " | " : null}
+                          {part}
+                        </span>
+                      ))}
+                      {trail.length > 0 ? (
+                        <>
+                          {" | "}
+                          <span className="whitespace-nowrap">
+                            {trail
+                              .map((part) => part.replaceAll("-", "\u2011"))
+                              .join(" | ")}
+                          </span>
+                        </>
+                      ) : null}
+                    </>
+                  );
+                })()}
               </p>
             </div>
 
