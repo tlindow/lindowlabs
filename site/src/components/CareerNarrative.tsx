@@ -5,7 +5,7 @@ const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 const affirmRoles = [
   {
-    role: "Software Engineering Manager, Merchant Advocacy",
+    role: "Software Engineering Manager, Merchant Engineering",
     when: "San Diego, CA (Remote) · Mar 2025 – Feb 2026",
     detail:
       "Led Merchant Advocacy Engineering (9 engineers, later 6), owning Merchant Portal, the API-key and transaction-view surface for merchants integrated via ecommerce platforms or direct API.",

@@ -263,7 +263,7 @@ export const experiences: ExperienceEntry[] = [
   {
     id: "affirm-swe-mgr",
     company: "Affirm",
-    role: "Software Engineering Manager, Merchant Advocacy",
+    role: "Software Engineering Manager, Merchant Engineering",
     locationAndPeriod: "San Diego, CA (Remote) | Mar 2025 – Feb 2026 (role eliminated)",
     bullets: [
       {
