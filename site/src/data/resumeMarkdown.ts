@@ -29,7 +29,7 @@ Fintech engineering manager with 4+ years leading teams of up to 9 engineers at 
 
 *San Diego, CA | Mar 2026 – Jul 2026 (wound down before a raise)*
 
-- Built and launched a fundraising pitch simulator (React/Next.js) as sole founder; owned product discovery, architecture, and GTM. Validated demand through 92 in-person conversations (including 5 VCs) and 28 early users.
+- Built a coding tool as sole founder, designed to develop developers and bridge non-technical and technical builders; owned product discovery, architecture, and GTM. Validated demand across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users.
 
 ### Software Engineering Manager (L7), Merchant Advocacy | Affirm
 
