@@ -10,7 +10,7 @@ San Diego, CA | Open to relocation
 
 ## Summary
 
-Fintech engineering manager with 4+ years leading teams of up to 9 engineers at Affirm, keeping large-scale merchant systems reliable. Cut detection of higher-volume merchant outages from ~1 hour on average to under 5 minutes, and held Merchant Portal at 99.9% availability with zero incidents during BFCM 2025. Builds tools that change how teams work and learn, from on-call and incident tooling at Affirm to a pitch-practice simulator as founder of Beginner Work, bridging non-technical and technical builders. Targeting Engineering Manager / Senior EM roles in fintech (payments, platform/DevX, partner integrations).
+Fintech engineering manager with 4+ years leading teams of up to 9 engineers at Affirm, keeping large-scale merchant systems reliable. Cut detection of higher-volume merchant outages from ~1 hour on average to under 5 minutes, and held Merchant Portal at 99.9% availability with zero incidents during BFCM 2025. Builds tools that change how teams work and learn, from on-call and incident tooling at Affirm to a coding tool driven by developing developers as founder of Beginner Work, bridging non-technical and technical builders. Targeting Engineering Manager / Senior EM roles in fintech (payments, platform/DevX, partner integrations).
 
 ---
 
