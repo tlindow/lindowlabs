@@ -125,7 +125,7 @@ export const timelineMilestones: TimelineItem[] = [
     dotColor: "bg-sprout",
     kicker: "Research phase ended July 2026",
     summary:
-      "Beginner Work ran March to July 2026 as sole founder. Built Tinker, a writing tool that helped technical founders explain their work in their own voice; validated across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users. Beginner's research phase ended in July 2026.",
+      "Ran Beginner Work as sole founder from March to July 2026. Built Tinker, a writing tool that helped technical founders explain their work in their own voice; validated across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users. Beginner's research phase ended in July 2026.",
     highlights: [
       "Sole founder, March to July 2026",
       "Built Tinker for technical founders",
@@ -178,7 +178,7 @@ export const timelineMilestones: TimelineItem[] = [
     id: "tinker",
     date: "Mar 2026 – Jul 2026",
     yearNumber: "2026",
-    title: "Tinker — writing tool for technical founders",
+    title: "Tinker: writing tool for technical founders",
     tag: "Writing tool",
     category: "product",
     icon: Globe,
@@ -331,7 +331,7 @@ export const featuredVentures = [
     title: "beginner",
     tagline: "Research phase ended July 2026",
     description:
-      "Beginner Work ran March to July 2026 as sole founder. Built Tinker; validated across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users. Beginner's research phase ended in July 2026.",
+      "Ran Beginner Work as sole founder from March to July 2026. Built Tinker; validated across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users. Beginner's research phase ended in July 2026.",
     tech: ["JavaScript", "Node.js", "Electron", "Postgres"],
     url: "https://tinker.beginner.work",
     icon: BeginnerSeedMark,
