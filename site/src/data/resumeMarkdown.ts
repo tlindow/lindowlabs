@@ -15,7 +15,7 @@ San Diego, CA | Open to relocation
 
 ## Summary
 
-Fintech engineering manager with 4+ years leading teams of up to 9 engineers at Affirm, keeping large-scale merchant systems reliable. Cut detection of higher-volume merchant outages from ~1 hour to under 5 minutes and held Merchant Portal at 99.9% availability, with zero incidents during BFCM 2025. Builds tools that change how teams work and learn: on-call and incident tooling at Affirm, and, as founder of Beginner Work, a coding tool built to develop developers and bridge non-technical and technical builders. Targeting Engineering Manager / Senior EM roles in fintech (payments, platform/DevX, partner integrations).
+Fintech engineering manager with 4+ years leading teams of up to 9 engineers at Affirm, keeping large-scale merchant systems reliable. Cut detection of higher-volume merchant outages from ~1 hour to under 5 minutes and held Merchant Portal at 99.9% availability, with zero incidents during BFCM 2025. Builds tools that change how teams work and learn: on-call and incident tooling at Affirm, and, as founder of Beginner Work, a writing tool that helped technical founders develop their pitch in their personal voice, bridging non-technical and technical builders. Targeting Engineering Manager / Senior EM roles in fintech (payments, platform/DevX, partner integrations).
 
 ---
 
@@ -29,7 +29,7 @@ Fintech engineering manager with 4+ years leading teams of up to 9 engineers at 
 
 *San Diego, CA | Mar 2026 – Jul 2026 (wound down before a raise)*
 
-- Built a coding tool as sole founder, designed to develop developers and bridge non-technical and technical builders; owned product discovery, architecture, and GTM. Validated demand across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users.
+- Built a writing tool as sole founder that helped founders, especially technical founders, develop their pitch in their personal voice; owned product discovery, architecture, and GTM. Validated demand across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users.
 
 ### Software Engineering Manager (L7), Merchant Advocacy | Affirm
 
