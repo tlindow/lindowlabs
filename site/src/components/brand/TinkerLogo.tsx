@@ -1,8 +1,11 @@
 "use client";
 
 import type { CSSProperties } from "react";
+import { BEGINNER_URL } from "@/data/urls";
 
-export const TINKER_URL = "https://tinker.beginner.work";
+/** Outbound product links for Tinker mentions go to Beginner (not tinker.beginner.work). */
+export const TINKER_URL = BEGINNER_URL;
+export { BEGINNER_URL };
 export const TINKER_MARK_SRC = "/tinker-mark.svg";
 
 type TinkerMarkProps = {
@@ -41,7 +44,7 @@ type TinkerNameProps = {
   className?: string;
   markClassName?: string;
   markSize?: number;
-  /** When true, wrap as a link to tinker.beginner.work */
+  /** When set, wrap as a link (defaults to Beginner site). Pass false for plain text. */
   href?: string | false;
   title?: string;
 };
@@ -51,7 +54,7 @@ export function TinkerName({
   className = "",
   markClassName = "h-[1.1em] w-[1.1em]",
   markSize,
-  href = TINKER_URL,
+  href = BEGINNER_URL,
   title = "Tinker",
 }: TinkerNameProps) {
   const content = (

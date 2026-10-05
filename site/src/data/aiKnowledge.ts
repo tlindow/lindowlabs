@@ -1,3 +1,4 @@
+import { BEGINNER_URL } from "@/data/urls";
 export interface AIResponseAction {
   label: string;
   href: string;
@@ -286,11 +287,13 @@ export const knowledgeBase: KnowledgeTopic[] = [
       "Tyler founded Beginner Work (March to July 2026), built Tinker, and makes hāpi. Beginner's research phase ended in July 2026.",
     details: [
       "🌱 Beginner Work: Ran Beginner Work as sole founder from March to July 2026. Built Tinker; validated across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users. Beginner's research phase ended in July 2026.",
-      "🌐 Tinker: A writing tool that helped technical founders explain their work in their own voice. Product: https://tinker.beginner.work Source: github.com/beginner-work/tinker.",
+      "🌐 Tinker: A writing tool that helped technical founders explain their work in their own voice. Product: " +
+        BEGINNER_URL +
+        " Source: github.com/beginner-work/tinker.",
       "🍵 hāpi: A San Diego craft beverage brand and mobile ordering PWA serving hop-based botanical elixirs.",
     ],
     actions: [
-      { label: "Open Tinker", href: "https://tinker.beginner.work", isExternal: true, variant: "primary" },
+      { label: "Open Tinker", href: BEGINNER_URL, isExternal: true, variant: "primary" },
       { label: "Connect on LinkedIn", href: "https://www.linkedin.com/in/tlindow", isExternal: true, variant: "secondary" },
       { label: "Book a Mentoring Session", href: "https://calendly.com/tylerlindow/elevate", isExternal: true, variant: "outline" },
     ],

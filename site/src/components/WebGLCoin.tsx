@@ -4,8 +4,10 @@ import React, { useEffect, useRef } from "react";
 import Link from "next/link";
 import * as THREE from "three";
 
+export type WebGLCoinType = "tinker" | "github" | "beginner" | "affirm";
+
 interface WebGLCoinProps {
-  type: "tinker" | "github";
+  type: WebGLCoinType;
   href: string;
   title: string;
   className?: string;
@@ -33,9 +35,21 @@ const GITHUB_SVG = `
 </svg>
 `;
 
-/**
- * Creates a milled/grooved coin rim normal texture.
- */
+/** Beginner seed mark on a cream coin face (matches Previous Employers Beginner logo). */
+const BEGINNER_SVG = `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="512" height="512">
+  <circle cx="100" cy="100" r="96" fill="#FFFDF7"/>
+  <circle cx="100" cy="100" r="94" fill="none" stroke="#E6E2D8" stroke-width="2.5"/>
+  <g transform="translate(28 28)">
+    <rect width="144" height="144" rx="32" fill="#2d5a3d"/>
+    <path d="M54.4 30.4 L54.4 110.4" stroke="#f5f3ef" stroke-width="8.4" stroke-linecap="round"/>
+    <path d="M54.4 65.6 C54.4 54.4, 65.6 46.4, 80 46.4 C97.6 46.4, 105.6 57.6, 105.6 72 C105.6 86.4, 97.6 97.6, 80 97.6 C65.6 97.6, 54.4 89.6, 54.4 78.4Z" stroke="#f5f3ef" stroke-width="8.4" fill="none" stroke-linejoin="round"/>
+    <path d="M54.4 44.8 C52.8 35.2, 62.4 27.2, 73.6 30.4 C70.4 35.2, 59.2 40, 54.4 44.8Z" fill="#7bc47a"/>
+    <path d="M54.4 38.4 C53.6 33.6, 48 30.4, 43.2 32 C44.8 35.2, 51.2 37.6, 54.4 38.4Z" fill="#5aad58" opacity="0.7"/>
+  </g>
+</svg>
+`;
+
 function createMilledRimTexture(): THREE.CanvasTexture {
   const canvas = document.createElement("canvas");
   canvas.width = 512;
@@ -58,6 +72,20 @@ function createMilledRimTexture(): THREE.CanvasTexture {
   return texture;
 }
 
+function faceSvgForType(type: WebGLCoinType): string | null {
+  if (type === "tinker") return TINKER_SVG;
+  if (type === "github") return GITHUB_SVG;
+  if (type === "beginner") return BEGINNER_SVG;
+  return null;
+}
+
+function rimColorForType(type: WebGLCoinType): number {
+  if (type === "tinker") return 0xe6dfd5;
+  if (type === "beginner") return 0xd4e0d4;
+  if (type === "affirm") return 0xd8dde3;
+  return 0xd8dde3;
+}
+
 export default function WebGLCoin({
   type,
   href,
@@ -76,8 +104,8 @@ export default function WebGLCoin({
     const container = containerRef.current;
     const width = container.clientWidth || 180;
     const height = container.clientHeight || 180;
+    const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
-    // Helper to detect mobile environment (screens < 768px or touch/coarse devices)
     const checkIsMobile = () => {
       if (typeof window === "undefined") return false;
       return (
@@ -86,7 +114,6 @@ export default function WebGLCoin({
       );
     };
 
-    // Evaluate whether the coin is in the vertical middle of the viewport on mobile
     const checkViewportPosition = () => {
       if (!containerRef.current) return;
       const isMobile = checkIsMobile();
@@ -101,7 +128,6 @@ export default function WebGLCoin({
       const vh = window.innerHeight || document.documentElement.clientHeight;
       const coinCenterY = rect.top + rect.height / 2;
 
-      // Vertical middle zone: 35% to 65% of viewport height (central third)
       isInMiddleRef.current = coinCenterY >= vh * 0.35 && coinCenterY <= vh * 0.65;
     };
 
@@ -109,12 +135,10 @@ export default function WebGLCoin({
     window.addEventListener("scroll", checkViewportPosition, { passive: true });
     window.addEventListener("resize", checkViewportPosition, { passive: true });
 
-    // 1. Scene & Camera
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(42, width / height, 0.1, 100);
     camera.position.set(0, 0, 4.8);
 
-    // 2. Renderer with transparent background
     const renderer = new THREE.WebGLRenderer({
       alpha: true,
       antialias: true,
@@ -126,7 +150,6 @@ export default function WebGLCoin({
     renderer.toneMappingExposure = 1.15;
     container.appendChild(renderer.domElement);
 
-    // 3. Lighting (Dynamic 3D specular setup)
     const ambientLight = new THREE.AmbientLight(0xffffff, 1.6);
     scene.add(ambientLight);
 
@@ -142,11 +165,9 @@ export default function WebGLCoin({
     pointLight.position.set(0, 2, 4);
     scene.add(pointLight);
 
-    // 4. Coin Textures
-    const svgString = type === "tinker" ? TINKER_SVG : GITHUB_SVG;
     const img = new Image();
-    const svgBlob = new Blob([svgString], { type: "image/svg+xml;charset=utf-8" });
-    const url = URL.createObjectURL(svgBlob);
+    img.crossOrigin = "anonymous";
+    let objectUrl: string | null = null;
 
     const coinCanvas = document.createElement("canvas");
     coinCanvas.width = 512;
@@ -164,42 +185,64 @@ export default function WebGLCoin({
 
     let needsInitialRender = true;
 
-    img.onload = () => {
+    const paintFace = (source: CanvasImageSource, padded = false) => {
+      const drawOnto = (ctx: CanvasRenderingContext2D) => {
+        ctx.clearRect(0, 0, 512, 512);
+        ctx.fillStyle = "#FFFDF7";
+        ctx.beginPath();
+        ctx.arc(256, 256, 250, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.save();
+        ctx.translate(256, 256);
+        ctx.rotate(-Math.PI / 2);
+        if (padded) {
+          ctx.drawImage(source, -200, -80, 400, 160);
+        } else {
+          ctx.drawImage(source, -256, -256, 512, 512);
+        }
+        ctx.restore();
+        ctx.strokeStyle = "#E6E2D8";
+        ctx.lineWidth = 6;
+        ctx.beginPath();
+        ctx.arc(256, 256, 248, 0, Math.PI * 2);
+        ctx.stroke();
+      };
+
       if (coinCtx) {
-        coinCtx.clearRect(0, 0, 512, 512);
-        coinCtx.save();
-        coinCtx.translate(256, 256);
-        coinCtx.rotate(-Math.PI / 2); // Rotate counterclockwise 90 degrees so logo is upright
-        coinCtx.drawImage(img, -256, -256, 512, 512);
-        coinCtx.restore();
+        drawOnto(coinCtx);
         frontTexture.needsUpdate = true;
       }
       const bCtx = backCanvas.getContext("2d");
       if (bCtx) {
-        bCtx.clearRect(0, 0, 512, 512);
-        bCtx.save();
-        bCtx.translate(256, 256);
-        bCtx.rotate(-Math.PI / 2); // Rotate counterclockwise 90 degrees so logo is upright
-        bCtx.drawImage(img, -256, -256, 512, 512);
-        bCtx.restore();
+        drawOnto(bCtx);
         backTexture.needsUpdate = true;
       }
-      URL.revokeObjectURL(url);
       needsInitialRender = true;
     };
-    img.src = url;
 
-    // 5. Coin Geometry
+    img.onload = () => {
+      paintFace(img, type === "affirm");
+      if (objectUrl) {
+        URL.revokeObjectURL(objectUrl);
+        objectUrl = null;
+      }
+    };
+
+    const svgFace = faceSvgForType(type);
+    if (svgFace) {
+      const svgBlob = new Blob([svgFace], { type: "image/svg+xml;charset=utf-8" });
+      objectUrl = URL.createObjectURL(svgBlob);
+      img.src = objectUrl;
+    } else if (type === "affirm") {
+      img.src = `${basePath}/affirm-logo.png`;
+    }
+
     const coinGeometry = new THREE.CylinderGeometry(1.5, 1.5, 0.22, 64);
     coinGeometry.rotateX(Math.PI / 2);
 
-    // 6. Materials
     const rimBump = createMilledRimTexture();
-    const isTinker = type === "tinker";
-    const rimColor = isTinker ? 0xe6dfd5 : 0xd8dde3;
-
     const rimMaterial = new THREE.MeshStandardMaterial({
-      color: rimColor,
+      color: rimColorForType(type),
       metalness: 0.85,
       roughness: 0.3,
       bumpMap: rimBump,
@@ -224,13 +267,9 @@ export default function WebGLCoin({
       backMaterial,
     ]);
 
-    // Initial resting state: perfectly upright, stationary facing front
     coinMesh.rotation.set(0, 0, 0);
     scene.add(coinMesh);
 
-    // 7. Animation Loop:
-    // On mobile: animates ONLY when in the vertical middle of the viewport.
-    // On desktop: animates on hover.
     let animationFrameId: number;
     let currentSpeed = 0;
 
@@ -242,25 +281,21 @@ export default function WebGLCoin({
       const hasClickImpulse = clickImpulseRef.current > 0.001;
 
       if (isActive || hasClickImpulse || Math.abs(currentSpeed) > 0.0005) {
-        // Accelerate when active, decelerate when inactive
         const targetSpeed = isActive ? 0.036 : 0;
         currentSpeed += (targetSpeed - currentSpeed) * 0.08;
 
         if (hasClickImpulse) {
           coinMesh.rotation.y += clickImpulseRef.current;
-          clickImpulseRef.current *= 0.93; // Smooth impulse decay
+          clickImpulseRef.current *= 0.93;
         }
 
         coinMesh.rotation.y += currentSpeed;
 
-        // Subtle 3D tilt during active motion to reveal the metallic rim
         const targetTilt = isActive ? 0.16 : 0;
         coinMesh.rotation.x += (targetTilt - coinMesh.rotation.x) * 0.08;
 
         renderer.render(scene, camera);
       } else {
-        // Coin has stopped spinning: keep rotation.y in whatever position it stopped (do not reset).
-        // Ease any remaining tilt back to upright resting position.
         const tiltDiff = 0 - coinMesh.rotation.x;
 
         if (Math.abs(tiltDiff) > 0.001 || needsInitialRender) {
@@ -273,7 +308,6 @@ export default function WebGLCoin({
 
     animate();
 
-    // 8. Resize Observer
     const handleResize = () => {
       if (!container) return;
       const w = container.clientWidth;
@@ -289,12 +323,12 @@ export default function WebGLCoin({
     const resizeObserver = new ResizeObserver(handleResize);
     resizeObserver.observe(container);
 
-    // Cleanup
     return () => {
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener("scroll", checkViewportPosition);
       window.removeEventListener("resize", checkViewportPosition);
       resizeObserver.disconnect();
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
       if (container.contains(renderer.domElement)) {
         container.removeChild(renderer.domElement);
       }
@@ -327,14 +361,12 @@ export default function WebGLCoin({
         isHoveredRef.current = false;
       }}
       onClick={() => {
-        // Trigger responsive click spin impulse on desktop, or on mobile only if in vertical middle
         if (!isMobileRef.current || isInMiddleRef.current) {
           clickImpulseRef.current = 0.18;
         }
       }}
       className="group relative inline-flex items-center justify-center cursor-pointer select-none focus:outline-none transition-transform duration-300 hover:scale-105"
     >
-      {/* 3D WebGL Canvas Container */}
       <div
         ref={containerRef}
         className={`${className} relative flex items-center justify-center drop-shadow-md group-hover:drop-shadow-2xl transition-all duration-300`}
