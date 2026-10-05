@@ -13,7 +13,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: LEADERS_CANONICAL_URL, changeFrequency: "weekly", priority: 0.9 },
     { url: `${SITE}/resume`, changeFrequency: "weekly", priority: 0.9 },
     { url: `${SITE}/visitors`, changeFrequency: "daily", priority: 0.7 },
-    { url: `${SITE}/learning`, changeFrequency: "weekly", priority: 0.7 },
     { url: `${SITE}/blog`, changeFrequency: "weekly", priority: 0.7 },
     { url: `${SITE}/brand`, changeFrequency: "monthly", priority: 0.4 },
     { url: `${SITE}/modules`, changeFrequency: "monthly", priority: 0.4 },

@@ -18,7 +18,7 @@ export type VisitorsPage = {
   views: number;
 };
 
-/** Resume is the site root of the funnel; explore rolls up home + blog + /visitors + /learning. */
+/** Resume is the site root of the funnel; explore rolls up home + blog + /visitors. */
 export type VisitorsFunnel = {
   resume: number;
   explore: number;
