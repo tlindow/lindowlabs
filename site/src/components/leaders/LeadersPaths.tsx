@@ -39,8 +39,9 @@ export default function LeadersPaths() {
             Hiring an engineering manager?
           </h2>
           <p className="text-sm sm:text-base text-foreground/90 leading-relaxed font-mono flex-1">
-            I&apos;m looking for my next engineering manager role on a fintech
-            platform team. Read the resume, or email me directly.
+            I&apos;m looking for my next engineering manager role in developer
+            experience, platforms, or partner integrations. Read the resume, or
+            email me directly.
           </p>
           <div className="flex flex-col sm:flex-row flex-wrap gap-3">
             <Link
