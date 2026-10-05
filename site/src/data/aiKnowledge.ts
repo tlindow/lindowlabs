@@ -100,7 +100,7 @@ export const knowledgeBase: KnowledgeTopic[] = [
     details: [
       "🌱 1:1 Mentoring & Advisory ($150 / session): Hands-on code reviews, architecture pairing, career pivots, and GenAI workflows (booked via Calendly).",
       "⚡ Fractional Advisory & Sprints ($5,000 / mo or sprint): Strategic B2B SaaS architecture, enterprise SLA telemetry, launch de-risking, and executive advisory.",
-      "💼 Full-Time Product-Eng Leadership (Custom / Retained): Embedded Software Engineering Manager <> PM (L7 benchmark) scaling engineering orgs and safeguarding multi-billion merchant platforms.",
+      "💼 Full-Time Product-Eng Leadership (Custom / Retained): Embedded Software Engineering Manager / PM scaling engineering orgs and safeguarding multi-billion merchant platforms.",
     ],
     actions: [
       { label: "View Pricing Tiers", href: "#pricing", variant: "primary" },
@@ -283,14 +283,14 @@ export const knowledgeBase: KnowledgeTopic[] = [
       /founder of beginner|maker of (hapi|hāpi)|tinker/i,
     ],
     summary:
-      "Tyler is the founder of beginner, builder of tinker, and maker of hāpi — crafting tools and products that empower makers, founders, and local communities.",
+      "Tyler founded Beginner Work (March to July 2026), built Tinker, and makes hāpi. Beginner's research phase ended in July 2026.",
     details: [
-      "🌱 beginner: A founder platform and installable PWA App Store where diverse creators mint apps and receive community backing ('Everyone is a founder').",
-      "🌐 tinker: A quiet, ad-free web shell powered by Claude on the search edge with guided writing and plain-language interview flows.",
+      "🌱 Beginner Work: Ran March to July 2026 as sole founder. Built Tinker; validated across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users. Beginner's research phase ended in July 2026.",
+      "🌐 Tinker: A writing tool that helped technical founders explain their work in their own voice. Product: https://tinker.beginner.work Source: github.com/beginner-work/tinker.",
       "🍵 hāpi: A San Diego craft beverage brand and mobile ordering PWA serving hop-based botanical elixirs.",
     ],
     actions: [
-      { label: "Explore Ventures Section", href: "#portfolio", variant: "primary" },
+      { label: "Open Tinker", href: "https://tinker.beginner.work", isExternal: true, variant: "primary" },
       { label: "Connect on LinkedIn", href: "https://www.linkedin.com/in/tlindow", isExternal: true, variant: "secondary" },
       { label: "Book a Mentoring Session", href: "https://calendly.com/tylerlindow/elevate", isExternal: true, variant: "outline" },
     ],

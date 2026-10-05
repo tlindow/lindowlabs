@@ -1,5 +1,7 @@
 "use client";
 
+import { TinkerMark } from "@/components/brand/TinkerLogo";
+
 export default function LeadersWho() {
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
@@ -26,10 +28,16 @@ export default function LeadersWho() {
                 Who you&apos;ll work with
               </h2>
               <p className="text-sm sm:text-base text-foreground/90 leading-relaxed">
-                I&apos;m Tyler Lindow, an engineering manager for fintech
-                platforms and merchant and partner integrations. I spent 6+
-                years at Affirm, most recently leading the team that owned
-                Merchant Portal, then founded Beginner Work.
+                I&apos;m Tyler Lindow, an engineering manager for developer
+                experience, platforms, and merchant and partner integrations. I
+                led Affirm teams that owned Merchant Portal and partner
+                integrations, then founded Beginner Work (March to July 2026),
+                building{" "}
+                <span className="inline-flex items-center gap-1.5 font-bold align-baseline">
+                  <TinkerMark className="h-4 w-4" alt="" />
+                  Tinker
+                </span>
+                , a writing tool for technical founders.
               </p>
             </div>
           </div>

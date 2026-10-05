@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowUpRight, ChevronLeft, ChevronRight, FileText } from "lucide-react";
 import WebGLCoin from "@/components/WebGLCoin";
+import { TinkerMark, TINKER_URL } from "@/components/brand/TinkerLogo";
 
 interface ScreenshotItem {
   src: string;
@@ -44,12 +45,12 @@ const valuePillars: ValuePillar[] = [
     id: "culture-builder",
     title: "Founder, Beginner Work.",
     ctaSubtext:
-      "Built a writing tool as a solo founder that helped founders, especially technical founders, develop their pitch in their personal voice, and validated demand across successive prototypes through 92 in-person conversations and 28 early users.",
+      "Beginner Work ran March to July 2026 as sole founder. Built Tinker, a writing tool that helped technical founders explain their work in their own voice; validated across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users. Beginner's research phase ended in July 2026.",
     coinType: "tinker",
     link: {
-      href: "https://www.beginner.work",
-      label: "beginner.work",
-      title: "Beginner Work (www.beginner.work)",
+      href: TINKER_URL,
+      label: "Tinker",
+      title: "Tinker (tinker.beginner.work)",
     },
     stories: [
       {
@@ -60,9 +61,9 @@ const valuePillars: ValuePillar[] = [
         screenshots: [
           {
             src: "/beginner-work.png",
-            alt: "Beginner.work tinker app and word as currency",
-            domain: "beginner.work",
-            href: "https://www.beginner.work",
+            alt: "Tinker writing tool from Beginner Work",
+            domain: "tinker.beginner.work",
+            href: TINKER_URL,
           },
         ],
         link: {
@@ -88,13 +89,13 @@ const valuePillars: ValuePillar[] = [
         pretitle: "My work product",
         title: "Building Teams as Raising Funds",
         description:
-          "Building the Affirm team the way you raise a round: intentional career growth, promotions, and a shared belief that the group knows how to grow the business.",
+          "Building the Affirm team with intentional career growth, promotions, and a shared belief that the group knows how to grow the business.",
         screenshots: [
           {
             src: "/beginner-card.png",
-            alt: "Beginner Cards and Raise app",
-            domain: "beginner.work",
-            href: "https://www.beginner.work",
+            alt: "Team growth practices from Affirm leadership",
+            domain: "lindowlabs.dev",
+            href: "/blog/building-teams-as-raising-funds",
           },
         ],
         link: {
@@ -337,7 +338,23 @@ export default function WhatYouGet() {
                   <div className="flex flex-col items-center text-center lg:items-start lg:text-left gap-3 w-full">
                     {pillar.ctaSubtext && (
                       <p className="text-xs sm:text-sm font-mono text-muted leading-snug text-center lg:text-left">
-                        {pillar.ctaSubtext}
+                        {pillar.id === "culture-builder" ? (
+                          <>
+                            Beginner Work ran March to July 2026 as sole founder.
+                            Built{" "}
+                            <span className="inline-flex items-center gap-1 font-bold text-foreground/85 align-baseline">
+                              <TinkerMark className="h-3.5 w-3.5" alt="" />
+                              Tinker
+                            </span>
+                            , a writing tool that helped technical founders
+                            explain their work in their own voice; validated
+                            across successive prototypes through 92 in-person
+                            conversations (including 5 VCs) and 28 early users.
+                            Beginner&apos;s research phase ended in July 2026.
+                          </>
+                        ) : (
+                          pillar.ctaSubtext
+                        )}
                       </p>
                     )}
 
@@ -348,6 +365,9 @@ export default function WhatYouGet() {
                       className="group inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-xs sm:text-sm font-mono font-bold transition-all hover:scale-[1.02] active:scale-[0.98] bg-foreground text-background hover:bg-foreground/90 shadow-xs"
                       title={pillar.link.title}
                     >
+                      {pillar.id === "culture-builder" ? (
+                        <TinkerMark className="h-4 w-4" alt="" />
+                      ) : null}
                       <span>{pillar.link.label}</span>
                       <ArrowUpRight
                         size={14}

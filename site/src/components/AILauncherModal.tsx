@@ -27,8 +27,8 @@ const AI_PROMPT_TEMPLATE = `You are an AI assistant helping me learn about Tyler
 • Name: Tyler Lindow (Founder, Software Developer, Mentor)
 • Location: San Diego, California (92102)
 • Origins: Transitioned from evolutionary biology research at Chicago's Field Museum into software development after observing an interactive terminal kiosk.
-• beginner (Founder): Founder platform and installable PWA App Store where diverse creators, healers, and makers mint apps ("Everyone is a founder") — https://www.beginner.work
-• tinker (Creator): A quiet, ad-free web shell running Claude on the search edge with guided writing interview flows — https://www.beginner.work
+• Beginner Work (Founder, Mar–Jul 2026): Sole founder. Built Tinker; validated across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users. Beginner's research phase ended in July 2026.
+• Tinker (writing tool): Helped technical founders explain their work in their own voice — https://tinker.beginner.work (source: https://github.com/beginner-work/tinker)
 • hāpi (Maker): San Diego botanical craft hop elixir brand & mobile ordering PWA — https://www.beginner.work/hapi
 • Keynote Speaking: Featured Keynote "Human Minds & AI Models" at DEVx Network San Diego (April 18, 2026), connecting cognitive science and autonomous AI agent design — Video: https://www.youtube.com/watch?v=STI5pw5F5Lo&t=631s
 • 1:1 Mentoring: Live code reviews, pair programming, and career coaching — https://calendly.com/tylerlindow/elevate

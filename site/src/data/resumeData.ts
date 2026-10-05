@@ -263,7 +263,7 @@ export const experiences: ExperienceEntry[] = [
   {
     id: "affirm-swe-mgr",
     company: "Affirm",
-    role: "Software Engineering Manager (L7), Merchant Advocacy",
+    role: "Software Engineering Manager, Merchant Advocacy",
     locationAndPeriod: "San Diego, CA (Remote) | Mar 2025 – Feb 2026 (role eliminated)",
     bullets: [
       {
@@ -275,7 +275,7 @@ export const experiences: ExperienceEntry[] = [
   {
     id: "affirm-dse-mgr",
     company: "Affirm",
-    role: "Developer Support Engineering Manager (L6 to L7), Partner Engineering",
+    role: "Developer Support Engineering Manager, Partner Engineering",
     locationAndPeriod: "San Diego, CA (Remote) | Jul 2021 – Mar 2025",
     bullets: [
       {
@@ -291,7 +291,7 @@ export const experiences: ExperienceEntry[] = [
   {
     id: "affirm-dse",
     company: "Affirm",
-    role: "Developer Support Engineer (L4 to L5), Partner Engineering",
+    role: "Developer Support Engineer, Partner Engineering",
     locationAndPeriod: "San Francisco, CA (Hybrid) | Sep 2019 – Jul 2021",
     bullets: [
       {
@@ -439,8 +439,9 @@ export const deckSections: Record<string, DeckSectionData> = {
     id: "deck-section-venture",
     slideNumber: "02",
     category: "FOUNDER / DEVX",
-    headline: "Beginner, dates only",
-    summary: "Founder, Beginner Work Inc. Mar 2026 – Jul 2026.",
+    headline: "Beginner Work, research phase",
+    summary:
+      "Founder, Beginner Work Inc. Mar 2026 – Jul 2026. Built Tinker, a writing tool that helped technical founders explain their work in their own voice; validated across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users. Beginner's research phase ended in July 2026.",
     theme: "yellow",
   },
   "deck-section-scale": {

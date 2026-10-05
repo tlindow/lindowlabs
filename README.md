@@ -1,6 +1,6 @@
 # Tyler Lindow
 
-**Engineering Manager, Fintech Platforms**  
+**Engineering Manager, Developer Experience**  
 San Diego, CA (Open to relocation) · [tyler@lindowlabs.dev](mailto:tyler@lindowlabs.dev) · [linkedin.com/in/tlindow](https://www.linkedin.com/in/tlindow) · [github.com/tlindow](https://github.com/tlindow)
 
 ---
@@ -31,10 +31,10 @@ This repository is structured into three clear pillars:
 
 The live narrative is on [tlindow.github.io](https://tlindow.github.io). The working resume is at [/resume](https://lindowlabs.dev/resume).
 
-- **Summary:** Fintech engineering manager with 4+ years leading teams of up to 9 engineers at Affirm, keeping large-scale merchant systems reliable. Cut detection of higher-volume merchant outages from ~1 hour to under 5 minutes and held Merchant Portal at 99.9% availability, with zero incidents during BFCM 2025. Builds tools that change how teams work and learn: on-call and incident tooling at Affirm, and, as founder of Beginner Work, a writing tool that helped technical founders develop their pitch in their personal voice, bridging non-technical and technical builders. Targeting Engineering Manager / Senior EM roles in fintech (payments, platform/DevX, partner integrations).
-- **Beginner | Founder** — Mar 2026 – Jul 2026 (dates only on the public narrative).
-- **Affirm** carries the experience: engineering management for top-of-funnel marketing and the enterprise merchant portal, then partner engineering.
-- **About** on the site uses that summary verbatim. Beginner stays dates-only on the lean narrative. Affirm carries the experience.
+- **Summary:** Engineering manager with 4+ years leading teams of up to 9 engineers on Affirm's merchant and partner integrations and developer experience. Led 4+ Partner and Merchant Engineering teams through a merchant-domain architecture review that reshaped Affirm's merchant org, cut detection of higher-volume merchant outages from ~1 hour to under 5 minutes, and held Merchant Portal at 99.9% availability with zero incidents during BFCM 2025. As founder of Beginner Work, built a writing tool that helped technical founders explain their work in their own voice, bridging non-technical and technical builders. Targeting Engineering Manager / Senior EM roles in developer experience, developer platforms, and partner integrations, including fintech.
+- **Beginner Work | Founder** — Mar 2026 – Jul 2026. Built Tinker, a writing tool that helped technical founders explain their work in their own voice; validated across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users. Beginner's research phase ended in July 2026. Product: [tinker.beginner.work](https://tinker.beginner.work). Source: [github.com/beginner-work/tinker](https://github.com/beginner-work/tinker).
+- **Affirm** carries the company-scale EM experience: Merchant Advocacy / Merchant Portal, then Partner Engineering developer support.
+- **About** on the site uses that summary verbatim.
 
 ## Education
 - **Deep Atlas** — Residency, Applied AI and Machine Learning

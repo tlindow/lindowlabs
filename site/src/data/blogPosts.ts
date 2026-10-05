@@ -42,7 +42,7 @@ export interface BlogPost {
 
 const defaultAuthor = {
   name: "Tyler Lindow",
-    role: "Engineering Manager | Fintech platform, merchant & partner integrations | Ex-Affirm | Ex-founder",
+    role: "Engineering Manager | Developer experience, platform, merchant & partner integrations | Ex-Affirm | Ex-founder",
   avatar: "/IMG_0548.jpeg",
   handle: "@tlindow",
   linkedin: "https://www.linkedin.com/in/tlindow",

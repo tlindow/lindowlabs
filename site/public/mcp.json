@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "name": "tyler-lindow-profile",
   "version": "1.0.0",
-  "description": "Public story for Tyler Lindow. Headline: Tyler Lindow | Engineering Manager, Fintech Platforms. The working resume is at /resume.",
+  "description": "Public story for Tyler Lindow. Headline: Tyler Lindow | Engineering Manager, Developer Experience. The working resume is at /resume.",
   "author": {
     "name": "Tyler Lindow",
     "email": "tyler@lindowlabs.dev",
@@ -25,19 +25,19 @@
     },
     {
       "id": "beginner",
-      "title": "beginner (Company & App Store)",
-      "year": 2024,
-      "url": "https://www.beginner.work",
-      "tagline": "Everyone is a founder",
-      "description": "Founder platform and installable PWA App Store where diverse creators, healers, and makers mint apps."
+      "title": "Beginner Work",
+      "year": 2026,
+      "url": "https://tinker.beginner.work",
+      "tagline": "Writing tool for technical founders",
+      "description": "Sole founder, March to July 2026. Built Tinker, a writing tool that helped technical founders explain their work in their own voice. Validated across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users. Beginner's research phase ended in July 2026."
     },
     {
       "id": "tinker",
-      "title": "tinker (Claude AI Web Shell)",
-      "year": 2025,
-      "url": "https://www.beginner.work",
-      "tagline": "A quiet place to be on the web",
-      "description": "Ad-free, privacy-first web shell powered by Claude on the search edge."
+      "title": "Tinker (writing tool)",
+      "year": 2026,
+      "url": "https://tinker.beginner.work",
+      "tagline": "Explain your work in your own voice",
+      "description": "Writing tool built solo in JavaScript, Node.js, Electron, and Postgres; shipped as desktop and web apps. Source at github.com/beginner-work/tinker."
     },
     {
       "id": "hapi",
