@@ -4,11 +4,10 @@ import type { Metadata } from "next";
 export const LEADERS_CANONICAL_URL = "https://lindowlabs.dev/schedule-time";
 
 /** Shared meta for contact routes (canonical + og:url always point at /schedule-time). */
-export const LEADERS_PAGE_TITLE =
-  "Get your time back | 30 minutes with a fintech engineering manager";
+export const LEADERS_PAGE_TITLE = "30 minutes with Tyler Lindow";
 
 export const LEADERS_PAGE_DESCRIPTION =
-  "30 focused minutes with a fintech engineering manager. Bring the integration, incident or team problem that's eating your week.";
+  "Book 30 minutes with an engineering manager for developer experience, platforms, and merchant and partner integrations.";
 
 export const LEADERS_CALENDLY_URL =
   "https://calendly.com/tylerlindow/get-your-time-back";

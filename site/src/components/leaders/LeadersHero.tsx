@@ -19,8 +19,8 @@ export default function LeadersHero() {
         </h1>
 
         <p className="text-sm sm:text-base md:text-lg font-mono text-muted mx-auto max-w-2xl leading-relaxed">
-          A working session with a fintech engineering manager. Bring the
-          integration, incident or team problem that&apos;s eating your week.
+          Book 30 minutes with an engineering manager for developer experience,
+          platforms, and merchant and partner integrations.
         </p>
       </div>
 
