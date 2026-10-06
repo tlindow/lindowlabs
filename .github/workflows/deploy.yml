@@ -56,6 +56,10 @@ jobs:
         working-directory: ./site
         run: npm run check:phone-leak
 
+      - name: Check mobile nav opens and Visitors link navigates
+        working-directory: ./site
+        run: npm run check:mobile-nav
+
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
 
