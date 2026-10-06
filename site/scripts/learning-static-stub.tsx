@@ -22,7 +22,8 @@ export default function LearningStaticStub() {
           Private dashboard
         </h1>
         <p className="text-sm font-mono text-muted leading-relaxed">
-          This page is only available with Google sign-in at{" "}
+          This page is only available with Stytch sign-in on the Vercel deploy
+          of{" "}
           <a
             href={LEARNING_DASHBOARD_URL}
             className="text-foreground underline underline-offset-2"

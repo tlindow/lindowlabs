@@ -1,6 +1,6 @@
 /**
  * Static stub for /learning during STATIC_EXPORT builds (GitHub Pages + local checks).
- * The real authenticated dashboard only runs on Vercel SSR.
+ * The real authenticated dashboard only runs on Vercel SSR with Stytch.
  */
 import type { Metadata } from "next";
 import { LEARNING_DASHBOARD_URL } from "@/data/urls";
@@ -21,7 +21,8 @@ export default function LearningStaticStub() {
           Private dashboard
         </h1>
         <p className="text-sm font-mono text-muted leading-relaxed">
-          This page is only available with Google sign-in at{" "}
+          This page is only available with Stytch sign-in on the Vercel deploy
+          of{" "}
           <a
             href={LEARNING_DASHBOARD_URL}
             className="text-foreground underline underline-offset-2"
