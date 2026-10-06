@@ -7,7 +7,7 @@
  * the URL changes. Also guards against reintroducing overflow-x: clip on the
  * sticky header (Safari clips overflow-y when overflow-x is clip).
  *
- * Usage (after npm run build):
+ * Usage (after npm run build:static):
  *   node scripts/check-mobile-nav.mjs
  *   node scripts/check-mobile-nav.mjs --url http://127.0.0.1:3000
  */
@@ -50,7 +50,7 @@ function contentType(filePath) {
 
 function startStaticServer() {
   if (!fs.existsSync(outDir)) {
-    throw new Error(`Missing ${outDir}. Run npm run build first.`);
+    throw new Error(`Missing ${outDir}. Run npm run build:static first.`);
   }
 
   const server = http.createServer((req, res) => {
@@ -134,15 +134,30 @@ async function run() {
       timeout: 5000,
     });
 
-    const panel = await page.waitForSelector('header [id] a[href="/visitors"]', {
-      visible: true,
-      timeout: 5000,
-    });
-    if (!panel) throw new Error("Visitors link not visible in open menu");
+    // Prefer the open mobile panel; ignore hidden sm+ inline Visitors links.
+    await page.waitForFunction(
+      () => {
+        const links = [
+          ...document.querySelectorAll(
+            'header div.relative a[href="/visitors"]'
+          ),
+        ];
+        return links.some((el) => {
+          const r = el.getBoundingClientRect();
+          return r.width > 0 && r.height > 0;
+        });
+      },
+      { timeout: 5000 }
+    );
 
     const geometry = await page.evaluate(() => {
       const header = document.querySelector("header");
-      const link = document.querySelector('header a[href="/visitors"]');
+      const link = [
+        ...document.querySelectorAll('header div.relative a[href="/visitors"]'),
+      ].find((el) => {
+        const r = el.getBoundingClientRect();
+        return r.width > 0 && r.height > 0;
+      });
       if (!header || !link) return null;
       const hr = header.getBoundingClientRect();
       const lr = link.getBoundingClientRect();
@@ -165,6 +180,9 @@ async function run() {
       );
     }
 
+    const panel = await page.$('header div.relative a[href="/visitors"]');
+    if (!panel) throw new Error("Visitors link missing in mobile menu");
+
     await Promise.all([
       page.waitForNavigation({ waitUntil: "networkidle0", timeout: 15000 }),
       panel.click(),
@@ -178,7 +196,6 @@ async function run() {
     // Menu should close after navigation (new page or client route).
     const stillOpen = await page.$('button[aria-label="Close menu"]');
     if (stillOpen) {
-      // Soft check: on full reload the menu remounts closed; if still open, fail.
       throw new Error("Menu still open after following Visitors link");
     }
 
