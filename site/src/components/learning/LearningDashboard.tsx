@@ -1,4 +1,3 @@
-import Link from "next/link";
 import {
   learningAppTiles,
   learningExercises,
@@ -40,11 +39,11 @@ export function LearningNotConfigured() {
           Sign-in not configured yet
         </h1>
         <p className="text-sm sm:text-base font-mono text-muted leading-relaxed">
-          Google sign-in needs{" "}
-          <code className="text-foreground">AUTH_SECRET</code>,{" "}
-          <code className="text-foreground">AUTH_GOOGLE_ID</code>, and{" "}
-          <code className="text-foreground">AUTH_GOOGLE_SECRET</code> in the
-          Vercel project env. Until those are set, this dashboard stays closed.
+          Stytch sign-in needs{" "}
+          <code className="text-foreground">STYTCH_PROJECT_ID</code> and{" "}
+          <code className="text-foreground">STYTCH_SECRET</code> in the Vercel
+          project env (same values as Tinker). Until those are set, this
+          dashboard stays closed.
         </p>
       </div>
     </main>
@@ -64,7 +63,7 @@ export function LearningUnauthorized({ email }: { email: string | null }) {
         <p className="text-sm sm:text-base font-mono text-muted leading-relaxed">
           {email
             ? `${email} is signed in, but this dashboard is limited to Tyler's accounts.`
-            : "This dashboard is limited to Tyler's accounts."}
+            : "This Stytch session is signed in, but no allowlisted email is attached to the user."}
         </p>
         <p className="text-xs font-mono text-muted leading-relaxed">
           Allowed: {LEARNING_ALLOWED_EMAILS.join(", ")}
@@ -77,31 +76,6 @@ export function LearningUnauthorized({ email }: { email: string | null }) {
             Sign out
           </button>
         </form>
-      </div>
-    </main>
-  );
-}
-
-export function LearningSignedOutHint() {
-  return (
-    <main className="min-h-[70vh] flex items-center justify-center px-4 sm:px-6 py-16">
-      <div className="max-w-lg w-full space-y-4 text-center">
-        <p className="text-xs font-mono uppercase tracking-[0.18em] text-muted">
-          Lindow Labs Learning
-        </p>
-        <h1 className="text-2xl sm:text-3xl font-bold font-mono text-foreground tracking-tight">
-          Sign in required
-        </h1>
-        <p className="text-sm sm:text-base font-mono text-muted leading-relaxed">
-          Redirecting to Google sign-in. If nothing happens, open the sign-in
-          link below.
-        </p>
-        <Link
-          href="/api/auth/signin/google?callbackUrl=/learning"
-          className="inline-flex items-center justify-center px-4 py-2 text-sm font-mono font-bold text-foreground border border-border hover:border-indigo-dark hover:text-indigo-dark transition-colors"
-        >
-          Continue with Google
-        </Link>
       </div>
     </main>
   );
@@ -133,6 +107,16 @@ export default function LearningDashboard({
               Signed in as {email}
               {bypass ? " (auth bypass)" : ""}
             </p>
+          ) : null}
+          {!bypass ? (
+            <form action={learningSignOut} className="pt-2">
+              <button
+                type="submit"
+                className="text-xs font-mono text-muted hover:text-foreground transition-colors underline underline-offset-2"
+              >
+                Sign out
+              </button>
+            </form>
           ) : null}
         </header>
 
@@ -182,7 +166,10 @@ export default function LearningDashboard({
             title="Exercises and readings"
             support="Repo katas plus the books currently on the desk."
           />
-          <div id="exercises-heading" className="space-y-8 border-t border-border/70 pt-5">
+          <div
+            id="exercises-heading"
+            className="space-y-8 border-t border-border/70 pt-5"
+          >
             <div className="space-y-3">
               <h3 className="text-sm font-mono font-bold text-foreground">
                 Exercises
@@ -216,7 +203,9 @@ export default function LearningDashboard({
                       {reading.title}
                     </span>
                     <span className="text-xs sm:text-sm font-mono text-muted">
-                      {[reading.author, reading.note].filter(Boolean).join(" · ")}
+                      {[reading.author, reading.note]
+                        .filter(Boolean)
+                        .join(" · ")}
                     </span>
                   </li>
                 ))}

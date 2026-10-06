@@ -1,8 +1,15 @@
+import { cookies } from "next/headers";
 import {
   isAuthConfigured,
   isLearningAuthBypass,
-  isLearningEmailAllowed,
+  isLearningUserAllowed,
+  pickDisplayEmail,
+  STYTCH_SESSION_COOKIE,
 } from "@/lib/auth/learningAuth";
+import {
+  authenticateSession,
+  emailsFromStytchUser,
+} from "@/lib/stytch";
 
 export type LearningAccess =
   | { status: "ok"; email: string | null; bypass: boolean }
@@ -12,7 +19,8 @@ export type LearningAccess =
 
 /**
  * Server-side access gate for /learning.
- * Call from Server Components; do not rely on the proxy alone.
+ * Validates the Stytch session cookie against Stytch's API, then apply
+ * the email allowlist (same addresses as before).
  */
 export async function getLearningAccess(): Promise<LearningAccess> {
   if (isLearningAuthBypass()) {
@@ -23,18 +31,23 @@ export async function getLearningAccess(): Promise<LearningAccess> {
     return { status: "not-configured" };
   }
 
-  // Dynamic import keeps static-export builds from requiring a live session.
-  const { auth } = await import("@/auth");
-  const session = await auth();
-  const email = session?.user?.email ?? null;
-
-  if (!session?.user) {
+  const jar = await cookies();
+  const token = jar.get(STYTCH_SESSION_COOKIE)?.value;
+  if (!token) {
     return { status: "signed-out" };
   }
 
-  if (!isLearningEmailAllowed(email)) {
-    return { status: "unauthorized", email };
-  }
+  try {
+    const session = await authenticateSession(token);
+    const emails = emailsFromStytchUser(session.user);
+    const email = pickDisplayEmail(emails);
 
-  return { status: "ok", email, bypass: false };
+    if (!isLearningUserAllowed(emails)) {
+      return { status: "unauthorized", email };
+    }
+
+    return { status: "ok", email, bypass: false };
+  } catch {
+    return { status: "signed-out" };
+  }
 }

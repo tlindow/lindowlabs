@@ -1,6 +1,6 @@
 /**
- * Learning dashboard auth helpers.
- * Pure config (no NextAuth imports) so server pages and the proxy can share it.
+ * Learning dashboard auth helpers shared by the proxy and server pages.
+ * Stytch SMS OTP (same project / env names as Tinker).
  */
 
 export const LEARNING_ALLOWED_EMAILS = [
@@ -12,18 +12,17 @@ const ALLOWED = new Set(
   LEARNING_ALLOWED_EMAILS.map((email) => email.toLowerCase())
 );
 
-/** True when Google OAuth env vars are present enough to attempt sign-in. */
+/** httpOnly cookie holding the Stytch session_token. */
+export const STYTCH_SESSION_COOKIE = "stytch_session";
+
+/** True when Tinker-compatible Stytch env vars are present. */
 export function isAuthConfigured(): boolean {
-  return Boolean(
-    process.env.AUTH_SECRET &&
-      process.env.AUTH_GOOGLE_ID &&
-      process.env.AUTH_GOOGLE_SECRET
-  );
+  return Boolean(process.env.STYTCH_PROJECT_ID && process.env.STYTCH_SECRET);
 }
 
 /**
  * Local/dev screenshot bypass. Never set on Vercel production.
- * When true, /learning renders the dashboard without Google sign-in.
+ * When true, /learning renders the dashboard without Stytch sign-in.
  */
 export function isLearningAuthBypass(): boolean {
   return process.env.LEARNING_AUTH_BYPASS === "1";
@@ -32,4 +31,16 @@ export function isLearningAuthBypass(): boolean {
 export function isLearningEmailAllowed(email: string | null | undefined): boolean {
   if (!email) return false;
   return ALLOWED.has(email.trim().toLowerCase());
+}
+
+/** True when any of the Stytch user's emails is on the allowlist. */
+export function isLearningUserAllowed(emails: string[]): boolean {
+  return emails.some((email) => isLearningEmailAllowed(email));
+}
+
+/** Pick a display email: first allowlisted match, else first email, else null. */
+export function pickDisplayEmail(emails: string[]): string | null {
+  const allowed = emails.find((email) => isLearningEmailAllowed(email));
+  if (allowed) return allowed;
+  return emails[0] ?? null;
 }
