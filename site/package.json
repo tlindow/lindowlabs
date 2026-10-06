@@ -6,7 +6,7 @@
     "dev": "node scripts/sync-resume-data.mjs && (node scripts/watch-resume.mjs & next dev)",
     "build": "node scripts/sync-resume-data.mjs && next build && node scripts/write-redirects.mjs",
     "build:static": "node scripts/build-static-export.mjs",
-    "test": "node --experimental-strip-types --test src/lib/auth/learningPhones.test.ts",
+    "test": "node --experimental-strip-types --import ./scripts/register-ts-paths.mjs --test src/lib/auth/learningPhones.test.ts src/lib/learning/parseReadingPlan.test.ts",
     "check": "npm run lint && npm run typecheck && npm run test && npm run check:client-imports && npm run check:em-dashes -- --source && npm run build:static && npm run check:labels && npm run check:em-dashes && npm run check:locations && npm run check:phone-leak && npm run check:mobile-nav",
     "check:em-dashes": "node scripts/check-em-dashes.mjs",
     "check:client-imports": "node scripts/check-client-imports.mjs",
