@@ -1,29 +1,14 @@
-# 🎯 Learning Exercises
+# Learning Exercises
 
-This directory contains **hands-on technical exercises, katas, and interactive tutorials** designed exclusively for personal learning and deep skill-building.
+Hands-on technical exercises for personal learning. Open each folder in Cursor and solve from scratch; tests stay red until you implement the solution.
 
-> *"As software engineers, typing IS learning. When we type, we are embodying the code, the software. If we outsource our typing, we outsource our learning."*  
-> — [Typing is Learning](../content/typing_is_learning.md)
+| Exercise | One-line brief | Run |
+| :--- | :--- | :--- |
+| [`api-design/`](./api-design/) | Fastify + TypeScript payments API (merchants, payments, refunds) | `cd exercises/api-design && npm install && npm test` |
+| [`stripe-payment-intent/`](./stripe-payment-intent/) | Read PaymentIntent create fixture fields (no Stripe network calls) | `cd exercises/stripe-payment-intent && npm install && npm test` |
+| [`proto-learning/`](./proto-learning/) | Protobuf & gRPC B2B merchant settlements and payout rails | See [`proto-learning/README.md`](./proto-learning/README.md) |
+| [`nextjs-learning/`](./nextjs-learning/) | Next.js App Router ledger and streaming architecture | See [`nextjs-learning/README.md`](./nextjs-learning/README.md) |
+| [`realtime-deal-room/`](./realtime-deal-room/) | Real-time collaboration: polling vs SSE vs WebSockets | See [`realtime-deal-room/README.md`](./realtime-deal-room/README.md) |
+| [`rest-api-trading/`](./rest-api-trading/) | REST API design for a Robinhood-style trading platform | See [`rest-api-trading/README.md`](./rest-api-trading/README.md) |
 
----
-
-## 🧭 Where to Get Started
-
-Choose a learning track below and dive into the respective exercise folder:
-
-| Track | Topic | Focus Areas | Status | Start Here |
-| :--- | :--- | :--- | :--- | :--- |
-| **`proto-learning/`** | **Protobuf & gRPC B2B Settlements** | Precision money structures, proto3 enums, `oneof` polymorphic bank payout rails, repeated fee items, streaming RPCs | 🟢 Ready | [`exercises/proto-learning/README.md`](./proto-learning/README.md) |
-
----
-
-## 🛠️ How Exercises Are Structured
-
-Each exercise track lives in its own subdirectory and contains:
-1. **`README.md`**: Problem background, learning goals, and step-by-step breakdown.
-2. **Starter / Exercise File(s)** (e.g. `.proto`, `.ts`, `.py`, `.go`): The interactive code challenge with progressive steps (`[STEP X EXERCISE]`) and inline guidance.
-
-### Recommended Learning Workflow
-1. Open the exercise file in your editor.
-2. Work through the challenges step-by-step, typing out schemas or implementations.
-3. Review and reflect on the architectural trade-offs (data types, serialization, wire performance, API contracts).
+`api-design` and `stripe-payment-intent` come from [beginner-work/tinker](https://github.com/beginner-work/tinker) Practice reps. They are not part of the site build or root CI; run their tests only inside each exercise folder.

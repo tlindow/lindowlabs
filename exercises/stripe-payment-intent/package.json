@@ -1,0 +1,13 @@
+{
+  "name": "tinker-exercise-stripe-payment-intent",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Practice: read Stripe PaymentIntent create fixture fields (no network)",
+  "type": "commonjs",
+  "scripts": {
+    "test": "node --test test/**/*.test.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

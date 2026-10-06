@@ -1,3 +1,8 @@
 .venv/
 __pycache__/
 *.pyc
+
+# Exercise local installs (never publish or CI-install from repo root)
+exercises/**/node_modules/
+exercises/**/dist/
+exercises/**/*.tsbuildinfo
