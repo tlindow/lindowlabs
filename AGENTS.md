@@ -26,11 +26,12 @@ That runs, in order:
 2. `npm run typecheck`
 3. `npm run check:client-imports` (server files must not import camelCase helpers from `"use client"` modules)
 4. `npm run check:em-dashes -- --source` (U+2014 in live copy/data; prints `file:line`)
-5. `npm run build` (production static export)
+5. `npm run build:static` (static export for Pages / HTML checks; stashes SSR-only routes)
 6. `npm run check:labels`
 7. `npm run check:em-dashes` (U+2014 in `site/out/**/*.html`)
 8. `npm run check:locations`
 9. `npm run check:phone-leak` (`580-5788` / `5805788` must not appear in `site/out`)
+10. `npm run check:mobile-nav` (390px: open top-right menu, follow Visitors; guards header `overflow-x: clip`)
 
 ### Shared helpers (client vs server)
 

@@ -69,7 +69,9 @@ export default function Navbar() {
   // translate: the old fade-in (scrollY / hero progress) was removed so the
   // bar is persistent from first paint and stays sticky while scrolling.
   return (
-    <header className="sticky top-0 z-50 w-full bg-background opacity-100 border-b border-border no-print overflow-x-clip">
+    // No overflow-x-clip here: Safari also clips Y when overflow-x is clip,
+    // which hid the absolute mobile menu that hangs below this bar.
+    <header className="sticky top-0 z-50 w-full bg-background opacity-100 border-b border-border no-print">
       <div className="max-w-5xl mx-auto px-3 sm:px-6 md:px-8 h-14 sm:h-16 flex items-center gap-2 min-w-0">
         <Link
           href="/"
