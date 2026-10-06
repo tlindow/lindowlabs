@@ -32,7 +32,7 @@ export const dynamic = "force-dynamic";
 
 export default async function LearningPage() {
   if (process.env.STATIC_EXPORT === "1") {
-    return <LearningNotConfigured />;
+    return <LearningSignIn staticHost />;
   }
 
   const access = await getLearningAccess();
@@ -42,12 +42,12 @@ export default async function LearningPage() {
   }
 
   if (access.status === "unauthorized") {
-    return <LearningUnauthorized email={access.email} />;
+    return <LearningUnauthorized phone={access.phone} />;
   }
 
   if (access.status === "signed-out") {
     return <LearningSignIn />;
   }
 
-  return <LearningDashboard email={access.email} bypass={access.bypass} />;
+  return <LearningDashboard phone={access.phone} bypass={access.bypass} />;
 }

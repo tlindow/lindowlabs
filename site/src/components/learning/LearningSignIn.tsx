@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import "./learning-auth-gate.css";
 
 function formatPhone(raw: string): string {
   const d = raw.replace(/\D/g, "").slice(0, 10);
@@ -9,17 +10,53 @@ function formatPhone(raw: string): string {
   return `(${d.slice(0, 3)}) ${d.slice(3, 6)}-${d.slice(6)}`;
 }
 
+/** Lindow Labs stacked-L mark (same asset as /public/brand/lindow-labs-icon.svg). */
+function LindowLabsMark() {
+  return (
+    <svg viewBox="0 0 64 64" width="48" height="48" fill="none" aria-hidden="true">
+      <rect width="64" height="64" rx="14" fill="#FFFDF7" />
+      <defs>
+        <linearGradient id="ll-login-cool" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#C4B5FD" />
+          <stop offset="50%" stopColor="#A5B4FC" />
+          <stop offset="100%" stopColor="#7DD3FC" />
+        </linearGradient>
+      </defs>
+      <path
+        d="M14 10 H22 V38 H44 V46 H14 Z"
+        fill="url(#ll-login-cool)"
+        opacity="0.65"
+      />
+      <path d="M22 18 H30 V46 H52 V54 H22 Z" fill="#1F1D1A" />
+    </svg>
+  );
+}
+
+type LearningSignInProps = {
+  /**
+   * Static GitHub Pages host: show the same gate UI, but SMS cannot run
+   * without the Vercel SSR deploy. No client-side security pretence.
+   */
+  staticHost?: boolean;
+};
+
 /**
- * Phone + PIN gate matching Tinker's Stytch SMS OTP flow
- * (POST /api/auth/phone/request and /api/auth/phone/verify).
+ * Phone + PIN gate matching Tinker's Stytch SMS OTP UI
+ * (cream backdrop, indigo capsule, Fraunces title), with the Lindow Labs mark.
  */
-export default function LearningSignIn() {
+export default function LearningSignIn({ staticHost = false }: LearningSignInProps) {
   const [step, setStep] = useState<"phone" | "pin">("phone");
   const [phone, setPhone] = useState("");
   const [phoneId, setPhoneId] = useState("");
   const [pin, setPin] = useState("");
-  const [status, setStatus] = useState("");
-  const [statusKind, setStatusKind] = useState<"info" | "error" | "ok" | "">("");
+  const [status, setStatus] = useState(
+    staticHost
+      ? "SMS sign-in needs the Vercel deploy (Stytch API routes)."
+      : ""
+  );
+  const [statusKind, setStatusKind] = useState<"info" | "error" | "ok" | "">(
+    staticHost ? "info" : ""
+  );
   const [busy, setBusy] = useState(false);
 
   async function postJson(path: string, body: Record<string, string>) {
@@ -42,6 +79,11 @@ export default function LearningSignIn() {
 
   async function onPhoneSubmit(event: FormEvent) {
     event.preventDefault();
+    if (staticHost) {
+      setStatus("SMS sign-in needs the Vercel deploy with Stytch env vars.");
+      setStatusKind("error");
+      return;
+    }
     const digits = phone.replace(/\D/g, "");
     if (digits.length !== 10) {
       setStatus("Please enter a 10-digit US phone number.");
@@ -90,7 +132,6 @@ export default function LearningSignIn() {
       });
       setStatus("Welcome back.");
       setStatusKind("ok");
-      // Full reload so the server reads the new httpOnly cookie.
       window.location.assign("/learning");
     } catch (err) {
       setStatus(err instanceof Error ? err.message : "Verify failed");
@@ -100,113 +141,128 @@ export default function LearningSignIn() {
   }
 
   return (
-    <main className="min-h-[70vh] flex items-center justify-center px-4 sm:px-6 py-16">
-      <div className="max-w-md w-full space-y-6">
-        <div className="space-y-3 text-center">
-          <p className="text-xs font-mono uppercase tracking-[0.18em] text-muted">
-            Lindow Labs Learning
-          </p>
-          <h1 className="text-2xl sm:text-3xl font-bold font-mono text-foreground tracking-tight">
-            {step === "pin" ? "Enter your code" : "Sign in"}
-          </h1>
-          <p className="text-sm font-mono text-muted leading-relaxed">
-            {step === "pin" ? (
-              <>
-                Sent to <strong className="text-foreground">{formatPhone(phone)}</strong>.
-                The code expires in 10 minutes.
-              </>
-            ) : (
-              <>
-                Same Stytch SMS sign-in as Tinker. Enter your phone number and
-                we&rsquo;ll text a six-digit code.
-              </>
-            )}
-          </p>
+    <div className="learning-auth-gate" role="dialog" aria-modal="true">
+      <div className="learning-auth-gate__inner">
+        <div className="learning-auth-gate__brand">
+          <LindowLabsMark />
         </div>
 
+        <h1 className="learning-auth-gate__title">
+          {step === "pin" ? "Enter your code" : "Sign in or sign up"}
+        </h1>
+
+        <p className="learning-auth-gate__lede">
+          {step === "pin" ? (
+            <>
+              Sent to <strong>{formatPhone(phone)}</strong>. The code expires in
+              10 minutes.
+            </>
+          ) : (
+            <>
+              Enter your phone number and we&rsquo;ll text you a six-digit code.
+              New numbers create an account.
+            </>
+          )}
+        </p>
+
         {step === "phone" ? (
-          <form onSubmit={onPhoneSubmit} className="space-y-4">
-            <label className="block space-y-2">
-              <span className="text-xs font-mono font-bold text-foreground">
-                Phone
-              </span>
-              <input
-                type="tel"
-                inputMode="numeric"
-                autoComplete="tel"
-                value={phone}
-                onChange={(e) => setPhone(formatPhone(e.target.value))}
-                placeholder="(555) 555-5555"
-                className="w-full px-3 py-2.5 text-sm font-mono bg-surface border border-border text-foreground focus:outline-none focus:border-indigo-dark"
-                disabled={busy}
-              />
-            </label>
+          <form
+            onSubmit={onPhoneSubmit}
+            className="learning-auth-gate__pill"
+            role="search"
+          >
+            <span className="learning-auth-gate__cc" aria-hidden="true">
+              +1
+            </span>
+            <input
+              type="tel"
+              inputMode="numeric"
+              autoComplete="tel-national"
+              value={phone}
+              onChange={(e) => setPhone(formatPhone(e.target.value))}
+              placeholder="(555) 000-0000"
+              maxLength={14}
+              aria-label="Phone number"
+              required
+              disabled={busy}
+            />
             <button
               type="submit"
+              className="learning-auth-gate__begin"
               disabled={busy}
-              className="w-full px-4 py-2.5 text-sm font-mono font-bold text-foreground border border-border hover:border-indigo-dark hover:text-indigo-dark transition-colors disabled:opacity-60"
             >
-              Text me a code
+              Send code
             </button>
           </form>
         ) : (
-          <form onSubmit={onPinSubmit} className="space-y-4">
-            <label className="block space-y-2">
-              <span className="text-xs font-mono font-bold text-foreground">
-                Six-digit code
-              </span>
-              <input
-                type="text"
-                inputMode="numeric"
-                autoComplete="one-time-code"
-                value={pin}
-                onChange={(e) =>
-                  setPin(e.target.value.replace(/\D/g, "").slice(0, 6))
-                }
-                placeholder="123456"
-                className="w-full px-3 py-2.5 text-sm font-mono bg-surface border border-border text-foreground focus:outline-none focus:border-indigo-dark tracking-[0.3em]"
-                disabled={busy}
-              />
-            </label>
+          <form
+            onSubmit={onPinSubmit}
+            className="learning-auth-gate__pill learning-auth-gate__pill--pin"
+            role="search"
+          >
+            <input
+              type="text"
+              inputMode="numeric"
+              autoComplete="one-time-code"
+              value={pin}
+              onChange={(e) =>
+                setPin(e.target.value.replace(/\D/g, "").slice(0, 6))
+              }
+              placeholder="000000"
+              maxLength={6}
+              pattern="\d{6}"
+              aria-label="Six-digit code"
+              required
+              disabled={busy}
+            />
             <button
               type="submit"
+              className="learning-auth-gate__begin"
               disabled={busy}
-              className="w-full px-4 py-2.5 text-sm font-mono font-bold text-foreground border border-border hover:border-indigo-dark hover:text-indigo-dark transition-colors disabled:opacity-60"
             >
               Verify
-            </button>
-            <button
-              type="button"
-              disabled={busy}
-              onClick={() => {
-                setStep("phone");
-                setPin("");
-                setStatus("");
-                setStatusKind("");
-              }}
-              className="w-full px-4 py-2 text-xs font-mono text-muted hover:text-foreground transition-colors"
-            >
-              Use a different number
             </button>
           </form>
         )}
 
-        {status ? (
-          <p
-            className={[
-              "text-center text-xs font-mono",
-              statusKind === "error"
-                ? "text-rose"
-                : statusKind === "ok"
-                  ? "text-mint-dark"
-                  : "text-muted",
-            ].join(" ")}
-            role="status"
+        <div
+          className="learning-auth-gate__status"
+          role="status"
+          aria-live="polite"
+          data-kind={statusKind || undefined}
+        >
+          {status}
+        </div>
+
+        {step === "pin" ? (
+          <button
+            type="button"
+            className="learning-auth-gate__link"
+            disabled={busy}
+            onClick={() => {
+              setStep("phone");
+              setPin("");
+              setPhoneId("");
+              setStatus("");
+              setStatusKind("");
+            }}
           >
-            {status}
-          </p>
+            ← Use a different number
+          </button>
         ) : null}
+
+        <p className="learning-auth-gate__fineprint">
+          Private Lindow Labs learning desk. Only an allowlisted phone can sign
+          in; everyone else is refused before a code is sent.
+        </p>
+
+        <p className="learning-auth-gate__fineprint">
+          Sign-up and login use the same screen. First-time users get an account
+          created automatically when they verify.
+        </p>
+
+        <p className="learning-auth-gate__made-by">Lindow Labs Learning</p>
       </div>
-    </main>
+    </div>
   );
 }

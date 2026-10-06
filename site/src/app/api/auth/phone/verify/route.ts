@@ -1,9 +1,15 @@
 import { NextResponse } from "next/server";
 import {
   isAuthConfigured,
+  isLearningUserAllowed,
   STYTCH_SESSION_COOKIE,
 } from "@/lib/auth/learningAuth";
-import { authenticateOtp, StytchError } from "@/lib/stytch";
+import { LEARNING_PHONE_REFUSED_MESSAGE } from "@/lib/auth/learningPhones";
+import {
+  authenticateOtp,
+  phonesFromStytchUser,
+  StytchError,
+} from "@/lib/stytch";
 
 export const dynamic = "force-dynamic";
 
@@ -38,6 +44,15 @@ export async function POST(request: Request) {
       return NextResponse.json(
         { error: "Stytch returned no session token." },
         { status: 502 }
+      );
+    }
+
+    const phones = phonesFromStytchUser(stytch.user);
+    if (!isLearningUserAllowed(phones)) {
+      // Authenticated with Stytch but not on the allowlist: no cookie.
+      return NextResponse.json(
+        { error: LEARNING_PHONE_REFUSED_MESSAGE },
+        { status: 403 }
       );
     }
 

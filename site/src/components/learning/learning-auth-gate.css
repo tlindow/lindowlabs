@@ -1,0 +1,290 @@
+/* Tinker auth-gate look for /learning (cream + indigo capsule). Scoped. */
+
+.learning-auth-gate {
+  --lag-bg: #fffdf7;
+  --lag-fg: #2d2a26;
+  --lag-muted: #6f6a65;
+  --lag-border: #ede8e0;
+  --lag-surface: #ffffff;
+  --lag-accent: #6366f1;
+  --lag-accent-press: #4f46e5;
+  --lag-forest: #2d5a3d;
+  --lag-error: #b3261e;
+  --lag-shadow-soft: 0 1px 2px rgba(45, 90, 61, 0.05),
+    0 4px 16px rgba(45, 90, 61, 0.06);
+  --lag-shadow-purple: 0 1px 2px rgba(99, 102, 241, 0.18),
+    0 6px 18px rgba(99, 102, 241, 0.22);
+  --lag-font-display: var(--font-fraunces), Georgia, "Times New Roman", serif;
+  --lag-font-sans: var(--font-instrument-sans), var(--font-inter), system-ui,
+    -apple-system, "Segoe UI", sans-serif;
+
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  min-height: 100dvh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: max(20px, env(safe-area-inset-top))
+    max(16px, env(safe-area-inset-right))
+    max(20px, env(safe-area-inset-bottom))
+    max(16px, env(safe-area-inset-left));
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  background:
+    radial-gradient(circle at 20% 12%, rgba(123, 196, 122, 0.1), transparent 42%),
+    radial-gradient(circle at 88% 18%, rgba(165, 180, 252, 0.12), transparent 38%),
+    radial-gradient(circle at 50% 110%, rgba(253, 186, 116, 0.08), transparent 50%),
+    var(--lag-bg);
+  font-family: var(--lag-font-sans);
+  color: var(--lag-fg);
+}
+
+.learning-auth-gate__inner {
+  max-width: 560px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding-top: 4vh;
+}
+
+.learning-auth-gate__brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.learning-auth-gate__brand svg {
+  width: 44px;
+  height: 44px;
+  display: block;
+}
+
+.learning-auth-gate__title {
+  margin: 0;
+  font-family: var(--lag-font-display);
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--lag-fg);
+  text-align: center;
+  font-variation-settings: "SOFT" 100, "WONK" 0, "opsz" 144;
+}
+
+.learning-auth-gate__lede {
+  margin: 0;
+  max-width: 420px;
+  color: var(--lag-muted);
+  font-size: 15px;
+  line-height: 1.55;
+  text-align: center;
+}
+
+.learning-auth-gate__lede strong {
+  color: var(--lag-fg);
+  font-weight: 600;
+}
+
+.learning-auth-gate__pill {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  padding: 8px;
+  gap: 8px;
+  border-radius: 24px;
+  background: var(--lag-surface);
+  border: 1px solid var(--lag-border);
+  align-items: center;
+  box-shadow: var(--lag-shadow-soft);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.learning-auth-gate__pill:focus-within {
+  border-color: var(--lag-accent);
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.18), var(--lag-shadow-soft);
+}
+
+.learning-auth-gate__cc {
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--lag-muted);
+  flex-shrink: 0;
+  padding-left: 8px;
+  letter-spacing: 0.01em;
+}
+
+.learning-auth-gate__pill input {
+  flex: 1 1 200px;
+  min-width: 0;
+  height: 48px;
+  padding: 0 12px;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  color: var(--lag-fg);
+  font-family: inherit;
+}
+
+.learning-auth-gate__pill input::placeholder {
+  color: var(--lag-muted);
+}
+
+.learning-auth-gate__pill--pin input {
+  flex-basis: 100%;
+  font-feature-settings: "tnum";
+  font-size: 22px;
+  letter-spacing: 0.55em;
+  padding-right: 0.55em;
+  text-align: center;
+}
+
+.learning-auth-gate__begin {
+  flex: 1 1 100%;
+  height: 52px;
+  padding: 0 22px;
+  border: none;
+  border-radius: 999px;
+  background: var(--lag-accent);
+  color: #fff;
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 0.01em;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.05s ease, box-shadow 0.15s ease;
+  box-shadow: var(--lag-shadow-purple);
+}
+
+.learning-auth-gate__begin:hover:not(:disabled) {
+  background: var(--lag-accent-press);
+}
+
+.learning-auth-gate__begin:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.learning-auth-gate__begin:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.learning-auth-gate__status {
+  min-height: 1.2em;
+  font-size: 13px;
+  color: var(--lag-muted);
+  text-align: center;
+}
+
+.learning-auth-gate__status[data-kind="error"] {
+  color: var(--lag-error);
+}
+
+.learning-auth-gate__status[data-kind="ok"] {
+  color: var(--lag-forest);
+}
+
+.learning-auth-gate__link {
+  font-size: 14px;
+  color: var(--lag-muted);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  min-height: 44px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  font-family: inherit;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.learning-auth-gate__link:hover:not(:disabled) {
+  color: var(--lag-fg);
+  background: rgba(45, 90, 61, 0.06);
+}
+
+.learning-auth-gate__fineprint {
+  margin: 4px 0 0;
+  max-width: 360px;
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--lag-muted);
+  text-align: center;
+}
+
+.learning-auth-gate__made-by {
+  margin: 16px 0 0;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--lag-muted);
+}
+
+@media (min-width: 540px) {
+  .learning-auth-gate {
+    align-items: center;
+  }
+
+  .learning-auth-gate__inner {
+    gap: 18px;
+    padding-top: 0;
+    margin-top: -6vh;
+  }
+
+  .learning-auth-gate__brand svg {
+    width: 48px;
+    height: 48px;
+  }
+
+  .learning-auth-gate__title {
+    font-size: 32px;
+  }
+
+  .learning-auth-gate__pill {
+    flex-wrap: nowrap;
+    max-width: 520px;
+    height: 56px;
+    padding: 0 6px 0 20px;
+    border-radius: 999px;
+  }
+
+  .learning-auth-gate__cc {
+    padding-left: 0;
+  }
+
+  .learning-auth-gate__pill input {
+    flex: 1 1 auto;
+    height: auto;
+    padding: 0;
+  }
+
+  .learning-auth-gate__pill--pin {
+    padding-left: 28px;
+  }
+
+  .learning-auth-gate__pill--pin input {
+    flex: 1 1 auto;
+    height: auto;
+    font-size: 18px;
+  }
+
+  .learning-auth-gate__begin {
+    flex: 0 0 auto;
+    height: 44px;
+    padding: 0 22px;
+    font-size: 14px;
+  }
+
+  .learning-auth-gate__link {
+    min-height: auto;
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+}
+
+@media (min-width: 720px) {
+  .learning-auth-gate__title {
+    font-size: 38px;
+  }
+}
