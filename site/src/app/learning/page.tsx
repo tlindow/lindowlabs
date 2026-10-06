@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import LearningDashboard, {
   LearningNotConfigured,
-  LearningSignedOutHint,
   LearningUnauthorized,
 } from "@/components/learning/LearningDashboard";
+import LearningSignIn from "@/components/learning/LearningSignIn";
 import { LEARNING_DASHBOARD_URL } from "@/data/urls";
 import { getLearningAccess } from "@/lib/auth/getLearningAccess";
 
@@ -31,7 +31,6 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 export default async function LearningPage() {
-  // Static-export CI builds set STATIC_EXPORT=1 and never ship this page live.
   if (process.env.STATIC_EXPORT === "1") {
     return <LearningNotConfigured />;
   }
@@ -47,7 +46,7 @@ export default async function LearningPage() {
   }
 
   if (access.status === "signed-out") {
-    return <LearningSignedOutHint />;
+    return <LearningSignIn />;
   }
 
   return <LearningDashboard email={access.email} bypass={access.bypass} />;

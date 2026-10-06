@@ -1,17 +1,24 @@
-import { NextResponse } from "next/server";
-import { auth } from "@/auth";
+import { NextResponse, type NextRequest } from "next/server";
 import {
   isAuthConfigured,
   isLearningAuthBypass,
-  isLearningEmailAllowed,
+  isLearningUserAllowed,
+  STYTCH_SESSION_COOKIE,
 } from "@/lib/auth/learningAuth";
+import {
+  authenticateSession,
+  emailsFromStytchUser,
+} from "@/lib/stytch";
 
 /**
- * Next.js 16 proxy (formerly middleware). Protects /learning on the server.
- * When auth env vars are missing, requests pass through so the page can show
- * "sign-in not configured yet" instead of crashing.
+ * Next.js 16 proxy. Protects /learning on the server using the same Stytch
+ * session cookie the phone OTP verify route sets. Missing env vars pass
+ * through so the page can show "sign-in not configured yet".
+ *
+ * Signed-out visitors reach /learning (phone sign-in UI). Authenticated
+ * but not-allowlisted visitors are sent to /learning/unauthorized.
  */
-export const proxy = auth((req) => {
+export async function proxy(req: NextRequest) {
   const path = req.nextUrl.pathname;
 
   if (!path.startsWith("/learning")) {
@@ -26,20 +33,36 @@ export const proxy = auth((req) => {
     return NextResponse.next();
   }
 
-  const email = req.auth?.user?.email;
-  if (req.auth && !isLearningEmailAllowed(email)) {
-    const unauthorized = new URL("/learning/unauthorized", req.nextUrl.origin);
-    return NextResponse.redirect(unauthorized);
+  const token = req.cookies.get(STYTCH_SESSION_COOKIE)?.value;
+  if (!token) {
+    // Page renders the SMS OTP gate.
+    return NextResponse.next();
   }
 
-  if (!req.auth) {
-    const signInUrl = new URL("/api/auth/signin/google", req.nextUrl.origin);
-    signInUrl.searchParams.set("callbackUrl", path);
-    return NextResponse.redirect(signInUrl);
+  try {
+    const session = await authenticateSession(token);
+    const emails = emailsFromStytchUser(session.user);
+    if (!isLearningUserAllowed(emails)) {
+      return NextResponse.redirect(
+        new URL("/learning/unauthorized", req.nextUrl.origin)
+      );
+    }
+    return NextResponse.next();
+  } catch {
+    // Expired/invalid cookie: clear and show the sign-in gate.
+    const response = NextResponse.next();
+    response.cookies.set({
+      name: STYTCH_SESSION_COOKIE,
+      value: "",
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+      maxAge: 0,
+    });
+    return response;
   }
-
-  return NextResponse.next();
-});
+}
 
 export const config = {
   matcher: ["/learning", "/learning/:path*"],

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { LearningUnauthorized } from "@/components/learning/LearningDashboard";
-import { auth } from "@/auth";
+import { getLearningAccess } from "@/lib/auth/getLearningAccess";
 
 export const metadata: Metadata = {
   title: "Not authorized | Lindow Labs Learning",
@@ -13,6 +13,10 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 export default async function LearningUnauthorizedPage() {
-  const session = await auth();
-  return <LearningUnauthorized email={session?.user?.email ?? null} />;
+  const access = await getLearningAccess();
+  const email =
+    access.status === "unauthorized" || access.status === "ok"
+      ? access.email
+      : null;
+  return <LearningUnauthorized email={email} />;
 }
