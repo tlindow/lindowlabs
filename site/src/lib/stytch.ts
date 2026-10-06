@@ -161,3 +161,15 @@ export function emailsFromStytchUser(user: StytchUser | null | undefined): strin
   }
   return out;
 }
+
+/** Collect phone numbers from a Stytch user (phone_numbers[]). */
+export function phonesFromStytchUser(
+  user: StytchUser | null | undefined
+): string[] {
+  if (!user) return [];
+  const out: string[] = [];
+  for (const entry of user.phone_numbers || []) {
+    if (entry?.phone_number) out.push(entry.phone_number);
+  }
+  return out;
+}

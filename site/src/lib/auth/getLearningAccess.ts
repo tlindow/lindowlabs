@@ -3,28 +3,28 @@ import {
   isAuthConfigured,
   isLearningAuthBypass,
   isLearningUserAllowed,
-  pickDisplayEmail,
+  pickDisplayPhone,
   STYTCH_SESSION_COOKIE,
 } from "@/lib/auth/learningAuth";
 import {
   authenticateSession,
-  emailsFromStytchUser,
+  phonesFromStytchUser,
 } from "@/lib/stytch";
 
 export type LearningAccess =
-  | { status: "ok"; email: string | null; bypass: boolean }
+  | { status: "ok"; phone: string | null; bypass: boolean }
   | { status: "not-configured" }
-  | { status: "unauthorized"; email: string | null }
+  | { status: "unauthorized"; phone: string | null }
   | { status: "signed-out" };
 
 /**
  * Server-side access gate for /learning.
- * Validates the Stytch session cookie against Stytch's API, then apply
- * the email allowlist (same addresses as before).
+ * Validates the Stytch session cookie against Stytch's API, then applies
+ * the LEARNING_ALLOWED_PHONES allowlist.
  */
 export async function getLearningAccess(): Promise<LearningAccess> {
   if (isLearningAuthBypass()) {
-    return { status: "ok", email: "bypass@local", bypass: true };
+    return { status: "ok", phone: "bypass", bypass: true };
   }
 
   if (!isAuthConfigured()) {
@@ -39,14 +39,14 @@ export async function getLearningAccess(): Promise<LearningAccess> {
 
   try {
     const session = await authenticateSession(token);
-    const emails = emailsFromStytchUser(session.user);
-    const email = pickDisplayEmail(emails);
+    const phones = phonesFromStytchUser(session.user);
+    const phone = pickDisplayPhone(phones);
 
-    if (!isLearningUserAllowed(emails)) {
-      return { status: "unauthorized", email };
+    if (!isLearningUserAllowed(phones)) {
+      return { status: "unauthorized", phone };
     }
 
-    return { status: "ok", email, bypass: false };
+    return { status: "ok", phone, bypass: false };
   } catch {
     return { status: "signed-out" };
   }

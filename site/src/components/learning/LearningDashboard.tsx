@@ -4,7 +4,6 @@ import {
   learningReadings,
 } from "@/data/learningDashboard";
 import { outreachList } from "@/data/outreach";
-import { LEARNING_ALLOWED_EMAILS } from "@/lib/auth/learningAuth";
 import { learningSignOut } from "@/lib/auth/learningSignOut";
 
 function SectionHeading({
@@ -40,17 +39,18 @@ export function LearningNotConfigured() {
         </h1>
         <p className="text-sm sm:text-base font-mono text-muted leading-relaxed">
           Stytch sign-in needs{" "}
-          <code className="text-foreground">STYTCH_PROJECT_ID</code> and{" "}
-          <code className="text-foreground">STYTCH_SECRET</code> in the Vercel
-          project env (same values as Tinker). Until those are set, this
-          dashboard stays closed.
+          <code className="text-foreground">STYTCH_PROJECT_ID</code>,{" "}
+          <code className="text-foreground">STYTCH_SECRET</code>, and{" "}
+          <code className="text-foreground">LEARNING_ALLOWED_PHONES</code> in
+          the Vercel project env (same Stytch project as Tinker). Until those
+          are set, this dashboard stays closed.
         </p>
       </div>
     </main>
   );
 }
 
-export function LearningUnauthorized({ email }: { email: string | null }) {
+export function LearningUnauthorized({ phone }: { phone: string | null }) {
   return (
     <main className="min-h-[70vh] flex items-center justify-center px-4 sm:px-6 py-16">
       <div className="max-w-lg w-full space-y-5 text-center">
@@ -61,12 +61,9 @@ export function LearningUnauthorized({ email }: { email: string | null }) {
           Not authorized
         </h1>
         <p className="text-sm sm:text-base font-mono text-muted leading-relaxed">
-          {email
-            ? `${email} is signed in, but this dashboard is limited to Tyler's accounts.`
-            : "This Stytch session is signed in, but no allowlisted email is attached to the user."}
-        </p>
-        <p className="text-xs font-mono text-muted leading-relaxed">
-          Allowed: {LEARNING_ALLOWED_EMAILS.join(", ")}
+          {phone
+            ? "This number is signed in, but it is not allowed to open the learning dashboard."
+            : "This Stytch session is signed in, but no allowlisted phone is attached to the user."}
         </p>
         <form action={learningSignOut} className="pt-2">
           <button
@@ -82,10 +79,10 @@ export function LearningUnauthorized({ email }: { email: string | null }) {
 }
 
 export default function LearningDashboard({
-  email,
+  phone,
   bypass,
 }: {
-  email: string | null;
+  phone: string | null;
   bypass: boolean;
 }) {
   return (
@@ -102,9 +99,9 @@ export default function LearningDashboard({
             Private desk for outreach, exercises, readings, and the tools that
             keep the week moving.
           </p>
-          {email ? (
+          {phone ? (
             <p className="text-xs font-mono text-muted pt-1">
-              Signed in as {email}
+              Signed in
               {bypass ? " (auth bypass)" : ""}
             </p>
           ) : null}

@@ -1,5 +1,11 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Space_Mono, Silkscreen, Fraunces } from "next/font/google";
+import {
+  Inter,
+  Space_Mono,
+  Silkscreen,
+  Fraunces,
+  Instrument_Sans,
+} from "next/font/google";
 import SiteChrome from "@/components/SiteChrome";
 import { AnalyticsProvider } from "@/context/AnalyticsProvider";
 import { SITE_SHARE_TITLE, SITE_SUPPORT, SITE_TITLE } from "@/data/positioning";
@@ -37,6 +43,14 @@ const fraunces = Fraunces({
   variable: "--font-fraunces",
   subsets: ["latin"],
   axes: ["SOFT", "opsz", "WONK"],
+  display: "swap",
+});
+
+/** Tinker login UI face (body / inputs on /learning gate). */
+const instrumentSans = Instrument_Sans({
+  variable: "--font-instrument-sans",
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
   display: "swap",
 });
 
@@ -104,7 +118,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${inter.variable} ${spaceMono.variable} ${silkscreen.variable} ${fraunces.variable} font-mono antialiased bg-background text-foreground selection:bg-indigo-light selection:text-indigo-dark`}
+        className={`${inter.variable} ${spaceMono.variable} ${silkscreen.variable} ${fraunces.variable} ${instrumentSans.variable} font-mono antialiased bg-background text-foreground selection:bg-indigo-light selection:text-indigo-dark`}
       >
         <AnalyticsProvider>
           <SiteChrome>{children}</SiteChrome>

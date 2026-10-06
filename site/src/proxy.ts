@@ -7,7 +7,7 @@ import {
 } from "@/lib/auth/learningAuth";
 import {
   authenticateSession,
-  emailsFromStytchUser,
+  phonesFromStytchUser,
 } from "@/lib/stytch";
 
 /**
@@ -41,8 +41,8 @@ export async function proxy(req: NextRequest) {
 
   try {
     const session = await authenticateSession(token);
-    const emails = emailsFromStytchUser(session.user);
-    if (!isLearningUserAllowed(emails)) {
+    const phones = phonesFromStytchUser(session.user);
+    if (!isLearningUserAllowed(phones)) {
       return NextResponse.redirect(
         new URL("/learning/unauthorized", req.nextUrl.origin)
       );
