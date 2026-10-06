@@ -1,11 +1,15 @@
 import type { Metadata } from "next";
-import LearningDashboard, {
+import {
   LearningNotConfigured,
   LearningUnauthorized,
 } from "@/components/learning/LearningDashboard";
+import {
+  CurriculumDashboard,
+  ReadingPlanNotConnected,
+} from "@/components/learning/CurriculumUI";
 import LearningSignIn from "@/components/learning/LearningSignIn";
 import { LEARNING_DASHBOARD_URL } from "@/data/urls";
-import { getLearningAccess } from "@/lib/auth/getLearningAccess";
+import { loadLearningGate } from "@/lib/learning/loadLearningPage";
 
 export const metadata: Metadata = {
   title: "Learning | Lindow Labs",
@@ -27,7 +31,6 @@ export const metadata: Metadata = {
   },
 };
 
-// SSR on Vercel. Static-export builds stash this route (see build-static-export.mjs).
 export const dynamic = "force-dynamic";
 
 export default async function LearningPage() {
@@ -35,19 +38,21 @@ export default async function LearningPage() {
     return <LearningSignIn staticHost />;
   }
 
-  const access = await getLearningAccess();
+  const gate = await loadLearningGate();
 
-  if (access.status === "not-configured") {
+  if (gate.status === "not-configured") {
     return <LearningNotConfigured />;
   }
-
-  if (access.status === "unauthorized") {
-    return <LearningUnauthorized phone={access.phone} />;
+  if (gate.status === "unauthorized") {
+    return <LearningUnauthorized phone={gate.phone} />;
   }
-
-  if (access.status === "signed-out") {
+  if (gate.status === "signed-out") {
     return <LearningSignIn />;
   }
 
-  return <LearningDashboard phone={access.phone} bypass={access.bypass} />;
+  if (gate.curriculum.status === "not-connected") {
+    return <ReadingPlanNotConnected />;
+  }
+
+  return <CurriculumDashboard curriculum={gate.curriculum.curriculum} />;
 }

@@ -1,0 +1,446 @@
+import Link from "next/link";
+import type { ReactNode } from "react";
+import { learningSignOut } from "@/lib/auth/learningSignOut";
+import { formatAsOfPt } from "@/lib/learning/formatPt";
+import type {
+  CourseState,
+  Curriculum,
+  CurriculumCourse,
+  CurriculumLesson,
+  LessonStatus,
+} from "@/lib/learning/types";
+import "./learning-curriculum.css";
+
+function StatusChip({
+  status,
+}: {
+  status: LessonStatus | CourseState | "not_written";
+}) {
+  const label =
+    status === "done"
+      ? "Done"
+      : status === "current"
+        ? "Current"
+        : status === "not_started"
+          ? "Not started"
+          : status === "completed"
+            ? "Completed"
+            : status === "not_written"
+              ? "Not written yet"
+              : "Not started";
+  const mod =
+    status === "done" || status === "completed"
+      ? "done"
+      : status === "current"
+        ? "current"
+        : status === "not_started" || status === "pending"
+          ? "pending"
+          : "pending";
+  return (
+    <span className={`learning-curr__chip learning-curr__chip--${mod}`}>
+      {label}
+    </span>
+  );
+}
+
+function ProgressBar({ done, total }: { done: number; total: number }) {
+  const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+  return (
+    <div className="learning-curr__progress">
+      <div className="learning-curr__progress-label">
+        <span>
+          {done} of {total} done
+        </span>
+        <span>{pct}%</span>
+      </div>
+      <div className="learning-curr__bar" aria-hidden="true">
+        <span style={{ width: `${pct}%` }} />
+      </div>
+    </div>
+  );
+}
+
+function Shell({
+  children,
+  showSignOut,
+}: {
+  children: ReactNode;
+  showSignOut?: boolean;
+}) {
+  return (
+    <div className="learning-curr">
+      <div className="learning-curr__wrap">
+        {children}
+        {showSignOut ? (
+          <form action={learningSignOut} className="learning-curr__signout">
+            <button type="submit">Sign out</button>
+          </form>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
+export function ReadingPlanNotConnected() {
+  return (
+    <div className="learning-curr">
+      <div className="learning-curr__empty">
+        <div>
+          <p className="learning-curr__eyebrow">Lindow Labs Learning</p>
+          <h1>Reading plan not connected yet</h1>
+          <p>
+            Set{" "}
+            <code>NOTION_READING_PLAN_TOKEN</code> (and optionally{" "}
+            <code>NOTION_READING_PLAN_PAGE_ID</code>) on the Vercel project.
+            Share a read-only Notion integration to the Reading plan page only.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function CurriculumDashboard({
+  curriculum,
+  showSignOut = true,
+}: {
+  curriculum: Curriculum;
+  showSignOut?: boolean;
+}) {
+  const footerAsOf = curriculum.staleAsOf
+    ? `as of ${formatAsOfPt(curriculum.staleAsOf)}`
+    : curriculum.pageLastEditedAt
+      ? `page edited ${formatAsOfPt(curriculum.pageLastEditedAt)}`
+      : `fetched ${formatAsOfPt(curriculum.fetchedAt)}`;
+
+  return (
+    <Shell showSignOut={showSignOut}>
+      <p className="learning-curr__eyebrow">Lindow Labs</p>
+      <h1 className="learning-curr__title">Learning</h1>
+      <p className="learning-curr__lede">
+        Courses sync from the Notion Reading plan. Notes stay in Tinker; this
+        desk never writes answers for you.
+      </p>
+
+      <section className="learning-curr__section" aria-labelledby="courses-heading">
+        <h2 id="courses-heading" className="learning-curr__section-title">
+          Courses
+        </h2>
+        <div className="learning-curr__cards">
+          {curriculum.courses.map((course) => (
+            <CourseCard
+              key={course.key}
+              course={course}
+              currentLessonKey={
+                curriculum.currentlyReading?.courseKey === course.key
+                  ? curriculum.currentlyReading.lessonKey
+                  : null
+              }
+            />
+          ))}
+        </div>
+      </section>
+
+      <section className="learning-curr__section" aria-labelledby="practice-heading">
+        <h2 id="practice-heading" className="learning-curr__section-title">
+          Practice
+        </h2>
+        {curriculum.practice.map((item) => (
+          <div key={item.key} className="learning-curr__practice">
+            <div className="learning-curr__card-top">
+              <p className="learning-curr__practice-title">{item.title}</p>
+              <StatusChip status={item.state === "not_written" ? "not_written" : "pending"} />
+            </div>
+            <p className="learning-curr__practice-note">
+              {item.state === "not_written"
+                ? "Not written yet"
+                : item.pageText}
+            </p>
+            {item.why ? (
+              <p className="learning-curr__why">{item.why}</p>
+            ) : null}
+          </div>
+        ))}
+      </section>
+
+      <p className="learning-curr__footer">
+        Synced from Notion Reading plan · {footerAsOf}
+        {curriculum.source === "last-good" ? " (last good copy)" : ""}
+        {curriculum.source === "fixture" ? " (fixture)" : ""}
+      </p>
+    </Shell>
+  );
+}
+
+function CourseCard({
+  course,
+  currentLessonKey,
+}: {
+  course: CurriculumCourse;
+  currentLessonKey: string | null;
+}) {
+  if (course.parseFailed) {
+    return (
+      <div className="learning-curr__card">
+        <div className="learning-curr__card-top">
+          <h3 className="learning-curr__card-title">Couldn&rsquo;t parse</h3>
+          <StatusChip status="pending" />
+        </div>
+        <p className="learning-curr__why">
+          This Reading order item couldn&rsquo;t be parsed. Shown as raw text;
+          nothing was guessed.
+        </p>
+        <pre className="learning-curr__raw">{course.rawText}</pre>
+      </div>
+    );
+  }
+
+  const currentLesson =
+    course.lessons.find((l) => l.key === currentLessonKey) ||
+    course.lessons.find((l) => l.status === "current");
+
+  return (
+    <article
+      className={
+        course.state === "current"
+          ? "learning-curr__card learning-curr__card--current"
+          : "learning-curr__card"
+      }
+    >
+      <div className="learning-curr__card-top">
+        <div>
+          <h3 className="learning-curr__card-title">
+            <Link href={`/learning/courses/${course.key}`}>{course.title}</Link>
+          </h3>
+          {course.author ? (
+            <p className="learning-curr__card-author">{course.author}</p>
+          ) : null}
+        </div>
+        <StatusChip status={course.state} />
+      </div>
+      {course.why ? <p className="learning-curr__why">{course.why}</p> : null}
+      <ProgressBar done={course.progress.done} total={course.progress.total} />
+      {currentLesson ? (
+        <p className="learning-curr__why" style={{ marginTop: "0.65rem" }}>
+          Current: {currentLesson.title}
+        </p>
+      ) : null}
+      {course.state === "current" && currentLesson ? (
+        <Link
+          className="learning-curr__continue"
+          href={`/learning/courses/${course.key}/lessons/${currentLesson.key}`}
+        >
+          Continue: {currentLesson.title}
+        </Link>
+      ) : (
+        <div className="learning-curr__cta-row">
+          <Link
+            className="learning-curr__btn learning-curr__btn--ghost"
+            href={`/learning/courses/${course.key}`}
+          >
+            Open course
+          </Link>
+        </div>
+      )}
+    </article>
+  );
+}
+
+export function CourseView({
+  course,
+  curriculum,
+}: {
+  course: CurriculumCourse;
+  curriculum: Curriculum;
+}) {
+  const currentLesson = course.lessons.find((l) => l.status === "current");
+
+  return (
+    <Shell showSignOut>
+      <Link href="/learning" className="learning-curr__back">
+        ← All courses
+      </Link>
+      <p className="learning-curr__eyebrow">Course</p>
+      <h1 className="learning-curr__title">{course.title}</h1>
+      {course.author ? (
+        <p className="learning-curr__lede">{course.author}</p>
+      ) : null}
+      <div style={{ marginTop: "0.75rem" }}>
+        <StatusChip status={course.state} />
+      </div>
+      {course.why ? <p className="learning-curr__why">{course.why}</p> : null}
+      <ProgressBar done={course.progress.done} total={course.progress.total} />
+
+      {currentLesson ? (
+        <div className="learning-curr__block">
+          <h2>Continue</h2>
+          <p>{currentLesson.title}</p>
+          <div className="learning-curr__cta-row">
+            <Link
+              className="learning-curr__btn learning-curr__btn--primary"
+              href={`/learning/courses/${course.key}/lessons/${currentLesson.key}`}
+            >
+              Open lesson
+            </Link>
+          </div>
+        </div>
+      ) : null}
+
+      <section className="learning-curr__section">
+        <h2 className="learning-curr__section-title">Lessons</h2>
+        <ul className="learning-curr__lessons">
+          {course.lessons.map((lesson) => (
+            <li
+              key={lesson.key}
+              className={[
+                "learning-curr__lesson",
+                lesson.status === "current" ? "learning-curr__lesson--current" : "",
+                lesson.status === "pending" ? "learning-curr__lesson--pending" : "",
+              ]
+                .filter(Boolean)
+                .join(" ")}
+            >
+              <Link
+                href={`/learning/courses/${course.key}/lessons/${lesson.key}`}
+              >
+                <span className="learning-curr__lesson-title">
+                  {lesson.status === "done" ? "✓ " : ""}
+                  {lesson.title}
+                </span>
+                <StatusChip status={lesson.status} />
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {course.threadNotes ? (
+        <div className="learning-curr__block">
+          <h2>Thread notes</h2>
+          <p style={{ whiteSpace: "pre-wrap" }}>{course.threadNotes}</p>
+        </div>
+      ) : null}
+
+      <p className="learning-curr__footer">
+        Synced from Notion Reading plan ·{" "}
+        {curriculum.staleAsOf
+          ? `as of ${formatAsOfPt(curriculum.staleAsOf)}`
+          : `page edited ${formatAsOfPt(curriculum.pageLastEditedAt)}`}
+      </p>
+    </Shell>
+  );
+}
+
+export function LessonView({
+  course,
+  lesson,
+}: {
+  course: CurriculumCourse;
+  lesson: CurriculumLesson;
+}) {
+  const showReflection =
+    (lesson.status === "done" || lesson.status === "current") &&
+    lesson.reflectionPrompt;
+  const showExercises =
+    (lesson.status === "done" || lesson.status === "current") &&
+    lesson.exercises.length > 0;
+
+  return (
+    <Shell showSignOut>
+      <Link
+        href={`/learning/courses/${course.key}`}
+        className="learning-curr__back"
+      >
+        ← {course.title}
+      </Link>
+      <p className="learning-curr__eyebrow">Lesson</p>
+      <div className="learning-curr__card-top">
+        <h1 className="learning-curr__title">{lesson.title}</h1>
+        <StatusChip status={lesson.status} />
+      </div>
+      {lesson.url ? (
+        <p className="learning-curr__meta">
+          <a href={lesson.url} target="_blank" rel="noopener noreferrer">
+            Open source
+          </a>
+        </p>
+      ) : null}
+
+      {lesson.objective ? (
+        <div className="learning-curr__block">
+          <h2>Learning objective</h2>
+          <p>{lesson.objective}</p>
+        </div>
+      ) : null}
+
+      {lesson.tinkerSupplement?.preReadQuestion ? (
+        <div className="learning-curr__block">
+          <h2>Pre-read question</h2>
+          <p>{lesson.tinkerSupplement.preReadQuestion}</p>
+        </div>
+      ) : null}
+
+      {lesson.tinkerSupplement ? (
+        <div className="learning-curr__block">
+          <h2>Your notes</h2>
+          {lesson.tinkerSupplement.notesBlocks.length === 0 ||
+          lesson.tinkerSupplement.notesBlocks.every((b) => !b.answer.trim()) ? (
+            <p>{lesson.tinkerSupplement.notesEmptyState || "No notes yet."}</p>
+          ) : (
+            lesson.tinkerSupplement.notesBlocks.map((block, i) => (
+              <div key={i} style={{ marginTop: i ? "0.85rem" : 0 }}>
+                <p style={{ fontWeight: 600 }}>{block.question}</p>
+                <p style={{ marginTop: "0.35rem", whiteSpace: "pre-wrap" }}>
+                  {block.answer.trim() || "No notes yet."}
+                </p>
+              </div>
+            ))
+          )}
+        </div>
+      ) : null}
+
+      {showReflection ? (
+        <div className="learning-curr__block">
+          <h2>Reflection</h2>
+          <p>{lesson.reflectionPrompt}</p>
+          <div className="learning-curr__cta-row">
+            <a
+              className="learning-curr__btn learning-curr__btn--ghost"
+              href="https://tinker.beginner.work"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Write in Tinker
+            </a>
+          </div>
+        </div>
+      ) : null}
+
+      {showExercises
+        ? lesson.exercises.map((ex) => (
+            <div key={ex.id} className="learning-curr__block">
+              <h2>Exercise</h2>
+              <p style={{ fontWeight: 650 }}>{ex.name}</p>
+              <p style={{ marginTop: "0.35rem" }}>{ex.description}</p>
+              <div className="learning-curr__cta-row">
+                <a
+                  className="learning-curr__btn learning-curr__btn--primary"
+                  href={ex.openInCursorUrl}
+                >
+                  Open in Cursor
+                </a>
+                <a
+                  className="learning-curr__btn learning-curr__btn--ghost"
+                  href={ex.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  View on GitHub
+                </a>
+              </div>
+            </div>
+          ))
+        : null}
+    </Shell>
+  );
+}
