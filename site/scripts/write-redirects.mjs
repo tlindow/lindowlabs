@@ -50,8 +50,9 @@ function writeRedirect(oldSlug, href) {
 }
 
 if (!existsSync(outDir)) {
-  console.error("write-redirects: site/out is missing. Run next build first.");
-  process.exit(1);
+  // SSR / Vercel builds have no site/out; redirects are unused there.
+  console.log("write-redirects: site/out missing (SSR build); skipping.");
+  process.exit(0);
 }
 
 const posts = loadAllPostFrontMatter();
