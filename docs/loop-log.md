@@ -15,3 +15,4 @@ Format: `YYYY-MM-DD | loop | failure type | fixing PR | prevention`
 | 2026-10-04 | inner: Cursor | phone digits in static HTML / JSON-LD / props | n/a | `check:phone-leak` scans `site/out` for `580-5788` / `5805788`; phone assembled client-side from char codes; removed from JSON-LD |
 | 2026-10-05 | inner: Cursor | none (imported typing-coverage script; not in CI) | n/a | `make typing-coverage` runs `scripts/check_typing_coverage.py`; left out of CI because unmarked site LOC fails the 10% hand-typed bar (~0.2%) |
 | 2026-10-06 | inner: Cursor | none (private /learning + Auth.js) | n/a | Vercel SSR hosts Auth.js; `npm run build:static` / Pages stash proxy+api+/learning for HTML checks; env `AUTH_SECRET` `AUTH_GOOGLE_ID` `AUTH_GOOGLE_SECRET` |
+| 2026-10-06 | inner: Cursor | CI em-dash job used SSR `build` (no `out/`) | this PR | `.github/workflows/em-dash-check.yml` runs `npm run build:static` |
