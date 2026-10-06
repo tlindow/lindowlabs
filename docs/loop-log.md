@@ -18,3 +18,4 @@ Format: `YYYY-MM-DD | loop | failure type | fixing PR | prevention`
 | 2026-10-06 | inner: Cursor | CI em-dash job used SSR `build` (no `out/`) | #97 | `.github/workflows/em-dash-check.yml` runs `npm run build:static` |
 | 2026-10-06 | inner: Cursor | mobile menu panel clipped (Safari `overflow-x: clip` on header) | #100 | `npm run check:mobile-nav` (puppeteer: open menu + Visitors); no `overflow-x-clip` on sticky header |
 | 2026-10-06 | inner: Cursor | none (swap Auth.js → Stytch SMS OTP) | follow-up | `/learning` uses Tinker Stytch (`STYTCH_PROJECT_ID` `STYTCH_SECRET`); email allowlist on Stytch user emails |
+| 2026-10-06 | inner: Cursor | none (top nav → Login only) | follow-up | `check:mobile-nav` asserts Name left \| Login right at 390px (no Visitors/LinkedIn); Login uses `LEARNING_DASHBOARD_URL` |

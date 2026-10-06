@@ -56,7 +56,7 @@ jobs:
         working-directory: ./site
         run: npm run check:phone-leak
 
-      - name: Check mobile nav opens and Visitors link navigates
+      - name: Check mobile nav Login layout (no Visitors/LinkedIn)
         working-directory: ./site
         run: npm run check:mobile-nav
 

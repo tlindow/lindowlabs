@@ -1,11 +1,10 @@
 #!/usr/bin/env node
 /**
- * Smoke-test the mobile top-right menu against the static export in site/out.
+ * Smoke-test the sticky top nav against the static export in site/out.
  *
- * Opens the homepage at a 390px viewport, toggles the menu, asserts the panel
- * is visible below the header (not clipped), follows Visitors, and confirms
- * the URL changes. Also guards against reintroducing overflow-x: clip on the
- * sticky header (Safari clips overflow-y when overflow-x is clip).
+ * Opens the homepage at a 390px viewport, asserts the Login control is visible
+ * (Name left | Login right), and guards against reintroducing overflow-x: clip
+ * on the sticky header (Safari clips overflow-y when overflow-x is clip).
  *
  * Usage (after npm run build:static):
  *   node scripts/check-mobile-nav.mjs
@@ -68,7 +67,7 @@ function startStaticServer() {
       filePath = path.join(filePath, "index.html");
     }
 
-    // Next static export may use /visitors.html or /visitors/index.html
+    // Next static export may use /page.html or /page/index.html
     if (!fs.existsSync(filePath)) {
       const htmlAlt = path.join(outDir, `${rel.replace(/\/$/, "")}.html`);
       const indexAlt = path.join(outDir, rel.replace(/\/$/, ""), "index.html");
@@ -119,87 +118,71 @@ async function run() {
     );
     if (overflowX === "clip" || overflowX === "hidden") {
       throw new Error(
-        `header overflow-x is "${overflowX}"; that clips the mobile menu on Safari`
+        `header overflow-x is "${overflowX}"; that clips overflow on Safari`
       );
     }
 
-    const openBtn = await page.waitForSelector(
-      'button[aria-label="Open menu"]',
-      { timeout: 10000 }
-    );
-    if (!openBtn) throw new Error("Open menu button not found at 390px");
-
-    await openBtn.click();
-    await page.waitForSelector('button[aria-label="Close menu"]', {
-      timeout: 5000,
-    });
-
-    // Prefer the open mobile panel; ignore hidden sm+ inline Visitors links.
-    await page.waitForFunction(
-      () => {
-        const links = [
-          ...document.querySelectorAll(
-            'header div.relative a[href="/visitors"]'
-          ),
-        ];
-        return links.some((el) => {
-          const r = el.getBoundingClientRect();
-          return r.width > 0 && r.height > 0;
-        });
-      },
-      { timeout: 5000 }
-    );
-
-    const geometry = await page.evaluate(() => {
+    const layout = await page.evaluate(() => {
       const header = document.querySelector("header");
-      const link = [
-        ...document.querySelectorAll('header div.relative a[href="/visitors"]'),
-      ].find((el) => {
-        const r = el.getBoundingClientRect();
-        return r.width > 0 && r.height > 0;
-      });
-      if (!header || !link) return null;
+      const brand = header?.querySelector('a[href="/"]');
+      const login = header?.querySelector(
+        'a[href*="/learning"], a[title*="Log in"]'
+      );
+      const visitors = header?.querySelector('a[href="/visitors"]');
+      const linkedIn = [...(header?.querySelectorAll("a") || [])].find((a) =>
+        /linkedin\.com/i.test(a.href || "")
+      );
+
+      if (!header || !brand || !login) {
+        return {
+          ok: false,
+          reason: "missing header, brand, or Login",
+          brand: !!brand,
+          login: !!login,
+        };
+      }
+
       const hr = header.getBoundingClientRect();
-      const lr = link.getBoundingClientRect();
+      const br = brand.getBoundingClientRect();
+      const lr = login.getBoundingClientRect();
+
       return {
-        headerBottom: hr.bottom,
-        linkTop: lr.top,
-        linkHeight: lr.height,
-        linkWidth: lr.width,
-        visible:
-          lr.height > 0 &&
+        ok:
           lr.width > 0 &&
-          lr.top >= hr.bottom - 1 &&
-          lr.bottom <= window.innerHeight,
+          lr.height > 0 &&
+          br.left < lr.left &&
+          lr.top >= hr.top - 1 &&
+          lr.bottom <= hr.bottom + 1 &&
+          !visitors &&
+          !linkedIn,
+        brandLeft: br.left,
+        loginLeft: lr.left,
+        loginHref: login.getAttribute("href"),
+        loginText: (login.textContent || "").trim(),
+        hasVisitors: !!visitors,
+        hasLinkedIn: !!linkedIn,
       };
     });
 
-    if (!geometry?.visible) {
+    if (!layout?.ok) {
       throw new Error(
-        `Mobile menu panel appears clipped or invisible: ${JSON.stringify(geometry)}`
+        `Expected Name left | Login right with no Visitors/LinkedIn: ${JSON.stringify(layout)}`
       );
     }
 
-    const panel = await page.$('header div.relative a[href="/visitors"]');
-    if (!panel) throw new Error("Visitors link missing in mobile menu");
-
-    await Promise.all([
-      page.waitForNavigation({ waitUntil: "networkidle0", timeout: 15000 }),
-      panel.click(),
-    ]);
-
-    const pathname = new URL(page.url()).pathname.replace(/\/$/, "") || "/";
-    if (pathname !== "/visitors") {
-      throw new Error(`Expected /visitors after menu link click, got ${pathname}`);
+    if (!/\/learning\/?$/.test(layout.loginHref || "")) {
+      throw new Error(
+        `Login href should point at /learning, got ${layout.loginHref}`
+      );
     }
 
-    // Menu should close after navigation (new page or client route).
-    const stillOpen = await page.$('button[aria-label="Close menu"]');
-    if (stillOpen) {
-      throw new Error("Menu still open after following Visitors link");
+    if (layout.loginText !== "Login") {
+      throw new Error(`Expected Login label, got "${layout.loginText}"`);
     }
 
-    console.log("check-mobile-nav: ok (open, visible panel, Visitors navigates)");
+    console.log(
+      "check-mobile-nav: ok (Login visible at 390px, no Visitors/LinkedIn, header overflow-x safe)"
+    );
   } finally {
     await browser.close();
     if (server) {
