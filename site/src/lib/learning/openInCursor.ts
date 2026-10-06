@@ -3,22 +3,22 @@ export function openInCursorUrl(githubUrl: string): string {
   return `cursor://anysphere.cursor-deeplink/open?url=${encodeURIComponent(githubUrl)}`;
 }
 
-/** GitHub tree URL for a folder under beginner-work/tinker. */
-export function tinkerTreeUrl(pathInRepo: string): string {
+/** GitHub tree URL for a folder under tlindow/lindowlabs. */
+export function lindowlabsTreeUrl(pathInRepo: string): string {
   const cleaned = pathInRepo.replace(/^\/+/, "").replace(/\/+$/, "");
-  return `https://github.com/beginner-work/tinker/tree/main/${cleaned}`;
+  return `https://github.com/tlindow/lindowlabs/tree/main/${cleaned}`;
 }
 
-/** GitHub blob URL for a file under beginner-work/tinker. */
-export function tinkerBlobUrl(pathInRepo: string): string {
+/** GitHub blob URL for a file under tlindow/lindowlabs. */
+export function lindowlabsBlobUrl(pathInRepo: string): string {
   const cleaned = pathInRepo.replace(/^\/+/, "");
-  return `https://github.com/beginner-work/tinker/blob/main/${cleaned}`;
+  return `https://github.com/tlindow/lindowlabs/blob/main/${cleaned}`;
 }
 
 export const FASTIFY_PAYMENTS_PATH = "exercises/api-design";
 
 export function fastifyPaymentsExercise() {
-  const githubUrl = tinkerTreeUrl(FASTIFY_PAYMENTS_PATH);
+  const githubUrl = lindowlabsTreeUrl(FASTIFY_PAYMENTS_PATH);
   return {
     id: "ex_fastify_payments_api",
     name: "Payments domain REST API (Fastify)",

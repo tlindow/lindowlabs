@@ -112,6 +112,10 @@ describe("mergeCurriculum with overlay", () => {
     assert.equal(ch2.exercises.length, 1);
     assert.equal(ch2.exercises[0].path, "exercises/api-design");
     assert.match(ch2.exercises[0].openInCursorUrl, /^cursor:\/\//);
+    assert.match(
+      ch2.exercises[0].githubUrl,
+      /^https:\/\/github\.com\/tlindow\/lindowlabs\/tree\/main\/exercises\/api-design$/
+    );
     assert.equal(ch3.exercises.length, 0);
     assert.equal(ch3.reflectionPrompt, null);
   });
