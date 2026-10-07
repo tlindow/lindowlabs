@@ -5,7 +5,7 @@ import { formatPageAudioTime } from "@/data/pageAudio";
 import { usePageAudio } from "@/context/PageAudioProvider";
 
 /**
- * Docked inline controls beside the nav profile coin (play/pause + desktop scrubber).
+ * Docked inline controls to the right of name + profile coin (play/pause + desktop scrubber).
  * Mobile scrubber renders separately under the header via NavPageAudioMobileScrubber.
  */
 export default function NavPageAudioPlayer() {
