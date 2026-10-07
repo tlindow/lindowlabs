@@ -5,7 +5,7 @@ import {
   ExperienceItem,
   EducationItem,
   PUBLIC_CONTACT_EMAIL,
-  RESUME_PHONE_OBSCURED,
+  RESUME_PHONE,
   professionalSummary as defaultSummary,
 } from "@/data/resumeData";
 
@@ -38,7 +38,7 @@ export function parseResumeMarkdown(markdownText: string): ParsedResume {
     subtitle: "Developer experience, platforms, and partner integrations",
     location: "San Diego, CA",
     relocation: "Open to relocation",
-    phoneObscured: RESUME_PHONE_OBSCURED,
+    phone: RESUME_PHONE,
     email: PUBLIC_CONTACT_EMAIL,
     linkedin: "https://linkedin.com/in/tlindow",
     linkedinDisplay: "linkedin.com/in/tlindow",
@@ -90,11 +90,15 @@ export function parseResumeMarkdown(markdownText: string): ParsedResume {
           part.includes("•••") ||
           part.match(/\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/)
         ) {
-          // Never keep full digits in parsed contact (serialized into page props).
-          const area = part.match(/\(?(\d{3})\)?/);
-          contact.phoneObscured = area
-            ? `(${area[1]}) •••-••••`
-            : RESUME_PHONE_OBSCURED;
+          const digits = part.replace(/\D/g, "");
+          if (digits.length === 10) {
+            contact.phone = `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
+          } else if (part.includes("•••")) {
+            // Masked source still maps to the known resume number.
+            contact.phone = RESUME_PHONE;
+          } else {
+            contact.phone = part;
+          }
         } else if (part.toLowerCase().includes("relocat")) {
           contact.relocation = part;
         } else if (part.includes(",") || part.toLowerCase().includes("diego") || part.toLowerCase().includes("seattle") || part.toLowerCase().includes("francisco")) {

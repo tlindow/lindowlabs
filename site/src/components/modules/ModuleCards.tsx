@@ -69,24 +69,33 @@ export function HeaderModuleCard() {
           )}
         </div>
 
-        {/* Line 2: Phone | Email */}
-        <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-          <RevealPhone
-            obscured={resumeContact.phoneObscured}
-            className="inline-flex items-center gap-1.5 text-[#202124]"
-            iconClassName="text-[#1A73E8]"
-            iconSize={13}
-          />
-          <span className="text-[#DADCE0] select-none">|</span>
-
-          <a
-            href={`mailto:${resumeContact.email}`}
-            className="inline-flex items-center gap-1.5 text-[#202124] hover:text-[#1A73E8] transition-colors underline underline-offset-2"
-          >
-            <Mail size={13} className="text-[#1A73E8]" />
-            <span>{resumeContact.email}</span>
-          </a>
-        </div>
+        {/* Line 2: Phone | Email. "|" lives inside the email link so wrap never trails it. */}
+        {(resumeContact.phone || resumeContact.email) ? (
+          <div>
+            {resumeContact.phone ? (
+              <RevealPhone
+                phone={resumeContact.phone}
+                className="inline-flex items-center gap-1.5 text-[#202124]"
+                iconClassName="text-[#1A73E8]"
+                iconSize={13}
+              />
+            ) : null}
+            {resumeContact.email ? (
+              <a
+                href={`mailto:${resumeContact.email}`}
+                className="inline-flex items-center gap-1.5 text-[#202124] hover:text-[#1A73E8] transition-colors underline underline-offset-2"
+              >
+                {resumeContact.phone ? (
+                  <span className="text-[#DADCE0] select-none no-underline" aria-hidden="true">
+                    {"\u00A0|\u00A0"}
+                  </span>
+                ) : null}
+                <Mail size={13} className="text-[#1A73E8]" />
+                <span>{resumeContact.email}</span>
+              </a>
+            ) : null}
+          </div>
+        ) : null}
 
         {/* Line 3: LinkedIn | GitHub */}
         <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
