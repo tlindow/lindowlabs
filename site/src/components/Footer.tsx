@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Calendar, BookOpen, ArrowUpRight } from "lucide-react";
+import { Calendar, ArrowUpRight } from "lucide-react";
 import { BeginnerSeedMark } from "@/components/brand/BeginnerMarks";
 import { BEGINNER_URL } from "@/data/urls";
 
@@ -137,14 +137,13 @@ export default function Footer({ contactLeaf = false }: FooterProps) {
                 <div className="absolute top-0 bottom-0 left-0 w-2.5 bg-gradient-to-r from-black/25 via-black/10 to-transparent pointer-events-none" />
               </div>
 
-              {/* Unified Current Read on Amazon Pill Badge */}
-              <div className="absolute top-3 right-3 z-10 flex items-center gap-2 px-3 py-1.5 rounded-full bg-background/90 backdrop-blur-md border border-border text-xs font-mono font-bold text-foreground group-hover:text-[#FF9900] group-hover:border-[#FF9900]/50 shadow-xs transition-all">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
-                <span className="text-muted font-normal text-[11px]">Current read:</span>
-                <BookOpen size={13} className="shrink-0 text-[#FF9900]" />
-                <span>The Life-Changing Magic of Tidying Up</span>
+              {/* Corner external link-out only — no text pill */}
+              <div
+                className="absolute top-3 right-3 z-10 flex items-center justify-center w-8 h-8 rounded-full bg-background/90 backdrop-blur-md border border-border text-foreground group-hover:text-[#FF9900] group-hover:border-[#FF9900]/50 shadow-xs transition-all"
+                aria-hidden="true"
+              >
                 <ArrowUpRight
-                  size={13}
+                  size={16}
                   className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 shrink-0"
                 />
               </div>

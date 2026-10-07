@@ -32,9 +32,10 @@ export default function Navbar() {
           <div
             id="navbar-avatar-target"
             className="relative w-8 h-8 sm:w-9 sm:h-9 rounded-full shrink-0"
+            aria-hidden="true"
           >
-            {/* Reserved layout slot for morphing avatar */}
-            <div className="w-full h-full rounded-full opacity-0 pointer-events-none" />
+            {/* Empty reserved slot the profile coin docks into — dotted circle only */}
+            <div className="w-full h-full rounded-full border-2 border-dashed border-border/80 bg-transparent pointer-events-none" />
           </div>
 
           <div className="flex flex-col min-w-0 ml-0 text-left">

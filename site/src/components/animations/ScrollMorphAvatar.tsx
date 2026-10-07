@@ -276,27 +276,24 @@ export default function ScrollMorphAvatar({
         frontTexture.needsUpdate = true;
       }
 
-      // Draw Back Face (1024x1024 High-DPI Texture)
+      // Draw Back Face: empty dotted-circle placeholder (not a second photo)
       const bCtx = backCanvas.getContext("2d");
       if (bCtx) {
+        bCtx.clearRect(0, 0, 1024, 1024);
         bCtx.fillStyle = "#FFFDF7";
-        bCtx.fillRect(0, 0, 1024, 1024);
-
-        bCtx.save();
         bCtx.beginPath();
         bCtx.arc(512, 512, 504, 0, Math.PI * 2);
-        bCtx.clip();
+        bCtx.fill();
 
-        bCtx.translate(512, 512);
-        bCtx.rotate(-Math.PI / 2);
-        bCtx.drawImage(img, sx, sy, cropSize, cropSize, -512, -512, 1024, 1024);
-        bCtx.restore();
-
+        // Dotted ring — same size as the front coin face, reserved empty slot
         bCtx.beginPath();
-        bCtx.arc(512, 512, 500, 0, Math.PI * 2);
-        bCtx.strokeStyle = "#E6E2D8";
-        bCtx.lineWidth = 8;
+        bCtx.arc(512, 512, 460, 0, Math.PI * 2);
+        bCtx.strokeStyle = "#B8B2A6";
+        bCtx.lineWidth = 18;
+        bCtx.setLineDash([28, 22]);
+        bCtx.lineCap = "round";
         bCtx.stroke();
+        bCtx.setLineDash([]);
 
         backTexture.needsUpdate = true;
       }
