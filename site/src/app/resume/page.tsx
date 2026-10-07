@@ -3,8 +3,6 @@ import Link from "next/link";
 import { Calendar } from "lucide-react";
 import SpaceMonoResume from "@/components/SpaceMonoResume";
 import Footer from "@/components/Footer";
-import PageAudioPlayer from "@/components/PageAudioPlayer";
-import { PAGE_AUDIO_ENABLED, pageAudio, pageAudioLabel } from "@/data/pageAudio";
 import { FORMATION_SUMMARY, HEADLINE } from "@/data/positioning";
 import { parsedResume } from "@/data/resumeMarkdown";
 
@@ -38,15 +36,6 @@ export default function ResumePageRoute() {
           <span>Book 30 minutes</span>
         </Link>
       </div>
-      {PAGE_AUDIO_ENABLED ? (
-        <div className="no-print print:hidden max-w-4xl mx-auto px-4 sm:px-6 pb-2 sm:pb-4">
-          <PageAudioPlayer
-            src={pageAudio["/resume"].src}
-            label={pageAudioLabel(pageAudio["/resume"].durationSeconds)}
-            className="w-full px-0 pt-0 pb-0"
-          />
-        </div>
-      ) : null}
       <div className="print:pt-0 print:p-0 print:m-0">
         <SpaceMonoResume parsedResume={parsedResume} />
       </div>

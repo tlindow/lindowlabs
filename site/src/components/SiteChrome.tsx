@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
 import Navbar from "@/components/Navbar";
 import { NavbarActionsProvider } from "@/context/NavbarActions";
+import { PageAudioProvider } from "@/context/PageAudioProvider";
 
 const LAVENDER_ROUTES = new Set([
   "/",
@@ -25,16 +26,18 @@ export default function SiteChrome({ children }: { children: ReactNode }) {
   // wrapper is only as tall as the header, so position:sticky cannot pin.
   return (
     <NavbarActionsProvider>
-      <div
-        className={
-          lavenderNav
-            ? "homepage-theme min-h-screen"
-            : "min-h-screen"
-        }
-      >
-        <Navbar />
-        {children}
-      </div>
+      <PageAudioProvider>
+        <div
+          className={
+            lavenderNav
+              ? "homepage-theme min-h-screen"
+              : "min-h-screen"
+          }
+        >
+          <Navbar />
+          {children}
+        </div>
+      </PageAudioProvider>
     </NavbarActionsProvider>
   );
 }
