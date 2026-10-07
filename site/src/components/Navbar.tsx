@@ -30,16 +30,26 @@ export default function Navbar() {
     // relative: docked page-audio mobile scrubber sits under this bar.
     <header className="sticky top-0 z-50 w-full bg-background opacity-100 border-b border-border no-print relative">
       <div className="max-w-5xl mx-auto px-3 sm:px-6 md:px-8 h-14 sm:h-16 flex items-center gap-2 min-w-0">
+        {/* Brand cluster: name, then coin dock target, then docked page-audio. */}
         <div className="flex items-center gap-1.5 sm:gap-2 flex-1 min-w-0">
           <Link
             href="/"
-            className="relative w-8 h-8 sm:w-9 sm:h-9 rounded-full shrink-0 group cursor-pointer focus:outline-none"
+            className="flex items-center gap-2 sm:gap-3 group cursor-pointer focus:outline-none min-w-0"
             aria-label="Tyler Lindow - Back to top"
             onClick={goHome}
           >
+            <div className="flex flex-col min-w-0 text-left">
+              <span className="font-bold text-sm sm:text-base text-foreground group-hover:text-indigo-dark transition-colors leading-tight font-mono truncate">
+                Tyler Lindow
+              </span>
+              <span className="text-[10px] text-muted font-mono leading-none hidden sm:inline">
+                Developer Experience &amp; Platform
+              </span>
+            </div>
+
             <div
               id="navbar-avatar-target"
-              className="relative w-full h-full rounded-full"
+              className="relative w-8 h-8 sm:w-9 sm:h-9 rounded-full shrink-0"
               aria-hidden="true"
             >
               {/* Empty reserved slot the profile coin docks into — dotted circle only */}
@@ -47,22 +57,8 @@ export default function Navbar() {
             </div>
           </Link>
 
-          {/* Full player beside the coin once scrolled (or on non-home pages). */}
+          {/* Full player to the right of name + coin once scrolled (or on non-home pages). */}
           <NavPageAudioPlayer />
-
-          <Link
-            href="/"
-            className="flex flex-col min-w-0 text-left group cursor-pointer focus:outline-none"
-            aria-label="Tyler Lindow - Back to top"
-            onClick={goHome}
-          >
-            <span className="font-bold text-sm sm:text-base text-foreground group-hover:text-indigo-dark transition-colors leading-tight font-mono truncate">
-              Tyler Lindow
-            </span>
-            <span className="text-[10px] text-muted font-mono leading-none hidden sm:inline">
-              Developer Experience &amp; Platform
-            </span>
-          </Link>
         </div>
 
         {/* Desktop + mobile: Login only (Name left | Login right) */}
