@@ -170,7 +170,7 @@ export default function SpaceMonoResume({ parsedResume }: SpaceMonoResumeProps) 
                 )}
               </div>
 
-              {/* Line 2: Phone & Email. NBSP around "|" so it never orphans alone. */}
+              {/* Line 2: Phone & Email. "|" lives inside the email link so wrap never trails it. */}
               {(contact.phone || contact.email) ? (
                 <div>
                   {contact.phone ? (
@@ -179,14 +179,16 @@ export default function SpaceMonoResume({ parsedResume }: SpaceMonoResumeProps) 
                       className="inline-flex items-center gap-1.5 text-foreground"
                     />
                   ) : null}
-                  {contact.phone && contact.email ? (
-                    <span className="text-border select-none">{"\u00A0|\u00A0"}</span>
-                  ) : null}
                   {contact.email ? (
                     <a
                       href={`mailto:${contact.email}`}
                       className="inline-flex items-center gap-1.5 text-foreground hover:text-indigo-dark transition-colors underline underline-offset-2"
                     >
+                      {contact.phone ? (
+                        <span className="text-border select-none no-underline" aria-hidden="true">
+                          {"\u00A0|\u00A0"}
+                        </span>
+                      ) : null}
                       <Mail size={12} className="text-indigo-dark shrink-0" />
                       <span>{contact.email}</span>
                     </a>
