@@ -24,6 +24,8 @@ const RESUME_INLINE_LINK_CLASS =
 /**
  * Contact meta row: thin border dividers that clip away when an item wraps
  * to a new line (never a leading/trailing rule, never inside a link).
+ * `px-3` + `-ml-3` keeps equal space on both sides of each rule while the
+ * leading rule on a wrapped line stays clipped.
  */
 function ContactMetaRow({ children }: { children: ReactNode }) {
   const items = Children.toArray(children).filter(Boolean);
@@ -35,7 +37,7 @@ function ContactMetaRow({ children }: { children: ReactNode }) {
         {items.map((item, index) => (
           <div
             key={index}
-            className="inline-flex min-w-0 items-center border-l border-border pl-3"
+            className="inline-flex min-w-0 items-center border-l border-border px-3"
           >
             {item}
           </div>
