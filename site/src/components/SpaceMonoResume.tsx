@@ -170,24 +170,29 @@ export default function SpaceMonoResume({ parsedResume }: SpaceMonoResumeProps) 
                 )}
               </div>
 
-              {/* Line 2: Phone & Email (separator only between rendered items) */}
-              <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-                {contact.phone ? (
-                  <RevealPhone phone={contact.phone} />
-                ) : null}
-                {contact.phone && contact.email ? (
-                  <span className="text-border select-none">|</span>
-                ) : null}
-                {contact.email ? (
-                  <a
-                    href={`mailto:${contact.email}`}
-                    className="inline-flex items-center gap-1.5 text-foreground hover:text-indigo-dark transition-colors underline underline-offset-2"
-                  >
-                    <Mail size={12} className="text-indigo-dark shrink-0" />
-                    <span>{contact.email}</span>
-                  </a>
-                ) : null}
-              </div>
+              {/* Line 2: Phone & Email. NBSP around "|" so it never orphans alone. */}
+              {(contact.phone || contact.email) ? (
+                <div>
+                  {contact.phone ? (
+                    <RevealPhone
+                      phone={contact.phone}
+                      className="inline-flex items-center gap-1.5 text-foreground"
+                    />
+                  ) : null}
+                  {contact.phone && contact.email ? (
+                    <span className="text-border select-none">{"\u00A0|\u00A0"}</span>
+                  ) : null}
+                  {contact.email ? (
+                    <a
+                      href={`mailto:${contact.email}`}
+                      className="inline-flex items-center gap-1.5 text-foreground hover:text-indigo-dark transition-colors underline underline-offset-2"
+                    >
+                      <Mail size={12} className="text-indigo-dark shrink-0" />
+                      <span>{contact.email}</span>
+                    </a>
+                  ) : null}
+                </div>
+              ) : null}
 
               {/* Line 3: LinkedIn | GitHub */}
               <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
