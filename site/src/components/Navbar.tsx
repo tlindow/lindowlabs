@@ -5,7 +5,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useNavbarActions } from "@/context/NavbarActions";
 import { LEARNING_DASHBOARD_URL } from "@/data/urls";
-import NavPageAudioPlayer from "@/components/page-audio/NavPageAudioPlayer";
+import NavPageAudioPlayer, {
+  NavPageAudioMobileScrubber,
+} from "@/components/page-audio/NavPageAudioPlayer";
 
 export default function Navbar() {
   const pathname = usePathname() || "/";
@@ -74,6 +76,7 @@ export default function Navbar() {
           </a>
         </nav>
       </div>
+      <NavPageAudioMobileScrubber />
     </header>
   );
 }
