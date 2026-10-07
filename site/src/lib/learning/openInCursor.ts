@@ -21,9 +21,9 @@ export function fastifyPaymentsExercise() {
   const githubUrl = lindowlabsTreeUrl(FASTIFY_PAYMENTS_PATH);
   return {
     id: "ex_fastify_payments_api",
-    name: "Payments domain REST API (Fastify)",
+    name: "OpenAPI by hand (then Fastify payments)",
     description:
-      "A small payments domain (merchants, payments, refunds) named in the payments team's ubiquitous language.",
+      "Numbered OpenAPI YAML steps, then an optional Fastify payments API using the payments team's ubiquitous language.",
     path: FASTIFY_PAYMENTS_PATH,
     githubUrl,
     openInCursorUrl: openInCursorUrl(githubUrl),

@@ -1,0 +1,202 @@
+openapi: "3.0.3"
+info:
+  title: Payments API
+  version: "1.0.0"
+paths:
+  /payments:
+    post:
+      summary: Create a payment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreatePayment"
+      responses:
+        "201":
+          description: Payment created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Payment"
+        "400":
+          description: Invalid create payload
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    get:
+      summary: List payments
+      parameters:
+        - name: merchantId
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Payment list
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaymentList"
+  /payments/{paymentId}:
+    get:
+      summary: Get a payment by id
+      parameters:
+        - name: paymentId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: A payment
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Payment"
+        "404":
+          description: Payment not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /payments/{paymentId}/refunds:
+    post:
+      summary: Create a refund for a payment
+      parameters:
+        - name: paymentId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateRefund"
+      responses:
+        "201":
+          description: Refund created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Refund"
+        "400":
+          description: Invalid refund payload
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Payment not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /refunds/{refundId}:
+    get:
+      summary: Get a refund by id
+      parameters:
+        - name: refundId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: A refund
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Refund"
+        "404":
+          description: Refund not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  schemas:
+    Payment:
+      type: object
+      required:
+        - paymentId
+        - merchantId
+        - amountCents
+        - currency
+        - status
+        - createdAt
+      properties:
+        paymentId:
+          type: string
+        merchantId:
+          type: string
+        amountCents:
+          type: integer
+        currency:
+          type: string
+        status:
+          type: string
+          enum:
+            - pending
+            - refunded
+        createdAt:
+          type: string
+          format: date-time
+    CreatePayment:
+      type: object
+      required:
+        - merchantId
+        - amountCents
+        - currency
+      properties:
+        merchantId:
+          type: string
+        amountCents:
+          type: integer
+          minimum: 1
+        currency:
+          type: string
+    PaymentList:
+      type: object
+      required:
+        - payments
+      properties:
+        payments:
+          type: array
+          items:
+            $ref: "#/components/schemas/Payment"
+    Refund:
+      type: object
+      required:
+        - refundId
+        - paymentId
+        - amountCents
+        - createdAt
+      properties:
+        refundId:
+          type: string
+        paymentId:
+          type: string
+        amountCents:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+    CreateRefund:
+      type: object
+      required:
+        - amountCents
+      properties:
+        amountCents:
+          type: integer
+          minimum: 1
+    Error:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          type: string

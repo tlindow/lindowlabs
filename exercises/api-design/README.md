@@ -1,24 +1,37 @@
-# Fastify payments API (DDD Ch 2)
+# OpenAPI by hand
 
-Hands-on module: build a small **Fastify + TypeScript** REST API for a payments
-domain (**merchant**, **payment**, **refund**) with validation and correct HTTP
-status codes.
+Write an OpenAPI YAML file from scratch, one small addition at a time. Each step
+extends the same `openapi.yaml`. Copy your file forward into the next folder
+when you move on. Practice files start blank on purpose.
 
-Pairs with Eric Evans, *Domain-Driven Design*, Chapter 2 (Communication and the
-Use of Language). Complements the API design practice track.
+Domain for steps 01 through 06: a tiny **rides** API (`/rides`).
+Step 07 switches to the payments worksheet in [WORKSHEET.md](./WORKSHEET.md).
 
-Use the fintech ubiquitous language in routes, types, and tests. Do not borrow
-analogies from unrelated domains.
+## Steps
 
-## Start here
+| Step | Folder | What you add |
+| :--- | :--- | :--- |
+| 01 | [`01-smallest-valid-spec/`](./01-smallest-valid-spec/) | Version, info, one `GET` |
+| 02 | [`02-name-the-thing/`](./02-name-the-thing/) | Named schema + `$ref` |
+| 03 | [`03-create/`](./03-create/) | `POST` with a request body |
+| 04 | [`04-failure/`](./04-failure/) | Shared `Error`, 400, 404 |
+| 05 | [`05-lists/`](./05-lists/) | Query params and pagination |
+| 06 | [`06-auth/`](./06-auth/) | A security scheme |
+| 07 | [`07-from-scratch/`](./07-from-scratch/) | Whole payments spec by hand |
 
-1. Read [SPEC.md](./SPEC.md).
-2. `npm install`
-3. `npm test` (expect failures until you implement handlers).
-4. Edit `src/payments.ts` - the handler bodies are stubs on purpose.
-5. Re-run `npm test` until green.
+## How to check
 
-Hint while you code: when a teammate says "issue a refund," do your route and
-type say `refund`, or did the name drift to something else?
+```bash
+cd exercises/api-design
+npm install
+npm run check:step -- 01
+```
 
-Optional: `npm run dev` starts the server on port `3030` for manual curls.
+Replace `01` with the step you are on. The check lints your YAML and asserts the
+shapes that step requires. Reference answers live under [`solutions/`](./solutions/)
+(peek only after you have typed your own).
+
+## Later: Fastify implementation
+
+After the OpenAPI track, build the payments API in TypeScript under
+[`extras/`](./extras/).
