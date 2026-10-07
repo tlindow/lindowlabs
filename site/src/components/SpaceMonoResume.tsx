@@ -1,6 +1,6 @@
 "use client";
 
-import { type ReactNode } from "react";
+import { Children, type ReactNode } from "react";
 import { motion, type Variants } from "framer-motion";
 import {
   Github,
@@ -20,6 +20,30 @@ import type { ParsedResume } from "@/lib/parseResumeMarkdown";
 
 const RESUME_INLINE_LINK_CLASS =
   "text-foreground hover:text-indigo-dark transition-colors underline underline-offset-2";
+
+/**
+ * Contact meta row: thin border dividers that clip away when an item wraps
+ * to a new line (never a leading/trailing rule, never inside a link).
+ */
+function ContactMetaRow({ children }: { children: ReactNode }) {
+  const items = Children.toArray(children).filter(Boolean);
+  if (items.length === 0) return null;
+
+  return (
+    <div className="overflow-hidden">
+      <div className="flex flex-wrap items-center gap-y-1 -ml-3">
+        {items.map((item, index) => (
+          <div
+            key={index}
+            className="inline-flex min-w-0 items-center border-l border-border pl-3"
+          >
+            {item}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 /** Turn `[text](url)` into real anchors; leave all other copy untouched. */
 function renderInlineMarkdown(text: string): ReactNode {
@@ -152,52 +176,41 @@ export default function SpaceMonoResume({ parsedResume }: SpaceMonoResumeProps) 
               </p>
             </div>
 
-            {/* Contact Metadata: Clean, Minimalist Rows */}
+            {/* Contact Metadata: shared border-divider rows (no text "|", never dangling) */}
             <div className="mt-3 pt-2.5 border-t border-border/60 space-y-1.5 text-xs sm:text-sm text-muted font-mono">
-              {/* Line 1: Location & Relocation */}
-              <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-                <span className="inline-flex items-center gap-1.5 text-foreground">
-                  <MapPin size={12} className="text-indigo-dark shrink-0" />
-                  {contact.location}
-                </span>
-                {contact.relocation && (
-                  <>
-                    <span className="text-border select-none">|</span>
-                    <span className="text-indigo-dark font-medium">
-                      {contact.relocation}
-                    </span>
-                  </>
-                )}
-              </div>
+              <ContactMetaRow>
+                {contact.location ? (
+                  <span className="inline-flex items-center gap-1.5 text-foreground">
+                    <MapPin size={12} className="text-indigo-dark shrink-0" />
+                    {contact.location}
+                  </span>
+                ) : null}
+                {contact.relocation ? (
+                  <span className="text-indigo-dark font-medium">
+                    {contact.relocation}
+                  </span>
+                ) : null}
+              </ContactMetaRow>
 
-              {/* Line 2: Phone & Email. "|" lives inside the email link so wrap never trails it. */}
-              {(contact.phone || contact.email) ? (
-                <div>
-                  {contact.phone ? (
-                    <RevealPhone
-                      phone={contact.phone}
-                      className="inline-flex items-center gap-1.5 text-foreground"
-                    />
-                  ) : null}
-                  {contact.email ? (
-                    <a
-                      href={`mailto:${contact.email}`}
-                      className="inline-flex items-center gap-1.5 text-foreground hover:text-indigo-dark transition-colors underline underline-offset-2"
-                    >
-                      {contact.phone ? (
-                        <span className="text-border select-none no-underline" aria-hidden="true">
-                          {"\u00A0|\u00A0"}
-                        </span>
-                      ) : null}
-                      <Mail size={12} className="text-indigo-dark shrink-0" />
-                      <span>{contact.email}</span>
-                    </a>
-                  ) : null}
-                </div>
-              ) : null}
+              <ContactMetaRow>
+                {contact.phone ? (
+                  <RevealPhone
+                    phone={contact.phone}
+                    className="inline-flex items-center gap-1.5 text-foreground"
+                  />
+                ) : null}
+                {contact.email ? (
+                  <a
+                    href={`mailto:${contact.email}`}
+                    className="inline-flex items-center gap-1.5 text-foreground hover:text-indigo-dark transition-colors underline underline-offset-2"
+                  >
+                    <Mail size={12} className="text-indigo-dark shrink-0" />
+                    <span>{contact.email}</span>
+                  </a>
+                ) : null}
+              </ContactMetaRow>
 
-              {/* Line 3: LinkedIn | GitHub */}
-              <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+              <ContactMetaRow>
                 <a
                   href={contact.linkedin}
                   target="_blank"
@@ -208,8 +221,6 @@ export default function SpaceMonoResume({ parsedResume }: SpaceMonoResumeProps) 
                   <span>{contact.linkedinDisplay}</span>
                   <ArrowUpRight size={10} className="opacity-70 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0 no-print" />
                 </a>
-                <span className="text-border select-none">|</span>
-
                 <a
                   href={contact.github}
                   target="_blank"
@@ -220,7 +231,7 @@ export default function SpaceMonoResume({ parsedResume }: SpaceMonoResumeProps) 
                   <span>{contact.githubDisplay}</span>
                   <ArrowUpRight size={10} className="opacity-70 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0 no-print" />
                 </a>
-              </div>
+              </ContactMetaRow>
             </div>
           </motion.header>
 
