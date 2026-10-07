@@ -12,6 +12,7 @@ import NavPageAudioPlayer, {
 export default function Navbar() {
   const pathname = usePathname() || "/";
   const { returnToHero } = useNavbarActions();
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
   const goHome = (e: MouseEvent) => {
     if (pathname !== "/") return;
@@ -30,19 +31,28 @@ export default function Navbar() {
     // relative: docked page-audio mobile scrubber sits under this bar.
     <header className="sticky top-0 z-50 w-full bg-background opacity-100 border-b border-border no-print relative">
       <div className="max-w-5xl mx-auto px-3 sm:px-6 md:px-8 h-14 sm:h-16 flex items-center gap-2 min-w-0">
-        {/* Brand cluster: name, then coin dock target, then docked page-audio. */}
+        {/* Brand cluster: logo, name, coin dock target, then docked page-audio. */}
         <div className="flex items-center gap-1.5 sm:gap-2 flex-1 min-w-0">
           <Link
             href="/"
-            className="relative flex items-center group cursor-pointer focus:outline-none min-w-0"
-            aria-label="Tyler Lindow - Back to top"
+            className="relative flex items-center gap-2 sm:gap-2.5 group cursor-pointer focus:outline-none min-w-0"
+            aria-label="Lindow Labs - Tyler Lindow, back to top"
             onClick={goHome}
           >
+            {/* Compact Lindow Labs mark (same asset as /learning + brand). */}
+            <img
+              src={`${basePath}/brand/lindow-labs-icon.svg`}
+              alt="Lindow Labs"
+              width={28}
+              height={28}
+              className="h-6 w-6 sm:h-7 sm:w-7 shrink-0"
+            />
+
             <div className="flex flex-col min-w-0 text-left">
               <span className="font-bold text-sm sm:text-base text-foreground group-hover:text-indigo-dark transition-colors leading-tight font-mono truncate">
                 Tyler Lindow
               </span>
-              <span className="text-[10px] text-muted font-mono leading-none hidden sm:inline">
+              <span className="text-[10px] text-muted font-mono leading-none hidden sm:inline truncate">
                 Developer Experience &amp; Platform
               </span>
             </div>
