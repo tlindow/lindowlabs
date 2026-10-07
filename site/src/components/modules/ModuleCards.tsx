@@ -69,23 +69,28 @@ export function HeaderModuleCard() {
           )}
         </div>
 
-        {/* Line 2: Phone | Email */}
+        {/* Line 2: Phone | Email (separator only between rendered items) */}
         <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-          <RevealPhone
-            obscured={resumeContact.phoneObscured}
-            className="inline-flex items-center gap-1.5 text-[#202124]"
-            iconClassName="text-[#1A73E8]"
-            iconSize={13}
-          />
-          <span className="text-[#DADCE0] select-none">|</span>
-
-          <a
-            href={`mailto:${resumeContact.email}`}
-            className="inline-flex items-center gap-1.5 text-[#202124] hover:text-[#1A73E8] transition-colors underline underline-offset-2"
-          >
-            <Mail size={13} className="text-[#1A73E8]" />
-            <span>{resumeContact.email}</span>
-          </a>
+          {resumeContact.phone ? (
+            <RevealPhone
+              phone={resumeContact.phone}
+              className="inline-flex items-center gap-1.5 text-[#202124]"
+              iconClassName="text-[#1A73E8]"
+              iconSize={13}
+            />
+          ) : null}
+          {resumeContact.phone && resumeContact.email ? (
+            <span className="text-[#DADCE0] select-none">|</span>
+          ) : null}
+          {resumeContact.email ? (
+            <a
+              href={`mailto:${resumeContact.email}`}
+              className="inline-flex items-center gap-1.5 text-[#202124] hover:text-[#1A73E8] transition-colors underline underline-offset-2"
+            >
+              <Mail size={13} className="text-[#1A73E8]" />
+              <span>{resumeContact.email}</span>
+            </a>
+          ) : null}
         </div>
 
         {/* Line 3: LinkedIn | GitHub */}

@@ -4,11 +4,11 @@ import { type ReactNode } from "react";
 import { motion, type Variants } from "framer-motion";
 import {
   Github,
+  Mail,
   MapPin,
   ArrowUpRight,
 } from "lucide-react";
 import { LinkedInIcon } from "@/components/brand/PartnerLogos";
-import BlurredResumeEmail from "@/components/BlurredResumeEmail";
 import RevealPhone from "@/components/RevealPhone";
 import {
   resumeContact,
@@ -170,12 +170,23 @@ export default function SpaceMonoResume({ parsedResume }: SpaceMonoResumeProps) 
                 )}
               </div>
 
-              {/* Line 2: Phone & Email */}
+              {/* Line 2: Phone & Email (separator only between rendered items) */}
               <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-                <RevealPhone obscured={contact.phoneObscured} />
-                <span className="text-border select-none">|</span>
-
-                <BlurredResumeEmail />
+                {contact.phone ? (
+                  <RevealPhone phone={contact.phone} />
+                ) : null}
+                {contact.phone && contact.email ? (
+                  <span className="text-border select-none">|</span>
+                ) : null}
+                {contact.email ? (
+                  <a
+                    href={`mailto:${contact.email}`}
+                    className="inline-flex items-center gap-1.5 text-foreground hover:text-indigo-dark transition-colors underline underline-offset-2"
+                  >
+                    <Mail size={12} className="text-indigo-dark shrink-0" />
+                    <span>{contact.email}</span>
+                  </a>
+                ) : null}
               </div>
 
               {/* Line 3: LinkedIn | GitHub */}

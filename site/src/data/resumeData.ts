@@ -57,8 +57,8 @@ export interface ContactInfo {
   subtitle?: string;
   location: string;
   relocation?: string;
-  /** Masked display only. Full digits are never stored here. */
-  phoneObscured: string;
+  /** Display phone, e.g. "(650) 580-5788". Empty string omits the slot. */
+  phone: string;
   email: string;
   linkedin: string;
   linkedinDisplay: string;
@@ -69,50 +69,12 @@ export interface ContactInfo {
 /** Public contact for mailto, JSON-LD, AI surfaces, and shared resumeContact.email. */
 export const PUBLIC_CONTACT_EMAIL = "tyler@lindowlabs.dev";
 
-/**
- * Personal resume address as split parts (joined only on the client for the
- * blurred /resume line). Kept out of contiguous source/HTML for scrapers.
- */
-export const RESUME_EMAIL_PARTS = [
-  "tyler",
-  ".",
-  "lindow",
-  "@",
-  "gmail",
-  ".",
-  "com",
-] as const;
+/** Plain resume phone (same number as LEARNING_ALLOWED_PHONES / prior char-code parts). */
+export const RESUME_PHONE = "(650) 580-5788";
 
-/**
- * Masked phone shown in static HTML / serialized props. Full digits are never
- * stored as a contiguous string in source, JSON-LD, or page data.
- */
-export const RESUME_PHONE_OBSCURED = "(650) •••-••••";
-
-/**
- * Phone as split char-code parts. Assembled only in client click handlers so
- * neither HTML nor JS bundles contain a regex-matchable phone number.
- */
-const RESUME_PHONE_CODES_A = [40, 54, 53, 48, 41, 32] as const; // "(650) "
-const RESUME_PHONE_CODES_B = [53, 56, 48] as const; // exchange
-const RESUME_PHONE_CODES_C = [45] as const; // "-"
-const RESUME_PHONE_CODES_D = [53, 55, 56, 56] as const; // line
-
-/** Join encoded char codes into the display phone. Call only on the client. */
-export function assembleResumePhone(): string {
-  return [
-    ...RESUME_PHONE_CODES_A,
-    ...RESUME_PHONE_CODES_B,
-    ...RESUME_PHONE_CODES_C,
-    ...RESUME_PHONE_CODES_D,
-  ]
-    .map((code) => String.fromCharCode(code))
-    .join("");
-}
-
-/** Digits-only form for tel: links. Call only on the client. */
-export function assembleResumePhoneDigits(): string {
-  return assembleResumePhone().replace(/\D/g, "");
+/** Digits-only form for tel: links. */
+export function resumePhoneDigits(phone: string = RESUME_PHONE): string {
+  return phone.replace(/\D/g, "");
 }
 
 export const resumeContact: ContactInfo = {
@@ -120,7 +82,7 @@ export const resumeContact: ContactInfo = {
   title: HEADLINE,
   location: "San Diego, CA",
   relocation: "Open to relocation",
-  phoneObscured: RESUME_PHONE_OBSCURED,
+  phone: RESUME_PHONE,
   email: PUBLIC_CONTACT_EMAIL,
   linkedin: "https://www.linkedin.com/in/tlindow",
   linkedinDisplay: "linkedin.com/in/tlindow",
