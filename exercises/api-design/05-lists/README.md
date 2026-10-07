@@ -1,7 +1,8 @@
 # 05: Lists
 
-Copy your step 04 file here. Add `GET /rides` with query parameters for filtering
-and pagination (for example `limit` and `offset`).
+From [`../00-in-plain-english/api.md`](../00-in-plain-english/api.md), expand
+**ask**: copy your step 04 file here, add `GET /rides` with query parameters for
+filtering and pagination (for example `limit` and `offset`).
 
 Lists need filters and page controls in the query string, not the path.
 

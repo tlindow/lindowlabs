@@ -26,6 +26,9 @@ const STEPS = {
   "07": "07-from-scratch",
 };
 
+/** Step 00 is plain English only; no machine check. */
+const NO_CHECK_STEPS = new Set(["00"]);
+
 function fail(message) {
   console.error(`check:step: ${message}`);
   process.exit(1);
@@ -195,8 +198,8 @@ const CHECKERS = {
 function resolveStepId(raw) {
   const cleaned = String(raw).replace(/^0+/, "") || "0";
   const padded = cleaned.padStart(2, "0");
-  if (!STEPS[padded]) {
-    fail(`unknown step "${raw}". Use 01..07`);
+  if (!STEPS[padded] && !NO_CHECK_STEPS.has(padded)) {
+    fail(`unknown step "${raw}". Use 00..07`);
   }
   return padded;
 }

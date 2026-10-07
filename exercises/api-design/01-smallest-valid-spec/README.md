@@ -1,7 +1,8 @@
 # 01: Smallest valid spec
 
-Add the OpenAPI version line, `info` title and version, and one
-`GET /rides/{id}` that returns `200`. About ten lines total.
+From [`../00-in-plain-english/api.md`](../00-in-plain-english/api.md), translate
+**ask** and **return** for one read: OpenAPI version, `info` title and version,
+and `GET /rides/{id}` returning `200`. About ten lines total.
 
 A document needs identity (`info`) and at least one path before tools will lint it.
 

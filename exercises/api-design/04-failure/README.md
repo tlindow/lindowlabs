@@ -1,7 +1,8 @@
 # 04: Failure
 
-Copy your step 03 file here. Add a shared `Error` schema, then document `400`
-and `404` responses on the ride operations.
+From [`../00-in-plain-english/api.md`](../00-in-plain-english/api.md), translate
+**wrong**: copy your step 03 file here, add a shared `Error` schema, then
+document `400` and `404` responses on the ride operations.
 
 Happy paths alone hide how clients should handle bad input and missing resources.
 

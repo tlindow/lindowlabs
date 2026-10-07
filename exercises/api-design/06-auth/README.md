@@ -1,7 +1,8 @@
 # 06: Auth
 
-Copy your step 05 file here. Declare a `securitySchemes` entry and apply it with
-`security` so protected operations require credentials.
+From [`../00-in-plain-english/api.md`](../00-in-plain-english/api.md), translate
+credential notes under **send**: copy your step 05 file here, declare a
+`securitySchemes` entry, and apply it with `security`.
 
 Auth belongs in the contract so generated clients and docs show how to call in.
 

@@ -1,7 +1,8 @@
 # 03: Create
 
-Copy your step 02 file here. Add `POST /rides` with a JSON request body and
-`required` fields on the create schema.
+From [`../00-in-plain-english/api.md`](../00-in-plain-english/api.md), translate
+**send**: copy your step 02 file here, add `POST /rides` with a JSON request
+body and `required` fields on the create schema.
 
 Creates need an explicit body contract so clients know what they must send.
 

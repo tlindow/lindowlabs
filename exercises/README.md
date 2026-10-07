@@ -4,7 +4,7 @@ Hands-on technical exercises for personal learning. Open each folder in Cursor a
 
 | Exercise | One-line brief | Run |
 | :--- | :--- | :--- |
-| [`api-design/`](./api-design/) | OpenAPI by hand (rides steps, then payments worksheet); Fastify extras | `cd exercises/api-design && npm install && npm run check:step -- 01` |
+| [`api-design/`](./api-design/) | Plain English then OpenAPI by hand (rides, then payments); Fastify extras | `cd exercises/api-design && npm install` then start at `00-in-plain-english/` |
 | [`stripe-payment-intent/`](./stripe-payment-intent/) | Read PaymentIntent create fixture fields (no Stripe network calls) | `cd exercises/stripe-payment-intent && npm install && npm test` |
 | [`proto-learning/`](./proto-learning/) | Protobuf & gRPC B2B merchant settlements and payout rails | See [`proto-learning/README.md`](./proto-learning/README.md) |
 | [`nextjs-learning/`](./nextjs-learning/) | Next.js App Router ledger and streaming architecture | See [`nextjs-learning/README.md`](./nextjs-learning/README.md) |
