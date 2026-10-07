@@ -36,7 +36,7 @@ export default function Navbar() {
           <Link
             href="/"
             className="relative flex items-center gap-2 sm:gap-2.5 group cursor-pointer focus:outline-none min-w-0"
-            aria-label="Lindow Labs — Tyler Lindow, back to top"
+            aria-label="Lindow Labs - Tyler Lindow, back to top"
             onClick={goHome}
           >
             {/* Compact Lindow Labs mark (same asset as /learning + brand). */}
