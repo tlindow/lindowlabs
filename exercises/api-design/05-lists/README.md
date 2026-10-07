@@ -1,21 +1,28 @@
 # 05: Lists
 
-From [`../00-in-plain-english/api.md`](../00-in-plain-english/api.md), expand
-**ask**: copy your step 04 file here, add `GET /rides` with query parameters for
-filtering and pagination (for example `limit` and `offset`).
+**The gap:** Your `api.md` says callers can ask for many rides, not just one.
+How does a machine know the list path, filters, and page controls?
 
-Lists need filters and page controls in the query string, not the path.
+**Why it exists:** Collection reads need knobs that aren't in the path. Query
+parameters (key=value after `?`) carry filters and pagination so clients can ask
+for a slice without inventing new URLs.
 
-```bash
-npm run check:step -- 05
-```
+Copy your step 04 `openapi.yaml` here first.
 
-Tiny shape:
+**Shape hint:**
 
 ```yaml
-parameters:
-  - name: limit
-    in: query
-    schema:
-      type: integer
+/<path>:
+  get:
+    parameters:
+      - name: <field>
+        in: query
+        schema:
+          type: integer
 ```
+
+**Done when:** `npm run check:step -- 05` passes (`GET /rides` with `200` and
+pagination query params: `limit`/`offset`, `page`, or `cursor`).
+
+**If stuck:** add `get:` under `/rides` with `parameters: []`, run the check,
+then add one query name.

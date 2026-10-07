@@ -1,22 +1,29 @@
 # 03: Create
 
-From [`../00-in-plain-english/api.md`](../00-in-plain-english/api.md), translate
-**send**: copy your step 02 file here, add `POST /rides` with a JSON request
-body and `required` fields on the create schema.
+**The gap:** Your `api.md` says a caller can create a ride. How does a machine
+know what they must send in the body?
 
-Creates need an explicit body contract so clients know what they must send.
+**Why it exists:** Reads alone leave create clients guessing. A request body
+(the JSON you POST) plus a `required` list on the create schema makes "must
+send" enforceable.
 
-```bash
-npm run check:step -- 03
-```
+Copy your step 02 `openapi.yaml` here first.
 
-Tiny shape:
+**Shape hint:**
 
 ```yaml
-requestBody:
-  required: true
-  content:
-    application/json:
-      schema:
-        $ref: "#/components/schemas/CreateThing"
+/<path>:
+  post:
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/<CreateThing>"
 ```
+
+**Done when:** `npm run check:step -- 03` passes (`POST /rides` has a JSON body
+and a create schema with at least one required field).
+
+**If stuck:** add `post:` under `/rides` with no body, run the check, then add
+`requestBody` from the error.

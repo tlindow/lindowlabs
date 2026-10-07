@@ -1,22 +1,26 @@
 # 02: Name the thing
 
-From [`../00-in-plain-english/api.md`](../00-in-plain-english/api.md), translate
-**return**: copy your step 01 file here, move the `200` response shape into
-`components/schemas`, and point at it with `$ref`.
+**The gap:** Your `api.md` describes what comes back for a ride. How do you name
+that shape once so responses can point at it instead of repeating fields?
 
-Named schemas keep response shapes reusable instead of repeating inline objects.
+**Why it exists:** Inline objects get copied and drift. A schema is a named JSON
+shape; `$ref` points into `components/schemas` so the contract reuses the name.
 
-```bash
-npm run check:step -- 02
-```
+Copy your step 01 `openapi.yaml` here first.
 
-Tiny shape:
+**Shape hint:**
 
 ```yaml
 components:
   schemas:
-    Thing:
+    <Thing>:
       type: object
 schema:
-  $ref: "#/components/schemas/Thing"
+  $ref: "#/components/schemas/<Thing>"
 ```
+
+**Done when:** `npm run check:step -- 02` passes (`Ride` schema exists; `200`
+uses `$ref` to it).
+
+**If stuck:** add an empty `components:` key, run the check, then fill
+`schemas` from the error.
