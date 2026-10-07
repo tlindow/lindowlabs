@@ -34,7 +34,7 @@ export default function Navbar() {
         <div className="flex items-center gap-1.5 sm:gap-2 flex-1 min-w-0">
           <Link
             href="/"
-            className="flex items-center gap-2 sm:gap-3 group cursor-pointer focus:outline-none min-w-0"
+            className="relative flex items-center group cursor-pointer focus:outline-none min-w-0"
             aria-label="Tyler Lindow - Back to top"
             onClick={goHome}
           >
@@ -47,14 +47,13 @@ export default function Navbar() {
               </span>
             </div>
 
+            {/* Invisible morph dock target (out of flow): no dotted ring, no pre-dock gap.
+                Sized for ScrollMorphAvatar measurement; the fixed coin paints into this spot. */}
             <div
               id="navbar-avatar-target"
-              className="relative w-8 h-8 sm:w-9 sm:h-9 rounded-full shrink-0"
+              className="pointer-events-none absolute left-full top-1/2 z-0 ml-2 h-8 w-8 -translate-y-1/2 opacity-0 sm:ml-3 sm:h-9 sm:w-9"
               aria-hidden="true"
-            >
-              {/* Empty reserved slot the profile coin docks into — dotted circle only */}
-              <div className="w-full h-full rounded-full border-2 border-dashed border-border/80 bg-transparent pointer-events-none" />
-            </div>
+            />
           </Link>
 
           {/* Full player to the right of name + coin once scrolled (or on non-home pages). */}
