@@ -35,7 +35,10 @@ export interface BlogPost {
   previewText?: string;
   slides: SlideData[];
   content: string[]; // Fallback body. Published case studies live in content/essays.
-  /** Optional commentary clip under public/audio/pages/. Omit for no player. */
+  /**
+   * Optional per-post clip path (legacy). Prefer pathname entries in
+   * `pageAudio` for the hero/nav player.
+   */
   audioSrc?: string;
   audioDurationSeconds?: number;
 }
@@ -192,8 +195,6 @@ export const blogPosts: BlogPost[] = [
       `One question to ask yourself is: *What does it mean to tap into my creative energy safely? And what does it mean for me to have an opinion about a product?* A great place to start is to look at the software products you already love, and figure out why you love them. Dissect them, and reverse-engineer the product a bit.`,
       `I think that is going to be a critical, must-master skill to survive in this transition into an AI world where the only thing we really have left is what makes us human—what makes us understand when something feels right. That is one of the most valuable things we have left, and so we need to over-index on that and bring that to the forefront as engineers.`,
     ],
-    audioSrc: "/audio/pages/blog-over-index-on-intuition.mp3",
-    audioDurationSeconds: 48.67,
   },
 ];
 

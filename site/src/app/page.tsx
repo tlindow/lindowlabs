@@ -3,7 +3,6 @@
 import { useEffect, useRef, useCallback } from "react";
 import { useScroll, useMotionValue, useSpring } from "framer-motion";
 import { FileText } from "lucide-react";
-import PageAudioPlayer from "@/components/PageAudioPlayer";
 import {
   TrustedPartnersBar,
   EducationInstitutionsBar,
@@ -11,12 +10,12 @@ import {
 import About from "@/components/About";
 import WhatYouGet from "@/components/WhatYouGet";
 import Footer from "@/components/Footer";
+import HeroPageAudioButton from "@/components/page-audio/HeroPageAudioButton";
 import ScrollMorphAvatar, {
   HERO_PIN_SCROLL_DISTANCE,
 } from "@/components/animations/ScrollMorphAvatar";
 import { useAnalytics } from "@/context/AnalyticsProvider";
 import { useRegisterReturnToHero } from "@/context/NavbarActions";
-import { PAGE_AUDIO_ENABLED, pageAudio, pageAudioLabel } from "@/data/pageAudio";
 import { SITE_SUPPORT } from "@/data/positioning";
 
 export default function Home() {
@@ -262,13 +261,6 @@ export default function Home() {
 
       <div className="no-print w-full">
         <main className="w-full">
-          {PAGE_AUDIO_ENABLED ? (
-            <PageAudioPlayer
-              src={pageAudio["/"].src}
-              label={pageAudioLabel(pageAudio["/"].durationSeconds)}
-            />
-          ) : null}
-
           {/* FULL PAGE HERO: fill viewport under sticky nav so 1fr rows resolve */}
           <header
             id="hero"
@@ -280,10 +272,16 @@ export default function Home() {
             >
               {/* Above: photo + label, pinned to the bottom of the top 1fr */}
               <div className="flex flex-col items-center justify-end gap-3 sm:gap-4 w-full min-h-0 pb-3 sm:pb-4">
-                <div
-                  id="hero-avatar-anchor"
-                  className="w-24 h-24 sm:w-28 sm:h-28 rounded-full shrink-0 relative"
-                />
+                <div className="relative">
+                  <div
+                    id="hero-avatar-anchor"
+                    className="w-24 h-24 sm:w-28 sm:h-28 rounded-full shrink-0 relative"
+                  />
+                  {/* Play/pause docks to nav on scroll; shared <audio> keeps playback. */}
+                  <div className="absolute left-full top-1/2 -translate-y-1/2 ml-3 sm:ml-4">
+                    <HeroPageAudioButton />
+                  </div>
+                </div>
 
                 <span className="text-xs sm:text-sm font-mono font-bold text-indigo-dark uppercase tracking-widest block">
                   ex-Affirm, ex-founder

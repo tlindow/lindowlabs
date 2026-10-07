@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { FileText } from "lucide-react";
-import PageAudioPlayer from "@/components/PageAudioPlayer";
 import { blogPosts } from "@/data/blogPosts";
-import { PAGE_AUDIO_ENABLED, pageAudio, pageAudioLabel } from "@/data/pageAudio";
 
 export const metadata: Metadata = {
   title: "Blog: Tyler Lindow",
@@ -29,16 +27,6 @@ export default function BlogIndexPage() {
   return (
     <div className="min-h-screen bg-background text-foreground selection:bg-indigo-light selection:text-indigo-dark font-mono flex flex-col justify-between">
       <main className="w-full max-w-3xl mx-auto px-4 sm:px-6 pt-10 sm:pt-14 pb-20 sm:pb-32 flex-1">
-        {PAGE_AUDIO_ENABLED ? (
-          <div className="mb-10">
-            <PageAudioPlayer
-              src={pageAudio["/blog"].src}
-              label={pageAudioLabel(pageAudio["/blog"].durationSeconds)}
-              className="w-full px-0 pt-0 pb-0"
-            />
-          </div>
-        ) : null}
-
         {/* Minimalist Header */}
         <header className="mb-16 space-y-3">
           <h1 className="text-4xl sm:text-6xl font-black tracking-tighter text-foreground font-mono">
