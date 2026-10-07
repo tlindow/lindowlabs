@@ -1,6 +1,7 @@
 "use client";
 
 import { Pause, Play } from "lucide-react";
+import { usePathname } from "next/navigation";
 import { formatPageAudioTime } from "@/data/pageAudio";
 import { usePageAudio } from "@/context/PageAudioProvider";
 
@@ -9,16 +10,19 @@ import { usePageAudio } from "@/context/PageAudioProvider";
  * Mobile scrubber renders separately under the header via NavPageAudioMobileScrubber.
  */
 export default function NavPageAudioPlayer() {
+  const pathname = usePathname() || "/";
   const { hasClip, isDocked, isPlaying, currentTime, duration, toggle, seek } =
     usePageAudio();
 
   if (!hasClip || !isDocked) return null;
 
   const safeDuration = duration > 0 ? duration : 0;
+  // Homepage coin is fixed/out-of-flow; clear its dock slot so the player sits to its right.
+  const homeCoinClearance = pathname === "/" ? "ml-10 sm:ml-12" : "";
 
   return (
     <div
-      className="flex items-center gap-1.5 sm:gap-2 min-w-0 shrink"
+      className={`flex items-center gap-1.5 sm:gap-2 min-w-0 shrink ${homeCoinClearance}`}
       data-page-audio="nav-inline"
     >
       <button
