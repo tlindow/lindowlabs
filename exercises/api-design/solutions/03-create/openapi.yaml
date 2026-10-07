@@ -1,0 +1,56 @@
+openapi: "3.0.3"
+info:
+  title: Rides API
+  version: "1.0.0"
+paths:
+  /rides/{id}:
+    get:
+      summary: Get a ride by id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: A ride
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ride"
+  /rides:
+    post:
+      summary: Create a ride
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateRide"
+      responses:
+        "201":
+          description: Ride created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ride"
+components:
+  schemas:
+    Ride:
+      type: object
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+    CreateRide:
+      type: object
+      required:
+        - pickup
+        - dropoff
+      properties:
+        pickup:
+          type: string
+        dropoff:
+          type: string

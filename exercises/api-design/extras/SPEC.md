@@ -60,7 +60,7 @@ If spoken language says **refund** but the code says `credit`, `reversal`, or `c
 ## How to run
 
 ```bash
-cd exercises/api-design
+cd exercises/api-design/extras
 npm install
 npm test
 ```

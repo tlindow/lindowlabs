@@ -1,24 +1,45 @@
-# Fastify payments API (DDD Ch 2)
+# OpenAPI by hand
 
-Hands-on module: build a small **Fastify + TypeScript** REST API for a payments
-domain (**merchant**, **payment**, **refund**) with validation and correct HTTP
-status codes.
+Start in plain English, then turn that understanding into OpenAPI YAML one
+milestone at a time. Practice files start blank on purpose.
 
-Pairs with Eric Evans, *Domain-Driven Design*, Chapter 2 (Communication and the
-Use of Language). Complements the API design practice track.
+1. Step **00**: write [`00-in-plain-english/api.md`](./00-in-plain-english/api.md).
+2. Steps **01** through **06**: copy your `openapi.yaml` forward; each milestone
+   translates a slice of that `api.md` for the **rides** domain.
+3. Step **07**: leave rides behind and write the payments contract from
+   [WORKSHEET.md](./WORKSHEET.md) by hand.
 
-Use the fintech ubiquitous language in routes, types, and tests. Do not borrow
-analogies from unrelated domains.
+Machine-readable step list: [`steps.json`](./steps.json) (for Tinker to split or
+merge steps later; boundaries stay coarse here).
 
-## Start here
+## Steps
 
-1. Read [SPEC.md](./SPEC.md).
-2. `npm install`
-3. `npm test` (expect failures until you implement handlers).
-4. Edit `src/payments.ts` - the handler bodies are stubs on purpose.
-5. Re-run `npm test` until green.
+| Step | Folder | What you add | From `api.md` |
+| :--- | :--- | :--- | :--- |
+| 00 | [`00-in-plain-english/`](./00-in-plain-english/) | Plain English answers | ask, send, return, wrong |
+| 01 | [`01-smallest-valid-spec/`](./01-smallest-valid-spec/) | Version, info, one `GET` | ask, return |
+| 02 | [`02-name-the-thing/`](./02-name-the-thing/) | Named schema + `$ref` | return |
+| 03 | [`03-create/`](./03-create/) | `POST` with a request body | send |
+| 04 | [`04-failure/`](./04-failure/) | Shared `Error`, 400, 404 | wrong |
+| 05 | [`05-lists/`](./05-lists/) | Query params and pagination | ask |
+| 06 | [`06-auth/`](./06-auth/) | A security scheme | send |
+| 07 | [`07-from-scratch/`](./07-from-scratch/) | Whole payments spec by hand | all four (payments) |
 
-Hint while you code: when a teammate says "issue a refund," do your route and
-type say `refund`, or did the name drift to something else?
+## How to check
 
-Optional: `npm run dev` starts the server on port `3030` for manual curls.
+Step 00 has no lint. For YAML milestones:
+
+```bash
+cd exercises/api-design
+npm install
+npm run check:step -- 01
+```
+
+Replace `01` with the step you are on. The check lints your YAML and asserts the
+shapes that step requires. Reference answers live under [`solutions/`](./solutions/)
+(peek only after you have typed your own).
+
+## Later: Fastify implementation
+
+After the OpenAPI track, build the payments API in TypeScript under
+[`extras/`](./extras/).

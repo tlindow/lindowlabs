@@ -1,0 +1,11 @@
+# Beginner-friendly lint: structural OpenAPI validity without forcing
+# servers, licenses, operationIds, or auth on every early step.
+extends:
+  - recommended
+rules:
+  no-empty-servers: off
+  security-defined: off
+  info-license: off
+  operation-operationId: off
+  operation-4xx-response: off
+  operation-summary: warn

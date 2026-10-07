@@ -4,11 +4,11 @@ Hands-on technical exercises for personal learning. Open each folder in Cursor a
 
 | Exercise | One-line brief | Run |
 | :--- | :--- | :--- |
-| [`api-design/`](./api-design/) | Fastify + TypeScript payments API (merchants, payments, refunds) | `cd exercises/api-design && npm install && npm test` |
+| [`api-design/`](./api-design/) | Plain English then OpenAPI by hand (rides, then payments); Fastify extras | `cd exercises/api-design && npm install` then start at `00-in-plain-english/` |
 | [`stripe-payment-intent/`](./stripe-payment-intent/) | Read PaymentIntent create fixture fields (no Stripe network calls) | `cd exercises/stripe-payment-intent && npm install && npm test` |
 | [`proto-learning/`](./proto-learning/) | Protobuf & gRPC B2B merchant settlements and payout rails | See [`proto-learning/README.md`](./proto-learning/README.md) |
 | [`nextjs-learning/`](./nextjs-learning/) | Next.js App Router ledger and streaming architecture | See [`nextjs-learning/README.md`](./nextjs-learning/README.md) |
 | [`realtime-deal-room/`](./realtime-deal-room/) | Real-time collaboration: polling vs SSE vs WebSockets | See [`realtime-deal-room/README.md`](./realtime-deal-room/README.md) |
 | [`rest-api-trading/`](./rest-api-trading/) | REST API design for a Robinhood-style trading platform | See [`rest-api-trading/README.md`](./rest-api-trading/README.md) |
 
-`api-design` and `stripe-payment-intent` come from [beginner-work/tinker](https://github.com/beginner-work/tinker) Practice reps. They are not part of the site build or root CI; run their tests only inside each exercise folder.
+`api-design` and `stripe-payment-intent` come from [beginner-work/tinker](https://github.com/beginner-work/tinker) Practice reps. They are not part of the site build or root CI; run checks inside each exercise folder (`npm run check` / `npm test`).

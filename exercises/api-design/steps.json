@@ -1,0 +1,77 @@
+{
+  "version": 1,
+  "domain": "rides",
+  "apiMdSections": {
+    "ask": "What someone can ask for",
+    "send": "What they send",
+    "return": "What comes back",
+    "wrong": "What can go wrong"
+  },
+  "steps": [
+    {
+      "id": "00",
+      "folder": "00-in-plain-english",
+      "title": "In plain English",
+      "goal": "Write what a rides caller needs to know in plain English before any YAML.",
+      "check": null,
+      "apiMd": ["ask", "send", "return", "wrong"]
+    },
+    {
+      "id": "01",
+      "folder": "01-smallest-valid-spec",
+      "title": "Smallest valid spec",
+      "goal": "Turn one ask into openapi info plus GET /rides/{id} returning 200.",
+      "check": "npm run check:step -- 01",
+      "apiMd": ["ask", "return"]
+    },
+    {
+      "id": "02",
+      "folder": "02-name-the-thing",
+      "title": "Name the thing",
+      "goal": "Move the return shape into components/schemas and $ref it.",
+      "check": "npm run check:step -- 02",
+      "apiMd": ["return"]
+    },
+    {
+      "id": "03",
+      "folder": "03-create",
+      "title": "Create",
+      "goal": "Translate send into POST /rides with a required request body.",
+      "check": "npm run check:step -- 03",
+      "apiMd": ["send"]
+    },
+    {
+      "id": "04",
+      "folder": "04-failure",
+      "title": "Failure",
+      "goal": "Translate wrong into a shared Error schema plus 400 and 404.",
+      "check": "npm run check:step -- 04",
+      "apiMd": ["wrong"]
+    },
+    {
+      "id": "05",
+      "folder": "05-lists",
+      "title": "Lists",
+      "goal": "Expand ask with GET /rides query filters and pagination.",
+      "check": "npm run check:step -- 05",
+      "apiMd": ["ask"]
+    },
+    {
+      "id": "06",
+      "folder": "06-auth",
+      "title": "Auth",
+      "goal": "Translate credential notes under send into a security scheme.",
+      "check": "npm run check:step -- 06",
+      "apiMd": ["send"]
+    },
+    {
+      "id": "07",
+      "folder": "07-from-scratch",
+      "title": "From scratch",
+      "goal": "Apply ask/send/return/wrong to the payments worksheet and write the full YAML by hand.",
+      "check": "npm run check:step -- 07",
+      "apiMd": ["ask", "send", "return", "wrong"],
+      "worksheet": "WORKSHEET.md"
+    }
+  ]
+}
