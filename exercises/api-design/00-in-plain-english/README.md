@@ -1,17 +1,22 @@
 # 00: In plain English
 
-Before any YAML, open `api.md` and write what someone calling the **rides**
-service needs to know. Use plain sentences or English pseudocode.
+**The gap:** No machine format yet. In `api.md`, answer what a **rides** caller
+needs to know before they can use the service.
 
-Answer each of these:
+**Why it exists:** OpenAPI started because teams kept restating the same HTTP
+contract in chat that tools couldn't read. Get the human understanding down
+first; later steps invent syntax for slices of it.
 
-1. **ask** - What can they ask for?
-2. **send** - What do they send?
-3. **return** - What comes back?
-4. **wrong** - What can go wrong?
+**Shape hint:** four headings, then your own bullets:
 
-This is the problem OpenAPI was designed to solve: turn that shared
-understanding into a machine-readable contract. Later steps translate slices of
-your `api.md` into YAML.
+```md
+## ask
+## send
+## return
+## wrong
+```
 
-Done when each of the four has an answer. No lint check for this step.
+**Done when:** each heading has an answer. No `npm run check:step` here.
+
+**If stuck:** write `## ask` and one sentence about one thing a caller might
+want. Fill the other three after that.

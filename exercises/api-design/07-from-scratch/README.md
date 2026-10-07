@@ -1,13 +1,19 @@
 # 07: From scratch
 
-Do not copy the rides YAML. Apply the same four `api.md` questions (**ask**,
-**send**, **return**, **wrong**) to the payments domain in
-[WORKSHEET.md](../WORKSHEET.md), then write the full OpenAPI document in this
-empty `openapi.yaml` by hand.
+**The gap:** Same four questions (ask / send / return / wrong), new domain.
+Can you write a full payments contract from a blank file without copying rides?
 
-Putting the pieces together without a prior draft is the real check that the
-shapes stuck.
+**Why it exists:** You learned each OpenAPI piece so you could assemble it cold.
+The worksheet is the plain-English source; type every line of `openapi.yaml` by
+hand.
 
-```bash
-npm run check:step -- 07
-```
+Read [WORKSHEET.md](../WORKSHEET.md). Don't paste the rides YAML.
+
+**Shape hint:** reuse what you already know (`info`, paths, schemas, `$ref`,
+bodies, errors). Start with identity, then one route from the table.
+
+**Done when:** `npm run check:step -- 07` passes (payments routes; `Payment` /
+`Refund` / `Error` schemas; create body; required success / `400` / `404`).
+
+**If stuck:** type only `openapi` + `info` + `paths: {}`, run the check, then
+add `POST /payments` from the first missing-route error.
