@@ -147,18 +147,25 @@ export default function NavPageAudioPlayer() {
 
 /** Thin seekable bar under the sticky nav on narrow viewports. */
 export function NavPageAudioMobileScrubber() {
-  const { hasClip, showNavPhoto, currentTime, duration, seek } = usePageAudio();
+  const { hasClip, isPastHero, showNavPhoto, currentTime, duration, seek } =
+    usePageAudio();
 
-  if (!hasClip || !showNavPhoto) return null;
+  // Reserve the 4px strip whenever a clip is past hero so unmounting at Let's
+  // talk cannot change sticky header height / scroll-anchoring (CLS on 390).
+  if (!hasClip || !isPastHero) return null;
 
   const safeDuration = duration > 0 ? duration : 0;
   const progress =
     safeDuration > 0 ? Math.min(100, (currentTime / safeDuration) * 100) : 0;
+  const visible = showNavPhoto;
 
   return (
     <div
-      className="sm:hidden absolute left-0 right-0 top-full h-1 bg-border/60 z-10"
+      className={`sm:hidden absolute left-0 right-0 top-full h-1 bg-border/60 z-10 ${
+        visible ? "opacity-100" : "opacity-0 pointer-events-none"
+      }`}
       data-page-audio="nav-mobile-scrubber"
+      aria-hidden={visible ? undefined : true}
     >
       <label className="sr-only" htmlFor="page-audio-scrubber-mobile">
         Seek homepage intro
@@ -175,7 +182,8 @@ export function NavPageAudioMobileScrubber() {
           if (Number.isFinite(next)) seek(next);
         }}
         aria-label="Seek homepage intro"
-        disabled={safeDuration <= 0}
+        disabled={safeDuration <= 0 || !visible}
+        tabIndex={visible ? 0 : -1}
         className="absolute inset-0 w-full h-full opacity-0 cursor-pointer disabled:pointer-events-none"
       />
       <div
