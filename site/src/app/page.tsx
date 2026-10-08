@@ -17,6 +17,7 @@ import ScrollMorphAvatar, {
 import { useAnalytics } from "@/context/AnalyticsProvider";
 import { useRegisterReturnToHero } from "@/context/NavbarActions";
 import { usePrefersReducedMotion } from "@/hooks/useProfileAnchors";
+import { setDirectToHeroActive } from "@/lib/profileDock";
 import { SITE_SUPPORT } from "@/data/positioning";
 
 export default function Home() {
@@ -34,7 +35,8 @@ export default function Home() {
   const avatarProgress = useSpring(rawProgress, springConfig);
 
   const rawContactProgress = useMotionValue(0);
-  const contactProgress = useSpring(rawContactProgress, springConfig);  const hasReachedContactRef = useRef(false);
+  const contactProgress = useSpring(rawContactProgress, springConfig);
+  const hasReachedContactRef = useRef(false);
   const wasAtTopRef = useRef(false);
   const prevYRef = useRef(0);
   // Cached contact mid-viewport scrollY. Never call getBoundingClientRect from
@@ -103,7 +105,8 @@ export default function Home() {
     };
   }, [refreshContactTargetCache, computeContactProgress, rawContactProgress]);
 
-  // If page loads already scrolled down, initialize progress appropriately
+  // If page loads already scrolled down, initialize progress appropriately.
+  // Never auto-engage directToHero — scroll both directions uses hero↔nav↔contact.
   useEffect(() => {
     if (typeof window !== "undefined") {
       const heroP = Math.min(Math.max(window.scrollY / HERO_PIN_SCROLL_DISTANCE, 0), 1);
@@ -112,12 +115,6 @@ export default function Home() {
 
       requestAnimationFrame(() => {
         refreshContactTargetCache();
-        const contactTargetScrollY = contactTargetScrollYRef.current;
-        if (contactTargetScrollY > 0 && window.scrollY >= contactTargetScrollY - 20) {
-          hasReachedContactRef.current = true;
-          directToHero.set(1);
-        }
-
         const contactP = computeContactProgress(window.scrollY);
         rawContactProgress.set(contactP);
         contactProgress.jump(contactP);
@@ -128,59 +125,46 @@ export default function Home() {
     avatarProgress,
     rawContactProgress,
     contactProgress,
-    directToHero,
     refreshContactTargetCache,
     computeContactProgress,
   ]);
 
-  // Synchronize avatar & navbar progress with scroll position:
-  // Uses the cached contact target only — no layout reads on the scroll path.
+  // Synchronize avatar progress with scroll. Uses the cached contact target only
+  // — no layout reads on the scroll path. Scroll-up from Let's talk reverses
+  // contact → nav → hero (same springs). directToHero is click-to-hero only.
   useEffect(() => {
     const unsubscribe = scrollY.on("change", (latestY) => {
-      const contactTargetScrollY = contactTargetScrollYRef.current;
       const isScrollingDown = latestY > prevYRef.current;
       prevYRef.current = latestY;
 
-      // 1. Once profile picture has reached the "Let's talk" section:
-      // engage direct-to-hero mode for any subsequent upward scroll
-      if (contactTargetScrollY > 0 && latestY >= contactTargetScrollY - 20) {
-        hasReachedContactRef.current = true;
-        wasAtTopRef.current = false;
-        directToHero.set(1);
-      }
-
-      // 2. If direct-to-hero mode is active:
+      // Click-initiated direct-to-hero: springs stay zeroed until the user
+      // lands at top and scrolls down again to resume the normal path.
       if (hasReachedContactRef.current) {
-        // Keep nav and contact springs strictly at 0 so no phantom values can pull avatar
         rawProgress.set(0);
         avatarProgress.jump(0);
         rawContactProgress.set(0);
         contactProgress.jump(0);
-
-        // Keep directToHero engaged as avatar travels to and stays at top center hero
         directToHero.set(1);
 
         if (latestY <= 5) {
           wasAtTopRef.current = true;
         }
 
-        // Only start a fresh downward journey once the user has been at top (<= 5)
-        // AND then intentionally scrolls back DOWN past 25px:
         if (wasAtTopRef.current && isScrollingDown && latestY > 25) {
           hasReachedContactRef.current = false;
           wasAtTopRef.current = false;
           directToHero.set(0);
+          setDirectToHeroActive(false);
           const heroP = Math.min(Math.max(latestY / HERO_PIN_SCROLL_DISTANCE, 0), 1);
           rawProgress.set(heroP);
         }
-      } else {
-        // Normal downward flow (Hero -> Nav -> Contact):
-        const heroP = Math.min(Math.max(latestY / HERO_PIN_SCROLL_DISTANCE, 0), 1);
-        rawProgress.set(heroP);
-
-        const contactP = computeContactProgress(latestY);
-        rawContactProgress.set(contactP);
+        return;
       }
+
+      // Normal both-direction flow (Hero ↔ Nav ↔ Contact):
+      const heroP = Math.min(Math.max(latestY / HERO_PIN_SCROLL_DISTANCE, 0), 1);
+      rawProgress.set(heroP);
+      rawContactProgress.set(computeContactProgress(latestY));
     });
 
     return () => unsubscribe();
@@ -238,9 +222,11 @@ export default function Home() {
   }, []);
 
   const handleReturnToHero = useCallback(() => {
+    // Intentional skip-nav flight (coin click / back-to-top only).
     hasReachedContactRef.current = true;
     wasAtTopRef.current = false;
     directToHero.set(1);
+    setDirectToHeroActive(true);
     rawProgress.set(0);
     avatarProgress.jump(0);
     rawContactProgress.set(0);
@@ -262,6 +248,7 @@ export default function Home() {
     document.body.style.background = "#F3EEF8";
     return () => {
       document.body.style.background = previous;
+      setDirectToHeroActive(false);
     };
   }, []);
 

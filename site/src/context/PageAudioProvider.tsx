@@ -13,10 +13,14 @@ import {
 } from "react";
 import { usePathname } from "next/navigation";
 import { pageAudio, type PageAudioClip } from "@/data/pageAudio";
-import { useProfileAnchors } from "@/hooks/useProfileAnchors";
-
-/** Matches AVATAR_MORPH_SCROLL_DISTANCE in ScrollMorphAvatar (hero coin -> nav). */
-const DOCK_SCROLL_PX = 240;
+import {
+  getDirectToHeroActive,
+  getProfileDockOwner,
+  measureContactTargetScrollY,
+  NAV_DOCK_SCROLL_PX,
+  subscribeDirectToHeroActive,
+  type ProfileDockOwner,
+} from "@/lib/profileDock";
 
 /** Dev-only preview query: `?pageAudioPreview=1` (clip file must not be committed). */
 export const PAGE_AUDIO_PREVIEW_QUERY = "pageAudioPreview";
@@ -36,13 +40,15 @@ type PageAudioContextValue = {
    */
   isPastHero: boolean;
   /**
-   * Nav profile photo (+ full scrubber) may show only when no profile-photo
-   * anchor is in view. False at hero and at Let's talk.
+   * Nav profile photo (+ full scrubber) only while the morph is docked at nav.
+   * False at hero and at Let's talk — never during mid-flight.
    */
   showNavPhoto: boolean;
-  /** Hero profile-photo anchor intersects the tuned viewport. */
+  /** Scroll-derived owner of the visible profile photo. */
+  dockOwner: ProfileDockOwner;
+  /** Hero owns the photo (morph at hero). */
   heroAnchorVisible: boolean;
-  /** Let's talk / contact profile-photo anchor intersects. */
+  /** Let's talk owns the photo (morph at contact). */
   contactAnchorVisible: boolean;
   /**
    * @deprecated Prefer showNavPhoto. True when the nav owns the visible photo
@@ -63,6 +69,7 @@ const PageAudioContext = createContext<PageAudioContextValue>({
   duration: 0,
   isPastHero: true,
   showNavPhoto: true,
+  dockOwner: "nav",
   heroAnchorVisible: false,
   contactAnchorVisible: false,
   isDocked: true,
@@ -109,24 +116,115 @@ function resolveClip(
   return null;
 }
 
-function usePastHero(pathname: string): boolean {
+type DockSnapshot = {
+  owner: ProfileDockOwner;
+  isPastHero: boolean;
+  /** False while click-to-hero flies past the nav dock zone. */
+  showNavPhoto: boolean;
+};
+
+/** Module cache for contact mid-viewport scrollY (refresh on resize only). */
+let contactTargetScrollY = 0;
+
+function refreshContactTarget() {
+  if (typeof window === "undefined") return;
+  contactTargetScrollY = measureContactTargetScrollY();
+}
+
+function readDockSnapshot(pathname: string): DockSnapshot {
+  if (typeof window === "undefined") {
+    return { owner: "nav", isPastHero: true, showNavPhoto: true };
+  }
+  if (pathname !== "/") {
+    return { owner: "nav", isPastHero: true, showNavPhoto: true };
+  }
+  const scrollY = window.scrollY;
+  const owner = getProfileDockOwner(
+    scrollY,
+    contactTargetScrollY,
+    window.innerHeight
+  );
+  // Layout reserve once past the hero morph; stays true through Let's talk.
+  const isPastHero = scrollY >= NAV_DOCK_SCROLL_PX * 0.85;
+  // Nav photo only while scroll-docked at nav — never mid-morph, never during
+  // click-to-hero (which skips the nav dock visually).
+  const showNavPhoto = owner === "nav" && !getDirectToHeroActive();
+  return { owner, isPastHero, showNavPhoto };
+}
+
+function dockSnapshotsEqual(a: DockSnapshot, b: DockSnapshot): boolean {
+  return (
+    a.owner === b.owner &&
+    a.isPastHero === b.isPastHero &&
+    a.showNavPhoto === b.showNavPhoto
+  );
+}
+
+function useProfileDock(pathname: string): DockSnapshot {
+  const cachedRef = useRef<DockSnapshot>(
+    pathname === "/"
+      ? { owner: "hero", isPastHero: false, showNavPhoto: false }
+      : { owner: "nav", isPastHero: true, showNavPhoto: true }
+  );
+
   const subscribe = useCallback(
     (onStoreChange: () => void) => {
       if (typeof window === "undefined") return () => {};
-      const onScroll = () => onStoreChange();
+
+      refreshContactTarget();
+      cachedRef.current = readDockSnapshot(pathname);
+
+      const onScroll = () => {
+        const next = readDockSnapshot(pathname);
+        if (!dockSnapshotsEqual(next, cachedRef.current)) {
+          cachedRef.current = next;
+          onStoreChange();
+        }
+      };
+
+      const onLayout = () => {
+        refreshContactTarget();
+        const next = readDockSnapshot(pathname);
+        cachedRef.current = next;
+        onStoreChange();
+      };
+
       window.addEventListener("scroll", onScroll, { passive: true });
-      return () => window.removeEventListener("scroll", onScroll);
+      window.addEventListener("resize", onLayout, { passive: true });
+      const unsubDirect = subscribeDirectToHeroActive(onScroll);
+      const contactEl = document.getElementById("contact-avatar-target");
+      const ro = new ResizeObserver(onLayout);
+      if (contactEl) ro.observe(contactEl);
+      ro.observe(document.body);
+
+      // Notify after first measure so SSR hero default can update.
+      queueMicrotask(onStoreChange);
+
+      return () => {
+        window.removeEventListener("scroll", onScroll);
+        window.removeEventListener("resize", onLayout);
+        unsubDirect();
+        ro.disconnect();
+      };
     },
-    []
+    [pathname]
   );
 
   const getSnapshot = useCallback(() => {
-    if (pathname !== "/") return true;
-    if (typeof window === "undefined") return false;
-    return window.scrollY >= DOCK_SCROLL_PX * 0.85;
+    if (typeof window === "undefined") return cachedRef.current;
+    const next = readDockSnapshot(pathname);
+    cachedRef.current = next;
+    return cachedRef.current;
   }, [pathname]);
 
-  return useSyncExternalStore(subscribe, getSnapshot, () => pathname !== "/");
+  return useSyncExternalStore(
+    subscribe,
+    getSnapshot,
+    () =>
+      pathname === "/"
+        ? { owner: "hero" as const, isPastHero: false, showNavPhoto: false }
+        : { owner: "nav" as const, isPastHero: true, showNavPhoto: true }
+  );
 }
 
 export function PageAudioProvider({ children }: { children: ReactNode }) {
@@ -142,12 +240,12 @@ export function PageAudioProvider({ children }: { children: ReactNode }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const isPastHero = usePastHero(pathname);
-  const { anyAnchorVisible, heroVisible, contactVisible } = useProfileAnchors();
+  const dock = useProfileDock(pathname);
 
-  // Gate on isPastHero so the homepage top never flashes a nav photo before
-  // IntersectionObserver registers the hero anchor.
-  const showNavPhoto = isPastHero && !anyAnchorVisible;
+  const showNavPhoto = dock.showNavPhoto;
+  const heroAnchorVisible = dock.owner === "hero";
+  const contactAnchorVisible = dock.owner === "contact";
+  const isPastHero = dock.isPastHero;
 
   // Reset playback UI when the clip identity changes (render-time adjust).
   const [prevClipSrc, setPrevClipSrc] = useState(clipSrc);
@@ -255,8 +353,9 @@ export function PageAudioProvider({ children }: { children: ReactNode }) {
       duration,
       isPastHero,
       showNavPhoto,
-      heroAnchorVisible: heroVisible,
-      contactAnchorVisible: contactVisible,
+      dockOwner: dock.owner,
+      heroAnchorVisible,
+      contactAnchorVisible,
       isDocked: showNavPhoto,
       toggle,
       seek,
@@ -271,8 +370,9 @@ export function PageAudioProvider({ children }: { children: ReactNode }) {
       duration,
       isPastHero,
       showNavPhoto,
-      heroVisible,
-      contactVisible,
+      dock.owner,
+      heroAnchorVisible,
+      contactAnchorVisible,
       toggle,
       seek,
       play,
