@@ -162,7 +162,7 @@ export const companyCards: BeginnerStyleCard[] = [
     trimColor: "#FDBA74",
     brandMark: <BeginnerSeedMark className="w-6 h-6 shrink-0 shadow-xs" />,
     linkedinUrl: "https://www.linkedin.com/in/tlindow/details/experience/",
-    totalVolumeSummary: "87 conversations, 28 early users, 6 paying",
+    totalVolumeSummary: "92 conversations, 28 early users, 6 paying",
     lineItems: [
       {
         id: "beg-1",
