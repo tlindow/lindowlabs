@@ -25,6 +25,8 @@ export const PAGE_AUDIO_PREVIEW_SRC = "/audio/pages/_dev-preview.mp3";
 type PageAudioContextValue = {
   /** True when this pathname has a clip (or a valid dev preview). */
   hasClip: boolean;
+  /** Active clip metadata (src, optional transcript / duration hint). */
+  clip: PageAudioClip | null;
   isPlaying: boolean;
   currentTime: number;
   duration: number;
@@ -55,6 +57,7 @@ type PageAudioContextValue = {
 
 const PageAudioContext = createContext<PageAudioContextValue>({
   hasClip: false,
+  clip: null,
   isPlaying: false,
   currentTime: 0,
   duration: 0,
@@ -246,6 +249,7 @@ export function PageAudioProvider({ children }: { children: ReactNode }) {
   const value = useMemo<PageAudioContextValue>(
     () => ({
       hasClip: Boolean(clipSrc),
+      clip,
       isPlaying,
       currentTime,
       duration,
@@ -261,6 +265,7 @@ export function PageAudioProvider({ children }: { children: ReactNode }) {
     }),
     [
       clipSrc,
+      clip,
       isPlaying,
       currentTime,
       duration,
@@ -275,10 +280,25 @@ export function PageAudioProvider({ children }: { children: ReactNode }) {
     ]
   );
 
+  const transcript = clip?.transcript?.trim() || "";
+  const audioTitle = clip?.title?.trim() || "page audio";
+
   return (
     <PageAudioContext.Provider value={value}>
       {/* Single shared element so hero / nav / contact never restart playback. */}
-      <audio ref={audioRef} preload="metadata" className="hidden" aria-hidden="true" />
+      <audio
+        ref={audioRef}
+        preload="metadata"
+        className="hidden"
+        aria-hidden="true"
+        title={clipSrc ? audioTitle : undefined}
+      />
+      {transcript ? (
+        <div className="sr-only" data-page-audio="transcript">
+          <h2>Transcript: {audioTitle}</h2>
+          <p>{transcript}</p>
+        </div>
+      ) : null}
       {children}
     </PageAudioContext.Provider>
   );

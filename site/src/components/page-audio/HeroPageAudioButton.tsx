@@ -1,6 +1,7 @@
 "use client";
 
 import { Pause, Play } from "lucide-react";
+import { pageAudioToggleLabel } from "@/data/pageAudio";
 import { usePageAudio } from "@/context/PageAudioProvider";
 
 /**
@@ -8,8 +9,15 @@ import { usePageAudio } from "@/context/PageAudioProvider";
  * Visible while the hero profile-photo anchor owns the photo (not nav / contact).
  */
 export default function HeroPageAudioButton() {
-  const { hasClip, isPastHero, showNavPhoto, contactAnchorVisible, isPlaying, toggle } =
-    usePageAudio();
+  const {
+    hasClip,
+    clip,
+    isPastHero,
+    showNavPhoto,
+    contactAnchorVisible,
+    isPlaying,
+    toggle,
+  } = usePageAudio();
 
   // Hero owns controls until past the morph threshold; never compete with nav
   // or the Let's talk control.
@@ -23,7 +31,7 @@ export default function HeroPageAudioButton() {
         e.stopPropagation();
         toggle();
       }}
-      aria-label={isPlaying ? "Pause page audio" : "Play page audio"}
+      aria-label={pageAudioToggleLabel(clip, isPlaying)}
       data-page-audio="hero-play"
       className="inline-flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full border border-border bg-sand/80 text-indigo-dark shadow-2xs transition-all hover:bg-sand hover:border-indigo-dark/40 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-dark/40 motion-reduce:hover:scale-100"
     >
