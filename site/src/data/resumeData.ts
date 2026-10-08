@@ -218,7 +218,7 @@ export const experiences: ExperienceEntry[] = [
   {
     id: "beginner",
     company: "Beginner Work Inc.",
-    role: "Founder",
+    role: "Founder and CEO",
     locationAndPeriod: "San Diego, CA | Mar 2026 – Jul 2026 (wound down before a raise)",
     bullets: [],
   },
@@ -230,7 +230,7 @@ export const experiences: ExperienceEntry[] = [
     bullets: [
       {
         tag: "Merchant portal:",
-        text: "Led Merchant Advocacy Engineering (9 engineers, later 6), owning Merchant Portal, the API-key and transaction-view surface for merchants integrated via ecommerce platforms or direct API.",
+        text: "Led Merchant Advocacy Engineering (9 engineers at peak, deliberately reshaped to 6), owning Merchant Portal, the API-key and transaction-view surface for merchants integrated via ecommerce platforms or direct API. Led the team in moving Merchant Portal's reads off Snowflake onto the merchant data platform's read-replica-backed RPCs, raising availability from ~99.7% to 99.9% with zero BFCM 2025 incidents.",
       },
     ],
   },
@@ -401,9 +401,9 @@ export const deckSections: Record<string, DeckSectionData> = {
     id: "deck-section-venture",
     slideNumber: "02",
     category: "FOUNDER / DEVX",
-    headline: "Beginner Work, research phase",
+    headline: "Beginner Work and Tinker",
     summary:
-      "Founder, Beginner Work Inc. Mar 2026 – Jul 2026. Built Tinker, an IDE that helped technical founders explain their work in their own voice; validated across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users. Beginner's research phase ended in July 2026.",
+      "Founder and CEO, Beginner Work Inc. Mar 2026 – Jul 2026. Self-funded and built Tinker, an IDE for technical founders (essays capturing the founder's voice, a code editor, and an AI terminal generating diffs from that context); shipped and open-sourced it as offline-first desktop and web apps, reaching 28 early users and 6 paying. Led 92 founder and investor conversations (including 5 VCs) across SF, NYC, and LA, then wound the company down rather than fund a GTM that wasn't compounding.",
     theme: "yellow",
   },
   "deck-section-scale": {
@@ -412,7 +412,7 @@ export const deckSections: Record<string, DeckSectionData> = {
     category: "COMPANY-SCALE EM",
     headline: "Affirm carries the experience",
     summary:
-      "Led Merchant Advocacy Engineering (9 engineers, later 6), owning Merchant Portal, the API-key and transaction-view surface for merchants integrated via ecommerce platforms or direct API.",
+      "Led Merchant Advocacy Engineering (9 engineers at peak, deliberately reshaped to 6), owning Merchant Portal, the API-key and transaction-view surface for merchants integrated via ecommerce platforms or direct API. Led the team in moving Merchant Portal's reads off Snowflake onto the merchant data platform's read-replica-backed RPCs, raising availability from ~99.7% to 99.9% with zero BFCM 2025 incidents.",
     theme: "blue",
   },
   "deck-section-ecosystem": {

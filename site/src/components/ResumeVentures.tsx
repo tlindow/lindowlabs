@@ -78,7 +78,7 @@ export default function ResumeVentures() {
                 beginner
               </h4>
               <p className="text-xs text-muted font-sans mt-1 leading-snug">
-                Ran Beginner Work as sole founder from March to July 2026. Built Tinker; Beginner&apos;s research phase ended in July 2026.
+                Founder and CEO of Beginner Work from March to July 2026. Self-funded and built Tinker, then wound the company down rather than fund a GTM that wasn&apos;t compounding.
               </p>
             </a>
           </StaggerItem>
@@ -101,7 +101,7 @@ export default function ResumeVentures() {
                 Tinker
               </h4>
               <p className="text-xs text-muted font-sans mt-1 leading-snug">
-                IDE that helped technical founders explain their work in their own voice. Validated across successive prototypes through 92 conversations and 28 early users.
+                IDE for technical founders: essays capturing the founder&apos;s voice, a code editor, and an AI terminal generating diffs. Shipped and open-sourced; 28 early users and 6 paying.
               </p>
             </a>
           </StaggerItem>

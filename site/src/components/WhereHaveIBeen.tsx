@@ -62,16 +62,16 @@ const journeyOptions: JourneyOption[] = [
     targetId: "beginner",
     year: "2026",
     title: "Beginner Work",
-    tag: "Founder · Mar–Jul 2026",
+    tag: "Founder and CEO · Mar–Jul 2026",
     icon: Sprout,
     iconBg: "bg-sprout-light text-sprout",
     iconColor: "text-sprout",
     summary:
-      "Ran Beginner Work as sole founder from March to July 2026. Built Tinker, an IDE that helped technical founders explain their work in their own voice; validated across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users. Beginner's research phase ended in July 2026.",
+      "Founder and CEO of Beginner Work from March to July 2026. Self-funded and built Tinker, an IDE for technical founders, shipped and open-sourced as offline-first desktop and web apps; 28 early users and 6 paying. Led 92 founder and investor conversations (including 5 VCs) across SF, NYC, and LA, then wound the company down rather than fund a GTM that wasn't compounding.",
     highlights: [
-      "Sole founder, March to July 2026",
+      "Founder and CEO, March to July 2026",
       "Built Tinker for technical founders",
-      "92 in-person conversations (including 5 VCs) and 28 early users",
+      "92 founder and investor conversations (including 5 VCs); 28 early users, 6 paying",
     ],
     actions: [
       { label: "Open Tinker", href: BEGINNER_URL, isExternal: true, variant: "primary" },
@@ -109,10 +109,10 @@ const journeyOptions: JourneyOption[] = [
     iconBg: "bg-rose-light text-rose",
     iconColor: "text-rose",
     summary:
-      "Built Tinker as sole founder, an IDE that helped technical founders explain their work in their own voice. Validated across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users. Beginner's research phase ended in July 2026.",
+      "Self-funded and built Tinker, an IDE for technical founders (essays capturing the founder's voice, a code editor, and an AI terminal generating diffs from that context); shipped and open-sourced it as offline-first desktop and web apps, reaching 28 early users and 6 paying. Led 92 founder and investor conversations (including 5 VCs) across SF, NYC, and LA, then wound the company down rather than fund a GTM that wasn't compounding.",
     highlights: [
       "IDE for technical founders",
-      "92 in-person conversations (including 5 VCs) and 28 early users",
+      "92 founder and investor conversations (including 5 VCs); 28 early users, 6 paying",
       "Source at github.com/beginner-work/tinker",
     ],
     actions: [

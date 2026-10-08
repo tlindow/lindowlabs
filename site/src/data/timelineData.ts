@@ -124,13 +124,13 @@ export const timelineMilestones: TimelineItem[] = [
     accentColor: "text-sprout",
     accentBg: "bg-sprout-light",
     dotColor: "bg-sprout",
-    kicker: "Research phase ended July 2026",
+    kicker: "Wound down July 2026",
     summary:
-      "Ran Beginner Work as sole founder from March to July 2026. Built Tinker, an IDE that helped technical founders explain their work in their own voice; validated across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users. Beginner's research phase ended in July 2026.",
+      "Founder and CEO of Beginner Work from March to July 2026. Self-funded and built Tinker, an IDE for technical founders, shipped and open-sourced as offline-first desktop and web apps; 28 early users and 6 paying. Led 92 founder and investor conversations (including 5 VCs) across SF, NYC, and LA, then wound the company down rather than fund a GTM that wasn't compounding.",
     highlights: [
-      "Sole founder, March to July 2026",
+      "Founder and CEO, March to July 2026",
       "Built Tinker for technical founders",
-      "92 in-person conversations (including 5 VCs) and 28 early users",
+      "92 founder and investor conversations (including 5 VCs); 28 early users, 6 paying",
     ],
     actions: [
       {
@@ -188,7 +188,7 @@ export const timelineMilestones: TimelineItem[] = [
     dotColor: "bg-rose",
     kicker: "Explain your work in your own voice",
     summary:
-      "Built Tinker solo in JavaScript, Node.js, Electron, and Postgres; shipped as desktop and web apps. Helped technical founders explain their work in their own voice. Validated across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users.",
+      "IDE for technical founders: essays capturing the founder's voice, a code editor, and an AI terminal generating diffs from that context. Shipped and open-sourced as offline-first desktop and web apps in JavaScript, Node.js, Electron, and Postgres, reaching 28 early users and 6 paying.",
     highlights: [
       "IDE for technical founders",
       "JavaScript, Node.js, Electron, and Postgres",
@@ -318,7 +318,7 @@ export const featuredVentures = [
     title: "tinker",
     tagline: "Explain your work in your own voice",
     description:
-      "IDE built solo in JavaScript, Node.js, Electron, and Postgres; shipped as desktop and web apps. Helped technical founders explain their work in their own voice.",
+      "IDE for technical founders (essays capturing the founder's voice, a code editor, and an AI terminal generating diffs), shipped and open-sourced as offline-first desktop and web apps in JavaScript, Node.js, Electron, and Postgres.",
     tech: ["JavaScript", "Node.js", "Electron", "Postgres"],
     url: BEGINNER_URL,
     icon: TinkerGlobeMark,
@@ -330,9 +330,9 @@ export const featuredVentures = [
   },
   {
     title: "beginner",
-    tagline: "Research phase ended July 2026",
+    tagline: "Wound down July 2026",
     description:
-      "Ran Beginner Work as sole founder from March to July 2026. Built Tinker; validated across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users. Beginner's research phase ended in July 2026.",
+      "Founder and CEO of Beginner Work from March to July 2026. Self-funded and built Tinker, an IDE for technical founders, shipped and open-sourced as offline-first desktop and web apps; 28 early users and 6 paying. Led 92 founder and investor conversations (including 5 VCs) across SF, NYC, and LA, then wound the company down rather than fund a GTM that wasn't compounding.",
     tech: ["JavaScript", "Node.js", "Electron", "Postgres"],
     url: BEGINNER_URL,
     icon: BeginnerSeedMark,

@@ -31,9 +31,9 @@ interface ValuePillar {
 const valuePillars: ValuePillar[] = [
   {
     id: "culture-builder",
-    title: "Founder, Beginner Work.",
+    title: "Founder and CEO, Beginner Work.",
     ctaSubtext:
-      "Ran Beginner Work as sole founder from March to July 2026. Built Tinker, an IDE that helped technical founders explain their work in their own voice; validated across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users. Beginner's research phase ended in July 2026.",
+      "Founder and CEO of Beginner Work from March to July 2026. Self-funded and built Tinker, an IDE for technical founders, shipped and open-sourced as offline-first desktop and web apps; 28 early users and 6 paying. Led 92 founder and investor conversations (including 5 VCs) across SF, NYC, and LA, then wound the company down rather than fund a GTM that wasn't compounding.",
     coinType: "beginner",
     link: {
       href: BEGINNER_URL,
@@ -113,17 +113,18 @@ export default function WhatYouGet() {
                     <p className="text-xs sm:text-sm font-mono text-muted leading-snug text-center">
                       {pillar.id === "culture-builder" ? (
                         <>
-                          Ran Beginner Work as sole founder from March to July
-                          2026. Built{" "}
+                          Founder and CEO of Beginner Work from March to July
+                          2026. Self-funded and built{" "}
                           <span className="inline-flex items-center gap-1 font-bold text-foreground/85 align-baseline">
                             <TinkerMark className="h-3.5 w-3.5" alt="" />
                             Tinker
                           </span>
-                          , an IDE that helped technical founders
-                          explain their work in their own voice; validated
-                          across successive prototypes through 92 in-person
-                          conversations (including 5 VCs) and 28 early users.
-                          Beginner&apos;s research phase ended in July 2026.
+                          , an IDE for technical founders, shipped and
+                          open-sourced as offline-first desktop and web apps;
+                          28 early users and 6 paying. Led 92 founder and
+                          investor conversations (including 5 VCs) across SF,
+                          NYC, and LA, then wound the company down rather than
+                          fund a GTM that wasn&apos;t compounding.
                         </>
                       ) : (
                         pillar.ctaSubtext

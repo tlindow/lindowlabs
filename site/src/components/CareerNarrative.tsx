@@ -8,7 +8,7 @@ const affirmRoles = [
     role: "Software Engineering Manager, Merchant Engineering",
     when: "San Diego, CA (Remote) · Mar 2025 – Feb 2026",
     detail:
-      "Led Merchant Advocacy Engineering (9 engineers, later 6), owning Merchant Portal, the API-key and transaction-view surface for merchants integrated via ecommerce platforms or direct API.",
+      "Led Merchant Advocacy Engineering (9 engineers at peak, deliberately reshaped to 6), owning Merchant Portal, the API-key and transaction-view surface for merchants integrated via ecommerce platforms or direct API. Led the team in moving Merchant Portal's reads off Snowflake onto the merchant data platform's read-replica-backed RPCs, raising availability from ~99.7% to 99.9% with zero BFCM 2025 incidents.",
   },
   {
     role: "Developer Support Engineering Manager, Partner Engineering",

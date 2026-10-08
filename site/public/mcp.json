@@ -29,7 +29,7 @@
       "year": 2026,
       "url": "https://www.beginner.work",
       "tagline": "IDE for technical founders",
-      "description": "Ran Beginner Work as sole founder from March to July 2026. Built Tinker, an IDE that helped technical founders explain their work in their own voice. Validated across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users. Beginner's research phase ended in July 2026."
+      "description": "Founder and CEO of Beginner Work from March to July 2026. Self-funded and built Tinker, an IDE for technical founders, shipped and open-sourced as offline-first desktop and web apps; 28 early users and 6 paying. Led 92 founder and investor conversations (including 5 VCs) across SF, NYC, and LA, then wound the company down rather than fund a GTM that wasn't compounding."
     },
     {
       "id": "tinker",
@@ -37,7 +37,7 @@
       "year": 2026,
       "url": "https://www.beginner.work",
       "tagline": "Explain your work in your own voice",
-      "description": "IDE built solo in JavaScript, Node.js, Electron, and Postgres; shipped as desktop and web apps. Source at github.com/beginner-work/tinker."
+      "description": "IDE for technical founders (essays capturing the founder's voice, a code editor, and an AI terminal generating diffs), shipped and open-sourced as offline-first desktop and web apps in JavaScript, Node.js, Electron, and Postgres. Source at github.com/beginner-work/tinker."
     },
     {
       "id": "hapi",
