@@ -19,6 +19,10 @@ async function sampleHandoff(page, width, height, label) {
   await page.goto(parseUrl(), { waitUntil: "networkidle0", timeout: 60000 });
   await page.waitForSelector('[data-profile-photo="morph"]', { timeout: 20000 });
   await new Promise((r) => setTimeout(r, 600));
+  // Instant scroll so html.scroll-smooth does not fake stalled/backward samples.
+  await page.evaluate(() => {
+    document.documentElement.style.scrollBehavior = "auto";
+  });
 
   const range = await page.evaluate(() => {
     const contact = document.getElementById("contact-avatar-target");

@@ -576,6 +576,23 @@ export default function ScrollMorphAvatar({
     }
   );
 
+  // Above sticky Navbar (z-50) while contact owns the photo so the coin is
+  // not trapped under the bar after the nav img hides. Otherwise stay at 40.
+  const phaseZIndex = useTransform(
+    [activeDirectToHero, scrollY],
+    (values: number[]) => {
+      const direct = values[0] ?? 0;
+      const latestY = values[1] ?? 0;
+      if (direct > 0.5) return 40;
+      const c = coordsRef.current;
+      const windowH = typeof window !== "undefined" ? window.innerHeight : 800;
+      const contactTarget =
+        c != null ? Math.max(c.contactAbsoluteY - windowH * 0.5, 0) : 0;
+      const owner = getProfileDockOwner(latestY, contactTarget, windowH);
+      return owner === "contact" ? 60 : 40;
+    }
+  );
+
   if (!isReady || !coords) {
     return null;
   }
@@ -588,8 +605,7 @@ export default function ScrollMorphAvatar({
         top: y,
         width: size,
         height: size,
-        // Below sticky Navbar (z-50); contact coin scrolls under the bar.
-        zIndex: 40,
+        zIndex: phaseZIndex,
         opacity: webglReady ? phaseOpacity : 0,
       }}
       className="group cursor-pointer focus:outline-none select-none drop-shadow-md hover:drop-shadow-xl transition-[filter] duration-200"

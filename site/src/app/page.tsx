@@ -168,14 +168,17 @@ export default function Home() {
       }
 
       // Normal both-direction flow (Hero ↔ Nav ↔ Contact).
-      // Contact progress jumps with scroll (no spring lag): otherwise the nav
-      // photo hides at transit start while the coin is still under the sticky
-      // bar, leaving Let's talk with only the play control.
+      // Jump contact progress only at the endpoints so the coin rests exactly
+      // at nav (0) or Let's talk (1). Mid-transit uses the spring; morph
+      // z-index rises above the sticky bar while contact owns the photo so
+      // the coin is never trapped invisible under the nav.
       const heroP = Math.min(Math.max(latestY / HERO_PIN_SCROLL_DISTANCE, 0), 1);
       rawProgress.set(heroP);
       const contactP = computeContactProgress(latestY);
       rawContactProgress.set(contactP);
-      contactProgress.jump(contactP);
+      if (contactP <= 0.001 || contactP >= 0.999) {
+        contactProgress.jump(contactP);
+      }
     });
 
     return () => unsubscribe();
