@@ -515,34 +515,53 @@ export default function ScrollMorphAvatar({
     }
   );
 
+  // In-nav photo (NavPageAudioPlayer) owns the docked slot. Fade the WebGL coin
+  // out as it reaches the nav so there is never a second profile picture there.
+  // Stay at z-40 under the sticky Navbar (z-50) so contact/hero never cover it.
+  const phaseOpacity = useTransform(
+    [progress, effectiveContactProgress, activeDirectToHero],
+    (values: number[]) => {
+      const p1 = values[0] ?? 0;
+      const p2 = values[1] ?? 0;
+      const direct = values[2] ?? 0;
+      if (direct > 0.5) return 1;
+      const safeP2 = p2 < 0.005 ? 0 : Math.min(Math.max(p2, 0), 1);
+      if (safeP2 > 0) return 1;
+      const safeP1 = p1 < 0.005 ? 0 : Math.min(Math.max(p1, 0), 1);
+      // Hand off to the in-nav photo over the last stretch of hero → nav morph.
+      if (safeP1 >= 0.75) {
+        return Math.max(0, 1 - (safeP1 - 0.75) / 0.25);
+      }
+      return 1;
+    }
+  );
+
   if (!isReady || !coords) {
     return null;
   }
 
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: webglReady ? 1 : 0 }}
-      transition={{ duration: 0.25, ease: "easeInOut" }}
       style={{
         position: "fixed",
         left: x,
         top: y,
         width: size,
         height: size,
-        zIndex: 60,
-        pointerEvents: webglReady ? "auto" : "none",
+        // Below sticky Navbar (z-50); contact coin scrolls under the bar.
+        zIndex: 40,
+        opacity: webglReady ? phaseOpacity : 0,
       }}
       className="group cursor-pointer focus:outline-none select-none drop-shadow-md hover:drop-shadow-xl transition-[filter] duration-200"
       onMouseEnter={() => {
-        if (!webglReady) return;
+        if (!webglReady || phaseOpacity.get() < 0.05) return;
         isHoveredRef.current = true;
       }}
       onMouseLeave={() => {
         isHoveredRef.current = false;
       }}
       onClick={(e) => {
-        if (!webglReady) return;
+        if (!webglReady || phaseOpacity.get() < 0.05) return;
         e.preventDefault();
         clickImpulseRef.current = Math.PI * 2;
         if (onReturnToHero) {
