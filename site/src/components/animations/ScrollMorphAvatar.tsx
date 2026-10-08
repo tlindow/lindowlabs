@@ -1,8 +1,16 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { motion, useScroll, useTransform, useSpring, type MotionValue } from "framer-motion";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useSpring,
+  useMotionValueEvent,
+  type MotionValue,
+} from "framer-motion";
 import * as THREE from "three";
+import { getProfileDockOwner } from "@/lib/profileDock";
 
 interface Coords {
   heroX: number;
@@ -67,6 +75,10 @@ export default function ScrollMorphAvatar({
   const coordsRef = useRef<Coords | null>(null);
   const [isReady, setIsReady] = useState(false);
   const [webglReady, setWebglReady] = useState(false);
+  // Plain React display (not a MotionValue): framer can skip applying
+  // style.display from useTransform, which left a compositor sliver under nav.
+  const [navDockHidden, setNavDockHidden] = useState(false);
+  const rootRef = useRef<HTMLDivElement | null>(null);
   const canvasContainerRef = useRef<HTMLDivElement | null>(null);
   const isHoveredRef = useRef(false);
   const clickImpulseRef = useRef(0);
@@ -122,22 +134,51 @@ export default function ScrollMorphAvatar({
         contactSize: contactRect.width,
       };
 
+      const prev = coordsRef.current;
+      const unchanged =
+        prev &&
+        prev.heroX === newCoords.heroX &&
+        prev.heroY === newCoords.heroY &&
+        prev.heroSize === newCoords.heroSize &&
+        prev.navX === newCoords.navX &&
+        prev.navY === newCoords.navY &&
+        prev.navSize === newCoords.navSize &&
+        prev.contactX === newCoords.contactX &&
+        prev.contactAbsoluteY === newCoords.contactAbsoluteY &&
+        prev.contactSize === newCoords.contactSize;
+
       coordsRef.current = newCoords;
-      setCoords(newCoords);
+      if (!unchanged) {
+        setCoords(newCoords);
+      }
       setIsReady(true);
+    };
+
+    // rAF-throttle ResizeObserver so body size chatter during scroll does not
+    // force layout + React state on every frame of the nav ↔ contact handoff.
+    let measureScheduled = false;
+    const scheduleMeasure = () => {
+      if (measureScheduled) return;
+      measureScheduled = true;
+      rafId = requestAnimationFrame(() => {
+        measureScheduled = false;
+        measureCoords();
+      });
     };
 
     measureCoords();
 
-    window.addEventListener("resize", measureCoords);
-    const observer = new ResizeObserver(() => {
-      measureCoords();
-    });
+    window.addEventListener("resize", scheduleMeasure, { passive: true });
+    const observer = new ResizeObserver(scheduleMeasure);
     observer.observe(document.body);
+    const navEl = document.getElementById("navbar-avatar-target");
+    const contactEl = document.getElementById("contact-avatar-target");
+    if (navEl) observer.observe(navEl);
+    if (contactEl) observer.observe(contactEl);
 
     return () => {
       cancelAnimationFrame(rafId);
-      window.removeEventListener("resize", measureCoords);
+      window.removeEventListener("resize", scheduleMeasure);
       observer.disconnect();
     };
   }, [onReady]);
@@ -335,7 +376,32 @@ export default function ScrollMorphAvatar({
       const contactTargetY = c ? Math.max(c.contactAbsoluteY - windowH * 0.5, 1) : 1000;
       const quickT = Math.min(Math.max(currentScrollY / contactTargetY, 0), 1);
 
-      const metric = direct > 0.5 ? quickT : (rawProgress + rawContact);
+      const owner =
+        direct > 0.5
+          ? null
+          : getProfileDockOwner(
+              currentScrollY,
+              c ? Math.max(c.contactAbsoluteY - windowH * 0.5, 0) : 0,
+              windowH
+            );
+
+      // Every frame: while nav owns the photo, take the morph out of the paint
+      // tree. Opacity/visibility alone still left a compositor sliver under the bar.
+      if (owner === "nav") {
+        if (rootRef.current) rootRef.current.style.display = "none";
+        renderer.domElement.style.visibility = "hidden";
+        renderer.domElement.style.opacity = "0";
+        renderer.domElement.style.display = "none";
+        lastScrollProgress = -1;
+        return;
+      }
+
+      if (rootRef.current) rootRef.current.style.display = "block";
+      renderer.domElement.style.display = "block";
+      renderer.domElement.style.visibility = "visible";
+      renderer.domElement.style.opacity = "1";
+
+      const metric = direct > 0.5 ? quickT : rawProgress + rawContact;
       if (
         Math.abs(metric - lastScrollProgress) > 0.0001 ||
         isHovered ||
@@ -344,7 +410,6 @@ export default function ScrollMorphAvatar({
       ) {
         lastScrollProgress = metric;
 
-        // Hover spin accumulation
         if (isHovered) {
           hoverSpin += 0.032;
         } else if (hoverSpin > 0) {
@@ -355,26 +420,22 @@ export default function ScrollMorphAvatar({
           clickImpulseRef.current *= 0.92;
         }
 
+        const hoverTilt = isHovered ? 0.15 : 0;
+
         if (direct > 0.5) {
-          // Direct rotation and tilt as coin travels straight to top center hero
           const easedT = quickT * quickT * (3 - 2 * quickT);
-          coinMesh.rotation.y = (1 + easedT) * Math.PI * 2 + hoverSpin + clickImpulseRef.current;
-          const transitTilt = Math.sin(easedT * Math.PI) * 0.28;
-          const hoverTilt = isHovered ? 0.15 : 0;
-          coinMesh.rotation.x = transitTilt + hoverTilt;
+          coinMesh.rotation.y =
+            (1 + easedT) * Math.PI * 2 + hoverSpin + clickImpulseRef.current;
+          coinMesh.rotation.x = Math.sin(easedT * Math.PI) * 0.28 + hoverTilt;
+        } else if (owner === "contact") {
+          coinMesh.rotation.y =
+            2 * Math.PI * 2 + hoverSpin + clickImpulseRef.current;
+          coinMesh.rotation.x = hoverTilt;
         } else {
-          // Smooth Hermite smoothstep easing for graceful departure and soft docking
           const easedP1 = rawProgress * rawProgress * (3 - 2 * rawProgress);
-          const easedP2 = rawContact * rawContact * (3 - 2 * rawContact);
-
-          // Full 360-degree rotation during Phase 1 (0 -> 2*PI)
-          // Another full 360-degree rotation during Phase 2 (2*PI -> 4*PI)
-          coinMesh.rotation.y = (easedP1 + easedP2) * Math.PI * 2 + hoverSpin + clickImpulseRef.current;
-
-          // Subtle 3D tilt exposing the metallic milled edge during transit
-          const transitTilt = (Math.sin(easedP1 * Math.PI) * (1 - rawContact) + Math.sin(easedP2 * Math.PI)) * 0.28;
-          const hoverTilt = isHovered ? 0.15 : 0;
-          coinMesh.rotation.x = transitTilt + hoverTilt;
+          coinMesh.rotation.y =
+            easedP1 * Math.PI * 2 + hoverSpin + clickImpulseRef.current;
+          coinMesh.rotation.x = Math.sin(easedP1 * Math.PI) * 0.28 + hoverTilt;
         }
 
         renderer.render(scene, camera);
@@ -400,41 +461,42 @@ export default function ScrollMorphAvatar({
     };
   }, [isReady, basePath, onReady, progress, effectiveContactProgress, activeDirectToHero, scrollY]);
 
-  // 3. Motion Interpolation for multi-phase position & scale (Hermite smoothstep)
+  // 3. Motion Interpolation for position & scale.
+  // Hero → nav still morphs along a path. Nav ↔ Let's talk is an in-place
+  // crossfade only: when contact owns the photo the coin snaps to the contact
+  // slot (never lerps across body text — that was the flying-coin catch).
   const x = useTransform(
     [progress, effectiveContactProgress, activeDirectToHero, scrollY],
     (values: number[]) => {
       const c = coordsRef.current;
       if (!c) return 0;
       const p1 = values[0] ?? 0;
-      const p2 = values[1] ?? 0;
       const direct = values[2] ?? 0;
       const latestY = values[3] ?? 0;
+      const windowH = typeof window !== "undefined" ? window.innerHeight : 800;
+      const contactTargetY = Math.max(c.contactAbsoluteY - windowH * 0.5, 0);
 
-      // When direct-to-hero is active (any scroll up after reaching contact section):
+      // Click-to-hero only: intentional long flight.
       if (direct > 0.5) {
         if (latestY <= 0) return c.heroX;
-        const windowH = typeof window !== "undefined" ? window.innerHeight : 800;
-        const contactTargetY = Math.max(c.contactAbsoluteY - windowH * 0.5, 1);
-        const t = Math.min(Math.max(latestY / contactTargetY, 0), 1);
+        const t = Math.min(Math.max(latestY / Math.max(contactTargetY, 1), 0), 1);
         const easedT = t * t * (3 - 2 * t);
         return c.heroX + (c.contactX - c.heroX) * easedT;
       }
 
       if (latestY <= 0) return c.heroX;
 
-      const clampedP1 = Math.min(Math.max(p1, 0), 1);
-      const clampedP2 = Math.min(Math.max(p2, 0), 1);
-      const safeP1 = clampedP1 < 0.005 ? 0 : clampedP1;
-      const safeP2 = clampedP2 < 0.005 ? 0 : clampedP2;
-      const easedP1 = safeP1 * safeP1 * (3 - 2 * safeP1);
-      const easedP2 = safeP2 * safeP2 * (3 - 2 * safeP2);
+      const owner = getProfileDockOwner(latestY, contactTargetY, windowH);
+      // Snap to Let's talk — no mid-page flight.
+      if (owner === "contact") return c.contactX;
+      // Park exactly on the nav slot while docked (spring p1 can lag and leave
+      // an oversized box hanging below the sticky bar).
+      if (owner === "nav") return c.navX;
 
-      if (safeP2 > 0) {
-        return c.navX + (c.contactX - c.navX) * easedP2;
-      } else {
-        return c.heroX + (c.navX - c.heroX) * easedP1;
-      }
+      const clampedP1 = Math.min(Math.max(p1, 0), 1);
+      const safeP1 = clampedP1 < 0.005 ? 0 : clampedP1;
+      const easedP1 = safeP1 * safeP1 * (3 - 2 * safeP1);
+      return c.heroX + (c.navX - c.heroX) * easedP1;
     }
   );
 
@@ -444,37 +506,29 @@ export default function ScrollMorphAvatar({
       const c = coordsRef.current;
       if (!c) return 0;
       const p1 = values[0] ?? 0;
-      const p2 = values[1] ?? 0;
       const direct = values[2] ?? 0;
       const latestY = values[3] ?? 0;
+      const windowH = typeof window !== "undefined" ? window.innerHeight : 800;
+      const contactTargetY = Math.max(c.contactAbsoluteY - windowH * 0.5, 0);
+      const contactViewportY = c.contactAbsoluteY - latestY;
 
-      // When direct-to-hero is active:
       if (direct > 0.5) {
         if (latestY <= 0) return c.heroY - latestY;
-        const windowH = typeof window !== "undefined" ? window.innerHeight : 800;
-        const contactTargetY = Math.max(c.contactAbsoluteY - windowH * 0.5, 1);
-        const t = Math.min(Math.max(latestY / contactTargetY, 0), 1);
+        const t = Math.min(Math.max(latestY / Math.max(contactTargetY, 1), 0), 1);
         const easedT = t * t * (3 - 2 * t);
-        const contactViewportY = c.contactAbsoluteY - latestY;
         return c.heroY + (contactViewportY - c.heroY) * easedT;
       }
 
       if (latestY <= 0) return c.heroY - latestY;
 
-      const clampedP1 = Math.min(Math.max(p1, 0), 1);
-      const clampedP2 = Math.min(Math.max(p2, 0), 1);
-      const safeP1 = clampedP1 < 0.005 ? 0 : clampedP1;
-      const safeP2 = clampedP2 < 0.005 ? 0 : clampedP2;
-      const easedP1 = safeP1 * safeP1 * (3 - 2 * safeP1);
-      const easedP2 = safeP2 * safeP2 * (3 - 2 * safeP2);
+      const owner = getProfileDockOwner(latestY, contactTargetY, windowH);
+      if (owner === "contact") return contactViewportY;
+      if (owner === "nav") return c.navY;
 
-      if (safeP2 > 0) {
-        // While docked or docking in the contact section, match target's viewport position (contactAbsoluteY - scrollY)
-        const contactViewportY = c.contactAbsoluteY - latestY;
-        return c.navY + (contactViewportY - c.navY) * easedP2;
-      } else {
-        return c.heroY + (c.navY - c.heroY) * easedP1;
-      }
+      const clampedP1 = Math.min(Math.max(p1, 0), 1);
+      const safeP1 = clampedP1 < 0.005 ? 0 : clampedP1;
+      const easedP1 = safeP1 * safeP1 * (3 - 2 * safeP1);
+      return c.heroY + (c.navY - c.heroY) * easedP1;
     }
   );
 
@@ -484,56 +538,126 @@ export default function ScrollMorphAvatar({
       const c = coordsRef.current;
       if (!c) return 96;
       const p1 = values[0] ?? 0;
-      const p2 = values[1] ?? 0;
       const direct = values[2] ?? 0;
       const latestY = values[3] ?? 0;
+      const windowH = typeof window !== "undefined" ? window.innerHeight : 800;
+      const contactTargetY = Math.max(c.contactAbsoluteY - windowH * 0.5, 0);
 
-      // When direct-to-hero is active:
       if (direct > 0.5) {
         if (latestY <= 0) return c.heroSize;
-        const windowH = typeof window !== "undefined" ? window.innerHeight : 800;
-        const contactTargetY = Math.max(c.contactAbsoluteY - windowH * 0.5, 1);
-        const t = Math.min(Math.max(latestY / contactTargetY, 0), 1);
+        const t = Math.min(Math.max(latestY / Math.max(contactTargetY, 1), 0), 1);
         const easedT = t * t * (3 - 2 * t);
         return c.heroSize + (c.contactSize - c.heroSize) * easedT;
       }
 
       if (latestY <= 0) return c.heroSize;
 
-      const clampedP1 = Math.min(Math.max(p1, 0), 1);
-      const clampedP2 = Math.min(Math.max(p2, 0), 1);
-      const safeP1 = clampedP1 < 0.005 ? 0 : clampedP1;
-      const safeP2 = clampedP2 < 0.005 ? 0 : clampedP2;
-      const easedP1 = safeP1 * safeP1 * (3 - 2 * safeP1);
-      const easedP2 = safeP2 * safeP2 * (3 - 2 * safeP2);
+      const owner = getProfileDockOwner(latestY, contactTargetY, windowH);
+      if (owner === "contact") return c.contactSize;
+      if (owner === "nav") return c.navSize;
 
-      if (safeP2 > 0) {
-        return c.navSize + (c.contactSize - c.navSize) * easedP2;
-      } else {
-        return c.heroSize + (c.navSize - c.heroSize) * easedP1;
-      }
+      const clampedP1 = Math.min(Math.max(p1, 0), 1);
+      const safeP1 = clampedP1 < 0.005 ? 0 : clampedP1;
+      const easedP1 = safeP1 * safeP1 * (3 - 2 * safeP1);
+      return c.heroSize + (c.navSize - c.heroSize) * easedP1;
     }
   );
 
-  // In-nav photo (NavPageAudioPlayer) owns the docked slot. Fade the WebGL coin
-  // out as it reaches the nav so there is never a second profile picture there.
-  // Stay at z-40 under the sticky Navbar (z-50) so contact/hero never cover it.
+  // In-nav photo owns the docked slot. Visibility/opacity alone still left a
+  // WebGL/compositor sliver under the sticky bar (oversized box from spring
+  // lag). While owner === "nav": display none — out of the document paint
+  // tree entirely. Hero + Let's talk keep the morph as the visible photo.
   const phaseOpacity = useTransform(
-    [progress, effectiveContactProgress, activeDirectToHero],
+    [progress, effectiveContactProgress, activeDirectToHero, scrollY],
     (values: number[]) => {
       const p1 = values[0] ?? 0;
-      const p2 = values[1] ?? 0;
       const direct = values[2] ?? 0;
+      const latestY = values[3] ?? 0;
       if (direct > 0.5) return 1;
-      const safeP2 = p2 < 0.005 ? 0 : Math.min(Math.max(p2, 0), 1);
-      if (safeP2 > 0) return 1;
+
+      const c = coordsRef.current;
+      const windowH = typeof window !== "undefined" ? window.innerHeight : 800;
+      const contactTarget =
+        c != null ? Math.max(c.contactAbsoluteY - windowH * 0.5, 0) : 0;
+      const owner = getProfileDockOwner(latestY, contactTarget, windowH);
+
+      if (owner === "nav") return 0;
+      if (owner === "contact") return 1;
+
+      // Hero: fade out over the last stretch of hero → nav morph.
       const safeP1 = p1 < 0.005 ? 0 : Math.min(Math.max(p1, 0), 1);
-      // Hand off to the in-nav photo over the last stretch of hero → nav morph.
       if (safeP1 >= 0.75) {
         return Math.max(0, 1 - (safeP1 - 0.75) / 0.25);
       }
       return 1;
     }
+  );
+
+  const phaseVisibility = useTransform(
+    [activeDirectToHero, scrollY],
+    (values: number[]) => {
+      const direct = values[0] ?? 0;
+      const latestY = values[1] ?? 0;
+      if (direct > 0.5) return "visible";
+      const c = coordsRef.current;
+      const windowH = typeof window !== "undefined" ? window.innerHeight : 800;
+      const contactTarget =
+        c != null ? Math.max(c.contactAbsoluteY - windowH * 0.5, 0) : 0;
+      const owner = getProfileDockOwner(latestY, contactTarget, windowH);
+      return owner === "nav" ? "hidden" : "visible";
+    }
+  );
+
+  // Keep React display in sync with scroll owner (rAF also sets it every frame).
+  useMotionValueEvent(scrollY, "change", (latestY) => {
+    if (activeDirectToHero.get() > 0.5) {
+      setNavDockHidden(false);
+      return;
+    }
+    const c = coordsRef.current;
+    const windowH = typeof window !== "undefined" ? window.innerHeight : 800;
+    const contactTarget =
+      c != null ? Math.max(c.contactAbsoluteY - windowH * 0.5, 0) : 0;
+    const owner = getProfileDockOwner(latestY, contactTarget, windowH);
+    setNavDockHidden(owner === "nav");
+  });
+  useMotionValueEvent(activeDirectToHero, "change", (direct) => {
+    if (direct > 0.5) {
+      setNavDockHidden(false);
+      return;
+    }
+    const c = coordsRef.current;
+    const windowH = typeof window !== "undefined" ? window.innerHeight : 800;
+    const contactTarget =
+      c != null ? Math.max(c.contactAbsoluteY - windowH * 0.5, 0) : 0;
+    const owner = getProfileDockOwner(scrollY.get(), contactTarget, windowH);
+    setNavDockHidden(owner === "nav");
+  });
+
+  // Above sticky Navbar (z-50) while contact owns the photo so the coin is
+  // not trapped under the bar after the nav img hides. Otherwise stay at 40.
+  const phaseZIndex = useTransform(
+    [activeDirectToHero, scrollY],
+    (values: number[]) => {
+      const direct = values[0] ?? 0;
+      const latestY = values[1] ?? 0;
+      if (direct > 0.5) return 40;
+      const c = coordsRef.current;
+      const windowH = typeof window !== "undefined" ? window.innerHeight : 800;
+      const contactTarget =
+        c != null ? Math.max(c.contactAbsoluteY - windowH * 0.5, 0) : 0;
+      const owner = getProfileDockOwner(latestY, contactTarget, windowH);
+      return owner === "contact" ? 60 : 40;
+    }
+  );
+
+  // Drop-shadow only while the coin is the visible photo (hero / contact).
+  const phaseFilter = useTransform(phaseOpacity, (op) =>
+    op > 0.05 ? "drop-shadow(0 4px 6px rgb(0 0 0 / 0.15))" : "none"
+  );
+
+  const phasePointerEvents = useTransform(phaseOpacity, (op) =>
+    op > 0.05 ? "auto" : "none"
   );
 
   if (!isReady || !coords) {
@@ -542,20 +666,27 @@ export default function ScrollMorphAvatar({
 
   return (
     <motion.div
+      ref={rootRef}
       style={{
         position: "fixed",
         left: x,
         top: y,
         width: size,
         height: size,
-        // Below sticky Navbar (z-50); contact coin scrolls under the bar.
-        zIndex: 40,
+        zIndex: phaseZIndex,
         opacity: webglReady ? phaseOpacity : 0,
+        visibility: phaseVisibility,
+        display: navDockHidden ? "none" : "block",
+        filter: phaseFilter,
+        pointerEvents: phasePointerEvents,
+        overflow: "hidden",
       }}
-      className="group cursor-pointer focus:outline-none select-none drop-shadow-md hover:drop-shadow-xl transition-[filter] duration-200"
+      className="group cursor-pointer focus:outline-none select-none"
       data-profile-photo="morph"
       onMouseEnter={() => {
         if (!webglReady || phaseOpacity.get() < 0.05) return;
+        if (phaseVisibility.get() === "hidden") return;
+        if (navDockHidden) return;
         isHoveredRef.current = true;
       }}
       onMouseLeave={() => {
@@ -563,6 +694,8 @@ export default function ScrollMorphAvatar({
       }}
       onClick={(e) => {
         if (!webglReady || phaseOpacity.get() < 0.05) return;
+        if (phaseVisibility.get() === "hidden") return;
+        if (navDockHidden) return;
         e.preventDefault();
         clickImpulseRef.current = Math.PI * 2;
         if (onReturnToHero) {
@@ -574,7 +707,6 @@ export default function ScrollMorphAvatar({
       title="Tyler Lindow - Back to top"
       aria-label="Tyler Lindow profile coin - Back to top"
     >
-      {/* 3D WebGL Coin Canvas Container */}
       <div
         ref={canvasContainerRef}
         className="w-full h-full flex items-center justify-center transition-transform duration-300 group-hover:scale-105"

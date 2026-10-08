@@ -101,7 +101,7 @@ export default function ResumeVentures() {
                 Tinker
               </h4>
               <p className="text-xs text-muted font-sans mt-1 leading-snug">
-                IDE for founders who want to get more technical: essays capturing the founder&apos;s voice, a code editor, and an AI terminal generating diffs. Shipped and open-sourced; 28 early users and 6 paying.
+                IDE for founders who want to get more technical: essays capturing the founder&apos;s voice, a code editor, and an AI terminal generating diffs. Shipped and open-sourced; 28 early users.
               </p>
             </a>
           </StaggerItem>

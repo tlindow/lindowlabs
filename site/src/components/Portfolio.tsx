@@ -11,7 +11,7 @@ const ventures = [
     title: "beginner",
     tagline: "Self-funded and built Tinker",
     description:
-      "Founder and CEO of Beginner Work from March to July 2026. Self-funded and built Tinker, an IDE for founders who want to get more technical, shipped and open-sourced as offline-first desktop and web apps; 28 early users and 6 paying. Ran 87 conversations with founders, Tinker's early target users, and 5 with VCs across SF, NYC, and LA, then wound the company down rather than fund a GTM that wasn't compounding.",
+      "Founder and CEO of Beginner Work from March to July 2026. Self-funded and built Tinker, an IDE for founders who want to get more technical, shipped and open-sourced as offline-first desktop and web apps; 28 early users. Ran 87 conversations with founders, Tinker's early target users, and 5 with VCs across SF, NYC, and LA, then wound the company down rather than fund a GTM that wasn't compounding.",
     tech: ["JavaScript", "Node.js", "Electron", "Postgres"],
     url: BEGINNER_URL,
     github: "https://github.com/beginner-work/tinker",

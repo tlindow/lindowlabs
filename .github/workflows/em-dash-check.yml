@@ -37,6 +37,10 @@ jobs:
         working-directory: ./site
         run: npm run check:locations
 
+      - name: Check mobile nav Login layout (no Visitors/LinkedIn)
+        working-directory: ./site
+        run: npm run check:mobile-nav
+
       - name: Check single profile photo at hero / middle / Let's talk
         working-directory: ./site
         run: npm run check:profile-photo

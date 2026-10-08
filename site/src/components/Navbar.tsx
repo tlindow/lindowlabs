@@ -31,12 +31,14 @@ export default function Navbar() {
     // relative: docked page-audio mobile scrubber sits under this bar.
     // z-50 + isolate: sticky chrome (docked avatar + NavPageAudioPlayer) stay
     // above page content. ScrollMorphAvatar stays at z-40 under this bar.
-    <header className="sticky top-0 z-50 isolate w-full bg-background opacity-100 border-b border-border no-print relative">
+    // overflow-anchor: none — sticky header size/visibility changes during the
+    // Let's talk ↔ nav photo handoff must not retarget scrollY (scroll hitch).
+    <header className="sticky top-0 z-50 isolate w-full bg-background opacity-100 border-b border-border no-print relative [overflow-anchor:none]">
       <div className="max-w-5xl mx-auto px-3 sm:px-6 md:px-8 h-14 sm:h-16 flex items-center gap-2 min-w-0">
         {/* Brand cluster: logo, name, then docked profile (+ page-audio when present).
             Inner relative wrap stays content-sized so the undocked measure target
             (absolute left-full) sits beside the name, not at the flex-1 edge. */}
-        <div className="flex items-center flex-1 min-w-0">
+        <div className="flex items-center flex-1 min-w-0 [overflow-anchor:none]">
           <div className="relative flex items-center gap-1.5 sm:gap-2 min-w-0">
             <Link
               href="/"

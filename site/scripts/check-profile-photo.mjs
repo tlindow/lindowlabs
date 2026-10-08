@@ -180,6 +180,44 @@ async function runAtViewport(browser, baseUrl, width, height) {
   if (mid.id !== "nav") {
     throw new Error(`middle@${width}: expected nav photo, got ${mid.id}`);
   }
+  // Morph must leave the paint tree while docked (display:none). Visibility /
+  // opacity alone still left a WebGL compositor sliver under the sticky nav.
+  await page.waitForFunction(
+    () => {
+      const morph = document.querySelector('[data-profile-photo="morph"]');
+      if (!morph) return false;
+      return getComputedStyle(morph).display === "none";
+    },
+    { timeout: 5000 }
+  );
+  const morphLeak = await page.evaluate(() => {
+    const morph = document.querySelector('[data-profile-photo="morph"]');
+    if (!morph) return null;
+    const style = getComputedStyle(morph);
+    const canvas = morph.querySelector("canvas");
+    const canvasStyle = canvas ? getComputedStyle(canvas) : null;
+    const rect = morph.getBoundingClientRect();
+    const header = document.querySelector("header");
+    const headerBottom = header ? header.getBoundingClientRect().bottom : 56;
+    return {
+      display: style.display,
+      opacity: Number.parseFloat(style.opacity || "0"),
+      visibility: style.visibility,
+      canvasDisplay: canvasStyle?.display || null,
+      canvasVisibility: canvasStyle?.visibility || null,
+      canvasOpacity: canvasStyle
+        ? Number.parseFloat(canvasStyle.opacity || "1")
+        : null,
+      morphBottom: Math.round(rect.bottom),
+      morphHeight: Math.round(rect.height),
+      headerBottom: Math.round(headerBottom),
+    };
+  });
+  if (!morphLeak || morphLeak.display !== "none") {
+    throw new Error(
+      `middle@${width}: morph must be display:none while nav-docked: ${JSON.stringify(morphLeak)}`
+    );
+  }
 
   // Footer Let's talk: scroll contact avatar into view.
   await page.evaluate(() => {
@@ -188,6 +226,30 @@ async function runAtViewport(browser, baseUrl, width, height) {
       document.getElementById("contact");
     target?.scrollIntoView({ block: "center" });
   });
+  // Wait until the morph coin is actually docked beside Let's talk (aligned to
+  // the contact target, visible) and the nav photo is hidden. Waiting only for
+  // nav opacity was a false green while the coin lagged under the sticky bar.
+  await page.waitForFunction(
+    () => {
+      const nav = document.querySelector('[data-profile-photo="nav"]');
+      const morph = document.querySelector('[data-profile-photo="morph"]');
+      const contact = document.getElementById("contact-avatar-target");
+      if (!morph || !contact) return false;
+      const navOp = nav
+        ? Number.parseFloat(getComputedStyle(nav).opacity || "0")
+        : 0;
+      const morphOp = Number.parseFloat(getComputedStyle(morph).opacity || "0");
+      if (navOp > 0.15 || morphOp <= 0.15) return false;
+      const mr = morph.getBoundingClientRect();
+      const cr = contact.getBoundingClientRect();
+      return (
+        Math.abs(mr.top - cr.top) < 24 &&
+        Math.abs(mr.left - cr.left) < 24 &&
+        mr.width > 24
+      );
+    },
+    { timeout: 5000 }
+  );
   await settle(page);
   const footer = await assertOnePhoto(page, `footer@${width}`);
   if (footer.id !== "morph") {

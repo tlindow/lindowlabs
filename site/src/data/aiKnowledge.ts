@@ -286,7 +286,7 @@ export const knowledgeBase: KnowledgeTopic[] = [
     summary:
       "Tyler founded Beginner Work (March to July 2026), built Tinker, and makes hāpi. He wound Beginner Work down in July 2026 rather than fund a GTM that wasn't compounding.",
     details: [
-      "🌱 Beginner Work: Founder and CEO of Beginner Work from March to July 2026. Self-funded and built Tinker, an IDE for founders who want to get more technical, shipped and open-sourced as offline-first desktop and web apps; 28 early users and 6 paying. Ran 87 conversations with founders, Tinker's early target users, and 5 with VCs across SF, NYC, and LA, then wound the company down rather than fund a GTM that wasn't compounding.",
+      "🌱 Beginner Work: Founder and CEO of Beginner Work from March to July 2026. Self-funded and built Tinker, an IDE for founders who want to get more technical, shipped and open-sourced as offline-first desktop and web apps; 28 early users. Ran 87 conversations with founders, Tinker's early target users, and 5 with VCs across SF, NYC, and LA, then wound the company down rather than fund a GTM that wasn't compounding.",
       "🌐 Tinker: An IDE for founders who want to get more technical: essays capturing the founder's voice, a code editor, and an AI terminal generating diffs from that context. Product: " +
         BEGINNER_URL +
         " Source: github.com/beginner-work/tinker.",

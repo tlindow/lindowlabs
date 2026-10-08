@@ -162,13 +162,13 @@ export const companyCards: BeginnerStyleCard[] = [
     trimColor: "#FDBA74",
     brandMark: <BeginnerSeedMark className="w-6 h-6 shrink-0 shadow-xs" />,
     linkedinUrl: "https://www.linkedin.com/in/tlindow/details/experience/",
-    totalVolumeSummary: "92 conversations, 28 early users, 6 paying",
+    totalVolumeSummary: "92 conversations, 28 early users",
     lineItems: [
       {
         id: "beg-1",
         year: "2026",
         title: "Tinker IDE",
-        users: "28 early users, 6 paying",
+        users: "28 early users",
         ownership: "Founder and CEO",
         description: "87 conversations with founders, Tinker's early target users, and 5 with VCs across SF, NYC, and LA",
       },

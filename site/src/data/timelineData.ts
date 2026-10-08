@@ -126,11 +126,11 @@ export const timelineMilestones: TimelineItem[] = [
     dotColor: "bg-sprout",
     kicker: "Wound down July 2026",
     summary:
-      "Founder and CEO of Beginner Work from March to July 2026. Self-funded and built Tinker, an IDE for founders who want to get more technical, shipped and open-sourced as offline-first desktop and web apps; 28 early users and 6 paying. Ran 87 conversations with founders, Tinker's early target users, and 5 with VCs across SF, NYC, and LA, then wound the company down rather than fund a GTM that wasn't compounding.",
+      "Founder and CEO of Beginner Work from March to July 2026. Self-funded and built Tinker, an IDE for founders who want to get more technical, shipped and open-sourced as offline-first desktop and web apps; 28 early users. Ran 87 conversations with founders, Tinker's early target users, and 5 with VCs across SF, NYC, and LA, then wound the company down rather than fund a GTM that wasn't compounding.",
     highlights: [
       "Founder and CEO, March to July 2026",
       "Built Tinker for founders who want to get more technical",
-      "87 conversations with founders and 5 with VCs; 28 early users, 6 paying",
+      "87 conversations with founders and 5 with VCs; 28 early users",
     ],
     actions: [
       {
@@ -188,7 +188,7 @@ export const timelineMilestones: TimelineItem[] = [
     dotColor: "bg-rose",
     kicker: "Shipped and open-sourced",
     summary:
-      "IDE for founders who want to get more technical: essays capturing the founder's voice, a code editor, and an AI terminal generating diffs from that context. Shipped and open-sourced as offline-first desktop and web apps in JavaScript, Node.js, Electron, and Postgres, reaching 28 early users and 6 paying.",
+      "IDE for founders who want to get more technical: essays capturing the founder's voice, a code editor, and an AI terminal generating diffs from that context. Shipped and open-sourced as offline-first desktop and web apps in JavaScript, Node.js, Electron, and Postgres, reaching 28 early users.",
     highlights: [
       "IDE for founders who want to get more technical",
       "JavaScript, Node.js, Electron, and Postgres",
@@ -332,7 +332,7 @@ export const featuredVentures = [
     title: "beginner",
     tagline: "Wound down July 2026",
     description:
-      "Founder and CEO of Beginner Work from March to July 2026. Self-funded and built Tinker, an IDE for founders who want to get more technical, shipped and open-sourced as offline-first desktop and web apps; 28 early users and 6 paying. Ran 87 conversations with founders, Tinker's early target users, and 5 with VCs across SF, NYC, and LA, then wound the company down rather than fund a GTM that wasn't compounding.",
+      "Founder and CEO of Beginner Work from March to July 2026. Self-funded and built Tinker, an IDE for founders who want to get more technical, shipped and open-sourced as offline-first desktop and web apps; 28 early users. Ran 87 conversations with founders, Tinker's early target users, and 5 with VCs across SF, NYC, and LA, then wound the company down rather than fund a GTM that wasn't compounding.",
     tech: ["JavaScript", "Node.js", "Electron", "Postgres"],
     url: BEGINNER_URL,
     icon: BeginnerSeedMark,
