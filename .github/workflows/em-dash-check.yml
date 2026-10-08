@@ -36,3 +36,7 @@ jobs:
       - name: Check essay locations
         working-directory: ./site
         run: npm run check:locations
+
+      - name: Check single profile photo at hero / middle / Let's talk
+        working-directory: ./site
+        run: npm run check:profile-photo
