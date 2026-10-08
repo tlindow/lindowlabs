@@ -29,7 +29,7 @@ const AI_PROMPT_TEMPLATE = `You are an AI assistant helping me learn about Tyler
 • Location: San Diego, California (92102)
 • Origins: Transitioned from evolutionary biology research at Chicago's Field Museum into software development after observing an interactive terminal kiosk.
 • Beginner Work (Founder, Mar–Jul 2026): Ran Beginner Work as sole founder from March to July 2026. Built Tinker; validated across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users. Beginner's research phase ended in July 2026.
-• Tinker (writing tool): Helped technical founders explain their work in their own voice — ${BEGINNER_URL} (source: https://github.com/beginner-work/tinker)
+• Tinker (IDE): Helped technical founders explain their work in their own voice — ${BEGINNER_URL} (source: https://github.com/beginner-work/tinker)
 • hāpi (Maker): San Diego botanical craft hop elixir brand & mobile ordering PWA — ${BEGINNER_HAPI_URL}
 • Keynote Speaking: Featured Keynote "Human Minds & AI Models" at DEVx Network San Diego (April 18, 2026), connecting cognitive science and autonomous AI agent design — Video: https://www.youtube.com/watch?v=STI5pw5F5Lo&t=631s
 • 1:1 Mentoring: Live code reviews, pair programming, and career coaching — https://calendly.com/tylerlindow/elevate

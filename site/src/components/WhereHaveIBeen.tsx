@@ -67,7 +67,7 @@ const journeyOptions: JourneyOption[] = [
     iconBg: "bg-sprout-light text-sprout",
     iconColor: "text-sprout",
     summary:
-      "Ran Beginner Work as sole founder from March to July 2026. Built Tinker, a writing tool that helped technical founders explain their work in their own voice; validated across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users. Beginner's research phase ended in July 2026.",
+      "Ran Beginner Work as sole founder from March to July 2026. Built Tinker, an IDE that helped technical founders explain their work in their own voice; validated across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users. Beginner's research phase ended in July 2026.",
     highlights: [
       "Sole founder, March to July 2026",
       "Built Tinker for technical founders",
@@ -104,14 +104,14 @@ const journeyOptions: JourneyOption[] = [
     targetId: "tinker",
     year: "2026",
     title: "Tinker",
-    tag: "Writing tool · Beginner Work",
+    tag: "IDE · Beginner Work",
     icon: Globe,
     iconBg: "bg-rose-light text-rose",
     iconColor: "text-rose",
     summary:
-      "Built Tinker as sole founder, a writing tool that helped technical founders explain their work in their own voice. Validated across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users. Beginner's research phase ended in July 2026.",
+      "Built Tinker as sole founder, an IDE that helped technical founders explain their work in their own voice. Validated across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users. Beginner's research phase ended in July 2026.",
     highlights: [
-      "Writing tool for technical founders",
+      "IDE for technical founders",
       "92 in-person conversations (including 5 VCs) and 28 early users",
       "Source at github.com/beginner-work/tinker",
     ],

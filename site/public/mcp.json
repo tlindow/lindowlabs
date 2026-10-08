@@ -28,16 +28,16 @@
       "title": "Beginner Work",
       "year": 2026,
       "url": "https://www.beginner.work",
-      "tagline": "Writing tool for technical founders",
-      "description": "Ran Beginner Work as sole founder from March to July 2026. Built Tinker, a writing tool that helped technical founders explain their work in their own voice. Validated across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users. Beginner's research phase ended in July 2026."
+      "tagline": "IDE for technical founders",
+      "description": "Ran Beginner Work as sole founder from March to July 2026. Built Tinker, an IDE that helped technical founders explain their work in their own voice. Validated across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users. Beginner's research phase ended in July 2026."
     },
     {
       "id": "tinker",
-      "title": "Tinker (writing tool)",
+      "title": "Tinker (IDE)",
       "year": 2026,
       "url": "https://www.beginner.work",
       "tagline": "Explain your work in your own voice",
-      "description": "Writing tool built solo in JavaScript, Node.js, Electron, and Postgres; shipped as desktop and web apps. Source at github.com/beginner-work/tinker."
+      "description": "IDE built solo in JavaScript, Node.js, Electron, and Postgres; shipped as desktop and web apps. Source at github.com/beginner-work/tinker."
     },
     {
       "id": "hapi",

@@ -287,7 +287,7 @@ export const knowledgeBase: KnowledgeTopic[] = [
       "Tyler founded Beginner Work (March to July 2026), built Tinker, and makes hāpi. Beginner's research phase ended in July 2026.",
     details: [
       "🌱 Beginner Work: Ran Beginner Work as sole founder from March to July 2026. Built Tinker; validated across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users. Beginner's research phase ended in July 2026.",
-      "🌐 Tinker: A writing tool that helped technical founders explain their work in their own voice. Product: " +
+      "🌐 Tinker: An IDE that helped technical founders explain their work in their own voice. Product: " +
         BEGINNER_URL +
         " Source: github.com/beginner-work/tinker.",
       "🍵 hāpi: A San Diego craft beverage brand and mobile ordering PWA serving hop-based botanical elixirs.",

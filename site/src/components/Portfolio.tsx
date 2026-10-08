@@ -9,9 +9,9 @@ import { BEGINNER_HAPI_URL, BEGINNER_URL } from "@/data/urls";
 const ventures = [
   {
     title: "beginner",
-    tagline: "Writing tool for technical founders",
+    tagline: "IDE for technical founders",
     description:
-      "Ran Beginner Work as sole founder from March to July 2026. Built Tinker, a writing tool that helped technical founders explain their work in their own voice; validated across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users. Beginner's research phase ended in July 2026.",
+      "Ran Beginner Work as sole founder from March to July 2026. Built Tinker, an IDE that helped technical founders explain their work in their own voice; validated across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users. Beginner's research phase ended in July 2026.",
     tech: ["JavaScript", "Node.js", "Electron", "Postgres"],
     url: BEGINNER_URL,
     github: "https://github.com/beginner-work/tinker",
@@ -26,13 +26,13 @@ const ventures = [
     title: "tinker",
     tagline: "Explain your work in your own voice",
     description:
-      "Writing tool built solo in JavaScript, Node.js, Electron, and Postgres; shipped as desktop and web apps. Source published at github.com/beginner-work/tinker.",
+      "IDE built solo in JavaScript, Node.js, Electron, and Postgres; shipped as desktop and web apps. Source published at github.com/beginner-work/tinker.",
     tech: ["JavaScript", "Node.js", "Electron", "Postgres"],
     url: BEGINNER_URL,
     github: "https://github.com/beginner-work/tinker",
     icon: TinkerMark,
     accent: "group-hover:border-violet/40",
-    badge: "Writing tool",
+    badge: "IDE",
     badgeColor: "bg-violet-light text-violet",
     hover: "group-hover:text-violet",
     glow: "group-hover:shadow-violet/10",

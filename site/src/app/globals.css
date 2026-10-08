@@ -590,3 +590,16 @@ body {
   }
 }
 
+
+/* ATS: never auto-hyphenate resume copy, and keep hyphenated compounds
+   (user-journey, higher-transaction, Tier-2, ...) on one line so copied text
+   stays intact. Regular ASCII hyphens only. */
+.resume-paper,
+.resume-paper * {
+  -webkit-hyphens: none;
+  hyphens: none;
+}
+
+.resume-nowrap {
+  white-space: nowrap;
+}

@@ -1,7 +1,7 @@
 {
   "name": "Tyler Lindow",
   "title": "Tyler Lindow | Engineering Manager, Developer Experience",
-  "summary": "Engineering manager who led teams of up to 9 engineers on Affirm's merchant and partner integrations and developer experience. Built per-merchant dashboards and alerting that cut detection of higher-volume merchant outages from ~1 hour to under 5 minutes. Led a merchant-domain ownership review across Partner APIs, Merchant Risk, and Merchant Data Platform that reshaped Affirm's merchant org, and held Merchant Portal at 99.9% availability with zero incidents during BFCM 2025. As founder of Beginner Work, built a writing tool that helped technical founders explain their work in their own voice, bridging non-technical and technical builders. Targeting Engineering Manager / Senior EM roles in developer experience, developer platforms, and partner integrations.",
+  "summary": "Led up to 9 engineers on Affirm's merchant and partner integrations and developer experience. Cut higher-transaction merchant outage detection from ~1 hour to under 5 minutes, led a merchant-domain ownership review that reshaped the merchant org, and took Merchant Portal from ~99.7% to 99.9% availability with zero BFCM 2025 incidents. As founder of Beginner Work, built Tinker, an IDE for technical founders. Targeting EM / Senior EM roles in developer experience, developer platforms, and partner integrations.",
   "contact": {
     "email": "tyler@lindowlabs.dev",
     "location": "San Diego, CA (Open to relocation)",
@@ -22,7 +22,7 @@
       "role": "Founder",
       "period": "Mar 2026 – Jul 2026",
       "location": "San Diego, CA",
-      "detail": "Built Tinker, a writing tool that helped technical founders explain their work in their own voice. Validated across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users. Beginner's research phase ended in July 2026."
+      "detail": "Built Tinker, an IDE that helped technical founders explain their work in their own voice. Validated across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users. Beginner's research phase ended in July 2026."
     },
     {
       "company": "Affirm",

@@ -126,7 +126,7 @@ export const timelineMilestones: TimelineItem[] = [
     dotColor: "bg-sprout",
     kicker: "Research phase ended July 2026",
     summary:
-      "Ran Beginner Work as sole founder from March to July 2026. Built Tinker, a writing tool that helped technical founders explain their work in their own voice; validated across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users. Beginner's research phase ended in July 2026.",
+      "Ran Beginner Work as sole founder from March to July 2026. Built Tinker, an IDE that helped technical founders explain their work in their own voice; validated across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users. Beginner's research phase ended in July 2026.",
     highlights: [
       "Sole founder, March to July 2026",
       "Built Tinker for technical founders",
@@ -179,8 +179,8 @@ export const timelineMilestones: TimelineItem[] = [
     id: "tinker",
     date: "Mar 2026 – Jul 2026",
     yearNumber: "2026",
-    title: "Tinker: writing tool for technical founders",
-    tag: "Writing tool",
+    title: "Tinker: IDE for technical founders",
+    tag: "IDE",
     category: "product",
     icon: Globe,
     accentColor: "text-rose",
@@ -190,7 +190,7 @@ export const timelineMilestones: TimelineItem[] = [
     summary:
       "Built Tinker solo in JavaScript, Node.js, Electron, and Postgres; shipped as desktop and web apps. Helped technical founders explain their work in their own voice. Validated across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users.",
     highlights: [
-      "Writing tool for technical founders",
+      "IDE for technical founders",
       "JavaScript, Node.js, Electron, and Postgres",
       "Source at github.com/beginner-work/tinker",
     ],
@@ -318,12 +318,12 @@ export const featuredVentures = [
     title: "tinker",
     tagline: "Explain your work in your own voice",
     description:
-      "Writing tool built solo in JavaScript, Node.js, Electron, and Postgres; shipped as desktop and web apps. Helped technical founders explain their work in their own voice.",
+      "IDE built solo in JavaScript, Node.js, Electron, and Postgres; shipped as desktop and web apps. Helped technical founders explain their work in their own voice.",
     tech: ["JavaScript", "Node.js", "Electron", "Postgres"],
     url: BEGINNER_URL,
     icon: TinkerGlobeMark,
     accent: "group-hover:border-violet/50 border-border",
-    badge: "Writing tool",
+    badge: "IDE",
     badgeColor: "bg-violet-light text-violet",
     hover: "group-hover:text-violet",
     glow: "group-hover:shadow-violet/15",

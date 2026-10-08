@@ -403,7 +403,7 @@ export const deckSections: Record<string, DeckSectionData> = {
     category: "FOUNDER / DEVX",
     headline: "Beginner Work, research phase",
     summary:
-      "Founder, Beginner Work Inc. Mar 2026 – Jul 2026. Built Tinker, a writing tool that helped technical founders explain their work in their own voice; validated across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users. Beginner's research phase ended in July 2026.",
+      "Founder, Beginner Work Inc. Mar 2026 – Jul 2026. Built Tinker, an IDE that helped technical founders explain their work in their own voice; validated across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users. Beginner's research phase ended in July 2026.",
     theme: "yellow",
   },
   "deck-section-scale": {

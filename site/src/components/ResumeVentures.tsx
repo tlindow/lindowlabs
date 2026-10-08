@@ -101,7 +101,7 @@ export default function ResumeVentures() {
                 Tinker
               </h4>
               <p className="text-xs text-muted font-sans mt-1 leading-snug">
-                Writing tool that helped technical founders explain their work in their own voice. Validated across successive prototypes through 92 conversations and 28 early users.
+                IDE that helped technical founders explain their work in their own voice. Validated across successive prototypes through 92 conversations and 28 early users.
               </p>
             </a>
           </StaggerItem>

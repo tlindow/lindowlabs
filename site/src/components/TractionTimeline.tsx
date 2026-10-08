@@ -167,7 +167,7 @@ export const companyCards: BeginnerStyleCard[] = [
       {
         id: "beg-1",
         year: "2026",
-        title: "Tinker writing tool",
+        title: "Tinker IDE",
         users: "28 early users",
         ownership: "Sole founder",
         description: "Validated across successive prototypes through 92 in-person conversations (including 5 VCs)",
