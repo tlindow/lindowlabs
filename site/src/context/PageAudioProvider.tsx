@@ -213,6 +213,11 @@ function useProfileDock(pathname: string): DockSnapshot {
   const getSnapshot = useCallback(() => {
     if (typeof window === "undefined") return cachedRef.current;
     const next = readDockSnapshot(pathname);
+    // useSyncExternalStore compares with Object.is — return the cached
+    // reference when values are unchanged or React loops forever (#185).
+    if (dockSnapshotsEqual(next, cachedRef.current)) {
+      return cachedRef.current;
+    }
     cachedRef.current = next;
     return cachedRef.current;
   }, [pathname]);
