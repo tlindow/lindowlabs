@@ -122,22 +122,51 @@ export default function ScrollMorphAvatar({
         contactSize: contactRect.width,
       };
 
+      const prev = coordsRef.current;
+      const unchanged =
+        prev &&
+        prev.heroX === newCoords.heroX &&
+        prev.heroY === newCoords.heroY &&
+        prev.heroSize === newCoords.heroSize &&
+        prev.navX === newCoords.navX &&
+        prev.navY === newCoords.navY &&
+        prev.navSize === newCoords.navSize &&
+        prev.contactX === newCoords.contactX &&
+        prev.contactAbsoluteY === newCoords.contactAbsoluteY &&
+        prev.contactSize === newCoords.contactSize;
+
       coordsRef.current = newCoords;
-      setCoords(newCoords);
+      if (!unchanged) {
+        setCoords(newCoords);
+      }
       setIsReady(true);
+    };
+
+    // rAF-throttle ResizeObserver so body size chatter during scroll does not
+    // force layout + React state on every frame of the nav ↔ contact handoff.
+    let measureScheduled = false;
+    const scheduleMeasure = () => {
+      if (measureScheduled) return;
+      measureScheduled = true;
+      rafId = requestAnimationFrame(() => {
+        measureScheduled = false;
+        measureCoords();
+      });
     };
 
     measureCoords();
 
-    window.addEventListener("resize", measureCoords);
-    const observer = new ResizeObserver(() => {
-      measureCoords();
-    });
+    window.addEventListener("resize", scheduleMeasure, { passive: true });
+    const observer = new ResizeObserver(scheduleMeasure);
     observer.observe(document.body);
+    const navEl = document.getElementById("navbar-avatar-target");
+    const contactEl = document.getElementById("contact-avatar-target");
+    if (navEl) observer.observe(navEl);
+    if (contactEl) observer.observe(contactEl);
 
     return () => {
       cancelAnimationFrame(rafId);
-      window.removeEventListener("resize", measureCoords);
+      window.removeEventListener("resize", scheduleMeasure);
       observer.disconnect();
     };
   }, [onReady]);

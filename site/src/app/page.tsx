@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef, useCallback, useMemo } from "react";
 import { useScroll, useMotionValue, useSpring } from "framer-motion";
 import { FileText } from "lucide-react";
 import {
@@ -16,33 +16,37 @@ import ScrollMorphAvatar, {
 } from "@/components/animations/ScrollMorphAvatar";
 import { useAnalytics } from "@/context/AnalyticsProvider";
 import { useRegisterReturnToHero } from "@/context/NavbarActions";
+import { usePrefersReducedMotion } from "@/hooks/useProfileAnchors";
 import { SITE_SUPPORT } from "@/data/positioning";
 
 export default function Home() {
   const { scrollY } = useScroll();
+  const prefersReducedMotion = usePrefersReducedMotion();
   const rawProgress = useMotionValue(0);
-  const avatarProgress = useSpring(rawProgress, {
-    stiffness: 220,
-    damping: 24,
-    mass: 0.4,
-  });
+  // Prefer reduced motion: stiff spring ≈ 1:1 with scroll (no lag/catch).
+  const springConfig = useMemo(
+    () =>
+      prefersReducedMotion
+        ? { stiffness: 1000, damping: 100, mass: 0.1 }
+        : { stiffness: 220, damping: 24, mass: 0.4 },
+    [prefersReducedMotion]
+  );
+  const avatarProgress = useSpring(rawProgress, springConfig);
 
   const rawContactProgress = useMotionValue(0);
-  const contactProgress = useSpring(rawContactProgress, {
-    stiffness: 220,
-    damping: 24,
-    mass: 0.4,
-  });
-
-  const hasReachedContactRef = useRef(false);
+  const contactProgress = useSpring(rawContactProgress, springConfig);  const hasReachedContactRef = useRef(false);
   const wasAtTopRef = useRef(false);
   const prevYRef = useRef(0);
+  // Cached contact mid-viewport scrollY. Never call getBoundingClientRect from
+  // the scroll handler — that forced layout every frame and hitching the
+  // Let's talk ↔ nav handoff (scroll stall / anchoring jump).
+  const contactTargetScrollYRef = useRef(0);
   const directToHero = useMotionValue(0);
 
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
   const { logResumeView } = useAnalytics();
 
-  const computeContactTargetScrollY = useCallback(() => {
+  const measureContactTargetScrollY = useCallback(() => {
     if (typeof window === "undefined") return 0;
     const contactEl = document.getElementById("contact-avatar-target");
     if (!contactEl) return 0;
@@ -51,22 +55,53 @@ export default function Home() {
     return contactAbsoluteY - window.innerHeight * 0.5;
   }, []);
 
-  const computeContactProgress = useCallback(
-    (latestY: number) => {
-      const targetMidScrollY = computeContactTargetScrollY();
-      if (targetMidScrollY <= 0) return 0;
-      const transitDistance = Math.min(
-        320,
-        typeof window !== "undefined" ? window.innerHeight * 0.45 : 320
-      );
-      const startScrollY = targetMidScrollY - transitDistance;
+  const refreshContactTargetCache = useCallback(() => {
+    contactTargetScrollYRef.current = measureContactTargetScrollY();
+  }, [measureContactTargetScrollY]);
 
-      if (latestY <= startScrollY) return 0;
-      if (latestY >= targetMidScrollY) return 1;
-      return (latestY - startScrollY) / transitDistance;
-    },
-    [computeContactTargetScrollY]
-  );
+  const computeContactProgress = useCallback((latestY: number) => {
+    const targetMidScrollY = contactTargetScrollYRef.current;
+    if (targetMidScrollY <= 0) return 0;
+    const transitDistance = Math.min(
+      320,
+      typeof window !== "undefined" ? window.innerHeight * 0.45 : 320
+    );
+    const startScrollY = targetMidScrollY - transitDistance;
+
+    if (latestY <= startScrollY) return 0;
+    if (latestY >= targetMidScrollY) return 1;
+    return (latestY - startScrollY) / transitDistance;
+  }, []);
+
+  // Measure contact target once ready; refresh on resize only (not on scroll).
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const refresh = () => {
+      refreshContactTargetCache();
+      if (!hasReachedContactRef.current) {
+        const contactP = computeContactProgress(window.scrollY);
+        rawContactProgress.set(contactP);
+      }
+    };
+
+    refresh();
+    // Second pass after fonts/layout settle.
+    const raf = requestAnimationFrame(refresh);
+
+    window.addEventListener("resize", refresh, { passive: true });
+    const contactEl = document.getElementById("contact-avatar-target");
+    const ro = new ResizeObserver(refresh);
+    if (contactEl) ro.observe(contactEl);
+    // Body size changes (hero spacer) can move contact absolute Y.
+    ro.observe(document.body);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("resize", refresh);
+      ro.disconnect();
+    };
+  }, [refreshContactTargetCache, computeContactProgress, rawContactProgress]);
 
   // If page loads already scrolled down, initialize progress appropriately
   useEffect(() => {
@@ -76,7 +111,8 @@ export default function Home() {
       avatarProgress.jump(heroP);
 
       requestAnimationFrame(() => {
-        const contactTargetScrollY = computeContactTargetScrollY();
+        refreshContactTargetCache();
+        const contactTargetScrollY = contactTargetScrollYRef.current;
         if (contactTargetScrollY > 0 && window.scrollY >= contactTargetScrollY - 20) {
           hasReachedContactRef.current = true;
           directToHero.set(1);
@@ -93,14 +129,15 @@ export default function Home() {
     rawContactProgress,
     contactProgress,
     directToHero,
-    computeContactTargetScrollY,
+    refreshContactTargetCache,
     computeContactProgress,
   ]);
 
   // Synchronize avatar & navbar progress with scroll position:
+  // Uses the cached contact target only — no layout reads on the scroll path.
   useEffect(() => {
     const unsubscribe = scrollY.on("change", (latestY) => {
-      const contactTargetScrollY = computeContactTargetScrollY();
+      const contactTargetScrollY = contactTargetScrollYRef.current;
       const isScrollingDown = latestY > prevYRef.current;
       prevYRef.current = latestY;
 
@@ -154,29 +191,8 @@ export default function Home() {
     rawContactProgress,
     contactProgress,
     directToHero,
-    computeContactTargetScrollY,
     computeContactProgress,
   ]);
-
-  // Handle window resizing or dynamic layout changes
-  useEffect(() => {
-    const handleLayoutChange = () => {
-      if (typeof window !== "undefined") {
-        const contactP = computeContactProgress(window.scrollY);
-        rawContactProgress.set(contactP);
-      }
-    };
-
-    window.addEventListener("resize", handleLayoutChange);
-    const observer = new ResizeObserver(handleLayoutChange);
-    observer.observe(document.body);
-
-    return () => {
-      window.removeEventListener("resize", handleLayoutChange);
-      observer.disconnect();
-    };
-  }, [rawContactProgress, computeContactProgress]);
-
   // When the below-h1 stack (support, CTA, logos) paints past the 100svh stage,
   // reserve matching flow space so About is not covered. Also ensure a minimum
   // gap below the logo panel (spill-only height left the panel flush on About).

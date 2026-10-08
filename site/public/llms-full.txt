@@ -13,7 +13,7 @@ Led up to 9 engineers on Affirm's merchant and partner integrations and develope
 ## Experience
 ### Founder and CEO | Beginner Work Inc.
 Mar 2026 – Jul 2026
-Self-funded and built Tinker, an IDE for founders who want to get more technical (essays capturing the founder's voice, a code editor, and an AI terminal generating diffs from that context); shipped and open-sourced it as offline-first desktop and web apps, reaching 28 early users and 6 paying. Ran 87 conversations with founders, Tinker's early target users, and 5 with VCs across SF, NYC, and LA, then wound the company down rather than fund a GTM that wasn't compounding. Product: https://www.beginner.work Source: https://github.com/beginner-work/tinker
+Self-funded and built Tinker, an IDE for founders who want to get more technical (essays capturing the founder's voice, a code editor, and an AI terminal generating diffs from that context); shipped and open-sourced it as offline-first desktop and web apps, reaching 28 early users. Ran 87 conversations with founders, Tinker's early target users, and 5 with VCs across SF, NYC, and LA, then wound the company down rather than fund a GTM that wasn't compounding. Product: https://www.beginner.work Source: https://github.com/beginner-work/tinker
 
 ### Software Engineering Manager, Merchant Engineering | Affirm
 Mar 2025 – Feb 2026

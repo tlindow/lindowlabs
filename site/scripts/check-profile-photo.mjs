@@ -188,6 +188,18 @@ async function runAtViewport(browser, baseUrl, width, height) {
       document.getElementById("contact");
     target?.scrollIntoView({ block: "center" });
   });
+  // Wait for the IntersectionObserver handoff (contact visible → nav photo
+  // snaps off). Sampling mid-handoff was a flake on deploy@1280; still assert
+  // exactly one photo once settled.
+  await page.waitForFunction(
+    () => {
+      const nav = document.querySelector('[data-profile-photo="nav"]');
+      if (!nav) return true;
+      const opacity = Number.parseFloat(getComputedStyle(nav).opacity || "0");
+      return !Number.isFinite(opacity) || opacity <= 0.15;
+    },
+    { timeout: 3000 }
+  );
   await settle(page);
   const footer = await assertOnePhoto(page, `footer@${width}`);
   if (footer.id !== "morph") {
