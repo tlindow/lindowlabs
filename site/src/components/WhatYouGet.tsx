@@ -33,7 +33,7 @@ const valuePillars: ValuePillar[] = [
     id: "culture-builder",
     title: "Founder and CEO, Beginner Work.",
     ctaSubtext:
-      "Founder and CEO of Beginner Work from March to July 2026. Self-funded and built Tinker, an IDE for technical founders, shipped and open-sourced as offline-first desktop and web apps; 28 early users and 6 paying. Led 92 founder and investor conversations (including 5 VCs) across SF, NYC, and LA, then wound the company down rather than fund a GTM that wasn't compounding.",
+      "Founder and CEO of Beginner Work from March to July 2026. Self-funded and built Tinker, an IDE for founders who want to get more technical, shipped and open-sourced as offline-first desktop and web apps; 28 early users and 6 paying. Ran 87 conversations with founders, Tinker's early target users, and 5 with VCs across SF, NYC, and LA, then wound the company down rather than fund a GTM that wasn't compounding.",
     coinType: "beginner",
     link: {
       href: BEGINNER_URL,
@@ -119,12 +119,13 @@ export default function WhatYouGet() {
                             <TinkerMark className="h-3.5 w-3.5" alt="" />
                             Tinker
                           </span>
-                          , an IDE for technical founders, shipped and
-                          open-sourced as offline-first desktop and web apps;
-                          28 early users and 6 paying. Led 92 founder and
-                          investor conversations (including 5 VCs) across SF,
-                          NYC, and LA, then wound the company down rather than
-                          fund a GTM that wasn&apos;t compounding.
+                          , an IDE for founders who want to get more
+                          technical, shipped and open-sourced as offline-first
+                          desktop and web apps; 28 early users and 6 paying.
+                          Ran 87 conversations with founders, Tinker&apos;s
+                          early target users, and 5 with VCs across SF, NYC,
+                          and LA, then wound the company down rather than fund
+                          a GTM that wasn&apos;t compounding.
                         </>
                       ) : (
                         pillar.ctaSubtext

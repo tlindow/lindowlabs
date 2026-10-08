@@ -11,7 +11,7 @@ const ventures = [
     title: "beginner",
     tagline: "Self-funded and built Tinker",
     description:
-      "Founder and CEO of Beginner Work from March to July 2026. Self-funded and built Tinker, an IDE for technical founders, shipped and open-sourced as offline-first desktop and web apps; 28 early users and 6 paying. Led 92 founder and investor conversations (including 5 VCs) across SF, NYC, and LA, then wound the company down rather than fund a GTM that wasn't compounding.",
+      "Founder and CEO of Beginner Work from March to July 2026. Self-funded and built Tinker, an IDE for founders who want to get more technical, shipped and open-sourced as offline-first desktop and web apps; 28 early users and 6 paying. Ran 87 conversations with founders, Tinker's early target users, and 5 with VCs across SF, NYC, and LA, then wound the company down rather than fund a GTM that wasn't compounding.",
     tech: ["JavaScript", "Node.js", "Electron", "Postgres"],
     url: BEGINNER_URL,
     github: "https://github.com/beginner-work/tinker",
@@ -24,9 +24,9 @@ const ventures = [
   },
   {
     title: "tinker",
-    tagline: "An IDE for technical founders",
+    tagline: "An IDE for founders who want to get more technical",
     description:
-      "IDE for technical founders (essays capturing the founder's voice, a code editor, and an AI terminal generating diffs), shipped and open-sourced as offline-first desktop and web apps in JavaScript, Node.js, Electron, and Postgres. Source published at github.com/beginner-work/tinker.",
+      "IDE for founders who want to get more technical (essays capturing the founder's voice, a code editor, and an AI terminal generating diffs), shipped and open-sourced as offline-first desktop and web apps in JavaScript, Node.js, Electron, and Postgres. Source published at github.com/beginner-work/tinker.",
     tech: ["JavaScript", "Node.js", "Electron", "Postgres"],
     url: BEGINNER_URL,
     github: "https://github.com/beginner-work/tinker",
