@@ -13,6 +13,7 @@ import {
 } from "react";
 import { usePathname } from "next/navigation";
 import { pageAudio, type PageAudioClip } from "@/data/pageAudio";
+import { useProfileAnchors } from "@/hooks/useProfileAnchors";
 
 /** Matches AVATAR_MORPH_SCROLL_DISTANCE in ScrollMorphAvatar (hero coin -> nav). */
 const DOCK_SCROLL_PX = 240;
@@ -27,7 +28,24 @@ type PageAudioContextValue = {
   isPlaying: boolean;
   currentTime: number;
   duration: number;
-  /** Hero play button vs docked nav player (homepage morph threshold). */
+  /**
+   * Past the homepage hero morph threshold (other routes: always true).
+   * Layout: nav slot enters the document flow once past hero.
+   */
+  isPastHero: boolean;
+  /**
+   * Nav profile photo (+ full scrubber) may show only when no profile-photo
+   * anchor is in view. False at hero and at Let's talk.
+   */
+  showNavPhoto: boolean;
+  /** Hero profile-photo anchor intersects the tuned viewport. */
+  heroAnchorVisible: boolean;
+  /** Let's talk / contact profile-photo anchor intersects. */
+  contactAnchorVisible: boolean;
+  /**
+   * @deprecated Prefer showNavPhoto. True when the nav owns the visible photo
+   * and (when a clip exists) the full docked player.
+   */
   isDocked: boolean;
   toggle: () => void;
   seek: (time: number) => void;
@@ -40,6 +58,10 @@ const PageAudioContext = createContext<PageAudioContextValue>({
   isPlaying: false,
   currentTime: 0,
   duration: 0,
+  isPastHero: true,
+  showNavPhoto: true,
+  heroAnchorVisible: false,
+  contactAnchorVisible: false,
   isDocked: true,
   toggle: () => {},
   seek: () => {},
@@ -84,7 +106,7 @@ function resolveClip(
   return null;
 }
 
-function useDocked(pathname: string): boolean {
+function usePastHero(pathname: string): boolean {
   const subscribe = useCallback(
     (onStoreChange: () => void) => {
       if (typeof window === "undefined") return () => {};
@@ -117,7 +139,12 @@ export function PageAudioProvider({ children }: { children: ReactNode }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const isDocked = useDocked(pathname);
+  const isPastHero = usePastHero(pathname);
+  const { anyAnchorVisible, heroVisible, contactVisible } = useProfileAnchors();
+
+  // Gate on isPastHero so the homepage top never flashes a nav photo before
+  // IntersectionObserver registers the hero anchor.
+  const showNavPhoto = isPastHero && !anyAnchorVisible;
 
   // Reset playback UI when the clip identity changes (render-time adjust).
   const [prevClipSrc, setPrevClipSrc] = useState(clipSrc);
@@ -222,18 +249,35 @@ export function PageAudioProvider({ children }: { children: ReactNode }) {
       isPlaying,
       currentTime,
       duration,
-      isDocked,
+      isPastHero,
+      showNavPhoto,
+      heroAnchorVisible: heroVisible,
+      contactAnchorVisible: contactVisible,
+      isDocked: showNavPhoto,
       toggle,
       seek,
       play,
       pause,
     }),
-    [clipSrc, isPlaying, currentTime, duration, isDocked, toggle, seek, play, pause]
+    [
+      clipSrc,
+      isPlaying,
+      currentTime,
+      duration,
+      isPastHero,
+      showNavPhoto,
+      heroVisible,
+      contactVisible,
+      toggle,
+      seek,
+      play,
+      pause,
+    ]
   );
 
   return (
     <PageAudioContext.Provider value={value}>
-      {/* Single shared element so hero <-> nav never restarts playback. */}
+      {/* Single shared element so hero / nav / contact never restart playback. */}
       <audio ref={audioRef} preload="metadata" className="hidden" aria-hidden="true" />
       {children}
     </PageAudioContext.Provider>
