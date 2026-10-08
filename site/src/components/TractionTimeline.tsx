@@ -170,7 +170,7 @@ export const companyCards: BeginnerStyleCard[] = [
         title: "Tinker IDE",
         users: "28 early users, 6 paying",
         ownership: "Founder and CEO",
-        description: "92 founder and investor conversations (including 5 VCs) across SF, NYC, and LA",
+        description: "87 conversations with founders, Tinker's early target users, and 5 with VCs across SF, NYC, and LA",
       },
     ],
   },

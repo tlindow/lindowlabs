@@ -5,8 +5,8 @@ Source of truth for Tyler's literature. Tinker reading threads and the /learning
 
 ## Reading order
 1. **Site Reliability Engineering** (Google). Ch 3, 4, 6, 14 and 15. Backs the summary, Merchant Portal reliability, Incident Communications, observability and the SLA reports.
-2. **Domain-Driven Design** (Eric Evans). Cover to cover; Ch 1 done, on Ch 2. Backs the merchant-domain ownership review (which team owns which merchant data) and the domain boundaries skill.
-3. **How can we develop transformative tools for thought?** (Andy Matuschak, Michael Nielsen, free at [numinous.productions/ttft](https://numinous.productions/ttft/)). Backs the summary's Beginner Work line and the Founder bullet (a writing tool that helped technical founders develop their pitch in their own voice).
+2. **Domain-Driven Design** (Eric Evans). Cover to cover; Ch 1 done, on Ch 2. Backs the merchant domain architecture review (which team owns which merchant data) and the domain boundaries skill.
+3. **How can we develop transformative tools for thought?** (Andy Matuschak, Michael Nielsen, free at [numinous.productions/ttft](https://numinous.productions/ttft/)). Backs the summary's Beginner Work line and the Founder bullet (an IDE for founders who want to get more technical, essays capturing the founder's voice).
 4. **TypeScript and React foundations** (official web pieces, each under an hour): [Thinking in React](https://react.dev/learn/thinking-in-react), [TypeScript for JavaScript Programmers](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html), then [Using TypeScript](https://react.dev/learn/typescript). Backs the Merchant Portal (React, TypeScript) scope.
 
 ## Practice
