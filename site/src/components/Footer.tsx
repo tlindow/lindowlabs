@@ -3,14 +3,23 @@
 import Link from "next/link";
 import { Calendar, ArrowUpRight } from "lucide-react";
 import { BeginnerSeedMark } from "@/components/brand/BeginnerMarks";
+import ContactPageAudioButton from "@/components/page-audio/ContactPageAudioButton";
 import { BEGINNER_URL } from "@/data/urls";
 
 type FooterProps = {
   /** Contact leaf: drop duplicate Let's talk heading; hide unused avatar slot. */
   contactLeaf?: boolean;
+  /**
+   * Mark the Let's talk avatar slot as a profile-photo anchor (hides the nav
+   * photo while in view). Homepage only: ScrollMorph owns the visible coin.
+   */
+  profilePhotoAnchor?: boolean;
 };
 
-export default function Footer({ contactLeaf = false }: FooterProps) {
+export default function Footer({
+  contactLeaf = false,
+  profilePhotoAnchor = false,
+}: FooterProps) {
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
   return (
@@ -37,13 +46,24 @@ export default function Footer({ contactLeaf = false }: FooterProps) {
                 </Link>
               </h3>
             ) : null}
-            {/* Homepage morph avatar slot; unused on the contact leaf */}
+            {/* Homepage morph avatar slot; profilePhotoAnchor hides nav photo while in view. */}
             {!contactLeaf ? (
               <div className="flex justify-center items-center py-2 min-h-[72px] sm:min-h-[88px]">
-                <div
-                  id="contact-avatar-target"
-                  className="w-16 h-16 sm:w-20 sm:h-20 rounded-full opacity-0 pointer-events-none"
-                />
+                <div className="relative">
+                  <div
+                    id="contact-avatar-target"
+                    {...(profilePhotoAnchor
+                      ? { "data-profile-anchor": "contact" }
+                      : {})}
+                    className="w-16 h-16 sm:w-20 sm:h-20 rounded-full opacity-0 pointer-events-none"
+                    aria-hidden="true"
+                  />
+                  {profilePhotoAnchor ? (
+                    <div className="absolute left-full top-1/2 -translate-y-1/2 ml-3 sm:ml-4">
+                      <ContactPageAudioButton />
+                    </div>
+                  ) : null}
+                </div>
               </div>
             ) : null}
             <p className="text-xs sm:text-sm font-mono text-muted max-w-md mx-auto leading-relaxed">

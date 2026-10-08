@@ -56,6 +56,10 @@ jobs:
         working-directory: ./site
         run: npm run check:mobile-nav
 
+      - name: Check single profile photo at hero / middle / Let's talk
+        working-directory: ./site
+        run: npm run check:profile-photo
+
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
 

@@ -4,16 +4,14 @@ import { Pause, Play } from "lucide-react";
 import { usePageAudio } from "@/context/PageAudioProvider";
 
 /**
- * Small circular play/pause beside the homepage profile coin (no scrubber).
- * Visible while the hero profile-photo anchor owns the photo (not nav / contact).
+ * Small circular play/pause beside the Let's talk profile avatar (no scrubber).
+ * Bound to the same PageAudioProvider <audio> as hero/nav; never mounts a second element.
  */
-export default function HeroPageAudioButton() {
-  const { hasClip, isPastHero, showNavPhoto, contactAnchorVisible, isPlaying, toggle } =
+export default function ContactPageAudioButton() {
+  const { hasClip, contactAnchorVisible, showNavPhoto, isPlaying, toggle } =
     usePageAudio();
 
-  // Hero owns controls until past the morph threshold; never compete with nav
-  // or the Let's talk control.
-  if (!hasClip || isPastHero || showNavPhoto || contactAnchorVisible) return null;
+  if (!hasClip || !contactAnchorVisible || showNavPhoto) return null;
 
   return (
     <button
@@ -24,7 +22,7 @@ export default function HeroPageAudioButton() {
         toggle();
       }}
       aria-label={isPlaying ? "Pause page audio" : "Play page audio"}
-      data-page-audio="hero-play"
+      data-page-audio="contact-play"
       className="inline-flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full border border-border bg-sand/80 text-indigo-dark shadow-2xs transition-all hover:bg-sand hover:border-indigo-dark/40 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-dark/40 motion-reduce:hover:scale-100"
     >
       {isPlaying ? (

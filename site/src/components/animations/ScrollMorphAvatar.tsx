@@ -553,6 +553,7 @@ export default function ScrollMorphAvatar({
         opacity: webglReady ? phaseOpacity : 0,
       }}
       className="group cursor-pointer focus:outline-none select-none drop-shadow-md hover:drop-shadow-xl transition-[filter] duration-200"
+      data-profile-photo="morph"
       onMouseEnter={() => {
         if (!webglReady || phaseOpacity.get() < 0.05) return;
         isHoveredRef.current = true;

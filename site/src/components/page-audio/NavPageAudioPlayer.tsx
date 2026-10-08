@@ -6,52 +6,74 @@ import { usePageAudio } from "@/context/PageAudioProvider";
 
 /**
  * Docked nav cluster to the right of the name:
- * - Circular profile photo once scrolled past the homepage hero (isDocked)
+ * - Circular profile photo when no in-page profile-photo anchor is in view
  * - Play/pause + scrubber only when this pathname has a pageAudio clip
  *
  * One profile picture only: the in-flow photo owns the nav slot. ScrollMorphAvatar
  * fades out at the dock and stays under the sticky bar (z-40) for contact.
+ * The photo slot stays reserved once past the hero so hide/show does not shift
+ * the Login control; audio stays mounted in PageAudioProvider.
  */
 export default function NavPageAudioPlayer() {
-  const { hasClip, isDocked, isPlaying, currentTime, duration, toggle, seek } =
-    usePageAudio();
+  const {
+    hasClip,
+    isPastHero,
+    showNavPhoto,
+    isPlaying,
+    currentTime,
+    duration,
+    toggle,
+    seek,
+  } = usePageAudio();
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
   const safeDuration = duration > 0 ? duration : 0;
+  // In-flow once past hero (measurement target always available). Photo/controls
+  // fade independently so Let's talk can hide the coin without unmounting audio.
+  const inFlow = isPastHero;
 
   return (
     <div
-      className={`flex items-center gap-1.5 sm:gap-2 min-w-0 shrink transition-[opacity,transform] duration-300 ease-out ${
-        isDocked
-          ? "relative opacity-100 translate-x-0 translate-y-0"
+      className={`flex items-center gap-1.5 sm:gap-2 min-w-0 shrink ${
+        inFlow
+          ? "relative"
           : "pointer-events-none absolute left-full top-1/2 z-0 ml-2 -translate-x-1.5 -translate-y-1/2 opacity-0 sm:ml-3"
       }`}
       data-page-audio="nav-dock"
-      aria-hidden={isDocked ? undefined : true}
+      aria-hidden={showNavPhoto ? undefined : true}
     >
-      {/* Measurement target for ScrollMorphAvatar; becomes the visible nav photo when docked. */}
+      {/* Measurement target for ScrollMorphAvatar; reserved width avoids layout shift. */}
       <div
         id="navbar-avatar-target"
-        className={`rounded-full shrink-0 overflow-hidden bg-sand/40 ${
-          isDocked
-            ? "h-8 w-8 sm:h-9 sm:w-9 ring-1 ring-border/80 shadow-2xs"
-            : "h-8 w-8 sm:h-9 sm:w-9"
+        className={`rounded-full shrink-0 overflow-hidden h-8 w-8 sm:h-9 sm:w-9 ${
+          showNavPhoto
+            ? "bg-sand/40 ring-1 ring-border/80 shadow-2xs"
+            : "bg-transparent"
         }`}
       >
-        {isDocked ? (
-          <img
-            src={`${basePath}/profile-square.jpg`}
-            alt=""
-            width={36}
-            height={36}
-            className="h-full w-full object-cover"
-            draggable={false}
-          />
-        ) : null}
+        <img
+          src={`${basePath}/profile-square.jpg`}
+          alt=""
+          width={36}
+          height={36}
+          data-profile-photo="nav"
+          className={`h-full w-full object-cover motion-safe:transition-[opacity,transform] motion-safe:duration-300 motion-safe:ease-out motion-reduce:transition-none ${
+            showNavPhoto
+              ? "opacity-100 scale-100"
+              : "opacity-0 scale-90 pointer-events-none"
+          }`}
+          draggable={false}
+        />
       </div>
 
-      {hasClip && isDocked ? (
-        <>
+      {hasClip ? (
+        <div
+          className={`flex items-center gap-1.5 sm:gap-2 min-w-0 overflow-hidden motion-safe:transition-[opacity,transform,max-width] motion-safe:duration-300 motion-safe:ease-out motion-reduce:transition-none ${
+            showNavPhoto
+              ? "opacity-100 scale-100 max-w-[20rem]"
+              : "opacity-0 scale-95 max-w-0 pointer-events-none"
+          }`}
+        >
           <button
             type="button"
             onClick={(e) => {
@@ -60,6 +82,7 @@ export default function NavPageAudioPlayer() {
               toggle();
             }}
             aria-label={isPlaying ? "Pause page audio" : "Play page audio"}
+            tabIndex={showNavPhoto ? 0 : -1}
             className="inline-flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full border border-border bg-sand/80 text-indigo-dark shrink-0 transition-all hover:bg-sand hover:border-indigo-dark/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-dark/40"
           >
             {isPlaying ? (
@@ -86,7 +109,8 @@ export default function NavPageAudioPlayer() {
                 if (Number.isFinite(next)) seek(next);
               }}
               aria-label="Seek page audio"
-              disabled={safeDuration <= 0}
+              disabled={safeDuration <= 0 || !showNavPhoto}
+              tabIndex={showNavPhoto ? 0 : -1}
               className="w-full h-1.5 accent-indigo-dark cursor-pointer disabled:opacity-40"
             />
             <span className="text-[10px] font-mono text-muted tabular-nums whitespace-nowrap shrink-0">
@@ -95,7 +119,7 @@ export default function NavPageAudioPlayer() {
               {formatPageAudioTime(safeDuration)}
             </span>
           </div>
-        </>
+        </div>
       ) : null}
     </div>
   );
@@ -103,9 +127,9 @@ export default function NavPageAudioPlayer() {
 
 /** Thin seekable bar under the sticky nav on narrow viewports. */
 export function NavPageAudioMobileScrubber() {
-  const { hasClip, isDocked, currentTime, duration, seek } = usePageAudio();
+  const { hasClip, showNavPhoto, currentTime, duration, seek } = usePageAudio();
 
-  if (!hasClip || !isDocked) return null;
+  if (!hasClip || !showNavPhoto) return null;
 
   const safeDuration = duration > 0 ? duration : 0;
   const progress =

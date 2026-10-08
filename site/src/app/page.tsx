@@ -275,6 +275,7 @@ export default function Home() {
                 <div className="relative">
                   <div
                     id="hero-avatar-anchor"
+                    data-profile-anchor="hero"
                     className="w-24 h-24 sm:w-28 sm:h-28 rounded-full shrink-0 relative"
                   />
                   {/* Play/pause docks to nav on scroll; shared <audio> keeps playback. */}
@@ -339,7 +340,7 @@ export default function Home() {
       {/* ========================================================= */}
       {/* 4. FOOTER (LET'S TALK, PHILOSOPHY)                        */}
       {/* ========================================================= */}
-      <Footer />
+      <Footer profilePhotoAnchor />
     </div>
   );
 }
