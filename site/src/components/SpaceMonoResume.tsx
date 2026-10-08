@@ -22,6 +22,41 @@ const RESUME_INLINE_LINK_CLASS =
   "text-foreground hover:text-indigo-dark transition-colors underline underline-offset-2";
 
 /**
+ * Keep hyphenated compounds (user-journey, higher-transaction, Tier-2, ...) on one
+ * line so PDF text extraction never splits them across a line break. Uses a
+ * plain ASCII hyphen inside a nowrap span (no U+2011).
+ */
+const HYPHENATED_COMPOUND_RE = /[A-Za-z0-9]+(?:-[A-Za-z0-9]+)+/g;
+
+function keepHyphenatedCompounds(text: string, keyPrefix = "hy"): ReactNode {
+  const nodes: ReactNode[] = [];
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+  let key = 0;
+  HYPHENATED_COMPOUND_RE.lastIndex = 0;
+
+  while ((match = HYPHENATED_COMPOUND_RE.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      nodes.push(text.slice(lastIndex, match.index));
+    }
+    nodes.push(
+      <span key={`${keyPrefix}-${key++}`} className="resume-nowrap">
+        {match[0]}
+      </span>,
+    );
+    lastIndex = match.index + match[0].length;
+  }
+
+  if (lastIndex < text.length) {
+    nodes.push(text.slice(lastIndex));
+  }
+
+  if (nodes.length === 0) return text;
+  if (nodes.length === 1) return nodes[0];
+  return <>{nodes}</>;
+}
+
+/**
  * Contact meta row: thin border dividers that clip away when an item wraps
  * to a new line (never a leading/trailing rule, never inside a link).
  * `px-3` + `-ml-3` keeps equal space on both sides of each rule while the
@@ -57,7 +92,7 @@ function renderInlineMarkdown(text: string): ReactNode {
 
   while ((match = linkRe.exec(text)) !== null) {
     if (match.index > lastIndex) {
-      nodes.push(text.slice(lastIndex, match.index));
+      nodes.push(keepHyphenatedCompounds(text.slice(lastIndex, match.index), `md-t-${key++}`));
     }
     nodes.push(
       <a
@@ -67,14 +102,14 @@ function renderInlineMarkdown(text: string): ReactNode {
         rel="noopener noreferrer"
         className={RESUME_INLINE_LINK_CLASS}
       >
-        {match[1]}
+        {keepHyphenatedCompounds(match[1], `md-a-${key}`)}
       </a>,
     );
     lastIndex = match.index + match[0].length;
   }
 
   if (lastIndex < text.length) {
-    nodes.push(text.slice(lastIndex));
+    nodes.push(keepHyphenatedCompounds(text.slice(lastIndex), `md-t-${key++}`));
   }
 
   if (nodes.length === 0) return text;
@@ -249,7 +284,7 @@ export default function SpaceMonoResume({ parsedResume }: SpaceMonoResumeProps) 
           >
             <SectionHeader title={summaryTitle} />
             <p className="text-xs sm:text-sm text-foreground/85 font-mono leading-loose">
-              {vision}
+              {keepHyphenatedCompounds(vision, "summary")}
             </p>
           </motion.section>
 
@@ -366,7 +401,7 @@ export default function SpaceMonoResume({ parsedResume }: SpaceMonoResumeProps) 
                       {edu.institution}
                     </strong>
                     <span className="text-muted font-normal mr-1.5">|</span>
-                    <span className="text-foreground/80">{edu.degree || (edu as unknown as { detail: string }).detail}</span>
+                    <span className="text-foreground/80">{keepHyphenatedCompounds(edu.degree || (edu as unknown as { detail: string }).detail, "edu")}</span>
                   </div>
                 </li>
               ))}
@@ -393,7 +428,7 @@ export default function SpaceMonoResume({ parsedResume }: SpaceMonoResumeProps) 
                       <strong className="font-bold text-foreground mr-1.5">
                         {skillCat.category}:
                       </strong>
-                      <span className="text-foreground/80">{skillCat.skills}</span>
+                      <span className="text-foreground/80">{keepHyphenatedCompounds(skillCat.skills, "skills")}</span>
                     </div>
                   </li>
                 ))}

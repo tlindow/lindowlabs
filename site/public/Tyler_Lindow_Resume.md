@@ -1,6 +1,6 @@
 # Tyler Lindow
 
-**Engineering Manager | Developer experience, platform, merchant & partner integrations | Ex-Affirm | Ex-founder**  
+**Engineering Manager | Developer experience, platform, merchant & partner integrations**  
 San Diego, CA | Open to relocation  
 (650) 580-5788 | tyler@lindowlabs.dev  
 
@@ -10,7 +10,7 @@ San Diego, CA | Open to relocation
 
 ## Summary
 
-Engineering manager who led teams of up to 9 engineers on Affirm's merchant and partner integrations and developer experience. Built per-merchant dashboards and alerting that cut detection of higher-volume merchant outages from ~1 hour to under 5 minutes. Led a merchant-domain ownership review across Partner APIs, Merchant Risk, and Merchant Data Platform that reshaped Affirm's merchant org, and held Merchant Portal at 99.9% availability with zero incidents during BFCM 2025. As founder of Beginner Work, built a writing tool that helped technical founders explain their work in their own voice, bridging non-technical and technical builders. Targeting Engineering Manager / Senior EM roles in developer experience, developer platforms, and partner integrations.
+Led up to 9 engineers on Affirm's merchant and partner integrations and developer experience. Cut higher-transaction merchant outage detection from ~1 hour to under 5 minutes, led a merchant-domain ownership review that reshaped the merchant org, and took Merchant Portal from ~99.7% to 99.9% availability with zero BFCM 2025 incidents. As founder of Beginner Work, built Tinker, an IDE for technical founders. Targeting EM / Senior EM roles in developer experience, developer platforms, and partner integrations.
 
 ---
 
@@ -20,42 +20,43 @@ Engineering manager who led teams of up to 9 engineers on Affirm's merchant and 
 
 
 
-### Founder | Beginner Work Inc.
+### Founder and CEO | Beginner Work Inc.
 
 *San Diego, CA | Mar 2026 – Jul 2026 (wound down before a raise)*
 
-- Built a writing tool as sole founder that helped founders, especially technical founders, develop their pitch in their personal voice; owned product discovery, architecture, and GTM. Tested demand across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users, including 6 paying. Wound it down in July 2026 when paying users didn't keep using it.
-- Built Tinker solo in JavaScript, Node.js, Electron, and Postgres, shipped it as desktop and web apps, and published the source at [github.com/beginner-work/tinker](https://github.com/beginner-work/tinker).
+- **Scope:** Self-funded and set the thesis for Tinker, an IDE for technical founders (essays capturing the founder's voice, a code editor, and an AI terminal generating diffs from that context), owning product, architecture, and GTM.
+- **Product calls:** Shipped and open-sourced Tinker ([github.com/beginner-work/tinker](https://github.com/beginner-work/tinker)) as offline-first desktop and web apps, reaching 28 early users and 6 paying; built on Vercel, Stytch, GitHub, and Anthropic.
+- **Customer discovery:** Led 92 founder and investor conversations (including 5 VCs) across SF, NYC, and LA, then wound the company down rather than fund a GTM that wasn't compounding.
 
 ### Software Engineering Manager, Merchant Engineering | Affirm
 
 *San Diego, CA (Remote) | Mar 2025 – Feb 2026 (role eliminated)*
 
-- **Scope:** Led the former developer-support team as Merchant Advocacy Engineering, a product engineering team partnering with Design and Content: 9 software engineers (2 Staff, 2 SWE II, 4 SWE I, 1 contractor), later reshaped to 6. Owned Merchant Portal (React, TypeScript), the API-key and transaction-view surface for merchants integrated via ecommerce platforms or direct API, with ~5K new merchant sign-ups a month.
-- **Merchant-domain ownership review:** Led a merchant-domain ownership review across Partner APIs, Merchant Risk, and Merchant Data Platform that set which team owns which merchant data. Got cross-org sign-off through Directors and principal/staff in merchant & partner wallets, presented to Affirm leadership in Q3 2025. The review showed Merchant Risk and Merchant Advocacy were tightly coupled, which led Affirm to consolidate them under one EM, move former developer-support engineers into SRE, and add PM investment in direct merchant customer problems.
-- **Merchant Portal reliability:** Added Chronosphere dashboards and on-call alerting for throughput and error rate on critical user-journey endpoints, which surfaced ~10 production incidents in Q4 2025 early enough to fix before Black Friday/Cyber Monday. Held 99.9% availability through the quarter and had zero incidents during BFCM.
-- **Incident Communications:** Ran the Partner Engineering on-call program across my team and ~10 more engineers from Technical Account Management. Built a web tool that showed responders which enterprise merchants to email and when, plus Rootly automations that prompted the same steps in incident Slack channels, raising the share of enterprise merchant emails sent within the 15-minute SLA from near zero to ~70%.
-- **Intuit ([announced February 2026](https://investors.affirm.com/news-releases/news-release-details/intuit-partners-affirm-provide-pay-over-time-offering-quickbooks)):** Unblocked Affirm's launch as QuickBooks Payments' exclusive pay-over-time partner, stalled since November 2025 by a Merchant Portal onboarding bug. My team shipped 3 production fixes, letting the production ramp start in early Q1 2026.
-- **Enterprise AuthN (Merchant Portal):** With Security, took over an enterprise authentication upgrade for Merchant Portal after a strategic account required Affirm to strengthen auth. Inherited an architecture missing key implementation details that blocked the integration; fixed those gaps and pushed for a staged release across dev, stage, and production with a TPM, the Security director, and a staff security engineer. Near release when the role ended.
-- **Shift to building:** Moved the team's time spent building from ~10–20% to 50%+ by making Tier-2 escalations advisory (coached Tier-2 support to self-serve in Snowflake and work directly with ecommerce platform teams). The freed capacity staffed the SLA reporting handoff to SRE and the Intuit fix.
+- **Scope:** Led the former developer-support team as Merchant Advocacy Engineering, a product engineering team alongside Design and Content: 9 software engineers at peak (2 Staff, 2 SWE II, 4 SWE I, 1 contractor). Owned Merchant Portal (React, TypeScript), the API-key and transaction-view surface for merchants on ecommerce platforms or direct API, with ~5K merchant sign-ups monthly.
+- **Merchant-domain ownership review:** Led a review across Partner APIs, Merchant Risk, and Merchant Data Platform setting which team owns which merchant data, and found Merchant Risk and Merchant Advocacy tightly coupled; aligned directors, principal, and staff engineers across merchant and partner wallets and presented to leadership in Q3 2025. Affirm then consolidated both teams under one EM, moved former developer-support engineers into SRE, and added PM investment in direct merchant customer problems.
+- **Intuit ([announced February 2026](https://investors.affirm.com/news-releases/news-release-details/intuit-partners-affirm-provide-pay-over-time-offering-quickbooks)):** Unblocked Affirm's launch as QuickBooks Payments' exclusive pay-over-time partner, stalled since November 2025 by a Merchant Portal onboarding bug; my team shipped 3 production fixes so the ramp began in early Q1 2026.
+- **Merchant Portal reliability:** Led my team in moving Merchant Portal's reads off Snowflake, the main source of real downtime, onto the merchant data platform's read-replica-backed RPCs (the portal pre-dated them), raising availability from ~99.7% to 99.9% in Q4 2025 (about two-thirds less downtime) with zero BFCM incidents. Also cleared long-standing bugs, corrected mislabeled 5xx codes so availability reflected real errors, and added Chronosphere dashboards and on-call alerting on critical user-journey endpoints.
+- **Incident Communications:** Ran Partner Engineering on-call across my team and ~10 Technical Account Management engineers. Built a web tool showing responders which enterprise merchants to email and when, plus Rootly automations prompting the same steps in incident Slack channels, raising enterprise merchant emails sent within the 15-minute SLA from near zero to ~70%.
+- **Shift to building:** Raised the team's building time from ~10–20% to 50%+ by the end of the role through advisory Tier-2 escalations (coaching Tier-2 support to self-serve in Snowflake and work directly with ecommerce platform teams) and Kanban in place of sprints; the freed capacity staffed the SLA reporting handoff to SRE and the Intuit fix.
+- **People leadership:** Raised the performance bar by managing two underperformers, including a tech lead, through to exit and moving a third engineer to a better-fit team, deliberately reshaping the team from 9 engineers at peak to 6; that smaller team carried the shift to building, the Merchant Portal reliability work, and the Intuit fix.
 
 ### Developer Support Engineering Manager, Partner Engineering | Affirm
 
 *San Diego, CA (Remote) | Jul 2021 – Mar 2025*
 
-- **Scope:** Managed a team that grew from 1 to 9 engineers (all software engineers by early 2025), building and running the tooling behind Affirm's merchant and partner integrations: per-merchant observability and alerting, the Snowflake availability reporting behind the Amazon partnership, and partner REST API and webhook support.
-- **Observability:** Built per-merchant dashboards and alerting across ~20+ key accounts that cut detection time for outages at higher-volume merchants from ~1 hour on average to under 5 minutes.
-- **Amazon, flagship partner ([21% of Affirm’s GMV in FY2024](https://www.sec.gov/Archives/edgar/data/1820953/000182095325000080/afrm-20250630.htm)):** Supported Amazon from before its [August 2021](https://investors.affirm.com/news-releases/news-release-details/amazon-partners-with-affirm) launch, then led my team's build of the Snowflake availability report Affirm used to meet Amazon's partnership requirements, later the baseline for the VP of Engineering's spring 2025 reliability sprint.
-- **Merchant Portal SLA reports:** Acted as tech lead (no Staff engineers on the team yet) for an SLA reporting feature released in Merchant Portal in late 2024 to early 2025, letting Technical Account Managers share SLA reports directly with their merchants and cutting each monthly report's turnaround from ~2 weeks to ~1 week. Wrote the tech spec every direct report built from.
+- **Scope:** Managed a team that grew from 1 to 9 engineers (all SWEs by early 2025), building and running tooling for Affirm's merchant and partner integrations: per-merchant observability and alerting, Snowflake availability reporting for the Amazon partnership, and partner REST API and webhook support.
+- **Observability:** Built per-merchant dashboards and alerting across ~20+ key accounts that cut detection time for outages at higher-transaction merchants from ~1 hour on average to under 5 minutes.
+- **Amazon, flagship partner ([21% of Affirm’s GMV in FY2024](https://www.sec.gov/Archives/edgar/data/1820953/000182095325000080/afrm-20250630.htm)):** Supported Amazon from before its [August 2021](https://investors.affirm.com/news-releases/news-release-details/amazon-partners-with-affirm) launch, then led my team's build of the Snowflake availability report that met Amazon's partnership requirements, later the baseline for the VP of Engineering's spring 2025 reliability sprint.
+- **Merchant Portal SLA reports:** Acted as tech lead (no Staff engineers on the team yet) for an SLA reporting feature released in Merchant Portal in late 2024 to early 2025, letting Technical Account Managers share SLA reports directly with merchants and cutting monthly report turnaround from ~2 weeks to ~1 week. Wrote the tech spec every direct report built from.
 - **Team building:** Owned interview rubrics and hiring decisions for 4 hires (2 developer support engineers and 2 SWEs, one in Poland) and integrated 5 engineers who joined through reorgs.
-- **People development:** Delivered 2 promotions, including a junior engineer to intermediate in ~1 year who then moved into product-building engineering. Ran monthly career-growth reviews across the 9-engineer team. Team engagement scores hit 9/10 (Affirm averaged [7.8–8.3](https://investors.affirm.com/static-files/f41ab85f-c739-479e-8bfb-4c337d3ea987)).
+- **People development:** Delivered 2 promotions, including a junior engineer to intermediate in ~1 year who then moved into product engineering. Ran monthly career-growth reviews across the 9-engineer team; team engagement hit 9/10 (Affirm averaged [7.8–8.3](https://investors.affirm.com/static-files/f41ab85f-c739-479e-8bfb-4c337d3ea987)).
 
 ### Developer Support Engineer, Partner Engineering | Affirm
 
 *San Francisco, CA (Hybrid) | Sep 2019 – Jul 2021*
 
 - **Merchant checkout integrations:** Primary technical liaison for 300+ SMB merchants; diagnosed JavaScript, REST API, and webhook defects in checkout / payment-method integrations on Shopify, Magento, WooCommerce, and Salesforce Commerce Cloud.
-- **DevX feedback loop:** Built ETL pipelines into Snowflake to cluster integration-defect patterns and turn developer feedback into platform fixes that cut recurring integration tickets.
+- **DevX feedback loop:** Built Snowflake ETL pipelines to cluster integration defects, turned developer feedback into platform fixes, and routed integration tickets to the ecommerce plugin team, cutting my team's ticket load 10–20% at first and ~50% by the time I left.
 
 ### Earlier Experience
 
@@ -77,6 +78,6 @@ Engineering manager who led teams of up to 9 engineers on Affirm's merchant and 
 
 ## Skills & Toolkits
 
-- **Technical Toolkit:** Python, JavaScript, TypeScript, React, Next.js, Node.js, Flask, Snowflake, SQL, ETL Pipelines, REST APIs, Webhooks, CI/CD, Git/GitHub, observability, LLMs & agentic coding (Claude, Cursor)
+- **Technical Toolkit:** Python, JavaScript, TypeScript, React, Next.js, Node.js, Electron, Flask, Snowflake, SQL, Postgres, ETL Pipelines, REST APIs, Webhooks, CI/CD, Git/GitHub, observability (Chronosphere), Rootly, LLMs & agentic coding (Claude, Cursor)
 - **Leadership & Management:** Performance management & promotions, org design / domain boundaries, mentorship, incident management
 - **B2B Integrations & Operations:** Partner Engineering, merchant checkout integrations (Shopify, Magento, WooCommerce, SFCC)

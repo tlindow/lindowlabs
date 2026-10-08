@@ -37,7 +37,7 @@ export default function LeadersWho() {
                   <TinkerMark className="h-4 w-4" alt="" />
                   Tinker
                 </span>
-                , a writing tool for technical founders.
+                , an IDE for technical founders.
               </p>
             </div>
           </div>
