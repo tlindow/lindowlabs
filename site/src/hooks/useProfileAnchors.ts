@@ -14,7 +14,7 @@ type AnchorSnapshot = {
 const EMPTY: AnchorSnapshot = { ids: [] };
 
 let cached: AnchorSnapshot = EMPTY;
-let listeners = new Set<() => void>();
+const listeners = new Set<() => void>();
 let observer: IntersectionObserver | null = null;
 let mutationObserver: MutationObserver | null = null;
 let intersecting = new Map<Element, string>();
