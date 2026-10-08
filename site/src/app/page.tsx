@@ -84,6 +84,7 @@ export default function Home() {
       if (!hasReachedContactRef.current) {
         const contactP = computeContactProgress(window.scrollY);
         rawContactProgress.set(contactP);
+        contactProgress.jump(contactP);
       }
     };
 
@@ -103,7 +104,12 @@ export default function Home() {
       window.removeEventListener("resize", refresh);
       ro.disconnect();
     };
-  }, [refreshContactTargetCache, computeContactProgress, rawContactProgress]);
+  }, [
+    refreshContactTargetCache,
+    computeContactProgress,
+    rawContactProgress,
+    contactProgress,
+  ]);
 
   // If page loads already scrolled down, initialize progress appropriately.
   // Never auto-engage directToHero — scroll both directions uses hero↔nav↔contact.
@@ -161,10 +167,15 @@ export default function Home() {
         return;
       }
 
-      // Normal both-direction flow (Hero ↔ Nav ↔ Contact):
+      // Normal both-direction flow (Hero ↔ Nav ↔ Contact).
+      // Contact progress jumps with scroll (no spring lag): otherwise the nav
+      // photo hides at transit start while the coin is still under the sticky
+      // bar, leaving Let's talk with only the play control.
       const heroP = Math.min(Math.max(latestY / HERO_PIN_SCROLL_DISTANCE, 0), 1);
       rawProgress.set(heroP);
-      rawContactProgress.set(computeContactProgress(latestY));
+      const contactP = computeContactProgress(latestY);
+      rawContactProgress.set(contactP);
+      contactProgress.jump(contactP);
     });
 
     return () => unsubscribe();

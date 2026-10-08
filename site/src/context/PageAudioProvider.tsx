@@ -160,11 +160,20 @@ function dockSnapshotsEqual(a: DockSnapshot, b: DockSnapshot): boolean {
   );
 }
 
+const DOCK_SSR_HOME: DockSnapshot = {
+  owner: "hero",
+  isPastHero: false,
+  showNavPhoto: false,
+};
+const DOCK_SSR_OTHER: DockSnapshot = {
+  owner: "nav",
+  isPastHero: true,
+  showNavPhoto: true,
+};
+
 function useProfileDock(pathname: string): DockSnapshot {
   const cachedRef = useRef<DockSnapshot>(
-    pathname === "/"
-      ? { owner: "hero", isPastHero: false, showNavPhoto: false }
-      : { owner: "nav", isPastHero: true, showNavPhoto: true }
+    pathname === "/" ? DOCK_SSR_HOME : DOCK_SSR_OTHER
   );
 
   const subscribe = useCallback(
@@ -222,14 +231,13 @@ function useProfileDock(pathname: string): DockSnapshot {
     return cachedRef.current;
   }, [pathname]);
 
-  return useSyncExternalStore(
-    subscribe,
-    getSnapshot,
-    () =>
-      pathname === "/"
-        ? { owner: "hero" as const, isPastHero: false, showNavPhoto: false }
-        : { owner: "nav" as const, isPastHero: true, showNavPhoto: true }
+  // Stable server snapshot references (new objects every call → infinite loop).
+  const getServerSnapshot = useCallback(
+    () => (pathname === "/" ? DOCK_SSR_HOME : DOCK_SSR_OTHER),
+    [pathname]
   );
+
+  return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 }
 
 export function PageAudioProvider({ children }: { children: ReactNode }) {

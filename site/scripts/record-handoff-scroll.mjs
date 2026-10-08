@@ -77,10 +77,25 @@ async function scrollTo(y, steps) {
   }
 }
 
-// Hold top briefly, scroll down to Let's talk, hold, scroll back to top.
+// Hold top briefly, scroll down to Let's talk, hold at rest (photo beside
+// play), scroll back up through nav, hold at top.
 for (let i = 0; i < 8; i++) await capture();
 await scrollTo(maxY, 72);
-for (let i = 0; i < 10; i++) await capture();
+// Wait for morph to finish docking beside Let's talk before holding.
+await page.waitForFunction(
+  () => {
+    const morph = document.querySelector('[data-profile-photo="morph"]');
+    const contact = document.getElementById("contact-avatar-target");
+    if (!morph || !contact) return false;
+    const op = Number.parseFloat(getComputedStyle(morph).opacity || "0");
+    if (op <= 0.15) return false;
+    const mr = morph.getBoundingClientRect();
+    const cr = contact.getBoundingClientRect();
+    return Math.abs(mr.top - cr.top) < 24 && Math.abs(mr.left - cr.left) < 24;
+  },
+  { timeout: 5000 }
+).catch(() => {});
+for (let i = 0; i < 18; i++) await capture();
 await scrollTo(0, 72);
 for (let i = 0; i < 8; i++) await capture();
 

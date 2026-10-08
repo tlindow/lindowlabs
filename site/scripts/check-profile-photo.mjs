@@ -188,17 +188,29 @@ async function runAtViewport(browser, baseUrl, width, height) {
       document.getElementById("contact");
     target?.scrollIntoView({ block: "center" });
   });
-  // Wait for the IntersectionObserver handoff (contact visible → nav photo
-  // snaps off). Sampling mid-handoff was a flake on deploy@1280; still assert
-  // exactly one photo once settled.
+  // Wait until the morph coin is actually docked beside Let's talk (aligned to
+  // the contact target, visible) and the nav photo is hidden. Waiting only for
+  // nav opacity was a false green while the coin lagged under the sticky bar.
   await page.waitForFunction(
     () => {
       const nav = document.querySelector('[data-profile-photo="nav"]');
-      if (!nav) return true;
-      const opacity = Number.parseFloat(getComputedStyle(nav).opacity || "0");
-      return !Number.isFinite(opacity) || opacity <= 0.15;
+      const morph = document.querySelector('[data-profile-photo="morph"]');
+      const contact = document.getElementById("contact-avatar-target");
+      if (!morph || !contact) return false;
+      const navOp = nav
+        ? Number.parseFloat(getComputedStyle(nav).opacity || "0")
+        : 0;
+      const morphOp = Number.parseFloat(getComputedStyle(morph).opacity || "0");
+      if (navOp > 0.15 || morphOp <= 0.15) return false;
+      const mr = morph.getBoundingClientRect();
+      const cr = contact.getBoundingClientRect();
+      return (
+        Math.abs(mr.top - cr.top) < 24 &&
+        Math.abs(mr.left - cr.left) < 24 &&
+        mr.width > 24
+      );
     },
-    { timeout: 3000 }
+    { timeout: 5000 }
   );
   await settle(page);
   const footer = await assertOnePhoto(page, `footer@${width}`);
