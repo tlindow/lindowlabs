@@ -114,10 +114,11 @@ async function sampleHandoff(page, width, height, label) {
 
     const cls = (window.__clsEntries || []).reduce((s, e) => s + (e.value || 0), 0);
     const navOpacities = [];
-    // Spot-check dual-photo at a few points in the band.
+    const flyingHits = [];
+    // Spot-check dual-photo + no mid-page flying morph at a few points in the band.
     for (const t of [0.2, 0.5, 0.8]) {
       const target = start + (end - start) * t;
-      window.scrollTo(0, target);
+      window.scrollTo({ top: target, behavior: "instant" });
       await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
       await new Promise((r) => setTimeout(r, 50));
       const photos = [...document.querySelectorAll("[data-profile-photo]")].filter((el) => {
@@ -135,6 +136,30 @@ async function sampleHandoff(page, width, height, label) {
         count: photos.length,
         ids: photos.map((p) => p.getAttribute("data-profile-photo")),
       });
+
+      // Morph must be parked at contact (or invisible) — never mid-page over body text.
+      const morph = document.querySelector('[data-profile-photo="morph"]');
+      const contact = document.getElementById("contact-avatar-target");
+      if (morph && contact) {
+        const op = Number.parseFloat(getComputedStyle(morph).opacity || "0");
+        const mr = morph.getBoundingClientRect();
+        const cr = contact.getBoundingClientRect();
+        const inView =
+          op > 0.15 && mr.width > 4 && mr.bottom > 0 && mr.top < window.innerHeight;
+        if (inView) {
+          const dx = Math.abs(mr.left - cr.left);
+          const dy = Math.abs(mr.top - cr.top);
+          if (dx > 48 || dy > 48) {
+            flyingHits.push({
+              y: window.scrollY,
+              dx: Math.round(dx),
+              dy: Math.round(dy),
+              morphTop: Math.round(mr.top),
+              contactTop: Math.round(cr.top),
+            });
+          }
+        }
+      }
     }
 
     // After visiting Let's talk, scroll back into the nav dock band and require
@@ -165,6 +190,7 @@ async function sampleHandoff(page, width, height, label) {
       stalled,
       cls,
       dualPhotoHits: navOpacities.filter((s) => s.count > 1),
+      flyingHits,
       spots: navOpacities,
       start,
       end,
@@ -174,7 +200,7 @@ async function sampleHandoff(page, width, height, label) {
   }, range);
 
   console.log(
-    `${label}: samples=${result.sampleCount} backward=${result.backward} stalled=${result.stalled} cls=${result.cls.toFixed(4)} dual=${result.dualPhotoHits.length} afterUp=${JSON.stringify(result.afterUpIds)}`
+    `${label}: samples=${result.sampleCount} backward=${result.backward} stalled=${result.stalled} cls=${result.cls.toFixed(4)} dual=${result.dualPhotoHits.length} flying=${result.flyingHits.length} afterUp=${JSON.stringify(result.afterUpIds)}`
   );
   if (result.backward > 0) {
     throw new Error(`${label}: scrollY moved backward ${result.backward} times`);
@@ -185,6 +211,11 @@ async function sampleHandoff(page, width, height, label) {
   if (result.dualPhotoHits.length > 0) {
     throw new Error(
       `${label}: dual profile photos during handoff: ${JSON.stringify(result.dualPhotoHits)}`
+    );
+  }
+  if (result.flyingHits.length > 0) {
+    throw new Error(
+      `${label}: morph flying mid-page (must snap at contact): ${JSON.stringify(result.flyingHits)}`
     );
   }
   if (!(result.afterUpIds || []).includes("nav") || (result.afterUpIds || []).length !== 1) {

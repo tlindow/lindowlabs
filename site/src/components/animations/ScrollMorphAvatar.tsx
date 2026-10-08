@@ -430,41 +430,39 @@ export default function ScrollMorphAvatar({
     };
   }, [isReady, basePath, onReady, progress, effectiveContactProgress, activeDirectToHero, scrollY]);
 
-  // 3. Motion Interpolation for multi-phase position & scale (Hermite smoothstep)
+  // 3. Motion Interpolation for position & scale.
+  // Hero → nav still morphs along a path. Nav ↔ Let's talk is an in-place
+  // crossfade only: when contact owns the photo the coin snaps to the contact
+  // slot (never lerps across body text — that was the flying-coin catch).
   const x = useTransform(
     [progress, effectiveContactProgress, activeDirectToHero, scrollY],
     (values: number[]) => {
       const c = coordsRef.current;
       if (!c) return 0;
       const p1 = values[0] ?? 0;
-      const p2 = values[1] ?? 0;
       const direct = values[2] ?? 0;
       const latestY = values[3] ?? 0;
+      const windowH = typeof window !== "undefined" ? window.innerHeight : 800;
+      const contactTargetY = Math.max(c.contactAbsoluteY - windowH * 0.5, 0);
 
-      // When direct-to-hero is active (any scroll up after reaching contact section):
+      // Click-to-hero only: intentional long flight.
       if (direct > 0.5) {
         if (latestY <= 0) return c.heroX;
-        const windowH = typeof window !== "undefined" ? window.innerHeight : 800;
-        const contactTargetY = Math.max(c.contactAbsoluteY - windowH * 0.5, 1);
-        const t = Math.min(Math.max(latestY / contactTargetY, 0), 1);
+        const t = Math.min(Math.max(latestY / Math.max(contactTargetY, 1), 0), 1);
         const easedT = t * t * (3 - 2 * t);
         return c.heroX + (c.contactX - c.heroX) * easedT;
       }
 
       if (latestY <= 0) return c.heroX;
 
-      const clampedP1 = Math.min(Math.max(p1, 0), 1);
-      const clampedP2 = Math.min(Math.max(p2, 0), 1);
-      const safeP1 = clampedP1 < 0.005 ? 0 : clampedP1;
-      const safeP2 = clampedP2 < 0.005 ? 0 : clampedP2;
-      const easedP1 = safeP1 * safeP1 * (3 - 2 * safeP1);
-      const easedP2 = safeP2 * safeP2 * (3 - 2 * safeP2);
+      const owner = getProfileDockOwner(latestY, contactTargetY, windowH);
+      // Snap to Let's talk — no mid-page flight.
+      if (owner === "contact") return c.contactX;
 
-      if (safeP2 > 0) {
-        return c.navX + (c.contactX - c.navX) * easedP2;
-      } else {
-        return c.heroX + (c.navX - c.heroX) * easedP1;
-      }
+      const clampedP1 = Math.min(Math.max(p1, 0), 1);
+      const safeP1 = clampedP1 < 0.005 ? 0 : clampedP1;
+      const easedP1 = safeP1 * safeP1 * (3 - 2 * safeP1);
+      return c.heroX + (c.navX - c.heroX) * easedP1;
     }
   );
 
@@ -474,37 +472,28 @@ export default function ScrollMorphAvatar({
       const c = coordsRef.current;
       if (!c) return 0;
       const p1 = values[0] ?? 0;
-      const p2 = values[1] ?? 0;
       const direct = values[2] ?? 0;
       const latestY = values[3] ?? 0;
+      const windowH = typeof window !== "undefined" ? window.innerHeight : 800;
+      const contactTargetY = Math.max(c.contactAbsoluteY - windowH * 0.5, 0);
+      const contactViewportY = c.contactAbsoluteY - latestY;
 
-      // When direct-to-hero is active:
       if (direct > 0.5) {
         if (latestY <= 0) return c.heroY - latestY;
-        const windowH = typeof window !== "undefined" ? window.innerHeight : 800;
-        const contactTargetY = Math.max(c.contactAbsoluteY - windowH * 0.5, 1);
-        const t = Math.min(Math.max(latestY / contactTargetY, 0), 1);
+        const t = Math.min(Math.max(latestY / Math.max(contactTargetY, 1), 0), 1);
         const easedT = t * t * (3 - 2 * t);
-        const contactViewportY = c.contactAbsoluteY - latestY;
         return c.heroY + (contactViewportY - c.heroY) * easedT;
       }
 
       if (latestY <= 0) return c.heroY - latestY;
 
-      const clampedP1 = Math.min(Math.max(p1, 0), 1);
-      const clampedP2 = Math.min(Math.max(p2, 0), 1);
-      const safeP1 = clampedP1 < 0.005 ? 0 : clampedP1;
-      const safeP2 = clampedP2 < 0.005 ? 0 : clampedP2;
-      const easedP1 = safeP1 * safeP1 * (3 - 2 * safeP1);
-      const easedP2 = safeP2 * safeP2 * (3 - 2 * safeP2);
+      const owner = getProfileDockOwner(latestY, contactTargetY, windowH);
+      if (owner === "contact") return contactViewportY;
 
-      if (safeP2 > 0) {
-        // While docked or docking in the contact section, match target's viewport position (contactAbsoluteY - scrollY)
-        const contactViewportY = c.contactAbsoluteY - latestY;
-        return c.navY + (contactViewportY - c.navY) * easedP2;
-      } else {
-        return c.heroY + (c.navY - c.heroY) * easedP1;
-      }
+      const clampedP1 = Math.min(Math.max(p1, 0), 1);
+      const safeP1 = clampedP1 < 0.005 ? 0 : clampedP1;
+      const easedP1 = safeP1 * safeP1 * (3 - 2 * safeP1);
+      return c.heroY + (c.navY - c.heroY) * easedP1;
     }
   );
 
@@ -514,34 +503,27 @@ export default function ScrollMorphAvatar({
       const c = coordsRef.current;
       if (!c) return 96;
       const p1 = values[0] ?? 0;
-      const p2 = values[1] ?? 0;
       const direct = values[2] ?? 0;
       const latestY = values[3] ?? 0;
+      const windowH = typeof window !== "undefined" ? window.innerHeight : 800;
+      const contactTargetY = Math.max(c.contactAbsoluteY - windowH * 0.5, 0);
 
-      // When direct-to-hero is active:
       if (direct > 0.5) {
         if (latestY <= 0) return c.heroSize;
-        const windowH = typeof window !== "undefined" ? window.innerHeight : 800;
-        const contactTargetY = Math.max(c.contactAbsoluteY - windowH * 0.5, 1);
-        const t = Math.min(Math.max(latestY / contactTargetY, 0), 1);
+        const t = Math.min(Math.max(latestY / Math.max(contactTargetY, 1), 0), 1);
         const easedT = t * t * (3 - 2 * t);
         return c.heroSize + (c.contactSize - c.heroSize) * easedT;
       }
 
       if (latestY <= 0) return c.heroSize;
 
-      const clampedP1 = Math.min(Math.max(p1, 0), 1);
-      const clampedP2 = Math.min(Math.max(p2, 0), 1);
-      const safeP1 = clampedP1 < 0.005 ? 0 : clampedP1;
-      const safeP2 = clampedP2 < 0.005 ? 0 : clampedP2;
-      const easedP1 = safeP1 * safeP1 * (3 - 2 * safeP1);
-      const easedP2 = safeP2 * safeP2 * (3 - 2 * safeP2);
+      const owner = getProfileDockOwner(latestY, contactTargetY, windowH);
+      if (owner === "contact") return c.contactSize;
 
-      if (safeP2 > 0) {
-        return c.navSize + (c.contactSize - c.navSize) * easedP2;
-      } else {
-        return c.heroSize + (c.navSize - c.heroSize) * easedP1;
-      }
+      const clampedP1 = Math.min(Math.max(p1, 0), 1);
+      const safeP1 = clampedP1 < 0.005 ? 0 : clampedP1;
+      const easedP1 = safeP1 * safeP1 * (3 - 2 * safeP1);
+      return c.heroSize + (c.navSize - c.heroSize) * easedP1;
     }
   );
 

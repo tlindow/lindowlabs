@@ -1,11 +1,9 @@
 /**
  * Scroll-derived ownership of Tyler's profile photo on the homepage.
  *
- * The WebGL morph coin travels hero → nav → Let's talk. The in-nav photo may
- * show ONLY while the morph is docked at the nav (fully faded). Driving this
- * from IntersectionObserver alone was wrong: anchors leave the viewport while
- * the coin is still mid-flight, so the nav photo appeared beside the hero coin,
- * and scroll-up from Let's talk never returned the nav photo.
+ * The WebGL morph coin travels hero → nav. Nav ↔ Let's talk is an in-place
+ * crossfade (nav img ↔ morph parked at contact) — never a flight across body
+ * text. The in-nav photo may show ONLY while docked at the nav (morph faded).
  *
  * Click-to-hero (direct flight contact→hero) suspends the nav photo for the
  * whole trip so the morph coin never shares the screen with the nav img.
@@ -39,7 +37,7 @@ export function contactMidScrollY(
  * Which slot owns the visible photo at this scrollY.
  * - hero: morph coin at / leaving hero (nav photo must stay hidden)
  * - nav: morph faded at nav dock (exactly one: the nav img)
- * - contact: morph at / approaching Let's talk (nav photo hidden)
+ * - contact: morph snapped at Let's talk (nav photo hidden; no mid-page flight)
  */
 export function getProfileDockOwner(
   scrollY: number,
@@ -51,7 +49,8 @@ export function getProfileDockOwner(
   if (contactTargetScrollY > 0) {
     const start =
       contactTargetScrollY - contactTransitDistance(viewportHeight);
-    // Contact owns as soon as the morph begins leaving the nav toward Let's talk.
+    // Contact owns as soon as scroll enters the Let's talk handoff band —
+    // morph snaps to the contact slot; nav img crossfades out.
     if (scrollY >= start) return "contact";
   }
 
