@@ -15,7 +15,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE}/visitors`, changeFrequency: "daily", priority: 0.7 },
     { url: `${SITE}/blog`, changeFrequency: "weekly", priority: 0.7 },
     { url: `${SITE}/brand`, changeFrequency: "monthly", priority: 0.4 },
-    { url: `${SITE}/modules`, changeFrequency: "monthly", priority: 0.4 },
   ];
 
   const blogRoutes: MetadataRoute.Sitemap = blogPosts.map((post) => ({
