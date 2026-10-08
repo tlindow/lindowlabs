@@ -186,7 +186,7 @@ export const timelineMilestones: TimelineItem[] = [
     accentColor: "text-rose",
     accentBg: "bg-rose-light",
     dotColor: "bg-rose",
-    kicker: "Explain your work in your own voice",
+    kicker: "Shipped and open-sourced",
     summary:
       "IDE for technical founders: essays capturing the founder's voice, a code editor, and an AI terminal generating diffs from that context. Shipped and open-sourced as offline-first desktop and web apps in JavaScript, Node.js, Electron, and Postgres, reaching 28 early users and 6 paying.",
     highlights: [
@@ -316,7 +316,7 @@ export const mentoringOfferings = [
 export const featuredVentures = [
   {
     title: "tinker",
-    tagline: "Explain your work in your own voice",
+    tagline: "An IDE for technical founders",
     description:
       "IDE for technical founders (essays capturing the founder's voice, a code editor, and an AI terminal generating diffs), shipped and open-sourced as offline-first desktop and web apps in JavaScript, Node.js, Electron, and Postgres.",
     tech: ["JavaScript", "Node.js", "Electron", "Postgres"],

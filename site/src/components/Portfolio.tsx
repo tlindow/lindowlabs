@@ -9,7 +9,7 @@ import { BEGINNER_HAPI_URL, BEGINNER_URL } from "@/data/urls";
 const ventures = [
   {
     title: "beginner",
-    tagline: "IDE for technical founders",
+    tagline: "Self-funded and built Tinker",
     description:
       "Founder and CEO of Beginner Work from March to July 2026. Self-funded and built Tinker, an IDE for technical founders, shipped and open-sourced as offline-first desktop and web apps; 28 early users and 6 paying. Led 92 founder and investor conversations (including 5 VCs) across SF, NYC, and LA, then wound the company down rather than fund a GTM that wasn't compounding.",
     tech: ["JavaScript", "Node.js", "Electron", "Postgres"],
@@ -24,7 +24,7 @@ const ventures = [
   },
   {
     title: "tinker",
-    tagline: "Explain your work in your own voice",
+    tagline: "An IDE for technical founders",
     description:
       "IDE for technical founders (essays capturing the founder's voice, a code editor, and an AI terminal generating diffs), shipped and open-sourced as offline-first desktop and web apps in JavaScript, Node.js, Electron, and Postgres. Source published at github.com/beginner-work/tinker.",
     tech: ["JavaScript", "Node.js", "Electron", "Postgres"],
