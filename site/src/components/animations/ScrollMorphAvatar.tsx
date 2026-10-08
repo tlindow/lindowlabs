@@ -385,26 +385,28 @@ export default function ScrollMorphAvatar({
           clickImpulseRef.current *= 0.92;
         }
 
+        const hoverTilt = isHovered ? 0.15 : 0;
         if (direct > 0.5) {
           // Direct rotation and tilt as coin travels straight to top center hero
           const easedT = quickT * quickT * (3 - 2 * quickT);
           coinMesh.rotation.y = (1 + easedT) * Math.PI * 2 + hoverSpin + clickImpulseRef.current;
-          const transitTilt = Math.sin(easedT * Math.PI) * 0.28;
-          const hoverTilt = isHovered ? 0.15 : 0;
-          coinMesh.rotation.x = transitTilt + hoverTilt;
+          coinMesh.rotation.x = Math.sin(easedT * Math.PI) * 0.28 + hoverTilt;
         } else {
-          // Smooth Hermite smoothstep easing for graceful departure and soft docking
-          const easedP1 = rawProgress * rawProgress * (3 - 2 * rawProgress);
-          const easedP2 = rawContact * rawContact * (3 - 2 * rawContact);
-
-          // Full 360-degree rotation during Phase 1 (0 -> 2*PI)
-          // Another full 360-degree rotation during Phase 2 (2*PI -> 4*PI)
-          coinMesh.rotation.y = (easedP1 + easedP2) * Math.PI * 2 + hoverSpin + clickImpulseRef.current;
-
-          // Subtle 3D tilt exposing the metallic milled edge during transit
-          const transitTilt = (Math.sin(easedP1 * Math.PI) * (1 - rawContact) + Math.sin(easedP2 * Math.PI)) * 0.28;
-          const hoverTilt = isHovered ? 0.15 : 0;
-          coinMesh.rotation.x = transitTilt + hoverTilt;
+          const owner = getProfileDockOwner(
+            currentScrollY,
+            c ? Math.max(c.contactAbsoluteY - windowH * 0.5, 0) : 0,
+            windowH
+          );
+          // Parked at Let's talk: face-forward, no transit edge tilt (crossfade only).
+          if (owner === "contact") {
+            coinMesh.rotation.y = 2 * Math.PI * 2 + hoverSpin + clickImpulseRef.current;
+            coinMesh.rotation.x = hoverTilt;
+          } else {
+            const easedP1 = rawProgress * rawProgress * (3 - 2 * rawProgress);
+            // Hero → nav only: full spin + subtle milled-edge tilt in transit.
+            coinMesh.rotation.y = easedP1 * Math.PI * 2 + hoverSpin + clickImpulseRef.current;
+            coinMesh.rotation.x = Math.sin(easedP1 * Math.PI) * 0.28 + hoverTilt;
+          }
         }
 
         renderer.render(scene, camera);
