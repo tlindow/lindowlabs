@@ -29,3 +29,4 @@ Format: `YYYY-MM-DD | loop | failure type | fixing PR | prevention`
 | 2026-10-08 | inner: Cursor | Let's talk resting state showed play only (morph lagged under sticky nav) | #125 | jump `contactProgress` with scroll (no spring lag); check waits for morph aligned at contact before asserting |
 | 2026-10-08 | inner: Cursor | nav↔Let's talk morph flew across body text (Building Teams) | #125 | snap morph to contact slot on dock owner change (crossfade with nav img); `check:scroll-handoff` asserts no mid-page flying morph |
 | 2026-10-08 | inner: Cursor | docked mid-page: morph WebGL sliver under sticky nav | #125 | while owner=nav hide canvas (`visibility`+opacity) every frame; morph wrapper `visibility:hidden` |
+| 2026-10-08 | inner: Cursor | docked mid-page: leftover morph still painted below nav (scrubber/play) | #125 | owner=nav → morph `display:none` + canvas `display:none`; snap x/y/size to nav slot (no spring-lag overhang); check asserts display:none |

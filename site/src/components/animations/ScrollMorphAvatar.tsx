@@ -1,7 +1,14 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { motion, useScroll, useTransform, useSpring, type MotionValue } from "framer-motion";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useSpring,
+  useMotionValueEvent,
+  type MotionValue,
+} from "framer-motion";
 import * as THREE from "three";
 import { getProfileDockOwner } from "@/lib/profileDock";
 
@@ -68,6 +75,10 @@ export default function ScrollMorphAvatar({
   const coordsRef = useRef<Coords | null>(null);
   const [isReady, setIsReady] = useState(false);
   const [webglReady, setWebglReady] = useState(false);
+  // Plain React display (not a MotionValue): framer can skip applying
+  // style.display from useTransform, which left a compositor sliver under nav.
+  const [navDockHidden, setNavDockHidden] = useState(false);
+  const rootRef = useRef<HTMLDivElement | null>(null);
   const canvasContainerRef = useRef<HTMLDivElement | null>(null);
   const isHoveredRef = useRef(false);
   const clickImpulseRef = useRef(0);
@@ -374,16 +385,19 @@ export default function ScrollMorphAvatar({
               windowH
             );
 
-      // Every frame: while nav owns the photo, keep the canvas fully unpainted.
-      // Parent opacity alone is not enough — WebGL can still composite a sliver
-      // under the sticky bar over body text.
+      // Every frame: while nav owns the photo, take the morph out of the paint
+      // tree. Opacity/visibility alone still left a compositor sliver under the bar.
       if (owner === "nav") {
+        if (rootRef.current) rootRef.current.style.display = "none";
         renderer.domElement.style.visibility = "hidden";
         renderer.domElement.style.opacity = "0";
+        renderer.domElement.style.display = "none";
         lastScrollProgress = -1;
         return;
       }
 
+      if (rootRef.current) rootRef.current.style.display = "block";
+      renderer.domElement.style.display = "block";
       renderer.domElement.style.visibility = "visible";
       renderer.domElement.style.opacity = "1";
 
@@ -475,6 +489,9 @@ export default function ScrollMorphAvatar({
       const owner = getProfileDockOwner(latestY, contactTargetY, windowH);
       // Snap to Let's talk — no mid-page flight.
       if (owner === "contact") return c.contactX;
+      // Park exactly on the nav slot while docked (spring p1 can lag and leave
+      // an oversized box hanging below the sticky bar).
+      if (owner === "nav") return c.navX;
 
       const clampedP1 = Math.min(Math.max(p1, 0), 1);
       const safeP1 = clampedP1 < 0.005 ? 0 : clampedP1;
@@ -506,6 +523,7 @@ export default function ScrollMorphAvatar({
 
       const owner = getProfileDockOwner(latestY, contactTargetY, windowH);
       if (owner === "contact") return contactViewportY;
+      if (owner === "nav") return c.navY;
 
       const clampedP1 = Math.min(Math.max(p1, 0), 1);
       const safeP1 = clampedP1 < 0.005 ? 0 : clampedP1;
@@ -536,6 +554,7 @@ export default function ScrollMorphAvatar({
 
       const owner = getProfileDockOwner(latestY, contactTargetY, windowH);
       if (owner === "contact") return c.contactSize;
+      if (owner === "nav") return c.navSize;
 
       const clampedP1 = Math.min(Math.max(p1, 0), 1);
       const safeP1 = clampedP1 < 0.005 ? 0 : clampedP1;
@@ -544,9 +563,10 @@ export default function ScrollMorphAvatar({
     }
   );
 
-  // In-nav photo owns the docked slot. While owner === "nav" the morph must
-  // not paint at all (WebGL canvases can ignore parent opacity and leave a
-  // sliver under the sticky bar). Visibility hidden + opacity 0 + no shadow.
+  // In-nav photo owns the docked slot. Visibility/opacity alone still left a
+  // WebGL/compositor sliver under the sticky bar (oversized box from spring
+  // lag). While owner === "nav": display none — out of the document paint
+  // tree entirely. Hero + Let's talk keep the morph as the visible photo.
   const phaseOpacity = useTransform(
     [progress, effectiveContactProgress, activeDirectToHero, scrollY],
     (values: number[]) => {
@@ -584,10 +604,35 @@ export default function ScrollMorphAvatar({
       const contactTarget =
         c != null ? Math.max(c.contactAbsoluteY - windowH * 0.5, 0) : 0;
       const owner = getProfileDockOwner(latestY, contactTarget, windowH);
-      // Fully out of paint while the nav img is the visible photo.
       return owner === "nav" ? "hidden" : "visible";
     }
   );
+
+  // Keep React display in sync with scroll owner (rAF also sets it every frame).
+  useMotionValueEvent(scrollY, "change", (latestY) => {
+    if (activeDirectToHero.get() > 0.5) {
+      setNavDockHidden(false);
+      return;
+    }
+    const c = coordsRef.current;
+    const windowH = typeof window !== "undefined" ? window.innerHeight : 800;
+    const contactTarget =
+      c != null ? Math.max(c.contactAbsoluteY - windowH * 0.5, 0) : 0;
+    const owner = getProfileDockOwner(latestY, contactTarget, windowH);
+    setNavDockHidden(owner === "nav");
+  });
+  useMotionValueEvent(activeDirectToHero, "change", (direct) => {
+    if (direct > 0.5) {
+      setNavDockHidden(false);
+      return;
+    }
+    const c = coordsRef.current;
+    const windowH = typeof window !== "undefined" ? window.innerHeight : 800;
+    const contactTarget =
+      c != null ? Math.max(c.contactAbsoluteY - windowH * 0.5, 0) : 0;
+    const owner = getProfileDockOwner(scrollY.get(), contactTarget, windowH);
+    setNavDockHidden(owner === "nav");
+  });
 
   // Above sticky Navbar (z-50) while contact owns the photo so the coin is
   // not trapped under the bar after the nav img hides. Otherwise stay at 40.
@@ -621,6 +666,7 @@ export default function ScrollMorphAvatar({
 
   return (
     <motion.div
+      ref={rootRef}
       style={{
         position: "fixed",
         left: x,
@@ -630,6 +676,7 @@ export default function ScrollMorphAvatar({
         zIndex: phaseZIndex,
         opacity: webglReady ? phaseOpacity : 0,
         visibility: phaseVisibility,
+        display: navDockHidden ? "none" : "block",
         filter: phaseFilter,
         pointerEvents: phasePointerEvents,
         overflow: "hidden",
@@ -639,6 +686,7 @@ export default function ScrollMorphAvatar({
       onMouseEnter={() => {
         if (!webglReady || phaseOpacity.get() < 0.05) return;
         if (phaseVisibility.get() === "hidden") return;
+        if (navDockHidden) return;
         isHoveredRef.current = true;
       }}
       onMouseLeave={() => {
@@ -647,6 +695,7 @@ export default function ScrollMorphAvatar({
       onClick={(e) => {
         if (!webglReady || phaseOpacity.get() < 0.05) return;
         if (phaseVisibility.get() === "hidden") return;
+        if (navDockHidden) return;
         e.preventDefault();
         clickImpulseRef.current = Math.PI * 2;
         if (onReturnToHero) {

@@ -180,7 +180,16 @@ async function runAtViewport(browser, baseUrl, width, height) {
   if (mid.id !== "nav") {
     throw new Error(`middle@${width}: expected nav photo, got ${mid.id}`);
   }
-  // Morph must not paint under the sticky nav while docked (WebGL sliver bug).
+  // Morph must leave the paint tree while docked (display:none). Visibility /
+  // opacity alone still left a WebGL compositor sliver under the sticky nav.
+  await page.waitForFunction(
+    () => {
+      const morph = document.querySelector('[data-profile-photo="morph"]');
+      if (!morph) return false;
+      return getComputedStyle(morph).display === "none";
+    },
+    { timeout: 5000 }
+  );
   const morphLeak = await page.evaluate(() => {
     const morph = document.querySelector('[data-profile-photo="morph"]');
     if (!morph) return null;
@@ -191,24 +200,22 @@ async function runAtViewport(browser, baseUrl, width, height) {
     const header = document.querySelector("header");
     const headerBottom = header ? header.getBoundingClientRect().bottom : 56;
     return {
+      display: style.display,
       opacity: Number.parseFloat(style.opacity || "0"),
       visibility: style.visibility,
+      canvasDisplay: canvasStyle?.display || null,
       canvasVisibility: canvasStyle?.visibility || null,
       canvasOpacity: canvasStyle
         ? Number.parseFloat(canvasStyle.opacity || "1")
         : null,
       morphBottom: Math.round(rect.bottom),
+      morphHeight: Math.round(rect.height),
       headerBottom: Math.round(headerBottom),
     };
   });
-  if (
-    morphLeak &&
-    (morphLeak.visibility !== "hidden" ||
-      morphLeak.opacity > 0.01 ||
-      (morphLeak.canvasVisibility && morphLeak.canvasVisibility !== "hidden"))
-  ) {
+  if (!morphLeak || morphLeak.display !== "none") {
     throw new Error(
-      `middle@${width}: morph must be fully unpainted while nav-docked: ${JSON.stringify(morphLeak)}`
+      `middle@${width}: morph must be display:none while nav-docked: ${JSON.stringify(morphLeak)}`
     );
   }
 
