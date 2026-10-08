@@ -119,6 +119,28 @@ async function sampleHandoff(page, width, height, label) {
       });
     }
 
+    // After visiting Let's talk, scroll back into the nav dock band and require
+    // the nav photo (not an empty slot waiting for hero). Settle long enough
+    // for springs + dock ownership to converge.
+    const midNavY = Math.max(280, Math.floor(start * 0.55 + 240));
+    window.scrollTo(0, end);
+    await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+    await new Promise((r) => setTimeout(r, 100));
+    window.scrollTo(0, midNavY);
+    await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+    await new Promise((r) => setTimeout(r, 400));
+    const afterUp = [...document.querySelectorAll("[data-profile-photo]")].filter((el) => {
+      const op = Number.parseFloat(getComputedStyle(el).opacity || "0");
+      const rect = el.getBoundingClientRect();
+      return (
+        op > 0.15 &&
+        rect.width > 4 &&
+        rect.bottom > 0 &&
+        rect.top < window.innerHeight
+      );
+    });
+    const afterUpIds = afterUp.map((p) => p.getAttribute("data-profile-photo"));
+
     return {
       sampleCount: samples.length,
       backward,
@@ -128,11 +150,13 @@ async function sampleHandoff(page, width, height, label) {
       spots: navOpacities,
       start,
       end,
+      afterUpIds,
+      midNavY,
     };
   }, range);
 
   console.log(
-    `${label}: samples=${result.sampleCount} backward=${result.backward} stalled=${result.stalled} cls=${result.cls.toFixed(4)} dual=${result.dualPhotoHits.length}`
+    `${label}: samples=${result.sampleCount} backward=${result.backward} stalled=${result.stalled} cls=${result.cls.toFixed(4)} dual=${result.dualPhotoHits.length} afterUp=${JSON.stringify(result.afterUpIds)}`
   );
   if (result.backward > 0) {
     throw new Error(`${label}: scrollY moved backward ${result.backward} times`);
@@ -143,6 +167,11 @@ async function sampleHandoff(page, width, height, label) {
   if (result.dualPhotoHits.length > 0) {
     throw new Error(
       `${label}: dual profile photos during handoff: ${JSON.stringify(result.dualPhotoHits)}`
+    );
+  }
+  if (!(result.afterUpIds || []).includes("nav") || (result.afterUpIds || []).length !== 1) {
+    throw new Error(
+      `${label}: scroll-up from Let's talk must show only nav photo, got ${JSON.stringify(result.afterUpIds)} at y≈${result.midNavY}`
     );
   }
   return result;

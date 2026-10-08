@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform, useSpring, type MotionValue } from "framer-motion";
 import * as THREE from "three";
+import { getProfileDockOwner } from "@/lib/profileDock";
 
 interface Coords {
   heroX: number;
@@ -544,20 +545,30 @@ export default function ScrollMorphAvatar({
     }
   );
 
-  // In-nav photo (NavPageAudioPlayer) owns the docked slot. Fade the WebGL coin
-  // out as it reaches the nav so there is never a second profile picture there.
+  // In-nav photo (NavPageAudioPlayer) owns the docked slot. Opacity follows
+  // scroll-derived dock ownership (not spring progress alone) so spring lag on
+  // scroll-up cannot leave the coin visible beside the nav img.
   // Stay at z-40 under the sticky Navbar (z-50) so contact/hero never cover it.
   const phaseOpacity = useTransform(
-    [progress, effectiveContactProgress, activeDirectToHero],
+    [progress, effectiveContactProgress, activeDirectToHero, scrollY],
     (values: number[]) => {
       const p1 = values[0] ?? 0;
-      const p2 = values[1] ?? 0;
       const direct = values[2] ?? 0;
+      const latestY = values[3] ?? 0;
       if (direct > 0.5) return 1;
-      const safeP2 = p2 < 0.005 ? 0 : Math.min(Math.max(p2, 0), 1);
-      if (safeP2 > 0) return 1;
+
+      const c = coordsRef.current;
+      const windowH = typeof window !== "undefined" ? window.innerHeight : 800;
+      const contactTarget =
+        c != null ? Math.max(c.contactAbsoluteY - windowH * 0.5, 0) : 0;
+      const owner = getProfileDockOwner(latestY, contactTarget, windowH);
+
+      // Exclusive with the nav img while scroll says the morph is docked there.
+      if (owner === "nav") return 0;
+      if (owner === "contact") return 1;
+
+      // Hero: fade out over the last stretch of hero → nav morph.
       const safeP1 = p1 < 0.005 ? 0 : Math.min(Math.max(p1, 0), 1);
-      // Hand off to the in-nav photo over the last stretch of hero → nav morph.
       if (safeP1 >= 0.75) {
         return Math.max(0, 1 - (safeP1 - 0.75) / 0.25);
       }
