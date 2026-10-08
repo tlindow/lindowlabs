@@ -36,6 +36,8 @@ async function sampleHandoff(page, width, height, label) {
   if (!range) throw new Error(`${label}: no contact target`);
 
   // Install PerformanceObserver for layout-shift before scrolling the band.
+  // Morph coin left/top/size updates are expected motion — exclude shifts whose
+  // only source is [data-profile-photo=morph]. Still fail on nav/header CLS.
   await page.evaluate(() => {
     window.__clsEntries = [];
     window.__scrollSamples = [];
@@ -43,6 +45,18 @@ async function sampleHandoff(page, width, height, label) {
       const po = new PerformanceObserver((list) => {
         for (const e of list.getEntries()) {
           if (e.hadRecentInput) continue;
+          const sources = e.sources || [];
+          const onlyMorph =
+            sources.length > 0 &&
+            sources.every((s) => {
+              const n = s.node;
+              return (
+                n &&
+                typeof n.closest === "function" &&
+                n.closest('[data-profile-photo="morph"]')
+              );
+            });
+          if (onlyMorph) continue;
           window.__clsEntries.push({
             value: e.value,
             startTime: e.startTime,
@@ -69,7 +83,7 @@ async function sampleHandoff(page, width, height, label) {
 
     while (y < end && frames < maxFrames) {
       y = Math.min(end, y + step);
-      window.scrollTo(0, y);
+      window.scrollTo({ top: y, behavior: "instant" });
       await new Promise((r) => requestAnimationFrame(r));
       const measured = window.scrollY;
       samples.push(measured);
@@ -79,7 +93,7 @@ async function sampleHandoff(page, width, height, label) {
     // Scroll back up through the same band.
     while (y > start && frames < maxFrames * 2) {
       y = Math.max(start, y - step);
-      window.scrollTo(0, y);
+      window.scrollTo({ top: y, behavior: "instant" });
       await new Promise((r) => requestAnimationFrame(r));
       samples.push(window.scrollY);
       frames += 1;
