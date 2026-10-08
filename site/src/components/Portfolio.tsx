@@ -9,24 +9,24 @@ import { BEGINNER_HAPI_URL, BEGINNER_URL } from "@/data/urls";
 const ventures = [
   {
     title: "beginner",
-    tagline: "IDE for technical founders",
+    tagline: "Self-funded and built Tinker",
     description:
-      "Ran Beginner Work as sole founder from March to July 2026. Built Tinker, an IDE that helped technical founders explain their work in their own voice; validated across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users. Beginner's research phase ended in July 2026.",
+      "Founder and CEO of Beginner Work from March to July 2026. Self-funded and built Tinker, an IDE for technical founders, shipped and open-sourced as offline-first desktop and web apps; 28 early users and 6 paying. Led 92 founder and investor conversations (including 5 VCs) across SF, NYC, and LA, then wound the company down rather than fund a GTM that wasn't compounding.",
     tech: ["JavaScript", "Node.js", "Electron", "Postgres"],
     url: BEGINNER_URL,
     github: "https://github.com/beginner-work/tinker",
     icon: BeginnerSeedMark,
     accent: "group-hover:border-indigo/40 border-indigo/20",
-    badge: "Research phase ended 2026",
+    badge: "Wound down 2026",
     badgeColor: "bg-indigo-light text-indigo-dark",
     hover: "group-hover:text-indigo-dark",
     glow: "group-hover:shadow-indigo/10",
   },
   {
     title: "tinker",
-    tagline: "Explain your work in your own voice",
+    tagline: "An IDE for technical founders",
     description:
-      "IDE built solo in JavaScript, Node.js, Electron, and Postgres; shipped as desktop and web apps. Source published at github.com/beginner-work/tinker.",
+      "IDE for technical founders (essays capturing the founder's voice, a code editor, and an AI terminal generating diffs), shipped and open-sourced as offline-first desktop and web apps in JavaScript, Node.js, Electron, and Postgres. Source published at github.com/beginner-work/tinker.",
     tech: ["JavaScript", "Node.js", "Electron", "Postgres"],
     url: BEGINNER_URL,
     github: "https://github.com/beginner-work/tinker",

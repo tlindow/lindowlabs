@@ -46,7 +46,7 @@ const columns: ColumnDefinition[] = [
     scope: [
       "Technical curriculum & workshop design",
       "Developer community architecture",
-      "Founder research & writing-tool discovery",
+      "Founder & investor customer discovery",
     ],
   },
   {
@@ -56,12 +56,12 @@ const columns: ColumnDefinition[] = [
     tagline: "0-to-1 B2B Fintech & Scale",
     stats: [
       { value: "Flagship", label: "Partner Support", sublabel: "Affirm" },
-      { value: "300+", label: "Devs Supported", sublabel: "Affirm Flagship SRE" },
+      { value: "300+", label: "SMB Merchants", sublabel: "Affirm" },
     ],
     scope: [
       "0-to-1 product development & MVP launch",
       "Enterprise B2B fintech integrations & telemetry",
-      "Flagship SRE, SLA reliability & scaling",
+      "Merchant Portal reliability & SLA reports",
     ],
   },
 ];

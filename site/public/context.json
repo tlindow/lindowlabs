@@ -19,17 +19,17 @@
   "experience": [
     {
       "company": "Beginner Work Inc.",
-      "role": "Founder",
+      "role": "Founder and CEO",
       "period": "Mar 2026 – Jul 2026",
       "location": "San Diego, CA",
-      "detail": "Built Tinker, an IDE that helped technical founders explain their work in their own voice. Validated across successive prototypes through 92 in-person conversations (including 5 VCs) and 28 early users. Beginner's research phase ended in July 2026."
+      "detail": "Self-funded and built Tinker, an IDE for technical founders (essays capturing the founder's voice, a code editor, and an AI terminal generating diffs from that context); shipped and open-sourced it as offline-first desktop and web apps, reaching 28 early users and 6 paying. Led 92 founder and investor conversations (including 5 VCs) across SF, NYC, and LA, then wound the company down rather than fund a GTM that wasn't compounding."
     },
     {
       "company": "Affirm",
       "role": "Software Engineering Manager, Merchant Engineering",
       "period": "Mar 2025 – Feb 2026",
       "location": "San Diego, CA (Remote)",
-      "detail": "Led Merchant Advocacy Engineering (9 engineers, later 6), owning Merchant Portal, the API-key and transaction-view surface for merchants integrated via ecommerce platforms or direct API."
+      "detail": "Led Merchant Advocacy Engineering (9 engineers at peak, deliberately reshaped to 6), owning Merchant Portal, the API-key and transaction-view surface for merchants integrated via ecommerce platforms or direct API. Led the team in moving Merchant Portal's reads off Snowflake onto the merchant data platform's read-replica-backed RPCs, raising availability from ~99.7% to 99.9% with zero BFCM 2025 incidents. Raised the team's building time from ~10–20% to 50%+; that 6-person team carried the shift to building, the Merchant Portal reliability work, and the Intuit fix. Led a merchant-domain ownership review after which Affirm consolidated Merchant Risk and Merchant Advocacy under one EM, moved former developer-support engineers into SRE, and added PM investment in direct merchant customer problems."
     },
     {
       "company": "Affirm",
