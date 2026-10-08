@@ -365,7 +365,29 @@ export default function ScrollMorphAvatar({
       const contactTargetY = c ? Math.max(c.contactAbsoluteY - windowH * 0.5, 1) : 1000;
       const quickT = Math.min(Math.max(currentScrollY / contactTargetY, 0), 1);
 
-      const metric = direct > 0.5 ? quickT : (rawProgress + rawContact);
+      const owner =
+        direct > 0.5
+          ? null
+          : getProfileDockOwner(
+              currentScrollY,
+              c ? Math.max(c.contactAbsoluteY - windowH * 0.5, 0) : 0,
+              windowH
+            );
+
+      // Every frame: while nav owns the photo, keep the canvas fully unpainted.
+      // Parent opacity alone is not enough — WebGL can still composite a sliver
+      // under the sticky bar over body text.
+      if (owner === "nav") {
+        renderer.domElement.style.visibility = "hidden";
+        renderer.domElement.style.opacity = "0";
+        lastScrollProgress = -1;
+        return;
+      }
+
+      renderer.domElement.style.visibility = "visible";
+      renderer.domElement.style.opacity = "1";
+
+      const metric = direct > 0.5 ? quickT : rawProgress + rawContact;
       if (
         Math.abs(metric - lastScrollProgress) > 0.0001 ||
         isHovered ||
@@ -374,7 +396,6 @@ export default function ScrollMorphAvatar({
       ) {
         lastScrollProgress = metric;
 
-        // Hover spin accumulation
         if (isHovered) {
           hoverSpin += 0.032;
         } else if (hoverSpin > 0) {
@@ -386,27 +407,21 @@ export default function ScrollMorphAvatar({
         }
 
         const hoverTilt = isHovered ? 0.15 : 0;
+
         if (direct > 0.5) {
-          // Direct rotation and tilt as coin travels straight to top center hero
           const easedT = quickT * quickT * (3 - 2 * quickT);
-          coinMesh.rotation.y = (1 + easedT) * Math.PI * 2 + hoverSpin + clickImpulseRef.current;
+          coinMesh.rotation.y =
+            (1 + easedT) * Math.PI * 2 + hoverSpin + clickImpulseRef.current;
           coinMesh.rotation.x = Math.sin(easedT * Math.PI) * 0.28 + hoverTilt;
+        } else if (owner === "contact") {
+          coinMesh.rotation.y =
+            2 * Math.PI * 2 + hoverSpin + clickImpulseRef.current;
+          coinMesh.rotation.x = hoverTilt;
         } else {
-          const owner = getProfileDockOwner(
-            currentScrollY,
-            c ? Math.max(c.contactAbsoluteY - windowH * 0.5, 0) : 0,
-            windowH
-          );
-          // Parked at Let's talk: face-forward, no transit edge tilt (crossfade only).
-          if (owner === "contact") {
-            coinMesh.rotation.y = 2 * Math.PI * 2 + hoverSpin + clickImpulseRef.current;
-            coinMesh.rotation.x = hoverTilt;
-          } else {
-            const easedP1 = rawProgress * rawProgress * (3 - 2 * rawProgress);
-            // Hero → nav only: full spin + subtle milled-edge tilt in transit.
-            coinMesh.rotation.y = easedP1 * Math.PI * 2 + hoverSpin + clickImpulseRef.current;
-            coinMesh.rotation.x = Math.sin(easedP1 * Math.PI) * 0.28 + hoverTilt;
-          }
+          const easedP1 = rawProgress * rawProgress * (3 - 2 * rawProgress);
+          coinMesh.rotation.y =
+            easedP1 * Math.PI * 2 + hoverSpin + clickImpulseRef.current;
+          coinMesh.rotation.x = Math.sin(easedP1 * Math.PI) * 0.28 + hoverTilt;
         }
 
         renderer.render(scene, camera);
@@ -529,10 +544,9 @@ export default function ScrollMorphAvatar({
     }
   );
 
-  // In-nav photo (NavPageAudioPlayer) owns the docked slot. Opacity follows
-  // scroll-derived dock ownership (not spring progress alone) so spring lag on
-  // scroll-up cannot leave the coin visible beside the nav img.
-  // Stay at z-40 under the sticky Navbar (z-50) so contact/hero never cover it.
+  // In-nav photo owns the docked slot. While owner === "nav" the morph must
+  // not paint at all (WebGL canvases can ignore parent opacity and leave a
+  // sliver under the sticky bar). Visibility hidden + opacity 0 + no shadow.
   const phaseOpacity = useTransform(
     [progress, effectiveContactProgress, activeDirectToHero, scrollY],
     (values: number[]) => {
@@ -547,7 +561,6 @@ export default function ScrollMorphAvatar({
         c != null ? Math.max(c.contactAbsoluteY - windowH * 0.5, 0) : 0;
       const owner = getProfileDockOwner(latestY, contactTarget, windowH);
 
-      // Exclusive with the nav img while scroll says the morph is docked there.
       if (owner === "nav") return 0;
       if (owner === "contact") return 1;
 
@@ -557,6 +570,22 @@ export default function ScrollMorphAvatar({
         return Math.max(0, 1 - (safeP1 - 0.75) / 0.25);
       }
       return 1;
+    }
+  );
+
+  const phaseVisibility = useTransform(
+    [activeDirectToHero, scrollY],
+    (values: number[]) => {
+      const direct = values[0] ?? 0;
+      const latestY = values[1] ?? 0;
+      if (direct > 0.5) return "visible";
+      const c = coordsRef.current;
+      const windowH = typeof window !== "undefined" ? window.innerHeight : 800;
+      const contactTarget =
+        c != null ? Math.max(c.contactAbsoluteY - windowH * 0.5, 0) : 0;
+      const owner = getProfileDockOwner(latestY, contactTarget, windowH);
+      // Fully out of paint while the nav img is the visible photo.
+      return owner === "nav" ? "hidden" : "visible";
     }
   );
 
@@ -577,6 +606,15 @@ export default function ScrollMorphAvatar({
     }
   );
 
+  // Drop-shadow only while the coin is the visible photo (hero / contact).
+  const phaseFilter = useTransform(phaseOpacity, (op) =>
+    op > 0.05 ? "drop-shadow(0 4px 6px rgb(0 0 0 / 0.15))" : "none"
+  );
+
+  const phasePointerEvents = useTransform(phaseOpacity, (op) =>
+    op > 0.05 ? "auto" : "none"
+  );
+
   if (!isReady || !coords) {
     return null;
   }
@@ -591,11 +629,16 @@ export default function ScrollMorphAvatar({
         height: size,
         zIndex: phaseZIndex,
         opacity: webglReady ? phaseOpacity : 0,
+        visibility: phaseVisibility,
+        filter: phaseFilter,
+        pointerEvents: phasePointerEvents,
+        overflow: "hidden",
       }}
-      className="group cursor-pointer focus:outline-none select-none drop-shadow-md hover:drop-shadow-xl transition-[filter] duration-200"
+      className="group cursor-pointer focus:outline-none select-none"
       data-profile-photo="morph"
       onMouseEnter={() => {
         if (!webglReady || phaseOpacity.get() < 0.05) return;
+        if (phaseVisibility.get() === "hidden") return;
         isHoveredRef.current = true;
       }}
       onMouseLeave={() => {
@@ -603,6 +646,7 @@ export default function ScrollMorphAvatar({
       }}
       onClick={(e) => {
         if (!webglReady || phaseOpacity.get() < 0.05) return;
+        if (phaseVisibility.get() === "hidden") return;
         e.preventDefault();
         clickImpulseRef.current = Math.PI * 2;
         if (onReturnToHero) {
@@ -614,7 +658,6 @@ export default function ScrollMorphAvatar({
       title="Tyler Lindow - Back to top"
       aria-label="Tyler Lindow profile coin - Back to top"
     >
-      {/* 3D WebGL Coin Canvas Container */}
       <div
         ref={canvasContainerRef}
         className="w-full h-full flex items-center justify-center transition-transform duration-300 group-hover:scale-105"
