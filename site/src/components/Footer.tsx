@@ -8,8 +8,10 @@ import PreferLinkedIn from "@/components/PreferLinkedIn";
 import { resumeContact } from "@/data/resumeData";
 import { BEGINNER_URL } from "@/data/urls";
 
+/* text-foreground/90: #contact theme forces .text-foreground to lavender;
+   keep ink readable on light surface buttons (same pattern as Beginner CTA). */
 const CONTACT_EMAIL_CTA_CLASS =
-  "inline-flex items-center gap-2 rounded-xl bg-surface hover:bg-surface-alt text-foreground border border-border px-5 py-2.5 text-xs sm:text-sm font-mono font-bold shadow-xs transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer";
+  "inline-flex items-center gap-2 rounded-xl bg-surface hover:bg-surface-alt text-foreground/90 border border-border px-5 py-2.5 text-xs sm:text-sm font-mono font-bold shadow-xs transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer";
 
 type FooterProps = {
   /** Contact leaf: drop duplicate Let's talk heading; hide unused avatar slot. */
