@@ -5,7 +5,7 @@ import { Calendar, ArrowUpRight, Mail } from "lucide-react";
 import { LinkedInIcon } from "@/components/brand/PartnerLogos";
 import { resumeContact } from "@/data/resumeData";
 
-/** Small equal-weight icon buttons under Book 30 minutes (match contact audio chip). */
+/** Small equal-weight icon buttons under Book 30 minutes. */
 const CONTACT_ICON_BTN_CLASS =
   "inline-flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full border border-border bg-sand/80 text-indigo-dark shadow-2xs transition-all hover:bg-sand hover:border-indigo-dark/40 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-dark/40 motion-reduce:hover:scale-100";
 
