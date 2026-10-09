@@ -2,16 +2,13 @@
 
 import Link from "next/link";
 import { Calendar, ArrowUpRight, Mail } from "lucide-react";
-import { BeginnerSeedMark } from "@/components/brand/BeginnerMarks";
+import { LinkedInIcon } from "@/components/brand/PartnerLogos";
 import ContactPageAudioButton from "@/components/page-audio/ContactPageAudioButton";
-import PreferLinkedIn from "@/components/PreferLinkedIn";
 import { resumeContact } from "@/data/resumeData";
-import { BEGINNER_URL } from "@/data/urls";
 
-/* text-foreground/90: #contact theme forces .text-foreground to lavender;
-   keep ink readable on light surface buttons (same pattern as Beginner CTA). */
-const CONTACT_EMAIL_CTA_CLASS =
-  "inline-flex items-center gap-2 rounded-xl bg-surface hover:bg-surface-alt text-foreground/90 border border-border px-5 py-2.5 text-xs sm:text-sm font-mono font-bold shadow-xs transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer";
+/** Small equal-weight icon buttons under Book 30 minutes (match contact audio chip). */
+const CONTACT_ICON_BTN_CLASS =
+  "inline-flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full border border-border bg-sand/80 text-indigo-dark shadow-2xs transition-all hover:bg-sand hover:border-indigo-dark/40 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-dark/40 motion-reduce:hover:scale-100";
 
 type FooterProps = {
   /** Contact leaf: drop duplicate Let's talk heading; hide unused avatar slot. */
@@ -78,7 +75,7 @@ export default function Footer({
             </p>
           </div>
 
-          <div className="pt-2 flex flex-col items-center gap-4">
+          <div className="pt-2 flex flex-col items-center gap-3">
             <Link
               href="/schedule-time"
               className="inline-flex items-center justify-center gap-2 rounded-xl px-7 py-3.5 text-sm font-mono font-bold transition-all hover:scale-[1.02] active:scale-[0.98] bg-foreground text-background hover:bg-foreground/90 shadow-xs"
@@ -88,41 +85,31 @@ export default function Footer({
               <span>Book 30 minutes</span>
             </Link>
 
-            {/* Homepage Let's talk: email + equal-weight LinkedIn preference */}
+            {/* Homepage: subtle icon-only mail + LinkedIn (equal weight, no text labels) */}
             {!contactLeaf ? (
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+              <div className="flex items-center justify-center gap-3">
                 <a
                   href={`mailto:${resumeContact.email}`}
-                  className={CONTACT_EMAIL_CTA_CLASS}
-                  title="Email Tyler Lindow"
+                  className={CONTACT_ICON_BTN_CLASS}
+                  aria-label={`Email ${resumeContact.email}`}
+                  title={`Email ${resumeContact.email}`}
                 >
-                  <Mail size={15} className="shrink-0" />
-                  <span>{resumeContact.email}</span>
+                  <Mail size={16} className="shrink-0" aria-hidden="true" />
                 </a>
-                <PreferLinkedIn className={CONTACT_EMAIL_CTA_CLASS} />
+                <a
+                  href={resumeContact.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={CONTACT_ICON_BTN_CLASS}
+                  aria-label="Message me on LinkedIn"
+                  title="Message me on LinkedIn"
+                >
+                  <span className="inline-flex" aria-hidden="true">
+                    <LinkedInIcon size={16} className="shrink-0" />
+                  </span>
+                </a>
               </div>
             ) : null}
-
-            <a
-              href={BEGINNER_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group inline-flex items-center gap-2 rounded-xl px-4 py-2 text-xs sm:text-sm font-mono font-bold text-foreground/90 hover:text-indigo-dark border border-border hover:border-indigo-dark/40 bg-surface hover:bg-surface-alt shadow-2xs transition-all"
-              title="Products: Beginner"
-            >
-              <span className="text-[10px] sm:text-[11px] uppercase tracking-widest text-muted font-bold">
-                Products
-              </span>
-              <span className="text-border select-none" aria-hidden="true">
-                |
-              </span>
-              <BeginnerSeedMark className="h-4 w-4 sm:h-5 sm:w-5 shrink-0 shadow-xs" />
-              <span>Beginner</span>
-              <ArrowUpRight
-                size={13}
-                className="opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0"
-              />
-            </a>
           </div>
         </div>
       </section>
