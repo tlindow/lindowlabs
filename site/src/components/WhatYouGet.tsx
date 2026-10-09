@@ -26,8 +26,8 @@ interface ValuePillar {
     label: string;
     title: string;
   };
-  /** Small muted line directly under the CTA (Affirm pillar only today). */
-  linkCaption?: string;
+  /** Playful chat-bubble aside near the CTA (Affirm pillar only today). */
+  linkAside?: string;
 }
 
 const valuePillars: ValuePillar[] = [
@@ -53,7 +53,7 @@ const valuePillars: ValuePillar[] = [
       label: "Affirm",
       title: "Tyler Lindow at Affirm (resume)",
     },
-    linkCaption: "My team led the latest affirm.com redesign.",
+    linkAside: "psst, my team led the latest affirm.com redesign",
   },
 ];
 
@@ -136,7 +136,7 @@ export default function WhatYouGet() {
                     </p>
                   )}
 
-                  <div className="flex flex-col items-center gap-1.5">
+                  <div className="flex flex-col sm:flex-row items-center justify-center gap-2.5 sm:gap-3">
                     <a
                       href={pillar.link.href}
                       {...(pillar.link.href.startsWith("http")
@@ -157,10 +157,13 @@ export default function WhatYouGet() {
                         className="opacity-70 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0 text-background/80 group-hover:text-background"
                       />
                     </a>
-                    {pillar.linkCaption ? (
-                      <p className="text-xs font-mono text-muted leading-snug text-center max-w-xs">
-                        {pillar.linkCaption}
-                      </p>
+                    {pillar.linkAside ? (
+                      <aside
+                        className="affirm-aside-bubble relative max-w-[15.5rem] rounded-[1.15rem] bg-surface px-3 py-2 text-[11px] sm:text-xs font-mono leading-snug text-muted text-left shadow-xs"
+                        aria-label="Side note"
+                      >
+                        {pillar.linkAside}
+                      </aside>
                     ) : null}
                   </div>
                 </div>
