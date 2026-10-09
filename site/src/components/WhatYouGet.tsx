@@ -26,6 +26,8 @@ interface ValuePillar {
     label: string;
     title: string;
   };
+  /** Small muted line directly under the CTA (Affirm pillar only today). */
+  linkCaption?: string;
 }
 
 const valuePillars: ValuePillar[] = [
@@ -51,6 +53,7 @@ const valuePillars: ValuePillar[] = [
       label: "Affirm",
       title: "Tyler Lindow at Affirm (resume)",
     },
+    linkCaption: "My team led the latest affirm.com redesign.",
   },
 ];
 
@@ -133,26 +136,33 @@ export default function WhatYouGet() {
                     </p>
                   )}
 
-                  <a
-                    href={pillar.link.href}
-                    {...(pillar.link.href.startsWith("http")
-                      ? { target: "_blank", rel: "noopener noreferrer" }
-                      : {})}
-                    className="group inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-xs sm:text-sm font-mono font-bold transition-all hover:scale-[1.02] active:scale-[0.98] bg-foreground text-background hover:bg-foreground/90 shadow-xs"
-                    title={pillar.link.title}
-                  >
-                    {pillar.coinType === "beginner" ? (
-                      <BeginnerSeedMark className="h-4 w-4 shrink-0" />
+                  <div className="flex flex-col items-center gap-1.5">
+                    <a
+                      href={pillar.link.href}
+                      {...(pillar.link.href.startsWith("http")
+                        ? { target: "_blank", rel: "noopener noreferrer" }
+                        : {})}
+                      className="group inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-xs sm:text-sm font-mono font-bold transition-all hover:scale-[1.02] active:scale-[0.98] bg-foreground text-background hover:bg-foreground/90 shadow-xs"
+                      title={pillar.link.title}
+                    >
+                      {pillar.coinType === "beginner" ? (
+                        <BeginnerSeedMark className="h-4 w-4 shrink-0" />
+                      ) : null}
+                      {pillar.coinType === "affirm" ? (
+                        <AffirmLogo className="h-4 w-auto brightness-0 invert" />
+                      ) : null}
+                      <span>{pillar.link.label}</span>
+                      <ArrowUpRight
+                        size={14}
+                        className="opacity-70 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0 text-background/80 group-hover:text-background"
+                      />
+                    </a>
+                    {pillar.linkCaption ? (
+                      <p className="text-xs font-mono text-muted leading-snug text-center max-w-xs">
+                        {pillar.linkCaption}
+                      </p>
                     ) : null}
-                    {pillar.coinType === "affirm" ? (
-                      <AffirmLogo className="h-4 w-auto brightness-0 invert" />
-                    ) : null}
-                    <span>{pillar.link.label}</span>
-                    <ArrowUpRight
-                      size={14}
-                      className="opacity-70 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0 text-background/80 group-hover:text-background"
-                    />
-                  </a>
+                  </div>
                 </div>
               </motion.div>
             );
