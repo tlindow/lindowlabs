@@ -2,8 +2,12 @@
 
 import Link from "next/link";
 import { Calendar, FileText, Mail } from "lucide-react";
+import PreferLinkedIn from "@/components/PreferLinkedIn";
 import { LEADERS_CALENDLY_URL } from "@/data/leadersPage";
 import { resumeContact } from "@/data/resumeData";
+
+const CONTACT_CTA_CLASS =
+  "inline-flex items-center gap-2 rounded-xl bg-surface hover:bg-surface-alt text-foreground border border-border px-5 py-2.5 text-xs sm:text-sm font-mono font-bold shadow-xs transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer";
 
 export default function LeadersPaths() {
   return (
@@ -46,7 +50,7 @@ export default function LeadersPaths() {
           <div className="flex flex-col sm:flex-row flex-wrap gap-3">
             <Link
               href="/resume"
-              className="inline-flex items-center gap-2 rounded-xl bg-surface hover:bg-surface-alt text-foreground border border-border px-5 py-2.5 text-xs sm:text-sm font-mono font-bold shadow-xs transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+              className={CONTACT_CTA_CLASS}
               title="Read Tyler Lindow's resume"
             >
               <FileText size={15} className="shrink-0" />
@@ -54,12 +58,13 @@ export default function LeadersPaths() {
             </Link>
             <a
               href={`mailto:${resumeContact.email}`}
-              className="inline-flex items-center gap-2 rounded-xl bg-surface hover:bg-surface-alt text-foreground border border-border px-5 py-2.5 text-xs sm:text-sm font-mono font-bold shadow-xs transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+              className={CONTACT_CTA_CLASS}
               title="Email Tyler Lindow"
             >
               <Mail size={15} className="shrink-0" />
               <span>Email Tyler</span>
             </a>
+            <PreferLinkedIn className={CONTACT_CTA_CLASS} />
           </div>
         </div>
       </div>

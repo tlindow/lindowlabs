@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { LinkedInIcon } from "@/components/brand/PartnerLogos";
 import RevealPhone from "@/components/RevealPhone";
+import PreferLinkedIn from "@/components/PreferLinkedIn";
 import {
   resumeContact,
   professionalSummary,
@@ -244,6 +245,9 @@ export default function SpaceMonoResume({ parsedResume }: SpaceMonoResumeProps) 
                     <Mail size={12} className="text-indigo-dark shrink-0" />
                     <span>{contact.email}</span>
                   </a>
+                ) : null}
+                {contact.email ? (
+                  <PreferLinkedIn className="inline-flex items-center gap-1.5 text-foreground hover:text-indigo-dark transition-colors underline underline-offset-2" />
                 ) : null}
               </ContactMetaRow>
 
