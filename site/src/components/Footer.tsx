@@ -1,10 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { Calendar, ArrowUpRight } from "lucide-react";
+import { Calendar, ArrowUpRight, Mail } from "lucide-react";
 import { BeginnerSeedMark } from "@/components/brand/BeginnerMarks";
 import ContactPageAudioButton from "@/components/page-audio/ContactPageAudioButton";
+import PreferLinkedIn from "@/components/PreferLinkedIn";
+import { resumeContact } from "@/data/resumeData";
 import { BEGINNER_URL } from "@/data/urls";
+
+const CONTACT_EMAIL_CTA_CLASS =
+  "inline-flex items-center gap-2 rounded-xl bg-surface hover:bg-surface-alt text-foreground border border-border px-5 py-2.5 text-xs sm:text-sm font-mono font-bold shadow-xs transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer";
 
 type FooterProps = {
   /** Contact leaf: drop duplicate Let's talk heading; hide unused avatar slot. */
@@ -29,7 +34,7 @@ export default function Footer({
       {/* ========================================================= */}
       <section
         id="contact"
-        className="w-full pt-16 sm:pt-24 pb-14 sm:pb-20 px-4 sm:px-6 bg-surface-alt/70 border-t border-border/70"
+        className="w-full pt-16 sm:pt-24 pb-14 sm:pb-20 px-4 sm:px-6 bg-surface-alt/70 border-t border-border/70 scroll-mt-20"
       >
         <div className="mx-auto max-w-xl text-center space-y-6">
           <div className="space-y-2">
@@ -80,6 +85,21 @@ export default function Footer({
               <Calendar size={15} className="shrink-0" />
               <span>Book 30 minutes</span>
             </Link>
+
+            {/* Homepage Let's talk: email + equal-weight LinkedIn preference */}
+            {!contactLeaf ? (
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+                <a
+                  href={`mailto:${resumeContact.email}`}
+                  className={CONTACT_EMAIL_CTA_CLASS}
+                  title="Email Tyler Lindow"
+                >
+                  <Mail size={15} className="shrink-0" />
+                  <span>{resumeContact.email}</span>
+                </a>
+                <PreferLinkedIn className={CONTACT_EMAIL_CTA_CLASS} />
+              </div>
+            ) : null}
 
             <a
               href={BEGINNER_URL}
