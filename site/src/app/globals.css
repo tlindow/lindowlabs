@@ -603,3 +603,50 @@ body {
 .resume-nowrap {
   white-space: nowrap;
 }
+
+/* Affirm CTA aside: iMessage-style bubble with a small tail.
+   Mobile: sits under the button, tail points up.
+   sm+: sits beside the button, tail points left toward it.
+   Stays in normal document flow so it scrolls under the sticky nav. */
+.affirm-aside-bubble::before {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  /* Upward tail (mobile default) */
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid var(--color-surface);
+}
+
+@media (min-width: 640px) {
+  .affirm-aside-bubble::before {
+    top: 50%;
+    left: -5px;
+    transform: translateY(-50%);
+    border-left: none;
+    border-right: 5px solid var(--color-surface);
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+  }
+}
+
+.homepage-theme .affirm-aside-bubble {
+  background-color: var(--hp-surface);
+  color: var(--hp-muted);
+}
+
+.homepage-theme .affirm-aside-bubble::before {
+  border-bottom-color: var(--hp-surface);
+}
+
+@media (min-width: 640px) {
+  .homepage-theme .affirm-aside-bubble::before {
+    border-bottom-color: transparent;
+    border-right-color: var(--hp-surface);
+  }
+}
