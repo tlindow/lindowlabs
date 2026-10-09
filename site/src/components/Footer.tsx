@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { Calendar, ArrowUpRight, Mail } from "lucide-react";
 import { LinkedInIcon } from "@/components/brand/PartnerLogos";
-import ContactPageAudioButton from "@/components/page-audio/ContactPageAudioButton";
 import { resumeContact } from "@/data/resumeData";
 
 /** Small equal-weight icon buttons under Book 30 minutes (match contact audio chip). */
@@ -53,21 +52,14 @@ export default function Footer({
             {/* Homepage morph avatar slot; profilePhotoAnchor hides nav photo while in view. */}
             {!contactLeaf ? (
               <div className="flex justify-center items-center py-2 min-h-[72px] sm:min-h-[88px]">
-                <div className="relative">
-                  <div
-                    id="contact-avatar-target"
-                    {...(profilePhotoAnchor
-                      ? { "data-profile-anchor": "contact" }
-                      : {})}
-                    className="w-16 h-16 sm:w-20 sm:h-20 rounded-full opacity-0 pointer-events-none"
-                    aria-hidden="true"
-                  />
-                  {profilePhotoAnchor ? (
-                    <div className="absolute left-full top-1/2 -translate-y-1/2 ml-3 sm:ml-4">
-                      <ContactPageAudioButton />
-                    </div>
-                  ) : null}
-                </div>
+                <div
+                  id="contact-avatar-target"
+                  {...(profilePhotoAnchor
+                    ? { "data-profile-anchor": "contact" }
+                    : {})}
+                  className="w-16 h-16 sm:w-20 sm:h-20 rounded-full opacity-0 pointer-events-none"
+                  aria-hidden="true"
+                />
               </div>
             ) : null}
             <p className="text-xs sm:text-sm font-mono text-muted max-w-md mx-auto leading-relaxed">
