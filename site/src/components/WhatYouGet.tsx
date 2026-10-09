@@ -20,6 +20,12 @@ interface ValuePillar {
   pretitle?: string;
   title: string;
   ctaSubtext?: string;
+  /**
+   * When set, `ctaSubtext` is a same-origin Link to a related blog post
+   * (same hover pattern as My work product titles).
+   */
+  descriptionHref?: string;
+  descriptionTitle?: string;
   coinType: WebGLCoinType;
   link: {
     href: string;
@@ -47,6 +53,8 @@ const valuePillars: ValuePillar[] = [
     id: "methodical-enjoyable",
     title: "How I lead teams.",
     ctaSubtext: "Practices for growing engineers.",
+    descriptionHref: "/blog/building-teams-as-raising-funds",
+    descriptionTitle: "Building Teams as Raising Funds",
     coinType: "affirm",
     link: {
       href: "/resume",
@@ -112,29 +120,40 @@ export default function WhatYouGet() {
                 </div>
 
                 <div className="flex flex-col items-center text-center gap-3 w-full">
-                  {pillar.ctaSubtext && (
-                    <p className="text-xs sm:text-sm font-mono text-muted leading-snug text-center">
-                      {pillar.id === "culture-builder" ? (
-                        <>
-                          Founder and CEO of Beginner Work from March to July
-                          2026. Self-funded and built{" "}
-                          <span className="inline-flex items-center gap-1 font-bold text-foreground/85 align-baseline">
-                            <TinkerMark className="h-3.5 w-3.5" alt="" />
-                            Tinker
-                          </span>
-                          , an IDE for founders who want to get more
-                          technical, shipped and open-sourced as offline-first
-                          desktop and web apps; 28 early users.
-                          Ran 87 conversations with founders, Tinker&apos;s
-                          early target users, and 5 with VCs across SF, NYC,
-                          and LA, then wound the company down rather than fund
-                          a GTM that wasn&apos;t compounding.
-                        </>
-                      ) : (
-                        pillar.ctaSubtext
-                      )}
-                    </p>
-                  )}
+                  {pillar.ctaSubtext &&
+                    (pillar.descriptionHref ? (
+                      <Link
+                        href={pillar.descriptionHref}
+                        className="text-xl sm:text-2xl font-bold font-mono tracking-tight text-foreground hover:text-indigo-dark transition-colors underline-offset-4 hover:underline"
+                        title={
+                          pillar.descriptionTitle ?? pillar.ctaSubtext
+                        }
+                      >
+                        {pillar.ctaSubtext}
+                      </Link>
+                    ) : (
+                      <p className="text-xs sm:text-sm font-mono text-muted leading-snug text-center">
+                        {pillar.id === "culture-builder" ? (
+                          <>
+                            Founder and CEO of Beginner Work from March to July
+                            2026. Self-funded and built{" "}
+                            <span className="inline-flex items-center gap-1 font-bold text-foreground/85 align-baseline">
+                              <TinkerMark className="h-3.5 w-3.5" alt="" />
+                              Tinker
+                            </span>
+                            , an IDE for founders who want to get more
+                            technical, shipped and open-sourced as offline-first
+                            desktop and web apps; 28 early users.
+                            Ran 87 conversations with founders, Tinker&apos;s
+                            early target users, and 5 with VCs across SF, NYC,
+                            and LA, then wound the company down rather than fund
+                            a GTM that wasn&apos;t compounding.
+                          </>
+                        ) : (
+                          pillar.ctaSubtext
+                        )}
+                      </p>
+                    ))}
 
                   <div className="flex flex-col sm:flex-row items-center justify-center gap-2.5 sm:gap-3">
                     <a
