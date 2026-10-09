@@ -5,9 +5,13 @@ import { Calendar, ArrowUpRight, Mail } from "lucide-react";
 import { LinkedInIcon } from "@/components/brand/PartnerLogos";
 import { resumeContact } from "@/data/resumeData";
 
-/** Small equal-weight icon buttons under Book 30 minutes. */
+/**
+ * Icon-only contacts under Book 30 minutes.
+ * Use bg-foreground + text-background so #contact theme maps to lavender fill
+ * and deep purple (#3B2A5C) glyphs (WCAG 3:1+), not washed lavender-on-lavender.
+ */
 const CONTACT_ICON_BTN_CLASS =
-  "inline-flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full border border-border bg-sand/80 text-indigo-dark shadow-2xs transition-all hover:bg-sand hover:border-indigo-dark/40 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-dark/40 motion-reduce:hover:scale-100";
+  "inline-flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full border border-border/60 bg-foreground text-background shadow-2xs transition-all hover:bg-foreground/90 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C4B5FD] focus-visible:ring-offset-2 focus-visible:ring-offset-[#3B2A5C] motion-reduce:hover:scale-100";
 
 type FooterProps = {
   /** Contact leaf: drop duplicate Let's talk heading; hide unused avatar slot. */
