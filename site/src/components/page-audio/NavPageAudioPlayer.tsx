@@ -12,7 +12,7 @@ import { usePrefersReducedMotion } from "@/hooks/useProfileAnchors";
  *   the nav photo is showing (undocked/hero state has no scrubber)
  *
  * One profile picture only: the in-flow photo owns the nav slot. ScrollMorphAvatar
- * fades out at the dock and stays under the sticky bar (z-40) for contact.
+ * fades out at the dock and stays under the sticky bar (page shell z-0) for contact.
  *
  * Layout: once past the hero, the avatar (+ player chrome when a clip exists)
  * stays width-reserved so show/hide is opacity-only — no flex reflow of Login,

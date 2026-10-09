@@ -169,9 +169,9 @@ export default function Home() {
 
       // Normal both-direction flow (Hero ↔ Nav ↔ Contact).
       // Jump contact progress only at the endpoints so the coin rests exactly
-      // at nav (0) or Let's talk (1). Mid-transit uses the spring; morph
-      // z-index rises above the sticky bar while contact owns the photo so
-      // the coin is never trapped invisible under the nav.
+      // at nav (0) or Let's talk (1). Mid-transit uses the spring. Morph stays
+      // under the sticky nav (SiteChrome relative z-0); contact ownership snaps
+      // the coin to Let's talk so it is never hidden behind the bar.
       const heroP = Math.min(Math.max(latestY / HERO_PIN_SCROLL_DISTANCE, 0), 1);
       rawProgress.set(heroP);
       const contactP = computeContactProgress(latestY);
