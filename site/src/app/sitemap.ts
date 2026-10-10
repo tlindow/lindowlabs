@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { blogPosts } from "@/data/blogPosts";
+import { blogPosts, getPostHref } from "@/data/blogPosts";
 import { LEADERS_CANONICAL_URL } from "@/data/leadersPage";
 
 export const dynamic = "force-static";
@@ -17,12 +17,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE}/brand`, changeFrequency: "monthly", priority: 0.4 },
   ];
 
-  const blogRoutes: MetadataRoute.Sitemap = blogPosts.map((post) => ({
-    url: `${SITE}/blog/${post.slug}`,
+  const postRoutes: MetadataRoute.Sitemap = blogPosts.map((post) => ({
+    url: `${SITE}${getPostHref(post)}`,
     changeFrequency: "monthly" as const,
     priority: 0.6,
     lastModified: post.date ? new Date(post.date) : undefined,
   }));
 
-  return [...staticRoutes, ...blogRoutes];
+  return [...staticRoutes, ...postRoutes];
 }

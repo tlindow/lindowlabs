@@ -3,7 +3,12 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import LabeledBody from "@/components/blog/LabeledBody";
-import { blogPosts, getAdjacentPosts, getBlogPostBySlug } from "@/data/blogPosts";
+import {
+  getAdjacentPosts,
+  getBlogIndexPosts,
+  getBlogPostBySlug,
+  getPostHref,
+} from "@/data/blogPosts";
 import { findRedirectTarget, loadRenderedParagraphs } from "@/lib/frontMatter.mjs";
 
 interface Props {
@@ -11,7 +16,7 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  return blogPosts.map((post) => ({
+  return getBlogIndexPosts().map((post) => ({
     slug: post.slug,
   }));
 }
@@ -21,6 +26,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = getBlogPostBySlug(slug);
   if (!post) {
     return { title: "Post Not Found" };
+  }
+  if (post.canonicalPath) {
+    return {};
   }
 
   return {
@@ -52,6 +60,10 @@ export default async function BlogPostPage({ params }: Props) {
 
   if (!post) {
     notFound();
+  }
+
+  if (post.canonicalPath) {
+    redirect(getPostHref(post));
   }
 
   const paragraphs = loadRenderedParagraphs(slug);

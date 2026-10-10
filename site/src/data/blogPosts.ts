@@ -36,6 +36,11 @@ export interface BlogPost {
   slides: SlideData[];
   content: string[]; // Fallback body. Published case studies live in content/essays.
   /**
+   * When set, the post is served at this path instead of `/blog/[slug]`.
+   * Omitted from the blog index; `/blog/[slug]` redirects here.
+   */
+  canonicalPath?: string;
+  /**
    * Optional per-post clip path (legacy). Prefer pathname entries in
    * `pageAudio` for the hero/nav player.
    */
@@ -100,9 +105,10 @@ export const blogPosts: BlogPost[] = [
   {
     id: "building-teams-as-raising-funds",
     slug: "building-teams-as-raising-funds",
-    pretitle: "My work product",
+    pretitle: "How I lead teams",
     pillarId: "methodical-enjoyable",
     pillarLabel: "01 Methodical & Empathetic",
+    canonicalPath: "/how-i-lead-teams/building-teams-as-raising-funds",
     title: "Building Teams as Raising Funds",
     subtitle:
       "Raising funds for your position requires an intentional process: building teams by raising the funding potential of individuals and constructing a personal belief to grow the business.",
@@ -202,15 +208,25 @@ export function getBlogPostBySlug(slug: string): BlogPost | undefined {
   return blogPosts.find((p) => p.slug === slug);
 }
 
+/** Posts that live on `/blog/[slug]` and appear in the blog index. */
+export function getBlogIndexPosts(): BlogPost[] {
+  return blogPosts.filter((post) => !post.canonicalPath);
+}
+
+export function getPostHref(post: BlogPost): string {
+  return post.canonicalPath ?? `/blog/${post.slug}`;
+}
+
 export function getAdjacentPosts(slug: string): {
   previous?: BlogPost;
   next?: BlogPost;
 } {
-  const index = blogPosts.findIndex((post) => post.slug === slug);
+  const indexPosts = getBlogIndexPosts();
+  const index = indexPosts.findIndex((post) => post.slug === slug);
   if (index < 0) return {};
   return {
-    previous: index > 0 ? blogPosts[index - 1] : undefined,
-    next: index < blogPosts.length - 1 ? blogPosts[index + 1] : undefined,
+    previous: index > 0 ? indexPosts[index - 1] : undefined,
+    next: index < indexPosts.length - 1 ? indexPosts[index + 1] : undefined,
   };
 }
 

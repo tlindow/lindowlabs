@@ -5,8 +5,21 @@ import { loadAllPostFrontMatter } from "../src/lib/frontMatter.mjs";
 const outDir = path.resolve(process.cwd(), "out");
 const base = (process.env.BASE_PATH || "").replace(/\/$/, "");
 
+/** Posts moved off `/blog/[slug]`; emit HTML redirects at the old blog path. */
+const PATH_MOVES = [
+  {
+    oldBlogSlug: "building-teams-as-raising-funds",
+    href: "/how-i-lead-teams/building-teams-as-raising-funds",
+  },
+];
+
 function destinationHref(slug) {
   return `${base}/blog/${slug}`;
+}
+
+function absoluteHref(href) {
+  if (href.startsWith("http")) return href;
+  return `${base}${href.startsWith("/") ? href : `/${href}`}`;
 }
 
 function redirectHtml(href) {
@@ -67,6 +80,17 @@ for (const [slug, frontMatter] of Object.entries(posts)) {
     for (const file of files) {
       console.log(`redirect ${from} -> ${href} (${path.relative(outDir, file)})`);
     }
+  }
+}
+
+for (const move of PATH_MOVES) {
+  const href = absoluteHref(move.href);
+  const files = writeRedirect(move.oldBlogSlug, href);
+  count += 1;
+  for (const file of files) {
+    console.log(
+      `redirect /blog/${move.oldBlogSlug} -> ${href} (${path.relative(outDir, file)})`
+    );
   }
 }
 
