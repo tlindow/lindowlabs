@@ -2,8 +2,10 @@
 
 import { useState, useTransition } from "react";
 import {
+  curriculumBookCount,
   curriculumEssayIntro,
   curriculumEssayTitle,
+  moduleHasBook,
   type ReadingCurriculumItem,
 } from "@/data/learning/readingCurriculum";
 import { formatAsideText } from "@/lib/learning/formatAsideText";
@@ -31,10 +33,12 @@ export default function LearningPlaylist({
   const [progress, setProgress] = useState(initialProgress);
   const [pending, startTransition] = useTransition();
   const trackCount = readingItems.length;
+  const bookCount = curriculumBookCount(readingItems);
 
   const now = nowReadingItem(readingItems, progress);
   const next = upNextItem(readingItems, progress);
   const nowBook = now ? bookProgressFor(progress, now.id) : null;
+  const nowHasBook = now ? moduleHasBook(now) : false;
 
   function persist(nextProgress: PlaylistProgress) {
     setProgress(nextProgress);
@@ -58,7 +62,7 @@ export default function LearningPlaylist({
         <h1 className="learning-curr__title">{curriculumEssayTitle}</h1>
         <p className="learning-pl__desc">{curriculumEssayIntro}</p>
         <p className="learning-pl__meta">
-          {trackCount} books · {trackCount} tracks
+          {bookCount} books · {trackCount} tracks
         </p>
       </header>
 
@@ -74,7 +78,9 @@ export default function LearningPlaylist({
               <div className="learning-pl__now-copy">
                 <h2 className="learning-pl__now-title">{now.title}</h2>
                 <p className="learning-pl__now-chapter">
-                  {currentChapterLabel(now.id, nowBook)}
+                  {nowHasBook
+                    ? currentChapterLabel(now.id, nowBook)
+                    : "Exercise"}
                   <span className="learning-pl__now-length">
                     {" "}
                     · {lengthLabelFor(now.id)}
@@ -82,40 +88,59 @@ export default function LearningPlaylist({
                 </p>
               </div>
             </div>
-            <div
-              className="learning-pl__now-bar"
-              role="progressbar"
-              aria-valuenow={bookProgressPct(now.id, nowBook)}
-              aria-valuemin={0}
-              aria-valuemax={100}
-            >
-              <span style={{ width: `${bookProgressPct(now.id, nowBook)}%` }} />
-            </div>
+            {nowHasBook ? (
+              <div
+                className="learning-pl__now-bar"
+                role="progressbar"
+                aria-valuenow={bookProgressPct(now.id, nowBook)}
+                aria-valuemin={0}
+                aria-valuemax={100}
+              >
+                <span
+                  style={{ width: `${bookProgressPct(now.id, nowBook)}%` }}
+                />
+              </div>
+            ) : null}
             <div className="learning-curr__cta-row">
-              <button
-                type="button"
-                className="learning-curr__btn learning-curr__btn--primary"
-                disabled={pending}
-                onClick={() => persist(markChapterRead(progress, now.id))}
-              >
-                Mark chapter read
-              </button>
-              <button
-                type="button"
-                className="learning-curr__btn learning-curr__btn--ghost"
-                disabled={pending}
-                onClick={() => persist(markBookFinished(progress, now.id))}
-              >
-                Mark book finished
-              </button>
-              <a
-                className="learning-curr__btn learning-curr__btn--ghost"
-                href={now.getBookUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Get the book
-              </a>
+              {nowHasBook ? (
+                <>
+                  <button
+                    type="button"
+                    className="learning-curr__btn learning-curr__btn--primary"
+                    disabled={pending}
+                    onClick={() => persist(markChapterRead(progress, now.id))}
+                  >
+                    Mark chapter read
+                  </button>
+                  <button
+                    type="button"
+                    className="learning-curr__btn learning-curr__btn--ghost"
+                    disabled={pending}
+                    onClick={() => persist(markBookFinished(progress, now.id))}
+                  >
+                    Mark book finished
+                  </button>
+                  {now.getBookUrl ? (
+                    <a
+                      className="learning-curr__btn learning-curr__btn--ghost"
+                      href={now.getBookUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Get the book
+                    </a>
+                  ) : null}
+                </>
+              ) : (
+                <button
+                  type="button"
+                  className="learning-curr__btn learning-curr__btn--primary"
+                  disabled={pending}
+                  onClick={() => persist(markBookFinished(progress, now.id))}
+                >
+                  Mark finished
+                </button>
+              )}
             </div>
           </>
         ) : (
@@ -148,8 +173,10 @@ export default function LearningPlaylist({
           const open = openId === item.id;
           const status = trackStatusFor(item, progress, now?.id ?? null);
           const book = bookProgressFor(progress, item.id);
+          const hasBook = moduleHasBook(item);
           const panelId = `learning-track-panel-${item.id}`;
           const artistLine = `${item.author} · ${item.scope}`;
+          const exerciseReady = !hasBook || book.finished;
 
           return (
             <li
@@ -160,8 +187,9 @@ export default function LearningPlaylist({
                   : "learning-pl__track"
               }
               data-module-number={item.number}
-              data-module-book={item.title}
-              data-module-author={item.author}
+              data-module-book={hasBook ? item.title : undefined}
+              data-module-author={hasBook ? item.author : undefined}
+              data-module-kind={hasBook ? "book" : "exercise"}
               data-track-open={open ? "true" : "false"}
               data-track-status={status}
             >
@@ -206,36 +234,39 @@ export default function LearningPlaylist({
                   role="region"
                   aria-label={`${item.title} details`}
                 >
-                  {/* Book first: title/author card, then reasoning, then exercise */}
-                  <div
-                    className="learning-pl__book-card"
-                    data-book-card={item.id}
-                  >
-                    <p className="learning-pl__book-label">Book</p>
-                    <h3 className="learning-pl__book-title">{item.title}</h3>
-                    <p className="learning-pl__book-meta">
-                      {item.author} · {item.scope}
-                    </p>
-                    <div className="learning-curr__cta-row">
-                      <a
-                        className="learning-curr__btn learning-curr__btn--ghost"
-                        href={item.getBookUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Get the book
-                      </a>
+                  {hasBook && item.getBookUrl ? (
+                    <div
+                      className="learning-pl__book-card"
+                      data-book-card={item.id}
+                    >
+                      <p className="learning-pl__book-label">Book</p>
+                      <h3 className="learning-pl__book-title">{item.title}</h3>
+                      <p className="learning-pl__book-meta">
+                        {item.author} · {item.scope}
+                      </p>
+                      <div className="learning-curr__cta-row">
+                        <a
+                          className="learning-curr__btn learning-curr__btn--ghost"
+                          href={item.getBookUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Get the book
+                        </a>
+                      </div>
                     </div>
-                  </div>
+                  ) : null}
 
                   <p className="learning-pl__heading">{item.heading}</p>
                   <p className="learning-curr__essay-prose">{item.prose}</p>
-                  <p className="learning-curr__essay-aside">
-                    <span className="learning-curr__essay-label">
-                      Considered instead:
-                    </span>{" "}
-                    {formatAsideText(item.consideredInstead)}
-                  </p>
+                  {item.consideredInstead ? (
+                    <p className="learning-curr__essay-aside">
+                      <span className="learning-curr__essay-label">
+                        Considered instead:
+                      </span>{" "}
+                      {formatAsideText(item.consideredInstead)}
+                    </p>
+                  ) : null}
                   {item.alreadyReadNote ? (
                     <p className="learning-curr__essay-aside">
                       <span className="learning-curr__essay-label">
@@ -247,14 +278,18 @@ export default function LearningPlaylist({
 
                   <div
                     className={
-                      book.finished
+                      exerciseReady
                         ? "learning-curr__exercise-block learning-pl__ready"
                         : "learning-curr__exercise-block learning-pl__ready learning-pl__ready--dim"
                     }
-                    data-exercise-ready={book.finished ? "true" : "false"}
+                    data-exercise-ready={exerciseReady ? "true" : "false"}
                   >
                     <p className="learning-pl__ready-label">
-                      When you&apos;re ready: exercise
+                      {hasBook ? (
+                        <>When you&apos;re ready: exercise</>
+                      ) : (
+                        <>Exercise</>
+                      )}
                     </p>
                     <p className="learning-curr__exercise-summary">
                       {item.exercise.summary}
@@ -265,16 +300,16 @@ export default function LearningPlaylist({
                         href={item.exercise.openInTinkerUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        aria-disabled={book.finished ? undefined : true}
-                        tabIndex={book.finished ? undefined : -1}
+                        aria-disabled={exerciseReady ? undefined : true}
+                        tabIndex={exerciseReady ? undefined : -1}
                       >
                         Do it in Tinker
                       </a>
                       <a
                         className="learning-curr__btn learning-curr__btn--ghost"
                         href={item.exercise.openInCursorUrl}
-                        aria-disabled={book.finished ? undefined : true}
-                        tabIndex={book.finished ? undefined : -1}
+                        aria-disabled={exerciseReady ? undefined : true}
+                        tabIndex={exerciseReady ? undefined : -1}
                       >
                         Open in Cursor
                       </a>
@@ -283,8 +318,8 @@ export default function LearningPlaylist({
                         href={item.exercise.githubUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        aria-disabled={book.finished ? undefined : true}
-                        tabIndex={book.finished ? undefined : -1}
+                        aria-disabled={exerciseReady ? undefined : true}
+                        tabIndex={exerciseReady ? undefined : -1}
                       >
                         View on GitHub
                       </a>

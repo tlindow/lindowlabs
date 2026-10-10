@@ -22,26 +22,44 @@ export type ReadingCurriculumItem = {
    * (e.g. "Site Reliability Engineering (Google), Ch 3, 4, 6, 14 and 15.").
    */
   heading: string;
-  /** Short book title for tests / cross-checks. */
+  /** Short track title (book title, or exercise name when no book). */
   title: string;
-  /** Author attribution for tests / cross-checks. */
+  /** Author attribution, or a short non-book label (e.g. "Exercise"). */
   author: string;
-  /** Chapter scope for tests / cross-checks. */
+  /** Chapter scope or exercise scope line. */
   scope: string;
   /** Body prose under the heading (verbatim). */
   prose: string;
-  /** Considered-instead paragraph body (verbatim; label rendered separately). */
-  consideredInstead: string;
+  /**
+   * Considered-instead paragraph body (verbatim; label rendered separately).
+   * Omit on exercise-only modules.
+   */
+  consideredInstead?: string;
   /**
    * Optional Already-read note body after Considered instead (verbatim;
    * label rendered separately).
    */
   alreadyReadNote?: string;
-  /** Where to get the physical/ebook copy (publisher or free official). */
-  getBookUrl: string;
+  /**
+   * Where to get the physical/ebook copy. Omit when the module has no book
+   * (exercise-only).
+   */
+  getBookUrl?: string;
   /** Linked exercise; summary matches the essay Exercise line exactly. */
   exercise: CurriculumExerciseLinks;
 };
+
+/** True when the module has a book to get (not exercise-only). */
+export function moduleHasBook(item: ReadingCurriculumItem): boolean {
+  return Boolean(item.getBookUrl);
+}
+
+/** Count of modules that include a book. */
+export function curriculumBookCount(
+  items: ReadingCurriculumItem[] = readingCurriculum
+): number {
+  return items.filter(moduleHasBook).length;
+}
 
 /** Essay title (owner desk H1). */
 export const curriculumEssayTitle =
@@ -49,11 +67,11 @@ export const curriculumEssayTitle =
 
 /** Intro paragraph under the title (verbatim). */
 export const curriculumEssayIntro =
-  "You led merchant and partner integrations at Affirm, ran the merchant domain architecture review, and owned reliability for Merchant Portal. Your Tinker essays show where your understanding is thinner than those claims. You can't yet say how API resources map to routes. You aren't confident defending your own availability number. You lean on analogies from other fields when fintech has its own frameworks. And you've said you never mastered data structures and algorithms. This curriculum closes those gaps in order of how often an interviewer will press on them. Each module is a book, because you've written that you learn best from something that reads like a book and that scattered notes don't stick. Each book comes with one exercise in Tinker.";
+  "You led merchant and partner integrations at Affirm, ran the merchant domain architecture review, and owned reliability for Merchant Portal. Your Tinker essays show where your understanding is thinner than those claims. You can't yet say how API resources map to routes. You aren't confident defending your own availability number. You lean on analogies from other fields when fintech has its own frameworks. And you've said you never mastered data structures and algorithms. This curriculum closes those gaps in order of how often an interviewer will press on them. Most modules are a book with one exercise in Tinker. The API design gap is closed by an exercise ladder alone, worked through code.";
 
 /**
  * Ordered modules. Exercise folder ids stay stable; order matches the essay.
- * Lineup: SRE, Lauret, Khononov, Glenbrook, Kleppmann Ch 7, Grokking.
+ * Lineup: SRE, API design (exercise-only), Khononov, Glenbrook, Kleppmann Ch 7, Grokking.
  */
 export const readingCurriculum: ReadingCurriculumItem[] = [
   {
@@ -74,19 +92,14 @@ export const readingCurriculum: ReadingCurriculumItem[] = [
     ),
   },
   {
-    id: "design-of-web-apis",
+    id: "api-design",
     number: 2,
-    heading: "The Design of Web APIs (Lauret).",
-    title: "The Design of Web APIs",
-    author: "Arnaud Lauret",
-    scope: "Whole book",
+    heading: "API design exercise.",
+    title: "API design",
+    author: "Exercise",
+    scope: "in Tinker",
     prose:
-      'Integrations are APIs that other companies build on. In "Buy the web APIs book?" you described a resource as "sort of like an object," then stopped at "I don\'t know" when asked how endpoints map to it. A DevX or integrations interview will ask you to judge an API design, and that judgment needs a model of resources first. Lauret builds that model from the resource outward, and uses OpenAPI, the same spec format your api-design exercises use.',
-    consideredInstead:
-      "*Designing Web APIs* (Jin, Sahni, Shevat) was considered. It treats the API as a product, covering developer experience, adoption, and scaling, which Tyler already practices as a DevX lead. The gap here is modeling resources and mapping them to routes, and Lauret teaches that directly, starting from user goals.",
-    alreadyReadNote:
-      "The Design of Everyday Things gives you the principles of usable design. Lauret applies them to APIs, so his chapters on usability will feel familiar, and the new ground is resources and routes.",
-    getBookUrl: "https://www.manning.com/books/the-design-of-web-apis",
+      "No book here. The gap is turning resources into routes, and that only sticks by building it. Each step in this exercise models one more resource and wires its routes in code, so the design choices come from writing it, not from reading about it.",
     exercise: curriculumExerciseLinks(
       "api-design",
       "model Merchant, Order and Refund as resources, map each one to routes and methods, then write the OpenAPI spec."

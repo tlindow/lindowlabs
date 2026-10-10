@@ -9,7 +9,7 @@ Prefer plain-English pseudocode first, then a blank starter file.
 | # | Exercise | Book | Brief |
 | :--- | :--- | :--- | :--- |
 | 1 | [`merchant-portal-slos/`](./merchant-portal-slos/) | Site Reliability Engineering (Ch 3, 4, 6, 14 and 15) | SLOs, error budget, fast-burn alert |
-| 2 | [`api-design/`](./api-design/) | The Design of Web APIs | Merchant / Order / Refund resources → OpenAPI |
+| 2 | [`api-design/`](./api-design/) | *(exercise-only)* | Merchant / Order / Refund resources → OpenAPI |
 | 3 | [`bounded-contexts/`](./bounded-contexts/) | Learning Domain-Driven Design (Khononov) | Split checkout into Merchant, Payments, Disputes |
 | 4 | [`card-payment-lifecycle/`](./card-payment-lifecycle/) | Payments Systems in the U.S. | Auth → capture → clearing → settlement state machine |
 | 5 | [`idempotent-refund/`](./idempotent-refund/) | DDIA Ch 7 | Same refund twice refunds once |

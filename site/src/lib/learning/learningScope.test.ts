@@ -1,8 +1,10 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import {
+  curriculumBookCount,
   curriculumEssayIntro,
   curriculumEssayTitle,
+  moduleHasBook,
   readingCurriculum,
   SRE_FREE_BOOK_URL,
 } from "../../data/learning/readingCurriculum.ts";
@@ -19,13 +21,15 @@ const EXPECTED_ORDER = [
     author: "Google",
     scope: "Ch 3, 4, 6, 14 and 15",
     exerciseId: "merchant-portal-slos",
+    hasBook: true,
   },
   {
-    id: "design-of-web-apis",
-    title: "The Design of Web APIs",
-    author: "Arnaud Lauret",
-    scope: "Whole book",
+    id: "api-design",
+    title: "API design",
+    author: "Exercise",
+    scope: "in Tinker",
     exerciseId: "api-design",
+    hasBook: false,
   },
   {
     id: "learning-domain-driven-design",
@@ -33,6 +37,7 @@ const EXPECTED_ORDER = [
     author: "Vladik Khononov",
     scope: "Whole book",
     exerciseId: "bounded-contexts",
+    hasBook: true,
   },
   {
     id: "payments-systems-us",
@@ -40,6 +45,7 @@ const EXPECTED_ORDER = [
     author: "Glenbrook",
     scope: "Whole book",
     exerciseId: "card-payment-lifecycle",
+    hasBook: true,
   },
   {
     id: "designing-data-intensive-applications",
@@ -47,6 +53,7 @@ const EXPECTED_ORDER = [
     author: "Martin Kleppmann",
     scope: "Ch 7 only",
     exerciseId: "idempotent-refund",
+    hasBook: true,
   },
   {
     id: "grokking-algorithms",
@@ -54,22 +61,25 @@ const EXPECTED_ORDER = [
     author: "Aditya Bhargava",
     scope: "alongside everything else",
     exerciseId: "settlement-binary-search",
+    hasBook: true,
   },
 ] as const;
 
 const FORBIDDEN =
-  /Oct 4|Sep 30|your earlier pick|on your plan|ruled out|already reading|one chapter in|Owned \(paperback\)|You own this one in paperback/i;
+  /Oct 4|Sep 30|your earlier pick|on your plan|ruled out|already reading|one chapter in|Owned \(paperback\)|You own this one in paperback|Lauret|Design of Web APIs|Designing Web APIs|Each module is a book/i;
 
 describe("readingCurriculumForUser", () => {
-  it("owner sees final essay lineup with Khononov and no earlier-ruling leftovers", () => {
+  it("owner sees essay lineup with exercise-only API design and no Lauret book", () => {
     const items = readingCurriculumForUser(true);
     assert.equal(items.length, 6);
     assert.equal(items.length, readingCurriculum.length);
+    assert.equal(curriculumBookCount(items), 5);
     assert.equal(
       curriculumEssayTitle,
       "A curriculum for an engineering manager in developer experience and payments"
     );
     assert.match(curriculumEssayIntro, /^You led merchant and partner/);
+    assert.match(curriculumEssayIntro, /exercise ladder alone/);
     assert.equal(FORBIDDEN.test(curriculumEssayIntro), false);
 
     for (let i = 0; i < EXPECTED_ORDER.length; i += 1) {
@@ -82,36 +92,29 @@ describe("readingCurriculumForUser", () => {
       assert.equal(item.scope, expected.scope);
       assert.ok(item.heading.includes(expected.title.split(" (")[0]!));
       assert.ok(item.prose.trim().length > 40);
-      assert.ok(item.consideredInstead.trim().length > 20);
+      assert.equal(moduleHasBook(item), expected.hasBook);
       assert.equal(item.exercise.id, expected.exerciseId);
       assert.ok(item.exercise.openInTinkerUrl.includes("tinker.beginner.work"));
-      assert.ok(item.getBookUrl.startsWith("https://"));
+      if (expected.hasBook) {
+        assert.ok(item.getBookUrl?.startsWith("https://"));
+        assert.ok((item.consideredInstead ?? "").trim().length > 20);
+      } else {
+        assert.equal(item.getBookUrl, undefined);
+        assert.equal(item.consideredInstead, undefined);
+        assert.equal(item.alreadyReadNote, undefined);
+      }
       assert.equal(FORBIDDEN.test(item.heading), false);
       assert.equal(FORBIDDEN.test(item.prose), false);
-      assert.equal(FORBIDDEN.test(item.consideredInstead), false);
+      assert.equal(FORBIDDEN.test(item.consideredInstead ?? ""), false);
       assert.equal(FORBIDDEN.test(item.exercise.summary), false);
     }
 
-    assert.equal(items[2]?.title, "Learning Domain-Driven Design");
-    assert.match(items[2]?.heading ?? "", /Khononov/);
     assert.equal(
-      items[2]?.exercise.summary,
-      "split a small checkout codebase into Merchant, Payments and Disputes contexts, naming each in the words your team actually used."
+      items[1]?.prose,
+      "No book here. The gap is turning resources into routes, and that only sticks by building it. Each step in this exercise models one more resource and wires its routes in code, so the design choices come from writing it, not from reading about it."
     );
     assert.equal(items[0]?.getBookUrl, SRE_FREE_BOOK_URL);
-    assert.equal(
-      items[1]?.alreadyReadNote,
-      "The Design of Everyday Things gives you the principles of usable design. Lauret applies them to APIs, so his chapters on usability will feel familiar, and the new ground is resources and routes."
-    );
-    assert.equal(
-      items[1]?.consideredInstead,
-      "*Designing Web APIs* (Jin, Sahni, Shevat) was considered. It treats the API as a product, covering developer experience, adoption, and scaling, which Tyler already practices as a DevX lead. The gap here is modeling resources and mapping them to routes, and Lauret teaches that directly, starting from user goals."
-    );
-    // Module 2 must list Lauret as the book (data; UI book card reads these).
-    assert.equal(items[1]?.title, "The Design of Web APIs");
-    assert.equal(items[1]?.author, "Arnaud Lauret");
-    assert.ok(items[1]?.getBookUrl.includes("the-design-of-web-apis"));
-    assert.equal(items[1]?.exercise.id, "api-design");
+    assert.equal(items[2]?.title, "Learning Domain-Driven Design");
   });
 
   it("non-owner sees empty curriculum (no essay modules)", () => {

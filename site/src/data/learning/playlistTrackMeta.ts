@@ -16,7 +16,7 @@ export const playlistTrackMeta: Record<string, PlaylistTrackMeta> = {
     chapterLabels: ["Ch 3", "Ch 4", "Ch 6", "Ch 14", "Ch 15"],
     estimatedHours: 8,
   },
-  "design-of-web-apis": {
+  "api-design": {
     chapterLabels: null,
     estimatedHours: 10,
   },
