@@ -6,7 +6,7 @@ import { ArrowUpRight, FileText } from "lucide-react";
 import WebGLCoin, { type WebGLCoinType } from "@/components/WebGLCoin";
 import { TinkerMark } from "@/components/brand/TinkerLogo";
 import { BeginnerSeedMark } from "@/components/brand/BeginnerMarks";
-import { AFFIRM_URL, BEGINNER_URL } from "@/data/urls";
+import { BEGINNER_URL } from "@/data/urls";
 import {
   getBlogPostBySlug,
   getPostHref,
@@ -25,7 +25,8 @@ interface ValuePillar {
   title: string;
   ctaSubtext?: string;
   coinType: WebGLCoinType;
-  link: {
+  /** Outbound CTA under the coin; omit when the coin is decorative only. */
+  link?: {
     href: string;
     label: string;
     title: string;
@@ -73,37 +74,9 @@ const valuePillars: ValuePillar[] = [
     title: "How I lead teams.",
     ctaSubtext: "Practices for growing engineers.",
     coinType: "affirm",
-    link: {
-      href: AFFIRM_URL,
-      label: "Affirm",
-      title: "Affirm",
-    },
     featuredPosts: affirmFeaturedPosts,
   },
 ];
-
-/**
- * Affirm monogram from Business Hub brand asset (lowercase a + blue arch).
- * Local copy: public/affirm-mark.png (official attachment, transparency kept).
- */
-function AffirmMark({ className = "h-4 w-auto" }: { className?: string }) {
-  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
-  return (
-    // Cream chip so the official dark-a + blue-arch mark stays legible on the dark CTA.
-    <span className="inline-flex items-center justify-center rounded-md bg-[#FFFDF7] px-0.5 py-px shrink-0">
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={`${basePath}/affirm-mark.png`}
-        alt=""
-        aria-hidden="true"
-        width={175}
-        height={129}
-        className={className}
-        draggable={false}
-      />
-    </span>
-  );
-}
 
 function FeaturedPostCard({ post }: { post: WorkProduct }) {
   return (
@@ -162,8 +135,8 @@ export default function WhatYouGet() {
                 <div className="w-full flex justify-center items-center py-2">
                   <WebGLCoin
                     type={pillar.coinType}
-                    href={pillar.link.href}
-                    title={pillar.link.title}
+                    href={pillar.link?.href}
+                    title={pillar.link?.title}
                     className="w-36 h-36 sm:w-44 sm:h-44 md:w-48 md:h-48"
                   />
                 </div>
@@ -194,28 +167,27 @@ export default function WhatYouGet() {
                     </p>
                   ) : null}
 
-                  <div className="flex flex-col sm:flex-row items-center justify-center gap-2.5 sm:gap-3">
-                    <a
-                      href={pillar.link.href}
-                      {...(pillar.link.href.startsWith("http")
-                        ? { target: "_blank", rel: "noopener noreferrer" }
-                        : {})}
-                      className="group inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-xs sm:text-sm font-mono font-bold transition-all hover:scale-[1.02] active:scale-[0.98] bg-foreground text-background hover:bg-foreground/90 shadow-xs"
-                      title={pillar.link.title}
-                    >
-                      {pillar.coinType === "beginner" ? (
-                        <BeginnerSeedMark className="h-4 w-4 shrink-0" />
-                      ) : null}
-                      {pillar.coinType === "affirm" ? (
-                        <AffirmMark className="h-3.5 w-auto" />
-                      ) : null}
-                      <span>{pillar.link.label}</span>
-                      <ArrowUpRight
-                        size={14}
-                        className="opacity-70 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0 text-background/80 group-hover:text-background"
-                      />
-                    </a>
-                  </div>
+                  {pillar.link ? (
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-2.5 sm:gap-3">
+                      <a
+                        href={pillar.link.href}
+                        {...(pillar.link.href.startsWith("http")
+                          ? { target: "_blank", rel: "noopener noreferrer" }
+                          : {})}
+                        className="group inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-xs sm:text-sm font-mono font-bold transition-all hover:scale-[1.02] active:scale-[0.98] bg-foreground text-background hover:bg-foreground/90 shadow-xs"
+                        title={pillar.link.title}
+                      >
+                        {pillar.coinType === "beginner" ? (
+                          <BeginnerSeedMark className="h-4 w-4 shrink-0" />
+                        ) : null}
+                        <span>{pillar.link.label}</span>
+                        <ArrowUpRight
+                          size={14}
+                          className="opacity-70 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0 text-background/80 group-hover:text-background"
+                        />
+                      </a>
+                    </div>
+                  ) : null}
 
                   {pillar.featuredPosts && pillar.featuredPosts.length > 0 ? (
                     <div className="mt-2 w-full space-y-8">
