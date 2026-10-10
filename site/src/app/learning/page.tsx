@@ -3,10 +3,7 @@ import {
   LearningNotConfigured,
   LearningUnauthorized,
 } from "@/components/learning/LearningDashboard";
-import {
-  CurriculumDashboard,
-  ReadingPlanNotConnected,
-} from "@/components/learning/CurriculumUI";
+import { CurriculumDashboard } from "@/components/learning/CurriculumUI";
 import LearningSignIn from "@/components/learning/LearningSignIn";
 import { LEARNING_DASHBOARD_URL } from "@/data/urls";
 import { loadLearningGate } from "@/lib/learning/loadLearningPage";
@@ -50,9 +47,6 @@ export default async function LearningPage() {
     return <LearningSignIn />;
   }
 
-  if (gate.curriculum.status === "not-connected") {
-    return <ReadingPlanNotConnected />;
-  }
-
-  return <CurriculumDashboard curriculum={gate.curriculum.curriculum} />;
+  // Reading curriculum is checked-in data; Notion is optional for course deep links.
+  return <CurriculumDashboard />;
 }
