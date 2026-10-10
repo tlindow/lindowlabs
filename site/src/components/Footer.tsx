@@ -131,14 +131,12 @@ export default function Footer({
             </p>
           </div>
 
-          {/* Book Visual Asset */}
+          {/* Book Visual Asset → public finished-books list */}
           <div className="w-full flex justify-center md:justify-end">
             <a
-              href="https://www.amazon.com/dp/1607747308"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group relative flex items-center justify-center w-full max-w-md aspect-[16/10] rounded-2xl border border-border bg-surface overflow-hidden hover:border-[#FF9900]/60 hover:shadow-md transition-all duration-300 cursor-pointer shadow-2xs"
-              title="The Life-Changing Magic of Tidying Up by Marie Kondo on Amazon"
+              href={`${basePath}/books-ive-read`}
+              className="group relative flex items-center justify-center w-full max-w-md aspect-[16/10] rounded-2xl border border-border bg-surface overflow-hidden hover:border-indigo-dark/40 hover:shadow-md transition-all duration-300 cursor-pointer shadow-2xs"
+              title="Books I've read"
             >
               {/* Blurred ambient book cover background */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -162,9 +160,9 @@ export default function Footer({
                 <div className="absolute top-0 bottom-0 left-0 w-2.5 bg-gradient-to-r from-black/25 via-black/10 to-transparent pointer-events-none" />
               </div>
 
-              {/* Corner external link-out only — no text pill */}
+              {/* Corner link cue — no text pill */}
               <div
-                className="absolute top-3 right-3 z-10 flex items-center justify-center w-8 h-8 rounded-full bg-background/90 backdrop-blur-md border border-border text-foreground group-hover:text-[#FF9900] group-hover:border-[#FF9900]/50 shadow-xs transition-all"
+                className="absolute top-3 right-3 z-10 flex items-center justify-center w-8 h-8 rounded-full bg-background/90 backdrop-blur-md border border-border text-foreground group-hover:text-indigo-dark group-hover:border-indigo-dark/50 shadow-xs transition-all"
                 aria-hidden="true"
               >
                 <ArrowUpRight

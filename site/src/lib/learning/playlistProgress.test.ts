@@ -63,6 +63,11 @@ describe("playlistProgress", () => {
     const seeded = parsePlaylistProgressCookie(undefined, "u1");
     assert.equal(seeded.alreadyRead.length, OWNER_ALREADY_READ_SEED.length);
     assert.equal(seeded.alreadyRead[0]?.title, "Mindstorms");
+    assert.ok(
+      seeded.alreadyRead.some(
+        (e) => e.title === "The Life-Changing Magic of Tidying Up"
+      )
+    );
     assert.equal(seeded.alreadyReadInitialized, true);
 
     let edited = removeAlreadyRead(seeded, seeded.alreadyRead[0]!.id);

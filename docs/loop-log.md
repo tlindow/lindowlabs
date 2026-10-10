@@ -46,3 +46,4 @@ Format: `YYYY-MM-DD | loop | failure type | fixing PR | prevention`
 | 2026-10-10 | inner: Cursor | owner desk empty for owner phone login | this PR | `sessions/authenticate` omitted `phone_numbers`; `loadUserPhonesForAccess` falls back to factors then `users.get`; regression in `stytchPhones.test.ts` |
 | 2026-10-10 | inner: Cursor | none (learning desk no inputs/initials) | this PR | Owner playlist: no text inputs; Already read read-only; no cover-tile initials; Mark chapter/finished buttons kept |
 | 2026-10-10 | inner: Cursor | owner desk empty after #153 (nested factor phone) | this PR | `phonesFromSessionFactors` reads `phone_number_factor.phone_number`; `[learning-owner-gate]` non-PII diag; Login URL → vercel.app while `.dev` is Pages |
+| 2026-10-10 | inner: Cursor | none (public /books-ive-read) | this PR | Static finished-books page (title/author only); Kondo in Already read seed; homepage Philosophy book → `/books-ive-read` |
