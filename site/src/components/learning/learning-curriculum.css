@@ -734,7 +734,7 @@ a.learning-curr__card:hover {
 
 .learning-pl__row {
   display: grid;
-  grid-template-columns: 1.5rem 3rem minmax(0, 1fr) auto;
+  grid-template-columns: 1.5rem minmax(0, 1fr) auto;
   gap: 0.65rem 0.75rem;
   align-items: center;
   width: 100%;
@@ -934,7 +934,7 @@ a.learning-curr__card:hover {
 
 @media (min-width: 640px) {
   .learning-pl__row {
-    grid-template-columns: 2rem 3.25rem minmax(0, 1fr) auto auto;
+    grid-template-columns: 2rem minmax(0, 1fr) auto auto;
     gap: 0.75rem 1rem;
     padding: 0.85rem 0.35rem;
   }
@@ -943,12 +943,7 @@ a.learning-curr__card:hover {
     display: inline;
   }
 
-  .learning-pl__cover {
-    width: 3.25rem;
-    height: 3.25rem;
-  }
-
   .learning-pl__panel {
-    padding-left: calc(2rem + 3.25rem + 1rem);
+    padding-left: calc(2rem + 1rem);
   }
 }

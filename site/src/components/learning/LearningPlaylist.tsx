@@ -7,110 +7,17 @@ import {
   type ReadingCurriculumItem,
 } from "@/data/learning/readingCurriculum";
 import {
-  addAlreadyRead,
   bookProgressFor,
   bookProgressPct,
   currentChapterLabel,
-  formatBookmark,
   lengthLabelFor,
   markBookFinished,
   markChapterRead,
   nowReadingItem,
-  removeAlreadyRead,
-  setBookmark,
   trackStatusFor,
   upNextItem,
   type PlaylistProgress,
 } from "@/lib/learning/playlistProgress";
-
-/** Soft cover hues from the learning cream/indigo palette (not stock art). */
-const COVER_HUES = [
-  "linear-gradient(145deg, #c7d2fe 0%, #6366f1 55%, #312e81 100%)",
-  "linear-gradient(145deg, #a5b4fc 0%, #4f46e5 50%, #1e1b4b 100%)",
-  "linear-gradient(145deg, #ddd6fe 0%, #7c3aed 52%, #2e1065 100%)",
-  "linear-gradient(145deg, #bae6fd 0%, #6366f1 48%, #1e3a5f 100%)",
-  "linear-gradient(145deg, #c4b5fd 0%, #4338ca 55%, #0f172a 100%)",
-  "linear-gradient(145deg, #e0e7ff 0%, #818cf8 45%, #312e81 100%)",
-];
-
-function coverInitials(title: string): string {
-  const words = title.replace(/[^a-zA-Z0-9\s]/g, " ").trim().split(/\s+/);
-  if (words.length === 0) return "BK";
-  if (words.length === 1) return words[0]!.slice(0, 2).toUpperCase();
-  return `${words[0]![0] ?? ""}${words[1]![0] ?? ""}`.toUpperCase();
-}
-
-function CoverTile({
-  title,
-  index,
-}: {
-  title: string;
-  index: number;
-}) {
-  return (
-    <span
-      className="learning-pl__cover"
-      style={{ background: COVER_HUES[index % COVER_HUES.length] }}
-      aria-hidden="true"
-    >
-      <span className="learning-pl__cover-mark">{coverInitials(title)}</span>
-    </span>
-  );
-}
-
-function BookmarkEditor({
-  page,
-  section,
-  onSave,
-  pending,
-}: {
-  page: number;
-  section: string;
-  onSave: (page: number, section: string) => void;
-  pending: boolean;
-}) {
-  const [pageValue, setPageValue] = useState(String(page || ""));
-  const [sectionValue, setSectionValue] = useState(section);
-
-  return (
-    <form
-      className="learning-pl__bookmark-form"
-      onSubmit={(event) => {
-        event.preventDefault();
-        const n = Number.parseInt(pageValue, 10);
-        onSave(Number.isFinite(n) ? n : 1, sectionValue);
-      }}
-    >
-      <label className="learning-pl__bookmark-field">
-        <span>Page</span>
-        <input
-          inputMode="numeric"
-          name="page"
-          value={pageValue}
-          onChange={(e) => setPageValue(e.target.value)}
-          disabled={pending}
-        />
-      </label>
-      <label className="learning-pl__bookmark-field learning-pl__bookmark-field--grow">
-        <span>Section</span>
-        <input
-          name="section"
-          value={sectionValue}
-          onChange={(e) => setSectionValue(e.target.value)}
-          placeholder="e.g. Error budgets"
-          disabled={pending}
-        />
-      </label>
-      <button
-        type="submit"
-        className="learning-curr__btn learning-curr__btn--primary"
-        disabled={pending}
-      >
-        Save bookmark
-      </button>
-    </form>
-  );
-}
 
 export default function LearningPlaylist({
   readingItems,
@@ -127,9 +34,6 @@ export default function LearningPlaylist({
   const now = nowReadingItem(readingItems, progress);
   const next = upNextItem(readingItems, progress);
   const nowBook = now ? bookProgressFor(progress, now.id) : null;
-  const nowIndex = now
-    ? readingItems.findIndex((item) => item.id === now.id)
-    : -1;
 
   function persist(nextProgress: PlaylistProgress) {
     setProgress(nextProgress);
@@ -166,7 +70,6 @@ export default function LearningPlaylist({
         {now && nowBook ? (
           <>
             <div className="learning-pl__now-main">
-              <CoverTile title={now.title} index={Math.max(0, nowIndex)} />
               <div className="learning-pl__now-copy">
                 <h2 className="learning-pl__now-title">{now.title}</h2>
                 <p className="learning-pl__now-chapter">
@@ -176,11 +79,6 @@ export default function LearningPlaylist({
                     · {lengthLabelFor(now.id)}
                   </span>
                 </p>
-                {formatBookmark(nowBook.bookmark) ? (
-                  <p className="learning-pl__bookmark-line">
-                    {formatBookmark(nowBook.bookmark)}
-                  </p>
-                ) : null}
               </div>
             </div>
             <div
@@ -192,15 +90,6 @@ export default function LearningPlaylist({
             >
               <span style={{ width: `${bookProgressPct(now.id, nowBook)}%` }} />
             </div>
-            <BookmarkEditor
-              key={`${now.id}-${nowBook.bookmark?.page ?? 0}-${nowBook.bookmark?.section ?? ""}`}
-              page={nowBook.bookmark?.page ?? 1}
-              section={nowBook.bookmark?.section ?? ""}
-              pending={pending}
-              onSave={(page, section) =>
-                persist(setBookmark(progress, now.id, page, section))
-              }
-            />
             <div className="learning-curr__cta-row">
               <button
                 type="button"
@@ -241,10 +130,6 @@ export default function LearningPlaylist({
             className="learning-pl__upnext-row"
             onClick={() => setOpenId(next.id)}
           >
-            <CoverTile
-              title={next.title}
-              index={readingItems.findIndex((item) => item.id === next.id)}
-            />
             <span className="learning-pl__copy">
               <span className="learning-pl__track-title">{next.title}</span>
               <span className="learning-pl__artist">
@@ -258,13 +143,12 @@ export default function LearningPlaylist({
       </section>
 
       <ol className="learning-pl__tracks">
-        {readingItems.map((item, index) => {
+        {readingItems.map((item) => {
           const open = openId === item.id;
           const status = trackStatusFor(item, progress, now?.id ?? null);
           const book = bookProgressFor(progress, item.id);
           const panelId = `learning-track-panel-${item.id}`;
           const artistLine = `${item.author} · ${item.scope}`;
-          const bookmarkLine = formatBookmark(book.bookmark);
 
           return (
             <li
@@ -292,13 +176,9 @@ export default function LearningPlaylist({
                 <span className="learning-pl__num">
                   {status === "Done" ? "✓" : item.number}
                 </span>
-                <CoverTile title={item.title} index={index} />
                 <span className="learning-pl__copy">
                   <span className="learning-pl__track-title">{item.title}</span>
-                  <span className="learning-pl__artist">
-                    {artistLine}
-                    {bookmarkLine ? ` · ${bookmarkLine}` : ""}
-                  </span>
+                  <span className="learning-pl__artist">{artistLine}</span>
                 </span>
                 <span className="learning-pl__length">
                   {lengthLabelFor(item.id)}
@@ -428,60 +308,9 @@ export default function LearningPlaylist({
                   <span className="learning-pl__shelf-note">{entry.note}</span>
                 ) : null}
               </div>
-              <button
-                type="button"
-                className="learning-curr__btn learning-curr__btn--ghost"
-                disabled={pending}
-                onClick={() => persist(removeAlreadyRead(progress, entry.id))}
-              >
-                Remove
-              </button>
             </li>
           ))}
         </ul>
-        <form
-          className="learning-pl__shelf-form"
-          onSubmit={(event) => {
-            event.preventDefault();
-            const form = event.currentTarget;
-            const data = new FormData(form);
-            const title = String(data.get("title") ?? "");
-            const author = String(data.get("author") ?? "");
-            const howMuch = String(data.get("howMuch") ?? "whole book");
-            const note = String(data.get("note") ?? "");
-            persist(addAlreadyRead(progress, { title, author, howMuch, note }));
-            form.reset();
-          }}
-        >
-          <label className="learning-pl__bookmark-field learning-pl__bookmark-field--grow">
-            <span>Title</span>
-            <input name="title" required disabled={pending} />
-          </label>
-          <label className="learning-pl__bookmark-field learning-pl__bookmark-field--grow">
-            <span>Author</span>
-            <input name="author" required disabled={pending} />
-          </label>
-          <label className="learning-pl__bookmark-field learning-pl__bookmark-field--grow">
-            <span>How much</span>
-            <input
-              name="howMuch"
-              defaultValue="whole book"
-              placeholder="whole book / chapters …"
-              disabled={pending}
-            />
-          </label>
-          <label className="learning-pl__bookmark-field learning-pl__bookmark-field--grow">
-            <span>Note</span>
-            <input name="note" disabled={pending} />
-          </label>
-          <button
-            type="submit"
-            className="learning-curr__btn learning-curr__btn--primary"
-            disabled={pending}
-          >
-            Add book
-          </button>
-        </form>
       </section>
 
       <p className="learning-curr__footer">
