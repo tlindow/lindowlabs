@@ -1,5 +1,10 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { learningExercises } from "@/data/learningDashboard";
+import {
+  readingCurriculum,
+  type ReadingCurriculumItem,
+} from "@/data/learning/readingCurriculum";
 import { learningSignOut } from "@/lib/auth/learningSignOut";
 import { formatAsOfPt } from "@/lib/learning/formatPt";
 import type {
@@ -10,6 +15,13 @@ import type {
   LessonStatus,
 } from "@/lib/learning/types";
 import "./learning-curriculum.css";
+
+function whyLine(item: ReadingCurriculumItem): string {
+  if (item.essayTitle) {
+    return `${item.why} From "${item.essayTitle}".`;
+  }
+  return item.why;
+}
 
 function StatusChip({
   status,
@@ -101,148 +113,86 @@ export function ReadingPlanNotConnected() {
 }
 
 export function CurriculumDashboard({
-  curriculum,
   showSignOut = true,
 }: {
-  curriculum: Curriculum;
   showSignOut?: boolean;
 }) {
-  const footerAsOf = curriculum.staleAsOf
-    ? `as of ${formatAsOfPt(curriculum.staleAsOf)}`
-    : curriculum.pageLastEditedAt
-      ? `page edited ${formatAsOfPt(curriculum.pageLastEditedAt)}`
-      : `fetched ${formatAsOfPt(curriculum.fetchedAt)}`;
-
   return (
     <Shell showSignOut={showSignOut}>
       <p className="learning-curr__eyebrow">Lindow Labs</p>
       <h1 className="learning-curr__title">Learning</h1>
       <p className="learning-curr__lede">
-        Courses sync from the Notion Reading plan. Notes stay in Tinker; this
-        desk never writes answers for you.
+        Private reading curriculum and repo exercises. Notes stay in Tinker;
+        this desk never writes answers for you.
       </p>
 
-      <section className="learning-curr__section" aria-labelledby="courses-heading">
-        <h2 id="courses-heading" className="learning-curr__section-title">
-          Courses
+      <section
+        className="learning-curr__section"
+        aria-labelledby="reading-heading"
+      >
+        <h2 id="reading-heading" className="learning-curr__section-title">
+          Reading curriculum
         </h2>
-        <div className="learning-curr__cards">
-          {curriculum.courses.map((course) => (
-            <CourseCard
-              key={course.key}
-              course={course}
-              currentLessonKey={
-                curriculum.currentlyReading?.courseKey === course.key
-                  ? curriculum.currentlyReading.lessonKey
-                  : null
+        <ol className="learning-curr__cards learning-curr__reading-list">
+          {readingCurriculum.map((item, index) => (
+            <li
+              key={item.id}
+              className={
+                index === 0
+                  ? "learning-curr__card learning-curr__card--current"
+                  : "learning-curr__card"
               }
-            />
+            >
+              <div className="learning-curr__card-top">
+                <div>
+                  <p className="learning-curr__reading-order">
+                    {index + 1} of {readingCurriculum.length}
+                  </p>
+                  <h3 className="learning-curr__card-title">{item.title}</h3>
+                  <p className="learning-curr__card-author">{item.author}</p>
+                </div>
+                {index === 0 ? <StatusChip status="current" /> : null}
+              </div>
+              <p className="learning-curr__scope">
+                <span className="learning-curr__scope-label">Scope</span>
+                {item.scope}
+              </p>
+              <p className="learning-curr__why">
+                <span className="learning-curr__scope-label">Why</span>
+                {whyLine(item)}
+              </p>
+            </li>
           ))}
-        </div>
+        </ol>
       </section>
 
-      <section className="learning-curr__section" aria-labelledby="practice-heading">
-        <h2 id="practice-heading" className="learning-curr__section-title">
-          Practice
+      <section
+        className="learning-curr__section"
+        aria-labelledby="exercises-heading"
+      >
+        <h2 id="exercises-heading" className="learning-curr__section-title">
+          Exercises
         </h2>
-        {curriculum.practice.map((item) => (
-          <div key={item.key} className="learning-curr__practice">
-            <div className="learning-curr__card-top">
-              <p className="learning-curr__practice-title">{item.title}</p>
-              <StatusChip status={item.state === "not_written" ? "not_written" : "pending"} />
-            </div>
-            <p className="learning-curr__practice-note">
-              {item.state === "not_written"
-                ? "Not written yet"
-                : item.pageText}
-            </p>
-            {item.why ? (
-              <p className="learning-curr__why">{item.why}</p>
-            ) : null}
-          </div>
-        ))}
+        <ul className="learning-curr__exercise-list">
+          {learningExercises.map((exercise) => (
+            <li key={exercise.slug} className="learning-curr__exercise">
+              <a
+                href={exercise.href}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {exercise.title}
+              </a>
+            </li>
+          ))}
+        </ul>
       </section>
 
       <p className="learning-curr__footer">
-        Synced from Notion Reading plan · {footerAsOf}
-        {curriculum.source === "last-good" ? " (last good copy)" : ""}
-        {curriculum.source === "fixture" ? " (fixture)" : ""}
+        Reading list is checked in under{" "}
+        <code>site/src/data/learning/readingCurriculum.ts</code>
       </p>
     </Shell>
-  );
-}
-
-function CourseCard({
-  course,
-  currentLessonKey,
-}: {
-  course: CurriculumCourse;
-  currentLessonKey: string | null;
-}) {
-  if (course.parseFailed) {
-    return (
-      <div className="learning-curr__card">
-        <div className="learning-curr__card-top">
-          <h3 className="learning-curr__card-title">Couldn&rsquo;t parse</h3>
-          <StatusChip status="pending" />
-        </div>
-        <p className="learning-curr__why">
-          This Reading order item couldn&rsquo;t be parsed. Shown as raw text;
-          nothing was guessed.
-        </p>
-        <pre className="learning-curr__raw">{course.rawText}</pre>
-      </div>
-    );
-  }
-
-  const currentLesson =
-    course.lessons.find((l) => l.key === currentLessonKey) ||
-    course.lessons.find((l) => l.status === "current");
-
-  return (
-    <article
-      className={
-        course.state === "current"
-          ? "learning-curr__card learning-curr__card--current"
-          : "learning-curr__card"
-      }
-    >
-      <div className="learning-curr__card-top">
-        <div>
-          <h3 className="learning-curr__card-title">
-            <Link href={`/learning/courses/${course.key}`}>{course.title}</Link>
-          </h3>
-          {course.author ? (
-            <p className="learning-curr__card-author">{course.author}</p>
-          ) : null}
-        </div>
-        <StatusChip status={course.state} />
-      </div>
-      {course.why ? <p className="learning-curr__why">{course.why}</p> : null}
-      <ProgressBar done={course.progress.done} total={course.progress.total} />
-      {currentLesson ? (
-        <p className="learning-curr__why" style={{ marginTop: "0.65rem" }}>
-          Current: {currentLesson.title}
-        </p>
-      ) : null}
-      {course.state === "current" && currentLesson ? (
-        <Link
-          className="learning-curr__continue"
-          href={`/learning/courses/${course.key}/lessons/${currentLesson.key}`}
-        >
-          Continue: {currentLesson.title}
-        </Link>
-      ) : (
-        <div className="learning-curr__cta-row">
-          <Link
-            className="learning-curr__btn learning-curr__btn--ghost"
-            href={`/learning/courses/${course.key}`}
-          >
-            Open course
-          </Link>
-        </div>
-      )}
-    </article>
   );
 }
 

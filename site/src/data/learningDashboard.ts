@@ -58,21 +58,35 @@ export const learningExercises: LearningExercise[] = [
   },
 ];
 
-/** Working reading list for the learning dashboard. */
+/**
+ * @deprecated Prefer `readingCurriculum` in `./learning/readingCurriculum`.
+ * Kept for the legacy LearningDashboard export.
+ */
 export const learningReadings: LearningReading[] = [
+  {
+    title: "The Design of Web APIs",
+    author: "Arnaud Lauret",
+    note: "Starting now",
+  },
   {
     title: "Domain-Driven Design",
     author: "Eric Evans",
-    note: "DDD",
+    note: "Picking up at Ch 2",
   },
   {
-    title: "Designing Data-Intensive Applications",
-    author: "Martin Kleppmann",
-    note: "DDIA",
+    title: "Site Reliability Engineering",
+    author: "Google",
+    note: "Ch 3, 4, 6, 14, 15",
   },
   {
-    title: "Payment Systems in the U.S.",
-    note: "Payments rails and settlement context",
+    title: "Payments Systems in the U.S.",
+    author: "Glenbrook",
+    note: "Fintech domain frameworks",
+  },
+  {
+    title: "Resilient Web Design",
+    author: "Jeremy Keith",
+    note: "Whole book",
   },
 ];
 
