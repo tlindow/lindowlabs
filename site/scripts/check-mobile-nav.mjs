@@ -259,8 +259,37 @@ async function run() {
       throw new Error("hero-play still mounted while nav player is docked");
     }
 
+    // Docked play must sit at the horizontal + vertical center of the sticky bar.
+    const playCenter = await page.evaluate(() => {
+      const header = document.querySelector("header.sticky");
+      const play = document.querySelector('[data-page-audio="nav-play"]');
+      if (!header || !play) return { error: "missing header or nav-play" };
+      const hr = header.getBoundingClientRect();
+      const pr = play.getBoundingClientRect();
+      const playCx = pr.left + pr.width / 2;
+      const playCy = pr.top + pr.height / 2;
+      const headerCx = hr.left + hr.width / 2;
+      const headerCy = hr.top + hr.height / 2;
+      return {
+        dx: Math.abs(playCx - headerCx),
+        dy: Math.abs(playCy - headerCy),
+        playCx: Math.round(playCx),
+        headerCx: Math.round(headerCx),
+        playCy: Math.round(playCy),
+        headerCy: Math.round(headerCy),
+      };
+    });
+    if (playCenter.error) {
+      throw new Error(playCenter.error);
+    }
+    if (playCenter.dx > 8 || playCenter.dy > 6) {
+      throw new Error(
+        `Docked nav-play not centered in header: ${JSON.stringify(playCenter)}`
+      );
+    }
+
     console.log(
-      "check-mobile-nav: ok (Login visible at 390px, docked scrubber+times at rest, no Visitors/LinkedIn, header overflow-x safe)"
+      "check-mobile-nav: ok (Login visible at 390px, docked scrubber+times at rest, centered play, no Visitors/LinkedIn, header overflow-x safe)"
     );
   } finally {
     await browser.close();
