@@ -1,7 +1,7 @@
 # Bounded contexts: checkout
 
-Seal the gap from Domain-Driven Design Ch 2: one shared language inside each
-boundary, not one muddled checkout blob.
+Seal the gap from Learning Domain-Driven Design (Khononov): one shared language
+inside each boundary, not one muddled checkout blob.
 
 **Resume line:** merchant domain architecture review (which team owns which
 merchant data).
