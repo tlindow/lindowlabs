@@ -257,6 +257,64 @@ a.learning-curr__card:hover {
   color: var(--lc-fg);
 }
 
+.learning-curr__order-rationale {
+  margin: 1rem 0 0;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  border: 1px solid var(--lc-border);
+  background: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--lc-fg);
+  max-width: 40rem;
+}
+
+.learning-curr__card-badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: 0.35rem;
+}
+
+.learning-curr__chip--owned {
+  background: #f3f0ea;
+  color: var(--lc-fg);
+}
+
+.learning-curr__why-module {
+  margin-top: 0.85rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--lc-border);
+}
+
+.learning-curr__why-dl {
+  margin: 0.35rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.learning-curr__why-dl > div {
+  margin: 0;
+}
+
+.learning-curr__why-dl dt {
+  margin: 0;
+  font-size: 0.7rem;
+  font-weight: 650;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--lc-muted);
+}
+
+.learning-curr__why-dl dd {
+  margin: 0.15rem 0 0;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--lc-fg);
+}
+
 .learning-curr__progress {
   margin: 0.75rem 0 0;
 }
