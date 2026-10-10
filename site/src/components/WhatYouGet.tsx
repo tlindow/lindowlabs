@@ -8,8 +8,9 @@ import { TinkerMark } from "@/components/brand/TinkerLogo";
 import { BeginnerSeedMark } from "@/components/brand/BeginnerMarks";
 import { AFFIRM_URL, BEGINNER_URL } from "@/data/urls";
 import {
-  getBlogPostByPillar,
+  getBlogPostBySlug,
   getPostHref,
+  type BlogPost,
 } from "@/data/blogPosts";
 
 interface WorkProduct {
@@ -29,18 +30,37 @@ interface ValuePillar {
     label: string;
     title: string;
   };
-  /** Visible post card inside this pillar (Affirm leadership story). */
-  featuredPost?: WorkProduct;
+  /** Visible post cards inside this pillar (Affirm leadership + work product). */
+  featuredPosts?: WorkProduct[];
 }
 
-const buildingTeamsPost = getBlogPostByPillar("methodical-enjoyable");
+function toWorkProduct(post: BlogPost | undefined): WorkProduct | null {
+  if (!post) return null;
+  return {
+    title: post.title,
+    description: post.summary,
+    href: getPostHref(post),
+  };
+}
+
+const buildingTeamsPost = toWorkProduct(
+  getBlogPostBySlug("building-teams-as-raising-funds"),
+);
+const buildingProductPost = toWorkProduct(
+  getBlogPostBySlug("building-product-as-system-architecture"),
+);
+
+const affirmFeaturedPosts: WorkProduct[] = [
+  buildingTeamsPost,
+  buildingProductPost,
+].filter((post): post is WorkProduct => post != null);
 
 const valuePillars: ValuePillar[] = [
   {
     id: "culture-builder",
     title: "Founder and CEO, Beginner Work.",
     ctaSubtext:
-      "Founder and CEO of Beginner Work from March to July 2026. Self-funded and built Tinker, an IDE for founders who want to get more technical, shipped and open-sourced as offline-first desktop and web apps; 28 early users. Ran 87 conversations with founders, Tinker's early target users, and 5 with VCs across SF, NYC, and LA, then wound the company down rather than fund a GTM that wasn't compounding.",
+      "Built Tinker, an IDE for folks who want to get more technical. 28 early users from 87 founder conversations. Wound it down in July 2026 and open-sourced it.",
     coinType: "beginner",
     link: {
       href: BEGINNER_URL,
@@ -58,13 +78,7 @@ const valuePillars: ValuePillar[] = [
       label: "Affirm",
       title: "Affirm",
     },
-    featuredPost: buildingTeamsPost
-      ? {
-          title: buildingTeamsPost.title,
-          description: buildingTeamsPost.summary,
-          href: getPostHref(buildingTeamsPost),
-        }
-      : undefined,
+    featuredPosts: affirmFeaturedPosts,
   },
 ];
 
@@ -91,15 +105,30 @@ function AffirmMark({ className = "h-4 w-auto" }: { className?: string }) {
   );
 }
 
-/** One shared "My work product" list (former per-pillar blog columns). */
-const workProducts: WorkProduct[] = [
-  {
-    title: "Building Product as System Architecture",
-    description:
-      "The merchant lifecycle work at Affirm: system architecture treated as the product, so the portal can keep earning trust as the surface grows.",
-    href: "/blog/building-product-as-system-architecture",
-  },
-];
+function FeaturedPostCard({ post }: { post: WorkProduct }) {
+  return (
+    <div className="w-full text-center sm:text-left">
+      <Link
+        href={post.href}
+        className="text-xl sm:text-2xl font-bold font-mono tracking-tight text-foreground hover:text-indigo-dark transition-colors underline-offset-4 hover:underline"
+        title={post.title}
+      >
+        {post.title}
+      </Link>
+      <p className="mt-2 text-xs sm:text-sm text-muted leading-relaxed font-mono">
+        {post.description}
+      </p>
+      <Link
+        href={post.href}
+        className="mt-3 inline-flex items-center gap-2 rounded-xl bg-surface hover:bg-surface-alt text-foreground border border-border px-5 py-2.5 text-xs sm:text-sm font-mono font-bold shadow-xs transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+        title={post.title}
+      >
+        <FileText size={15} className="shrink-0 text-foreground" />
+        <span>Read blog post</span>
+      </Link>
+    </div>
+  );
+}
 
 export default function WhatYouGet() {
   return (
@@ -141,22 +170,23 @@ export default function WhatYouGet() {
 
                 <div className="flex flex-col items-center text-center gap-3 w-full">
                   {pillar.ctaSubtext ? (
-                    <p className="text-xs sm:text-sm font-mono text-muted leading-snug text-center">
+                    <p
+                      className={
+                        pillar.id === "culture-builder"
+                          ? "text-base sm:text-lg font-mono text-muted leading-relaxed text-center"
+                          : "text-xs sm:text-sm font-mono text-muted leading-snug text-center"
+                      }
+                    >
                       {pillar.id === "culture-builder" ? (
                         <>
-                          Founder and CEO of Beginner Work from March to July
-                          2026. Self-funded and built{" "}
+                          Built{" "}
                           <span className="inline-flex items-center gap-1 font-bold text-foreground/85 align-baseline">
-                            <TinkerMark className="h-3.5 w-3.5" alt="" />
+                            <TinkerMark className="h-4 w-4 sm:h-5 sm:w-5" alt="" />
                             Tinker
                           </span>
-                          , an IDE for founders who want to get more
-                          technical, shipped and open-sourced as offline-first
-                          desktop and web apps; 28 early users.
-                          Ran 87 conversations with founders, Tinker&apos;s
-                          early target users, and 5 with VCs across SF, NYC,
-                          and LA, then wound the company down rather than fund
-                          a GTM that wasn&apos;t compounding.
+                          , an IDE for folks who want to get more technical. 28
+                          early users from 87 founder conversations. Wound it
+                          down in July 2026 and open-sourced it.
                         </>
                       ) : (
                         pillar.ctaSubtext
@@ -187,71 +217,17 @@ export default function WhatYouGet() {
                     </a>
                   </div>
 
-                  {pillar.featuredPost ? (
-                    <div className="mt-2 w-full text-center sm:text-left">
-                      <Link
-                        href={pillar.featuredPost.href}
-                        className="text-xl sm:text-2xl font-bold font-mono tracking-tight text-foreground hover:text-indigo-dark transition-colors underline-offset-4 hover:underline"
-                        title={pillar.featuredPost.title}
-                      >
-                        {pillar.featuredPost.title}
-                      </Link>
-                      <p className="mt-2 text-xs sm:text-sm text-muted leading-relaxed font-mono">
-                        {pillar.featuredPost.description}
-                      </p>
-                      <Link
-                        href={pillar.featuredPost.href}
-                        className="mt-3 inline-flex items-center gap-2 rounded-xl bg-surface hover:bg-surface-alt text-foreground border border-border px-5 py-2.5 text-xs sm:text-sm font-mono font-bold shadow-xs transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
-                        title={pillar.featuredPost.title}
-                      >
-                        <FileText
-                          size={15}
-                          className="shrink-0 text-foreground"
-                        />
-                        <span>Read blog post</span>
-                      </Link>
+                  {pillar.featuredPosts && pillar.featuredPosts.length > 0 ? (
+                    <div className="mt-2 w-full space-y-8">
+                      {pillar.featuredPosts.map((post) => (
+                        <FeaturedPostCard key={post.href} post={post} />
+                      ))}
                     </div>
                   ) : null}
                 </div>
               </motion.div>
             );
           })}
-
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.15 }}
-            transition={{ duration: 0.5, ease: [0.25, 0.4, 0.25, 1] }}
-            className="pt-6 border-t border-border/60 max-w-2xl mx-auto"
-          >
-            <span className="text-xs sm:text-sm font-mono font-bold uppercase tracking-widest text-indigo-dark block text-center">
-              My work product
-            </span>
-            <ul className="mt-6 space-y-8">
-              {workProducts.map((post) => (
-                <li key={post.href} className="text-center sm:text-left">
-                  <Link
-                    href={post.href}
-                    className="text-xl sm:text-2xl font-bold font-mono tracking-tight text-foreground hover:text-indigo-dark transition-colors underline-offset-4 hover:underline"
-                    title={post.title}
-                  >
-                    {post.title}
-                  </Link>
-                  <p className="mt-2 text-xs sm:text-sm text-muted leading-relaxed font-mono">
-                    {post.description}
-                  </p>
-                  <Link
-                    href={post.href}
-                    className="mt-3 inline-flex items-center gap-2 rounded-xl bg-surface hover:bg-surface-alt text-foreground border border-border px-5 py-2.5 text-xs sm:text-sm font-mono font-bold shadow-xs transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
-                    title={post.title}
-                  >
-                    <FileText size={15} className="shrink-0 text-foreground" />
-                    <span>Read blog post</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </motion.div>
         </div>
       </div>
     </section>

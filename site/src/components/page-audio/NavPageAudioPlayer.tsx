@@ -12,7 +12,7 @@ import { usePrefersReducedMotion } from "@/hooks/useProfileAnchors";
  * - No circular progress ring here (ring lives on the hero play control)
  *
  * One profile picture only: the in-flow photo owns the nav slot. ScrollMorphAvatar
- * fades out at the dock and stays under the sticky bar (page shell z-0) for contact.
+ * fades out at the dock (display:none); while morphing it portals over the sticky bar.
  *
  * Layout: once past the hero, the avatar (+ player chrome when a clip exists)
  * stays width-reserved so show/hide is opacity-only — no flex reflow of Login,

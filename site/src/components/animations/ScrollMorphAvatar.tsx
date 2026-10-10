@@ -1,6 +1,17 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { createPortal } from "react-dom";
+
+function subscribePortalRoot() {
+  return () => {};
+}
+function getPortalRoot(): HTMLElement | null {
+  return typeof document !== "undefined" ? document.body : null;
+}
+function getPortalRootServer(): HTMLElement | null {
+  return null;
+}
 import {
   motion,
   useScroll,
@@ -11,6 +22,9 @@ import {
 } from "framer-motion";
 import * as THREE from "three";
 import { getProfileDockOwner } from "@/lib/profileDock";
+
+/** Above sticky nav (z-50) during hero→nav transition / dock; page shell stays z-0. */
+const MORPH_OVER_NAV_Z = 60;
 
 interface Coords {
   heroX: number;
@@ -78,6 +92,12 @@ export default function ScrollMorphAvatar({
   // Plain React display (not a MotionValue): framer can skip applying
   // style.display from useTransform, which left a compositor sliver under nav.
   const [navDockHidden, setNavDockHidden] = useState(false);
+  // Portal to document.body so morph stacks over sticky nav (z-50).
+  const portalEl = useSyncExternalStore(
+    subscribePortalRoot,
+    getPortalRoot,
+    getPortalRootServer
+  );
   const rootRef = useRef<HTMLDivElement | null>(null);
   const canvasContainerRef = useRef<HTMLDivElement | null>(null);
   const isHoveredRef = useRef(false);
@@ -186,7 +206,7 @@ export default function ScrollMorphAvatar({
 
   // 2. Three.js WebGL Profile Coin Setup
   useEffect(() => {
-    if (!isReady || !canvasContainerRef.current) return;
+    if (!isReady || !portalEl || !canvasContainerRef.current) return;
     const container = canvasContainerRef.current;
 
     const size = 384; // Crisp texture resolution
@@ -459,7 +479,16 @@ export default function ScrollMorphAvatar({
       rimBump.dispose();
       renderer.dispose();
     };
-  }, [isReady, basePath, onReady, progress, effectiveContactProgress, activeDirectToHero, scrollY]);
+  }, [
+    isReady,
+    portalEl,
+    basePath,
+    onReady,
+    progress,
+    effectiveContactProgress,
+    activeDirectToHero,
+    scrollY,
+  ]);
 
   // 3. Motion Interpolation for position & scale.
   // Hero → nav still morphs along a path. Nav ↔ Let's talk is an in-place
@@ -635,8 +664,6 @@ export default function ScrollMorphAvatar({
   });
 
   // Drop-shadow only while the coin is the visible photo (hero / contact).
-  // filter creates a compositor layer; SiteChrome's relative z-0 keeps it
-  // under the sticky nav (z-50) even so. Local z-40 still clears body copy.
   const phaseFilter = useTransform(phaseOpacity, (op) =>
     op > 0.05 ? "drop-shadow(0 4px 6px rgb(0 0 0 / 0.15))" : "none"
   );
@@ -645,11 +672,11 @@ export default function ScrollMorphAvatar({
     op > 0.05 ? "auto" : "none"
   );
 
-  if (!isReady || !coords) {
+  if (!isReady || !coords || !portalEl) {
     return null;
   }
 
-  return (
+  return createPortal(
     <motion.div
       ref={rootRef}
       style={{
@@ -658,8 +685,9 @@ export default function ScrollMorphAvatar({
         top: y,
         width: size,
         height: size,
-        // Always under sticky nav (SiteChrome traps this fixed layer at z-0).
-        zIndex: 40,
+        // Over sticky nav during transition + dock approach (nav img takes over
+        // when owner===nav and this node is display:none).
+        zIndex: MORPH_OVER_NAV_Z,
         opacity: webglReady ? phaseOpacity : 0,
         visibility: phaseVisibility,
         display: navDockHidden ? "none" : "block",
@@ -697,6 +725,7 @@ export default function ScrollMorphAvatar({
         ref={canvasContainerRef}
         className="w-full h-full flex items-center justify-center transition-transform duration-300 group-hover:scale-105"
       />
-    </motion.div>
+    </motion.div>,
+    portalEl
   );
 }
