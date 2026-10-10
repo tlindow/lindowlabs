@@ -28,9 +28,6 @@ export default function BooksIveReadPage() {
         <h1 className="mt-3 text-3xl sm:text-4xl font-bold font-mono tracking-tight text-foreground">
           Books I&apos;ve read
         </h1>
-        <p className="mt-3 text-base sm:text-lg font-mono text-muted leading-relaxed">
-          Whole books only. Titles and authors.
-        </p>
 
         <ol className="mt-10 sm:mt-12 space-y-6 border-t border-border/70 pt-8">
           {BOOKS_IVE_READ.map((book) => (
