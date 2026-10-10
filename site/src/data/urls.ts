@@ -4,6 +4,9 @@
  */
 export const BEGINNER_URL = "https://www.beginner.work";
 
+/** Affirm home page. */
+export const AFFIRM_URL = "https://www.affirm.com/";
+
 /** hāpi product page on the Beginner site. */
 export const BEGINNER_HAPI_URL = `${BEGINNER_URL}/hapi`;
 
