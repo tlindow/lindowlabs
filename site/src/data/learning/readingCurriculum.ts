@@ -12,6 +12,14 @@ import {
   type CurriculumExerciseLinks,
 } from "@/lib/learning/openInTinker";
 
+/** Four-part logical case for why a module is on the desk. */
+export type WhyThisModule = {
+  claim: string;
+  gap: string;
+  risk: string;
+  close: string;
+};
+
 export type ReadingCurriculumItem = {
   /** Stable id for React keys. */
   id: string;
@@ -37,9 +45,20 @@ export type ReadingCurriculumItem = {
   essaySource: string | null;
   /** Optional note (e.g. free online edition). */
   bookNote: string | null;
+  /** Physical / owned copy note, e.g. "Owned (paperback)". */
+  ownership: string | null;
+  /** Claim / Gap / Risk / Close case for this module. */
+  whyThisModule: WhyThisModule;
   /** Linked exercise under exercises/<id>. */
   exercise: CurriculumExerciseLinks;
 };
+
+/**
+ * Shown once above the reading list. Explains curriculum order.
+ * Owner-only (same payload as readingCurriculum).
+ */
+export const curriculumOrderRationale =
+  "Order: 1 and 3 back up your two strongest resume claims, so they come first. 2 and 4 deepen your domain knowledge, 5 builds on 4, and 6 runs alongside as interview prep.";
 
 /** Ordered reading curriculum shown on /learning after owner sign-in. */
 export const readingCurriculum: ReadingCurriculumItem[] = [
@@ -53,6 +72,15 @@ export const readingCurriculum: ReadingCurriculumItem[] = [
     essayQuote: null,
     essaySource: null,
     bookNote: null,
+    ownership: null,
+    whyThisModule: {
+      claim:
+        "you led merchant and partner integrations, which are APIs that other companies build on.",
+      gap: 'in "Buy the web APIs book?" you couldn\'t say how endpoints map to resources.',
+      risk: "DevX and integrations interviews ask you to judge an API design, and you'd be judging without a model.",
+      close:
+        "Lauret builds that model from resources outward, and the OpenAPI exercise proves you can produce one, not just recognize one.",
+    },
     exercise: curriculumExerciseLinks(
       "api-design",
       "Model Merchant, Order, and Refund as resources, map routes and methods, then write the OpenAPI spec (plain English first)."
@@ -68,6 +96,15 @@ export const readingCurriculum: ReadingCurriculumItem[] = [
     essayQuote: null,
     essaySource: null,
     bookNote: null,
+    ownership: null,
+    whyThisModule: {
+      claim:
+        "you led the merchant domain architecture review that reshaped the merchant org.",
+      gap: 'in "why would you ever go back and read the code?" you described splitting work into business units by instinct, without the vocabulary for it.',
+      risk: "an interviewer will ask how you decided where the boundaries go, and instinct isn't a defensible answer.",
+      close:
+        "bounded contexts turn that instinct into a method you can explain, and splitting the checkout codebase applies it.",
+    },
     exercise: curriculumExerciseLinks(
       "bounded-contexts",
       "Split a small checkout codebase into bounded contexts (Merchant, Payments, Disputes) using the team's language."
@@ -84,6 +121,15 @@ export const readingCurriculum: ReadingCurriculumItem[] = [
     essayQuote: null,
     essaySource: null,
     bookNote: "Free at sre.google",
+    ownership: "Owned (paperback)",
+    whyThisModule: {
+      claim:
+        "you took Merchant Portal from ~99.7% to 99.9% availability and cut outage detection from ~1 hour to under 5 minutes.",
+      gap: 'in "Merchant portal reliability" you weren\'t comfortable defending the availability number, and the incidents came from adding logging.',
+      risk: "you can't confidently own your strongest metric on the resume.",
+      close:
+        "SLOs and error budgets explain why more logging surfaces more incidents and why 99.9% counts. The alert exercise ties that back to your detection-time win.",
+    },
     exercise: curriculumExerciseLinks(
       "merchant-portal-slos",
       "Write SLOs and an error budget for a merchant portal, then an alert check for fast budget burn."
@@ -99,6 +145,14 @@ export const readingCurriculum: ReadingCurriculumItem[] = [
     essayQuote: null,
     essaySource: "DDD reading notes (needs fintech frameworks)",
     bookNote: null,
+    ownership: null,
+    whyThisModule: {
+      claim: "you spent six years in merchant engineering at Affirm.",
+      gap: "your DDD notes say you lean on analogies from other domains instead of fintech frameworks.",
+      risk: 'at a fintech, "how does money actually move" is basic knowledge for a senior EM.',
+      close:
+        "Glenbrook gives you the payment lifecycle, and the state-machine exercise makes you encode it exactly.",
+    },
     exercise: curriculumExerciseLinks(
       "card-payment-lifecycle",
       "Model one card payment through authorization, capture, clearing, and settlement as a state machine."
@@ -114,6 +168,15 @@ export const readingCurriculum: ReadingCurriculumItem[] = [
     essayQuote: null,
     essaySource: null,
     bookNote: null,
+    ownership: null,
+    whyThisModule: {
+      claim:
+        "you moved Merchant Portal off Snowflake onto the merchant data platform's RPCs.",
+      gap: 'in "I\'m still learning how to code everyday" you said data management is at the core and you haven\'t done much of it.',
+      risk: "in payments, a data mistake means money moves twice.",
+      close:
+        "Ch 7 covers transactions, and the idempotent refund exercise is that exact failure mode.",
+    },
     exercise: curriculumExerciseLinks(
       "idempotent-refund",
       "Build an idempotent refund endpoint so the same refund twice refunds once."
@@ -124,11 +187,19 @@ export const readingCurriculum: ReadingCurriculumItem[] = [
     title: "Grokking Algorithms",
     author: "Aditya Bhargava",
     scope: "Whole book",
-    resumeLine: "Still closing DS&A gaps for merchant data work",
+    resumeLine: "Hiring screen (not a resume line)",
     essayTitle: "I'm still learning how to code everyday",
     essayQuote: null,
     essaySource: null,
     bookNote: null,
+    ownership: null,
+    whyThisModule: {
+      claim: "none on the resume. This one is a hiring screen, not a resume line.",
+      gap: "the same essay says you never mastered data structures and algorithms.",
+      risk: "many EM loops still include a coding round.",
+      close:
+        "it's book-format, which suits how you learn, and applying each algorithm to merchant data keeps it tied to your work.",
+    },
     exercise: curriculumExerciseLinks(
       "settlement-binary-search",
       "One chapter's algorithm per session on merchant data (e.g. binary search over sorted settlement records)."

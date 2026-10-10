@@ -1,6 +1,10 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import type { ReadingCurriculumItem } from "@/data/learning/readingCurriculum";
+import {
+  curriculumOrderRationale,
+  type ReadingCurriculumItem,
+  type WhyThisModule,
+} from "@/data/learning/readingCurriculum";
 import { learningSignOut } from "@/lib/auth/learningSignOut";
 import { formatAsOfPt } from "@/lib/learning/formatPt";
 import type {
@@ -37,6 +41,32 @@ function essayBlock(item: ReadingCurriculumItem) {
     );
   }
   return null;
+}
+
+function WhyThisModuleBlock({ why }: { why: WhyThisModule }) {
+  return (
+    <div className="learning-curr__why-module">
+      <span className="learning-curr__scope-label">Why this module</span>
+      <dl className="learning-curr__why-dl">
+        <div>
+          <dt>Claim</dt>
+          <dd>{why.claim}</dd>
+        </div>
+        <div>
+          <dt>Gap</dt>
+          <dd>{why.gap}</dd>
+        </div>
+        <div>
+          <dt>Risk</dt>
+          <dd>{why.risk}</dd>
+        </div>
+        <div>
+          <dt>Close</dt>
+          <dd>{why.close}</dd>
+        </div>
+      </dl>
+    </div>
+  );
 }
 
 function StatusChip({
@@ -167,6 +197,9 @@ export function CurriculumDashboard({
         Six books that seal gaps against the resume. Notes stay in Tinker; each
         book has a repo exercise. This desk never writes answers for you.
       </p>
+      <p className="learning-curr__order-rationale" data-curriculum-order>
+        {curriculumOrderRationale}
+      </p>
 
       <section
         className="learning-curr__section"
@@ -193,7 +226,14 @@ export function CurriculumDashboard({
                   <h3 className="learning-curr__card-title">{item.title}</h3>
                   <p className="learning-curr__card-author">{item.author}</p>
                 </div>
-                {index === 0 ? <StatusChip status="current" /> : null}
+                <div className="learning-curr__card-badges">
+                  {item.ownership ? (
+                    <span className="learning-curr__chip learning-curr__chip--owned">
+                      {item.ownership}
+                    </span>
+                  ) : null}
+                  {index === 0 ? <StatusChip status="current" /> : null}
+                </div>
               </div>
               <p className="learning-curr__scope">
                 <span className="learning-curr__scope-label">Chapters</span>
@@ -210,6 +250,7 @@ export function CurriculumDashboard({
                 {item.resumeLine}
               </p>
               <p className="learning-curr__why">{essayBlock(item)}</p>
+              <WhyThisModuleBlock why={item.whyThisModule} />
               <div className="learning-curr__exercise-block">
                 <span className="learning-curr__scope-label">Exercise</span>
                 <p className="learning-curr__exercise-summary">

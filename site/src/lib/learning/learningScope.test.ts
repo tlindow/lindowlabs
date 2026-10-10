@@ -1,6 +1,9 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { readingCurriculum } from "../../data/learning/readingCurriculum.ts";
+import {
+  curriculumOrderRationale,
+  readingCurriculum,
+} from "../../data/learning/readingCurriculum.ts";
 import {
   deskPayloadForUser,
   mayLoadOwnerCurriculum,
@@ -8,14 +11,23 @@ import {
 } from "./learningScope.ts";
 
 describe("readingCurriculumForUser", () => {
-  it("owner sees exactly six books with resume lines and exercises", () => {
+  it("owner sees exactly six books with why-this-module cases and exercises", () => {
     const items = readingCurriculumForUser(true);
     assert.equal(items.length, 6);
     assert.equal(items.length, readingCurriculum.length);
     assert.equal(items[0]?.title, "The Design of Web APIs");
     assert.equal(items[5]?.title, "Grokking Algorithms");
+    assert.match(curriculumOrderRationale, /^Order: 1 and 3/);
+    assert.equal(
+      items[2]?.ownership,
+      "Owned (paperback)"
+    );
     for (const item of items) {
       assert.ok(item.resumeLine.trim());
+      assert.ok(item.whyThisModule.claim.trim());
+      assert.ok(item.whyThisModule.gap.trim());
+      assert.ok(item.whyThisModule.risk.trim());
+      assert.ok(item.whyThisModule.close.trim());
       assert.ok(item.exercise.id);
       assert.ok(item.exercise.openInTinkerUrl.includes("tinker.beginner.work"));
       assert.match(item.exercise.openInCursorUrl, /^cursor:\/\//);
@@ -25,9 +37,13 @@ describe("readingCurriculumForUser", () => {
       );
       assert.ok(item.essayTitle || item.essaySource);
     }
+    assert.equal(
+      items.filter((item) => item.ownership).length,
+      1
+    );
   });
 
-  it("non-owner sees empty curriculum (no essay quotes)", () => {
+  it("non-owner sees empty curriculum (no essay quotes or why blocks)", () => {
     const items = readingCurriculumForUser(false);
     assert.deepEqual(items, []);
     assert.equal(items.length, 0);

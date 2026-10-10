@@ -91,7 +91,7 @@ export const learningReadings: LearningReading[] = [
   {
     title: "Grokking Algorithms",
     author: "Aditya Bhargava",
-    note: "Whole book",
+    note: "Whole book · hiring screen",
   },
 ];
 
