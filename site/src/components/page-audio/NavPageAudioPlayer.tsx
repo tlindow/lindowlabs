@@ -36,8 +36,10 @@ export default function NavPageAudioPlayer() {
   const safeDuration = duration > 0 ? duration : 0;
   // In-flow once past hero (measurement target always available).
   const inFlow = isPastHero;
-  // Full player chrome is reserved whenever a clip exists past the hero;
-  // visibility is opacity-only so Login never shifts during handoff.
+  // Play target is always reserved when a clip exists so the morphing hero
+  // play can measure the docked slot from scroll 0. Scrubber chrome still
+  // appears only past the hero; visibility is opacity-only for Login stability.
+  const reservePlayTarget = hasClip;
   const reservePlayerChrome = hasClip && inFlow;
   const showDockedPlayer = hasClip && showNavPhoto;
 
@@ -82,15 +84,11 @@ export default function NavPageAudioPlayer() {
         />
       </div>
 
-      {reservePlayerChrome ? (
+      {reservePlayTarget ? (
         <div
-          className={`flex items-center gap-1.5 sm:gap-2 shrink-0 ${
-            showDockedPlayer
-              ? `opacity-100 ${fadeInClass}`
-              : "opacity-0 pointer-events-none"
-          }`}
-          data-page-audio="nav-full-player"
-          aria-hidden={showDockedPlayer ? undefined : true}
+          id="navbar-play-target"
+          className="relative h-7 w-7 sm:h-8 sm:w-8 shrink-0"
+          data-page-audio="nav-play-target"
         >
           <button
             type="button"
@@ -102,7 +100,11 @@ export default function NavPageAudioPlayer() {
             aria-label={pageAudioToggleLabel(clip, isPlaying)}
             tabIndex={showDockedPlayer ? 0 : -1}
             data-page-audio="nav-play"
-            className="inline-flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full border border-border bg-sand/80 text-indigo-dark shrink-0 transition-colors hover:bg-sand hover:border-indigo-dark/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-dark/40"
+            className={`inline-flex h-full w-full items-center justify-center rounded-full border border-border bg-sand/80 text-indigo-dark shrink-0 transition-colors hover:bg-sand hover:border-indigo-dark/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-dark/40 ${
+              showDockedPlayer
+                ? `opacity-100 ${fadeInClass}`
+                : "opacity-0 pointer-events-none"
+            }`}
           >
             {isPlaying ? (
               <Pause size={12} className="shrink-0 fill-current" aria-hidden="true" />
@@ -110,7 +112,19 @@ export default function NavPageAudioPlayer() {
               <Play size={12} className="shrink-0 fill-current ml-px" aria-hidden="true" />
             )}
           </button>
+        </div>
+      ) : null}
 
+      {reservePlayerChrome ? (
+        <div
+          className={`flex items-center gap-1.5 sm:gap-2 shrink-0 ${
+            showDockedPlayer
+              ? `opacity-100 ${fadeInClass}`
+              : "opacity-0 pointer-events-none"
+          }`}
+          data-page-audio="nav-full-player"
+          aria-hidden={showDockedPlayer ? undefined : true}
+        >
           {/* Seekable scrubber + times: always painted when docked (rest and mid-play).
               Desktop/tablet: in-bar. Mobile (390): under-nav strip (see MobileScrubber). */}
           <div

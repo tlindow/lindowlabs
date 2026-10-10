@@ -375,16 +375,14 @@ export default function ScrollMorphAvatar({
       handleImageLoad();
     }
 
-    // Animation Loop: Coin rotates during hero->nav (Phase 1) and nav->contact (Phase 2), or on hover/click
+    // Animation loop: face stays upright (no scroll flip). Hover/click may nudge.
     let animationFrameId: number;
     let hoverSpin = 0;
 
     const renderLoop = () => {
       animationFrameId = requestAnimationFrame(renderLoop);
 
-      // Phase 1: progress from 0 (hero anchor) to 1 (navbar)
       const rawProgress = Math.min(Math.max(progress.get(), 0), 1);
-      // Phase 2: progress from 0 (navbar) to 1 (contact slot)
       const rawContact = Math.min(Math.max(effectiveContactProgress.get(), 0), 1);
       const direct = activeDirectToHero.get();
       const isHovered = isHoveredRef.current;
@@ -440,23 +438,9 @@ export default function ScrollMorphAvatar({
           clickImpulseRef.current *= 0.92;
         }
 
-        const hoverTilt = isHovered ? 0.15 : 0;
-
-        if (direct > 0.5) {
-          const easedT = quickT * quickT * (3 - 2 * quickT);
-          coinMesh.rotation.y =
-            (1 + easedT) * Math.PI * 2 + hoverSpin + clickImpulseRef.current;
-          coinMesh.rotation.x = Math.sin(easedT * Math.PI) * 0.28 + hoverTilt;
-        } else if (owner === "contact") {
-          coinMesh.rotation.y =
-            2 * Math.PI * 2 + hoverSpin + clickImpulseRef.current;
-          coinMesh.rotation.x = hoverTilt;
-        } else {
-          const easedP1 = rawProgress * rawProgress * (3 - 2 * rawProgress);
-          coinMesh.rotation.y =
-            easedP1 * Math.PI * 2 + hoverSpin + clickImpulseRef.current;
-          coinMesh.rotation.x = Math.sin(easedP1 * Math.PI) * 0.28 + hoverTilt;
-        }
+        // No scroll-driven flip — only light hover/click feedback.
+        coinMesh.rotation.y = hoverSpin + clickImpulseRef.current;
+        coinMesh.rotation.x = isHovered ? 0.15 : 0;
 
         renderer.render(scene, camera);
       }

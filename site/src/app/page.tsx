@@ -11,10 +11,10 @@ import { TinkerMark } from "@/components/brand/TinkerLogo";
 import About from "@/components/About";
 import WhatYouGet from "@/components/WhatYouGet";
 import Footer from "@/components/Footer";
-import HeroPageAudioButton from "@/components/page-audio/HeroPageAudioButton";
 import ScrollMorphAvatar, {
   HERO_PIN_SCROLL_DISTANCE,
 } from "@/components/animations/ScrollMorphAvatar";
+import ScrollMorphPlayButton from "@/components/animations/ScrollMorphPlayButton";
 import { useAnalytics } from "@/context/AnalyticsProvider";
 import { useRegisterReturnToHero } from "@/context/NavbarActions";
 import { usePrefersReducedMotion } from "@/hooks/useProfileAnchors";
@@ -276,6 +276,10 @@ export default function Home() {
         directToHero={directToHero}
         onReturnToHero={handleReturnToHero}
       />
+      <ScrollMorphPlayButton
+        progress={avatarProgress}
+        directToHero={directToHero}
+      />
 
       <div className="no-print w-full">
         <main className="w-full">
@@ -296,9 +300,13 @@ export default function Home() {
                     data-profile-anchor="hero"
                     className="w-24 h-24 sm:w-28 sm:h-28 rounded-full shrink-0 relative"
                   />
-                  {/* Play/pause docks to nav on scroll; shared <audio> keeps playback. */}
+                  {/* Measure target for morphing play (portaled ScrollMorphPlayButton). */}
                   <div className="absolute left-full top-1/2 -translate-y-1/2 ml-3 sm:ml-4">
-                    <HeroPageAudioButton />
+                    <div
+                      id="hero-play-anchor"
+                      className="h-12 w-12 sm:h-[3.25rem] sm:w-[3.25rem]"
+                      aria-hidden="true"
+                    />
                   </div>
                 </div>
 

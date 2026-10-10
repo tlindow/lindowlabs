@@ -167,9 +167,8 @@ async function runAtViewport(browser, baseUrl, width, height) {
     throw new Error(`hero@${width}: expected morph coin, got ${hero.id}`);
   }
 
-  // Mid-hero scroll: morph coin must paint OVER the sticky nav; other page
-  // content (hero play) must still slide under it. Sample where the coin
-  // crosses the nav bottom edge (desktop ~1024-1280).
+  // Mid-hero scroll: morph coin + morph play must paint OVER the sticky nav.
+  // Sample where they cross the nav bottom edge (desktop ~1024-1280).
   await page.evaluate(() => {
     document.documentElement.style.scrollBehavior = "auto";
   });
@@ -228,12 +227,18 @@ async function runAtViewport(browser, baseUrl, width, height) {
         }
       }
 
-      const playHit = sampleHit(
-        document.querySelector('[data-page-audio="hero-play"]'),
-        "hero-play"
-      );
-      if (playHit?.overNav) {
-        leaks.push({ ...playHit, reason: "hero-play-over-nav" });
+      // Morphing play (hero-play / morph-play) must paint OVER the sticky nav,
+      // same as the profile coin. Other page-audio chrome stays under.
+      const playEl =
+        document.querySelector('[data-page-audio="morph-play"]') ||
+        document.querySelector('[data-page-audio="hero-play"]');
+      const playHit = sampleHit(playEl, "morph-play");
+      if (playHit) {
+        const playOverNav = playHit.photo === "morph" || playHit.overNav ||
+          playHit.audio === "morph-play" || playHit.audio === "hero-play";
+        if (!playOverNav) {
+          leaks.push({ ...playHit, reason: "morph-play-under-nav" });
+        }
       }
 
       return { scrollY: window.scrollY, leaks, morphHit };

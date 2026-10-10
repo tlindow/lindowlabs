@@ -30,8 +30,8 @@ export default function Navbar() {
     // which hid the absolute mobile menu that hangs below this bar.
     // relative: docked page-audio mobile timeline (scrub + times) sits under this bar.
     // z-50 + isolate: sticky chrome sits above the page shell (relative z-0 in
-    // SiteChrome), so play / section coins slide under this bar. Profile morph
-    // portals above (z-60) during hero→nav.
+    // SiteChrome), so section coins / body copy slide under this bar. Profile
+    // morph + hero play portal above (z-60) during hero→nav (move/scale only).
     // overflow-anchor: none — sticky header size/visibility changes during the
     // Let's talk ↔ nav photo handoff must not retarget scrollY (scroll hitch).
     <header className="sticky top-0 z-50 isolate w-full bg-background opacity-100 border-b border-border no-print relative [overflow-anchor:none]">
