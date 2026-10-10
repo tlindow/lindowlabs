@@ -107,6 +107,11 @@ describe("readingCurriculumForUser", () => {
       items[1]?.consideredInstead,
       "*Designing Web APIs* (Jin, Sahni, Shevat) was considered. It treats the API as a product, covering developer experience, adoption, and scaling, which Tyler already practices as a DevX lead. The gap here is modeling resources and mapping them to routes, and Lauret teaches that directly, starting from user goals."
     );
+    // Module 2 must list Lauret as the book (data; UI book card reads these).
+    assert.equal(items[1]?.title, "The Design of Web APIs");
+    assert.equal(items[1]?.author, "Arnaud Lauret");
+    assert.ok(items[1]?.getBookUrl.includes("the-design-of-web-apis"));
+    assert.equal(items[1]?.exercise.id, "api-design");
   });
 
   it("non-owner sees empty curriculum (no essay modules)", () => {

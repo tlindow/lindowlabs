@@ -891,6 +891,44 @@ a.learning-curr__card:hover {
   padding: 0 0.15rem 1.1rem 0.15rem;
 }
 
+.learning-pl__book-card {
+  margin: 0 0 1rem;
+  padding: 1rem 1.05rem 1.1rem;
+  border: 1px solid var(--lc-border);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: var(--lc-shadow);
+}
+
+.learning-pl__book-label {
+  margin: 0 0 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--lc-muted);
+}
+
+.learning-pl__book-title {
+  margin: 0;
+  font-family: var(--lc-font-display);
+  font-size: 1.2rem;
+  font-weight: 650;
+  letter-spacing: -0.015em;
+  line-height: 1.3;
+  color: var(--lc-fg);
+}
+
+.learning-pl__book-meta {
+  margin: 0.35rem 0 0;
+  font-size: 0.9rem;
+  color: var(--lc-muted);
+}
+
+.learning-pl__book-card .learning-curr__cta-row {
+  margin-top: 0.85rem;
+}
+
 .learning-pl__heading {
   margin: 0 0 0.65rem;
   font-family: var(--lc-font-display);
@@ -898,10 +936,6 @@ a.learning-curr__card:hover {
   font-weight: 650;
   letter-spacing: -0.015em;
   line-height: 1.35;
-}
-
-.learning-pl__read-actions {
-  margin-top: 1rem;
 }
 
 .learning-pl__ready {
