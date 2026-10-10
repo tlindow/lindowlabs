@@ -7,9 +7,9 @@ import { usePrefersReducedMotion } from "@/hooks/useProfileAnchors";
 
 /** SVG ring geometry for the docked play control (28px / sm 32px button). */
 const PLAY_RING = {
-  size: 36,
-  radius: 15.5,
-  stroke: 2,
+  size: 40,
+  radius: 17.5,
+  stroke: 2.5,
 } as const;
 
 function playProgressFraction(currentTime: number, duration: number): number {
