@@ -252,7 +252,12 @@ export function PageAudioProvider({ children }: { children: ReactNode }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
+  // Seed from optional durationSeconds so the docked scrubber shows 0:00 / total
+  // at rest before media metadata arrives (visible-before-play requirement).
+  const [duration, setDuration] = useState(() => {
+    const hint = clip?.durationSeconds;
+    return typeof hint === "number" && hint > 0 ? hint : 0;
+  });
   const dock = useProfileDock(pathname);
 
   const showNavPhoto = dock.showNavPhoto;

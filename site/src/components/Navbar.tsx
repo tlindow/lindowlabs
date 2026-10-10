@@ -28,7 +28,7 @@ export default function Navbar() {
   return (
     // No overflow-x-clip here: Safari also clips Y when overflow-x is clip,
     // which hid the absolute mobile menu that hangs below this bar.
-    // relative: docked page-audio mobile scrubber sits under this bar.
+    // relative: docked page-audio mobile timeline (scrub + times) sits under this bar.
     // z-50 + isolate: sticky chrome sits above the page shell (relative z-0 in
     // SiteChrome), so hero morph / play / coins always slide under this bar.
     // overflow-anchor: none — sticky header size/visibility changes during the
