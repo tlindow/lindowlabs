@@ -4,6 +4,7 @@ import type { ReadingCurriculumItem } from "@/data/learning/readingCurriculum";
 import LearningPlaylist from "@/components/learning/LearningPlaylist";
 import { learningSignOut } from "@/lib/auth/learningSignOut";
 import { formatAsOfPt } from "@/lib/learning/formatPt";
+import type { PlaylistProgress } from "@/lib/learning/playlistProgress";
 import type {
   CourseState,
   Curriculum,
@@ -130,15 +131,20 @@ export function LearningStarterEmpty({
 
 export function CurriculumDashboard({
   readingItems,
+  initialProgress,
   showSignOut = true,
 }: {
   /** Owner-only list from the server; never pass another user's items. */
   readingItems: ReadingCurriculumItem[];
+  initialProgress: PlaylistProgress;
   showSignOut?: boolean;
 }) {
   return (
     <Shell showSignOut={showSignOut}>
-      <LearningPlaylist readingItems={readingItems} />
+      <LearningPlaylist
+        readingItems={readingItems}
+        initialProgress={initialProgress}
+      />
     </Shell>
   );
 }

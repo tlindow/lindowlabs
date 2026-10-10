@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
 import { LearningNotConfigured } from "@/components/learning/LearningDashboard";
 import {
   CurriculumDashboard,
@@ -8,6 +9,10 @@ import LearningSignIn from "@/components/learning/LearningSignIn";
 import { LEARNING_DASHBOARD_URL } from "@/data/urls";
 import { readingCurriculumForUser } from "@/lib/learning/learningScope";
 import { loadLearningGate } from "@/lib/learning/loadLearningPage";
+import {
+  PLAYLIST_PROGRESS_COOKIE,
+  parsePlaylistProgressCookie,
+} from "@/lib/learning/playlistProgress";
 
 export const metadata: Metadata = {
   title: "Learning | Lindow Labs",
@@ -51,9 +56,16 @@ export default async function LearningPage() {
     return <LearningStarterEmpty showSignOut={!gate.bypass} />;
   }
 
+  const jar = await cookies();
+  const initialProgress = parsePlaylistProgressCookie(
+    jar.get(PLAYLIST_PROGRESS_COOKIE)?.value,
+    gate.userId
+  );
+
   return (
     <CurriculumDashboard
       readingItems={readingItems}
+      initialProgress={initialProgress}
       showSignOut={!gate.bypass}
     />
   );

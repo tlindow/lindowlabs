@@ -3,7 +3,6 @@ import { describe, it } from "node:test";
 import {
   curriculumEssayIntro,
   curriculumEssayTitle,
-  ELEVENREADER_URL,
   readingCurriculum,
   SRE_FREE_BOOK_URL,
 } from "../../data/learning/readingCurriculum.ts";
@@ -100,7 +99,6 @@ describe("readingCurriculumForUser", () => {
       "split a small checkout codebase into Merchant, Payments and Disputes contexts, naming each in the words your team actually used."
     );
     assert.equal(items[0]?.getBookUrl, SRE_FREE_BOOK_URL);
-    assert.equal(ELEVENREADER_URL, "https://elevenreader.io");
   });
 
   it("non-owner sees empty curriculum (no essay modules)", () => {

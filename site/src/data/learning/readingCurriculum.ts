@@ -8,9 +8,6 @@ import {
   type CurriculumExerciseLinks,
 } from "@/lib/learning/openInTinker";
 
-/** ElevenReader app: scan paper books and listen. Primary play CTA target. */
-export const ELEVENREADER_URL = "https://elevenreader.io";
-
 /** Free SRE book (Google). Used as Get the book for module 1. */
 export const SRE_FREE_BOOK_URL =
   "https://sre.google/sre-book/table-of-contents/";
