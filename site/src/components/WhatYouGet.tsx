@@ -72,21 +72,23 @@ const valuePillars: ValuePillar[] = [
 ];
 
 /**
- * Affirm wordmark (arched lowercase a). Official mark paths; currentColor so
- * the dark Affirm CTA can use brand white without inventing new hues.
+ * Affirm monogram: single lowercase 'a' with arch (app-icon mark).
+ * Glyph from affirm.com logo SVG; arch matches Affirm app icon proportions.
  */
-function AffirmWordmark({ className = "h-4 w-auto" }: { className?: string }) {
+function AffirmMark({ className = "h-4 w-4" }: { className?: string }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="15 12 95 36"
+      viewBox="0 0 64 64"
       className={className}
       aria-hidden="true"
     >
-      <path
-        fill="currentColor"
-        d="M62.02 16.64a2.83 2.83 0 1 0 2.003.827 2.83 2.83 0 0 0-2.003-.827zm-2.43 7.514h4.827v19.203H59.6zm19.342-.494c-2.414 0-5.2 1.738-6.105 3.918v-3.423h-4.58V43.36h4.83v-8.92c0-3.774 1.45-5.88 4.605-5.94l2.694-4.73a10.33 10.33 0 0 0-1.444-.111zm19.4.013c-2.07 0-3.93.78-5.23 2.192l-.068.072-.066-.072c-1.288-1.413-3.135-2.192-5.208-2.192-4.44 0-7.66 3.237-7.66 7.695v12h4.75V31.265c0-1.872 1.143-3.08 2.9-3.08s2.912 1.2 2.912 3.08V43.36h4.764V31.265c0-1.872 1.143-3.08 2.912-3.08s2.912 1.2 2.912 3.08V43.36H106v-12c-.008-4.458-3.23-7.695-7.676-7.695zm-44.584-1.287c0-.634.085-1.392.628-1.8.594-.462 1.463-.377 2.166-.34l.937-3.496-.5-.026c-2.015-.108-4.135-.258-5.902.9-1.498 1-2.165 2.694-2.165 4.444v2.092h-5.757V22.4c0-.63.084-1.38.615-1.803.594-.472 1.474-.383 2.178-.348l.937-3.496-.5-.026c-2.03-.1-4.172-.258-5.94.943-1.468.995-2.118 2.685-2.118 4.413v2.092H36.15v3.478h2.178V43.36h4.83V27.645h5.74V43.36h4.83V27.645h3.343v-3.5h-3.33v-1.77zM33.698 43.36V26.4a2.79 2.79 0 0 0-2.466-2.736c-.922-.06-1.902.278-2.48 1.027l-14.76 18.67h3.638c1.45 0 2.604-.755 3.478-1.883l8.175-10.338v12.22H33.7z"
-      />
+      <g fill="currentColor">
+        <path d="M11.75 53.97A28.8 28.8 0 1 1 52.25 53.97L47.89 49.57A22.6 22.6 0 1 0 16.11 49.57Z" />
+        <g transform="translate(20.962 4.229) scale(1.41871)">
+          <path d="M7.362 19.718c-1.815 0-3.94.85-5.098 1.777l1.042 2.202c.928-.85 2.395-1.546 3.747-1.546 1.275 0 1.97.425 1.97 1.275 0 .58-.463.85-1.352.966-3.283.425-5.871 1.313-5.871 3.863 0 2.008 1.43 3.244 3.67 3.244 1.583 0 3.012-.888 3.708-2.047v1.7h2.974V23.89c0-2.974-2.086-4.172-4.79-4.172Zm-1.12 9.425c-.85 0-1.236-.425-1.236-1.082 0-1.274 1.39-1.7 3.979-1.97 0 1.7-1.16 3.052-2.743 3.052Z" />
+        </g>
+      </g>
     </svg>
   );
 }
@@ -177,7 +179,7 @@ export default function WhatYouGet() {
                         <BeginnerSeedMark className="h-4 w-4 shrink-0" />
                       ) : null}
                       {pillar.coinType === "affirm" ? (
-                        <AffirmWordmark className="h-4 w-auto shrink-0 text-background" />
+                        <AffirmMark className="h-4 w-4 shrink-0 text-background" />
                       ) : null}
                       <span>{pillar.link.label}</span>
                       <ArrowUpRight
