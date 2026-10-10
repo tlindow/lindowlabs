@@ -33,16 +33,25 @@ describe("loadUserPhonesForAccess", () => {
     assert.equal(fetched, 0);
   });
 
-  it("uses authentication_factors when user.phone_numbers is empty", async () => {
+  it("reads nested phone_number_factor from authentication_factors", async () => {
+    // Production Stytch shape (otp + sms). Flat phone_number is NOT present.
     let fetched = 0;
     const session: StytchSessionPayload = {
       user: { user_id: OWNER_USER, phone_numbers: [] },
       session: {
         authentication_factors: [
-          { delivery_method: "sms", phone_number: OWNER_PHONE },
+          {
+            type: "otp",
+            delivery_method: "sms",
+            phone_number_factor: {
+              phone_id: "phone-live-1",
+              phone_number: OWNER_PHONE,
+            },
+          },
         ],
       },
     };
+    assert.deepEqual(phonesFromSessionFactors(session), [OWNER_PHONE]);
     const phones = await loadUserPhonesForAccess(session, {
       getUser: async () => {
         fetched += 1;
@@ -51,6 +60,18 @@ describe("loadUserPhonesForAccess", () => {
     });
     assert.deepEqual(phones, [OWNER_PHONE]);
     assert.equal(fetched, 0);
+  });
+
+  it("still accepts flat factor.phone_number for older fixtures", async () => {
+    const session: StytchSessionPayload = {
+      user: { user_id: OWNER_USER, phone_numbers: [] },
+      session: {
+        authentication_factors: [
+          { delivery_method: "sms", phone_number: OWNER_PHONE },
+        ],
+      },
+    };
+    assert.deepEqual(phonesFromSessionFactors(session), [OWNER_PHONE]);
   });
 
   it("falls back to users.get when session omits phones (owner regression)", async () => {
