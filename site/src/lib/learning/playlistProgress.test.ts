@@ -1,7 +1,9 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import { readingCurriculum } from "../../data/learning/readingCurriculum.ts";
+import { OWNER_ALREADY_READ_SEED } from "../../data/learning/alreadyReadSeed.ts";
 import {
+  addAlreadyRead,
   bookProgressPct,
   currentChapterLabel,
   emptyBookProgress,
@@ -11,6 +13,8 @@ import {
   markBookFinished,
   markChapterRead,
   nowReadingItem,
+  parsePlaylistProgressCookie,
+  removeAlreadyRead,
   setBookmark,
   trackStatusFor,
   upNextItem,
@@ -53,5 +57,28 @@ describe("playlistProgress", () => {
     );
     p = markBookFinished(p, "design-of-web-apis");
     assert.equal(p.books["design-of-web-apis"]?.finished, true);
+  });
+
+  it("seeds Already read once and keeps later edits", () => {
+    const seeded = parsePlaylistProgressCookie(undefined, "u1");
+    assert.equal(seeded.alreadyRead.length, OWNER_ALREADY_READ_SEED.length);
+    assert.equal(seeded.alreadyRead[0]?.title, "Mindstorms");
+    assert.equal(seeded.alreadyReadInitialized, true);
+
+    let edited = removeAlreadyRead(seeded, seeded.alreadyRead[0]!.id);
+    edited = addAlreadyRead(edited, {
+      title: "Extra",
+      author: "Someone",
+      howMuch: "whole book",
+      note: "",
+    });
+    const raw = JSON.stringify(edited);
+    const again = parsePlaylistProgressCookie(raw, "u1");
+    assert.equal(again.alreadyRead.length, edited.alreadyRead.length);
+    assert.ok(again.alreadyRead.some((e) => e.title === "Extra"));
+    assert.equal(
+      again.alreadyRead.some((e) => e.title === "Mindstorms"),
+      false
+    );
   });
 });

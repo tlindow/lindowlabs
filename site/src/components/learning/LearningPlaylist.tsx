@@ -7,6 +7,7 @@ import {
   type ReadingCurriculumItem,
 } from "@/data/learning/readingCurriculum";
 import {
+  addAlreadyRead,
   bookProgressFor,
   bookProgressPct,
   currentChapterLabel,
@@ -15,6 +16,7 @@ import {
   markBookFinished,
   markChapterRead,
   nowReadingItem,
+  removeAlreadyRead,
   setBookmark,
   trackStatusFor,
   upNextItem,
@@ -329,6 +331,14 @@ export default function LearningPlaylist({
                     </span>{" "}
                     {item.consideredInstead}
                   </p>
+                  {item.alreadyReadNote ? (
+                    <p className="learning-curr__essay-aside">
+                      <span className="learning-curr__essay-label">
+                        Already read:
+                      </span>{" "}
+                      {item.alreadyReadNote}
+                    </p>
+                  ) : null}
 
                   <div className="learning-pl__read-actions">
                     <div className="learning-curr__cta-row">
@@ -395,11 +405,91 @@ export default function LearningPlaylist({
         })}
       </ol>
 
+      <section
+        className="learning-pl__shelf"
+        aria-label="Already read"
+        data-already-read-shelf="true"
+      >
+        <p className="learning-pl__now-eyebrow">Already read</p>
+        <p className="learning-pl__shelf-lede">
+          Finished books outside this playlist. Whole books only; partial reads
+          do not count.
+        </p>
+        <ul className="learning-pl__shelf-list">
+          {progress.alreadyRead.map((entry) => (
+            <li key={entry.id} className="learning-pl__shelf-item">
+              <div className="learning-pl__shelf-copy">
+                <span className="learning-pl__track-title">{entry.title}</span>
+                <span className="learning-pl__artist">
+                  {entry.author}
+                  {entry.howMuch ? ` · ${entry.howMuch}` : ""}
+                </span>
+                {entry.note ? (
+                  <span className="learning-pl__shelf-note">{entry.note}</span>
+                ) : null}
+              </div>
+              <button
+                type="button"
+                className="learning-curr__btn learning-curr__btn--ghost"
+                disabled={pending}
+                onClick={() => persist(removeAlreadyRead(progress, entry.id))}
+              >
+                Remove
+              </button>
+            </li>
+          ))}
+        </ul>
+        <form
+          className="learning-pl__shelf-form"
+          onSubmit={(event) => {
+            event.preventDefault();
+            const form = event.currentTarget;
+            const data = new FormData(form);
+            const title = String(data.get("title") ?? "");
+            const author = String(data.get("author") ?? "");
+            const howMuch = String(data.get("howMuch") ?? "whole book");
+            const note = String(data.get("note") ?? "");
+            persist(addAlreadyRead(progress, { title, author, howMuch, note }));
+            form.reset();
+          }}
+        >
+          <label className="learning-pl__bookmark-field learning-pl__bookmark-field--grow">
+            <span>Title</span>
+            <input name="title" required disabled={pending} />
+          </label>
+          <label className="learning-pl__bookmark-field learning-pl__bookmark-field--grow">
+            <span>Author</span>
+            <input name="author" required disabled={pending} />
+          </label>
+          <label className="learning-pl__bookmark-field learning-pl__bookmark-field--grow">
+            <span>How much</span>
+            <input
+              name="howMuch"
+              defaultValue="whole book"
+              placeholder="whole book / chapters …"
+              disabled={pending}
+            />
+          </label>
+          <label className="learning-pl__bookmark-field learning-pl__bookmark-field--grow">
+            <span>Note</span>
+            <input name="note" disabled={pending} />
+          </label>
+          <button
+            type="submit"
+            className="learning-curr__btn learning-curr__btn--primary"
+            disabled={pending}
+          >
+            Add book
+          </button>
+        </form>
+      </section>
+
       <p className="learning-curr__footer">
         Curriculum essay checked in under{" "}
         <code>site/src/data/learning/readingCurriculum.ts</code>
-        . Progress is stored in an httpOnly cookie per Stytch user until Vercel
-        KV / Redis is wired.
+        . Progress and Already read are stored in an httpOnly cookie per Stytch
+        user until Vercel KV / Redis is wired. Owner JSON:{" "}
+        <code>/api/learning/already-read</code>.
       </p>
     </div>
   );

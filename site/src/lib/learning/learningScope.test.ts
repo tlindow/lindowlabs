@@ -99,6 +99,10 @@ describe("readingCurriculumForUser", () => {
       "split a small checkout codebase into Merchant, Payments and Disputes contexts, naming each in the words your team actually used."
     );
     assert.equal(items[0]?.getBookUrl, SRE_FREE_BOOK_URL);
+    assert.equal(
+      items[1]?.alreadyReadNote,
+      "The Design of Everyday Things gives you the principles of usable design. Lauret applies them to APIs, so his chapters on usability will feel familiar, and the new ground is resources and routes."
+    );
   });
 
   it("non-owner sees empty curriculum (no essay modules)", () => {
