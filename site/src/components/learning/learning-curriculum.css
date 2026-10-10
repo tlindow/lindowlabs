@@ -219,6 +219,44 @@ a.learning-curr__card:hover {
   color: var(--lc-muted);
 }
 
+.learning-curr__resume {
+  margin: 0.65rem 0 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--lc-fg);
+}
+
+.learning-curr__book-note {
+  color: var(--lc-muted);
+  font-size: 0.85rem;
+}
+
+.learning-curr__essay-title {
+  display: block;
+  color: var(--lc-fg);
+  font-weight: 550;
+}
+
+.learning-curr__essay-quote {
+  display: block;
+  margin-top: 0.35rem;
+  font-style: italic;
+  color: var(--lc-muted);
+}
+
+.learning-curr__exercise-block {
+  margin-top: 0.85rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--lc-border);
+}
+
+.learning-curr__exercise-summary {
+  margin: 0.15rem 0 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--lc-fg);
+}
+
 .learning-curr__progress {
   margin: 0.75rem 0 0;
 }

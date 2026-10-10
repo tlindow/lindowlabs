@@ -8,14 +8,23 @@ import {
 } from "./learningScope.ts";
 
 describe("readingCurriculumForUser", () => {
-  it("owner sees personalized curriculum with essay titles", () => {
+  it("owner sees exactly six books with resume lines and exercises", () => {
     const items = readingCurriculumForUser(true);
-    assert.ok(items.length > 0);
+    assert.equal(items.length, 6);
     assert.equal(items.length, readingCurriculum.length);
-    assert.ok(items.some((item) => item.essayTitle));
-    assert.ok(
-      items.some((item) => item.title === "The Design of Web APIs")
-    );
+    assert.equal(items[0]?.title, "The Design of Web APIs");
+    assert.equal(items[5]?.title, "Grokking Algorithms");
+    for (const item of items) {
+      assert.ok(item.resumeLine.trim());
+      assert.ok(item.exercise.id);
+      assert.ok(item.exercise.openInTinkerUrl.includes("tinker.beginner.work"));
+      assert.match(item.exercise.openInCursorUrl, /^cursor:\/\//);
+      assert.match(
+        item.exercise.githubUrl,
+        /^https:\/\/github\.com\/tlindow\/lindowlabs\/tree\/main\/exercises\//
+      );
+      assert.ok(item.essayTitle || item.essaySource);
+    }
   });
 
   it("non-owner sees empty curriculum (no essay quotes)", () => {
