@@ -69,24 +69,25 @@ const valuePillars: ValuePillar[] = [
 ];
 
 /**
- * Affirm monogram: single lowercase 'a' with arch (app-icon mark).
- * Glyph from affirm.com logo SVG; arch matches Affirm app icon proportions.
+ * Affirm monogram from Business Hub brand asset (lowercase a + blue arch).
+ * Local copy: public/affirm-mark.png (official attachment, transparency kept).
  */
-function AffirmMark({ className = "h-4 w-4" }: { className?: string }) {
+function AffirmMark({ className = "h-4 w-auto" }: { className?: string }) {
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 64 64"
-      className={className}
-      aria-hidden="true"
-    >
-      <g fill="currentColor">
-        <path d="M11.75 53.97A28.8 28.8 0 1 1 52.25 53.97L47.89 49.57A22.6 22.6 0 1 0 16.11 49.57Z" />
-        <g transform="translate(20.962 4.229) scale(1.41871)">
-          <path d="M7.362 19.718c-1.815 0-3.94.85-5.098 1.777l1.042 2.202c.928-.85 2.395-1.546 3.747-1.546 1.275 0 1.97.425 1.97 1.275 0 .58-.463.85-1.352.966-3.283.425-5.871 1.313-5.871 3.863 0 2.008 1.43 3.244 3.67 3.244 1.583 0 3.012-.888 3.708-2.047v1.7h2.974V23.89c0-2.974-2.086-4.172-4.79-4.172Zm-1.12 9.425c-.85 0-1.236-.425-1.236-1.082 0-1.274 1.39-1.7 3.979-1.97 0 1.7-1.16 3.052-2.743 3.052Z" />
-        </g>
-      </g>
-    </svg>
+    // Cream chip so the official dark-a + blue-arch mark stays legible on the dark CTA.
+    <span className="inline-flex items-center justify-center rounded-md bg-[#FFFDF7] px-0.5 py-px shrink-0">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={`${basePath}/affirm-mark.png`}
+        alt=""
+        aria-hidden="true"
+        width={175}
+        height={129}
+        className={className}
+        draggable={false}
+      />
+    </span>
   );
 }
 
@@ -176,7 +177,7 @@ export default function WhatYouGet() {
                         <BeginnerSeedMark className="h-4 w-4 shrink-0" />
                       ) : null}
                       {pillar.coinType === "affirm" ? (
-                        <AffirmMark className="h-4 w-4 shrink-0 text-background" />
+                        <AffirmMark className="h-3.5 w-auto" />
                       ) : null}
                       <span>{pillar.link.label}</span>
                       <ArrowUpRight

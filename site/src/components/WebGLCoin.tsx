@@ -46,19 +46,8 @@ const BEGINNER_SVG = `
 </svg>
 `;
 
-/** Affirm monogram (lowercase a + arch) on cream coin face. */
-const AFFIRM_SVG = `
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="512" height="512">
-  <circle cx="32" cy="32" r="32" fill="#FFFDF7"/>
-  <g fill="#111111" transform="translate(6 4) scale(0.8125)">
-    <path d="M11.75 53.97A28.8 28.8 0 1 1 52.25 53.97L47.89 49.57A22.6 22.6 0 1 0 16.11 49.57Z"/>
-    <g transform="translate(20.962 4.229) scale(1.41871)">
-      <path d="M7.362 19.718c-1.815 0-3.94.85-5.098 1.777l1.042 2.202c.928-.85 2.395-1.546 3.747-1.546 1.275 0 1.97.425 1.97 1.275 0 .58-.463.85-1.352.966-3.283.425-5.871 1.313-5.871 3.863 0 2.008 1.43 3.244 3.67 3.244 1.583 0 3.012-.888 3.708-2.047v1.7h2.974V23.89c0-2.974-2.086-4.172-4.79-4.172Zm-1.12 9.425c-.85 0-1.236-.425-1.236-1.082 0-1.274 1.39-1.7 3.979-1.97 0 1.7-1.16 3.052-2.743 3.052Z"/>
-    </g>
-  </g>
-  <circle cx="32" cy="32" r="31" fill="none" stroke="#E6E2D8" stroke-width="1.5"/>
-</svg>
-`;
+/** Affirm face uses official Business Hub PNG at /affirm-mark.png (not inline SVG). */
+const AFFIRM_MARK_PATH = "/affirm-mark.png";
 
 function createMilledRimTexture(): THREE.CanvasTexture {
   const canvas = document.createElement("canvas");
@@ -86,7 +75,14 @@ function faceSvgForType(type: WebGLCoinType): string | null {
   if (type === "tinker") return TINKER_SVG;
   if (type === "github") return GITHUB_SVG;
   if (type === "beginner") return BEGINNER_SVG;
-  if (type === "affirm") return AFFIRM_SVG;
+  return null;
+}
+
+function faceImageUrlForType(type: WebGLCoinType): string | null {
+  if (type === "affirm") {
+    const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
+    return `${basePath}${AFFIRM_MARK_PATH}`;
+  }
   return null;
 }
 
@@ -195,7 +191,10 @@ export default function WebGLCoin({
 
     let needsInitialRender = true;
 
-    const paintFace = (source: CanvasImageSource, padded = false) => {
+    const paintFace = (
+      source: CanvasImageSource,
+      mode: "full" | "mark" = "full",
+    ) => {
       const drawOnto = (ctx: CanvasRenderingContext2D) => {
         ctx.clearRect(0, 0, 512, 512);
         ctx.fillStyle = "#FFFDF7";
@@ -205,8 +204,18 @@ export default function WebGLCoin({
         ctx.save();
         ctx.translate(256, 256);
         ctx.rotate(-Math.PI / 2);
-        if (padded) {
-          ctx.drawImage(source, -200, -80, 400, 160);
+        if (mode === "mark") {
+          // Official Affirm mark is 175×129; fit inside the coin with margin.
+          const maxW = 320;
+          const maxH = 236;
+          const aspect = 175 / 129;
+          let w = maxW;
+          let h = w / aspect;
+          if (h > maxH) {
+            h = maxH;
+            w = h * aspect;
+          }
+          ctx.drawImage(source, -w / 2, -h / 2, w, h);
         } else {
           ctx.drawImage(source, -256, -256, 512, 512);
         }
@@ -230,16 +239,22 @@ export default function WebGLCoin({
       needsInitialRender = true;
     };
 
+    let facePaintMode: "full" | "mark" = "full";
+
     img.onload = () => {
-      paintFace(img, false);
+      paintFace(img, facePaintMode);
       if (objectUrl) {
         URL.revokeObjectURL(objectUrl);
         objectUrl = null;
       }
     };
 
+    const imageFace = faceImageUrlForType(type);
     const svgFace = faceSvgForType(type);
-    if (svgFace) {
+    if (imageFace) {
+      facePaintMode = "mark";
+      img.src = imageFace;
+    } else if (svgFace) {
       const svgBlob = new Blob([svgFace], { type: "image/svg+xml;charset=utf-8" });
       objectUrl = URL.createObjectURL(svgBlob);
       img.src = objectUrl;
