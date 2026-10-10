@@ -10,4 +10,4 @@
 
 [Belief] “Are our systems fast enough to get hesitant users to think, 'that was easy' and go tell their friends?” “By reducing confusion about data discrepancies in our system, will we grow the bottom line?” “If we have another incident, will users leave us, or will they leave us because they just didn't understand how valuable the dashboard was to them?”
 
-[Belief] It's not a failure to require operational support at a product- and engineering-led company. It's a necessary growth pattern for building a system that feels like a human.
+[Belief] Needing operational support isn't a failure, even at a company led by product and engineering. It's how a system grows into something that feels human.
