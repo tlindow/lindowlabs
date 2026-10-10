@@ -4,6 +4,7 @@ import { useState } from "react";
 import {
   curriculumEssayIntro,
   curriculumEssayTitle,
+  ELEVENREADER_URL,
   type ReadingCurriculumItem,
 } from "@/data/learning/readingCurriculum";
 
@@ -126,16 +127,38 @@ export default function LearningPlaylist({
                     </span>{" "}
                     {item.consideredInstead}
                   </p>
-                  <div className="learning-curr__exercise-block">
+
+                  <div className="learning-pl__read-actions">
+                    <div className="learning-curr__cta-row">
+                      <a
+                        className="learning-curr__btn learning-curr__btn--primary"
+                        href={ELEVENREADER_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Scan and listen in ElevenReader
+                      </a>
+                      <a
+                        className="learning-curr__btn learning-curr__btn--ghost"
+                        href={item.getBookUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Get the book
+                      </a>
+                    </div>
+                  </div>
+
+                  <div className="learning-curr__exercise-block learning-pl__ready">
+                    <p className="learning-pl__ready-label">
+                      When you&apos;re ready: exercise
+                    </p>
                     <p className="learning-curr__exercise-summary">
-                      <span className="learning-curr__essay-label">
-                        Exercise:
-                      </span>{" "}
                       {item.exercise.summary}
                     </p>
                     <div className="learning-curr__cta-row">
                       <a
-                        className="learning-curr__btn learning-curr__btn--primary"
+                        className="learning-curr__btn learning-curr__btn--ghost"
                         href={item.exercise.openInTinkerUrl}
                         target="_blank"
                         rel="noopener noreferrer"
