@@ -6,6 +6,7 @@ import {
   curriculumEssayTitle,
   type ReadingCurriculumItem,
 } from "@/data/learning/readingCurriculum";
+import { formatAsideText } from "@/lib/learning/formatAsideText";
 import {
   bookProgressFor,
   bookProgressPct,
@@ -159,6 +160,8 @@ export default function LearningPlaylist({
                   : "learning-pl__track"
               }
               data-module-number={item.number}
+              data-module-book={item.title}
+              data-module-author={item.author}
               data-track-open={open ? "true" : "false"}
               data-track-status={status}
             >
@@ -203,24 +206,16 @@ export default function LearningPlaylist({
                   role="region"
                   aria-label={`${item.title} details`}
                 >
-                  <p className="learning-pl__heading">{item.heading}</p>
-                  <p className="learning-curr__essay-prose">{item.prose}</p>
-                  <p className="learning-curr__essay-aside">
-                    <span className="learning-curr__essay-label">
-                      Considered instead:
-                    </span>{" "}
-                    {item.consideredInstead}
-                  </p>
-                  {item.alreadyReadNote ? (
-                    <p className="learning-curr__essay-aside">
-                      <span className="learning-curr__essay-label">
-                        Already read:
-                      </span>{" "}
-                      {item.alreadyReadNote}
+                  {/* Book first: title/author card, then reasoning, then exercise */}
+                  <div
+                    className="learning-pl__book-card"
+                    data-book-card={item.id}
+                  >
+                    <p className="learning-pl__book-label">Book</p>
+                    <h3 className="learning-pl__book-title">{item.title}</h3>
+                    <p className="learning-pl__book-meta">
+                      {item.author} · {item.scope}
                     </p>
-                  ) : null}
-
-                  <div className="learning-pl__read-actions">
                     <div className="learning-curr__cta-row">
                       <a
                         className="learning-curr__btn learning-curr__btn--ghost"
@@ -232,6 +227,23 @@ export default function LearningPlaylist({
                       </a>
                     </div>
                   </div>
+
+                  <p className="learning-pl__heading">{item.heading}</p>
+                  <p className="learning-curr__essay-prose">{item.prose}</p>
+                  <p className="learning-curr__essay-aside">
+                    <span className="learning-curr__essay-label">
+                      Considered instead:
+                    </span>{" "}
+                    {formatAsideText(item.consideredInstead)}
+                  </p>
+                  {item.alreadyReadNote ? (
+                    <p className="learning-curr__essay-aside">
+                      <span className="learning-curr__essay-label">
+                        Already read:
+                      </span>{" "}
+                      {item.alreadyReadNote}
+                    </p>
+                  ) : null}
 
                   <div
                     className={
