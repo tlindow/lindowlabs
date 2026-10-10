@@ -16,17 +16,17 @@ export function LinkedInIcon({ className = "w-4 h-4", size = 16 }: { className?:
   );
 }
 
-/** Affirm app-icon mark: lowercase a with blue arch (Business Hub asset). */
+/** Affirm full wordmark: lowercase "affirm" with blue arch over the letters. */
 export function AffirmLogo({ className = "h-5 sm:h-6 w-auto" }: { className?: string }) {
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src={`${basePath}/affirm-mark.svg`}
+      src={`${basePath}/affirm-logo.png`}
       alt="Affirm"
-      width={175}
-      height={129}
-      className={`inline-block shrink-0 object-contain ${className}`}
+      width={100}
+      height={40}
+      className={`object-contain ${className}`}
       loading="eager"
       decoding="async"
     />
@@ -181,9 +181,9 @@ export function TrustedPartnersBar() {
           <BeginnerLogo className="h-5 sm:h-7" />
         </div>
 
-        {/* Affirm Partner Badge — monogram token (a + arch), sized with Beginner seed */}
+        {/* Affirm Partner Badge — full wordmark (a+arch mark stays on the WebGL coin only) */}
         <div className="flex items-center gap-2 px-1.5 sm:px-2 py-1 rounded-xl hover:bg-surface-alt transition-colors max-w-full shrink">
-          <AffirmLogo className="h-5 sm:h-7 w-auto" />
+          <AffirmLogo className="h-4 sm:h-6 w-auto max-w-[5.5rem] sm:max-w-none" />
         </div>
 
         {/* Galvanize Badge */}

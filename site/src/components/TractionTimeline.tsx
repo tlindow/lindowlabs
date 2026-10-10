@@ -132,7 +132,7 @@ export const companyCards: BeginnerStyleCard[] = [
     boxShadow: "0 4px 24px rgba(0,0,0,0.08)",
     borderClass: "border-emerald-200",
     trimColor: "#6EE7B7",
-    brandMark: <AffirmLogo className="h-6 sm:h-7 w-auto" />,
+    brandMark: <AffirmLogo className="h-5 sm:h-6 w-auto" />,
     linkedinUrl: "https://www.linkedin.com/in/tlindow/details/experience/",
     totalVolumeSummary: "Flagship partner volume & 300+ SMB merchants supported",
     lineItems: [
