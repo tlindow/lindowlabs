@@ -103,6 +103,10 @@ describe("readingCurriculumForUser", () => {
       items[1]?.alreadyReadNote,
       "The Design of Everyday Things gives you the principles of usable design. Lauret applies them to APIs, so his chapters on usability will feel familiar, and the new ground is resources and routes."
     );
+    assert.equal(
+      items[1]?.consideredInstead,
+      "*Designing Web APIs* (Jin, Sahni, Shevat) was considered. It treats the API as a product, covering developer experience, adoption, and scaling, which Tyler already practices as a DevX lead. The gap here is modeling resources and mapping them to routes, and Lauret teaches that directly, starting from user goals."
+    );
   });
 
   it("non-owner sees empty curriculum (no essay modules)", () => {

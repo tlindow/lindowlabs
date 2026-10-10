@@ -83,7 +83,7 @@ export const readingCurriculum: ReadingCurriculumItem[] = [
     prose:
       'Integrations are APIs that other companies build on. In "Buy the web APIs book?" you described a resource as "sort of like an object," then stopped at "I don\'t know" when asked how endpoints map to it. A DevX or integrations interview will ask you to judge an API design, and that judgment needs a model of resources first. Lauret builds that model from the resource outward, and uses OpenAPI, the same spec format your api-design exercises use.',
     consideredInstead:
-      "Designing Web APIs (Jin, Sahni, Shevat) is strong on running an API as a product, covering versioning, scaling and developer programs, but it assumes the design intuition the gap says is missing. API Design Patterns (Geewax) is a catalog for people who already design APIs.",
+      "*Designing Web APIs* (Jin, Sahni, Shevat) was considered. It treats the API as a product, covering developer experience, adoption, and scaling, which Tyler already practices as a DevX lead. The gap here is modeling resources and mapping them to routes, and Lauret teaches that directly, starting from user goals.",
     alreadyReadNote:
       "The Design of Everyday Things gives you the principles of usable design. Lauret applies them to APIs, so his chapters on usability will feel familiar, and the new ground is resources and routes.",
     getBookUrl: "https://www.manning.com/books/the-design-of-web-apis",
