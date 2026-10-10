@@ -69,11 +69,6 @@ export const learningReadings: LearningReading[] = [
     note: "Ch 3, 4, 6, 14 and 15",
   },
   {
-    title: "The Design of Web APIs",
-    author: "Arnaud Lauret",
-    note: "Whole book",
-  },
-  {
     title: "Learning Domain-Driven Design",
     author: "Vladik Khononov",
     note: "Whole book",
