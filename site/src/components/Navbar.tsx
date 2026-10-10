@@ -29,8 +29,8 @@ export default function Navbar() {
     // No overflow-x-clip here: Safari also clips Y when overflow-x is clip,
     // which hid the absolute mobile menu that hangs below this bar.
     // relative: docked page-audio mobile scrubber sits under this bar.
-    // z-50 + isolate: sticky chrome (docked avatar + NavPageAudioPlayer) stay
-    // above page content. ScrollMorphAvatar stays at z-40 under this bar.
+    // z-50 + isolate: sticky chrome sits above the page shell (relative z-0 in
+    // SiteChrome), so hero morph / play / coins always slide under this bar.
     // overflow-anchor: none — sticky header size/visibility changes during the
     // Let's talk ↔ nav photo handoff must not retarget scrollY (scroll hitch).
     <header className="sticky top-0 z-50 isolate w-full bg-background opacity-100 border-b border-border no-print relative [overflow-anchor:none]">

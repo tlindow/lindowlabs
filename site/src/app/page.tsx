@@ -169,9 +169,9 @@ export default function Home() {
 
       // Normal both-direction flow (Hero ↔ Nav ↔ Contact).
       // Jump contact progress only at the endpoints so the coin rests exactly
-      // at nav (0) or Let's talk (1). Mid-transit uses the spring; morph
-      // z-index rises above the sticky bar while contact owns the photo so
-      // the coin is never trapped invisible under the nav.
+      // at nav (0) or Let's talk (1). Mid-transit uses the spring. Morph stays
+      // under the sticky nav (SiteChrome relative z-0); contact ownership snaps
+      // the coin to Let's talk so it is never hidden behind the bar.
       const heroP = Math.min(Math.max(latestY / HERO_PIN_SCROLL_DISTANCE, 0), 1);
       rawProgress.set(heroP);
       const contactP = computeContactProgress(latestY);
@@ -309,8 +309,8 @@ export default function Home() {
               {/* Fluid size: clamp to container so Space Mono never overflows at
                   320-430px. Block spans prefer two lines; wrap if still tight. */}
               <h1 className="w-full max-w-full min-w-0 px-0.5 text-[length:clamp(1.05rem,min(6.2cqi,calc(100cqi/15.5)),4.7rem)] font-black tracking-tight text-foreground leading-[1.08] mx-auto overflow-x-clip">
-                <span className="block">Engineering leadership</span>
-                <span className="block">for devX genius</span>
+                <span className="block">Engineering leadership that brings out</span>
+                <span className="block">{"every engineer's genius."}</span>
               </h1>
 
               {/* Below: support, CTA, logo panel — top of bottom 1fr; overflow paints into spacer */}

@@ -24,6 +24,11 @@ export default function SiteChrome({ children }: { children: ReactNode }) {
 
   // Sticky nav must share a tall scroll container with page content. A nav-only
   // wrapper is only as tall as the header, so position:sticky cannot pin.
+  //
+  // relative z-0 on the page shell traps every descendant stacking context
+  // (fixed morph + filter, absolute play with translate, WebGL canvas layers,
+  // framer-motion transforms) below the sticky nav sibling (z-50). Without
+  // this, hero photo / play can paint over the bar mid-scroll at ~1024-1280.
   return (
     <NavbarActionsProvider>
       <PageAudioProvider>
@@ -35,7 +40,7 @@ export default function SiteChrome({ children }: { children: ReactNode }) {
           }
         >
           <Navbar />
-          {children}
+          <div className="relative z-0">{children}</div>
         </div>
       </PageAudioProvider>
     </NavbarActionsProvider>

@@ -167,6 +167,73 @@ async function runAtViewport(browser, baseUrl, width, height) {
     throw new Error(`hero@${width}: expected morph coin, got ${hero.id}`);
   }
 
+  // Mid-hero scroll: morph (+ hero play when present) must slide under the
+  // sticky nav, never paint over it. Sample offsets where the coin crosses
+  // the nav bottom edge (desktop ~1024-1280 was the reported failure band).
+  await page.evaluate(() => {
+    document.documentElement.style.scrollBehavior = "auto";
+  });
+  for (const y of width >= 1000 ? [160, 180, 200] : [180, 220]) {
+    await page.evaluate((scrollY) => window.scrollTo(0, scrollY), y);
+    await settle(page);
+    const leak = await page.evaluate(() => {
+      const nav = document.querySelector("header.sticky");
+      if (!nav) return { error: "no sticky header" };
+      const navRect = nav.getBoundingClientRect();
+      const leaks = [];
+
+      const sampleUnderNav = (el, label) => {
+        if (!el) return;
+        const style = getComputedStyle(el);
+        if (style.display === "none" || style.visibility === "hidden") return;
+        const op = Number.parseFloat(style.opacity || "0");
+        if (!Number.isFinite(op) || op <= 0.05) return;
+        const rect = el.getBoundingClientRect();
+        if (rect.width < 4 || rect.height < 4) return;
+        const overlaps =
+          rect.top < navRect.bottom - 1 && rect.bottom > navRect.top + 1;
+        if (!overlaps) return;
+        const cx = rect.left + rect.width / 2;
+        const yInNav = Math.min(
+          Math.max(rect.top + 4, navRect.top + 4),
+          navRect.bottom - 4
+        );
+        const hit = document.elementFromPoint(cx, yInNav);
+        if (hit && !hit.closest("header.sticky")) {
+          leaks.push({
+            label,
+            yInNav: Math.round(yInNav),
+            tag: hit.tagName,
+            photo: hit
+              .closest?.("[data-profile-photo]")
+              ?.getAttribute("data-profile-photo"),
+            audio: hit
+              .closest?.("[data-page-audio]")
+              ?.getAttribute("data-page-audio"),
+          });
+        }
+      };
+
+      sampleUnderNav(
+        document.querySelector('[data-profile-photo="morph"]'),
+        "morph"
+      );
+      sampleUnderNav(
+        document.querySelector('[data-page-audio="hero-play"]'),
+        "hero-play"
+      );
+      return { scrollY: window.scrollY, leaks };
+    });
+    if (leak.error) {
+      throw new Error(`cross-nav@${width}@${y}: ${leak.error}`);
+    }
+    if (leak.leaks.length > 0) {
+      throw new Error(
+        `cross-nav@${width}@${y}: page content stacked above sticky nav: ${JSON.stringify(leak)}`
+      );
+    }
+  }
+
   // Mid-page: past hero morph, before Let's talk enters the expanded root.
   await page.evaluate(() => {
     const contact = document.getElementById("contact");

@@ -1,10 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import { Calendar, ArrowUpRight } from "lucide-react";
-import { BeginnerSeedMark } from "@/components/brand/BeginnerMarks";
-import ContactPageAudioButton from "@/components/page-audio/ContactPageAudioButton";
-import { BEGINNER_URL } from "@/data/urls";
+import { Calendar, ArrowUpRight, Mail } from "lucide-react";
+import { LinkedInIcon } from "@/components/brand/PartnerLogos";
+import { resumeContact } from "@/data/resumeData";
+
+/**
+ * Icon-only contacts under Book 30 minutes.
+ * Use bg-foreground + text-background so #contact theme maps to lavender fill
+ * and deep purple (#3B2A5C) glyphs (WCAG 3:1+), not washed lavender-on-lavender.
+ */
+const CONTACT_ICON_BTN_CLASS =
+  "inline-flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full border border-border/60 bg-foreground text-background shadow-2xs transition-all hover:bg-foreground/90 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C4B5FD] focus-visible:ring-offset-2 focus-visible:ring-offset-[#3B2A5C] motion-reduce:hover:scale-100";
 
 type FooterProps = {
   /** Contact leaf: drop duplicate Let's talk heading; hide unused avatar slot. */
@@ -29,7 +36,7 @@ export default function Footer({
       {/* ========================================================= */}
       <section
         id="contact"
-        className="w-full pt-16 sm:pt-24 pb-14 sm:pb-20 px-4 sm:px-6 bg-surface-alt/70 border-t border-border/70"
+        className="w-full pt-16 sm:pt-24 pb-14 sm:pb-20 px-4 sm:px-6 bg-surface-alt/70 border-t border-border/70 scroll-mt-20"
       >
         <div className="mx-auto max-w-xl text-center space-y-6">
           <div className="space-y-2">
@@ -49,21 +56,14 @@ export default function Footer({
             {/* Homepage morph avatar slot; profilePhotoAnchor hides nav photo while in view. */}
             {!contactLeaf ? (
               <div className="flex justify-center items-center py-2 min-h-[72px] sm:min-h-[88px]">
-                <div className="relative">
-                  <div
-                    id="contact-avatar-target"
-                    {...(profilePhotoAnchor
-                      ? { "data-profile-anchor": "contact" }
-                      : {})}
-                    className="w-16 h-16 sm:w-20 sm:h-20 rounded-full opacity-0 pointer-events-none"
-                    aria-hidden="true"
-                  />
-                  {profilePhotoAnchor ? (
-                    <div className="absolute left-full top-1/2 -translate-y-1/2 ml-3 sm:ml-4">
-                      <ContactPageAudioButton />
-                    </div>
-                  ) : null}
-                </div>
+                <div
+                  id="contact-avatar-target"
+                  {...(profilePhotoAnchor
+                    ? { "data-profile-anchor": "contact" }
+                    : {})}
+                  className="w-16 h-16 sm:w-20 sm:h-20 rounded-full opacity-0 pointer-events-none"
+                  aria-hidden="true"
+                />
               </div>
             ) : null}
             <p className="text-xs sm:text-sm font-mono text-muted max-w-md mx-auto leading-relaxed">
@@ -71,7 +71,7 @@ export default function Footer({
             </p>
           </div>
 
-          <div className="pt-2 flex flex-col items-center gap-4">
+          <div className="pt-2 flex flex-col items-center gap-3">
             <Link
               href="/schedule-time"
               className="inline-flex items-center justify-center gap-2 rounded-xl px-7 py-3.5 text-sm font-mono font-bold transition-all hover:scale-[1.02] active:scale-[0.98] bg-foreground text-background hover:bg-foreground/90 shadow-xs"
@@ -81,26 +81,31 @@ export default function Footer({
               <span>Book 30 minutes</span>
             </Link>
 
-            <a
-              href={BEGINNER_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group inline-flex items-center gap-2 rounded-xl px-4 py-2 text-xs sm:text-sm font-mono font-bold text-foreground/90 hover:text-indigo-dark border border-border hover:border-indigo-dark/40 bg-surface hover:bg-surface-alt shadow-2xs transition-all"
-              title="Products: Beginner"
-            >
-              <span className="text-[10px] sm:text-[11px] uppercase tracking-widest text-muted font-bold">
-                Products
-              </span>
-              <span className="text-border select-none" aria-hidden="true">
-                |
-              </span>
-              <BeginnerSeedMark className="h-4 w-4 sm:h-5 sm:w-5 shrink-0 shadow-xs" />
-              <span>Beginner</span>
-              <ArrowUpRight
-                size={13}
-                className="opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0"
-              />
-            </a>
+            {/* Homepage: subtle icon-only mail + LinkedIn (equal weight, no text labels) */}
+            {!contactLeaf ? (
+              <div className="flex items-center justify-center gap-3">
+                <a
+                  href={`mailto:${resumeContact.email}`}
+                  className={CONTACT_ICON_BTN_CLASS}
+                  aria-label={`Email ${resumeContact.email}`}
+                  title={`Email ${resumeContact.email}`}
+                >
+                  <Mail size={16} className="shrink-0" aria-hidden="true" />
+                </a>
+                <a
+                  href={resumeContact.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={CONTACT_ICON_BTN_CLASS}
+                  aria-label="Message me on LinkedIn"
+                  title="Message me on LinkedIn"
+                >
+                  <span className="inline-flex" aria-hidden="true">
+                    <LinkedInIcon size={16} className="shrink-0" />
+                  </span>
+                </a>
+              </div>
+            ) : null}
           </div>
         </div>
       </section>
