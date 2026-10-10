@@ -44,3 +44,4 @@ Format: `YYYY-MM-DD | loop | failure type | fixing PR | prevention`
 | 2026-10-10 | inner: Cursor | none (playlist Now reading state) | this PR | Owner playlist: Now reading + Up next + lengths; mark chapter/book; per-book bookmark; exercise lit after finish; no ElevenReader; progress cookie fallback until KV |
 | 2026-10-10 | inner: Cursor | none (Already read shelf) | this PR | Owner Already read shelf + seed (Papert/Ambrose/Norman); module 2 Already read note; GET `/api/learning/already-read`; same progress cookie |
 | 2026-10-10 | inner: Cursor | owner desk empty for owner phone login | this PR | `sessions/authenticate` omitted `phone_numbers`; `loadUserPhonesForAccess` falls back to factors then `users.get`; regression in `stytchPhones.test.ts` |
+| 2026-10-10 | inner: Cursor | none (learning desk no inputs/initials) | this PR | Owner playlist: no text inputs; Already read read-only; no cover-tile initials; Mark chapter/finished buttons kept |
