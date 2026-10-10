@@ -11,7 +11,7 @@ import {
 } from "@/lib/auth/learningOwner";
 import {
   authenticateSession,
-  phonesFromStytchUser,
+  loadUserPhonesForAccess,
 } from "@/lib/stytch";
 
 export type LearningAccess =
@@ -61,7 +61,9 @@ export async function getLearningAccess(): Promise<LearningAccess> {
       return { status: "signed-out" };
     }
 
-    const phones = phonesFromStytchUser(user);
+    // sessions/authenticate may omit user.phone_numbers; loadUserPhonesForAccess
+    // falls back to session factors then users.get(user_id).
+    const phones = await loadUserPhonesForAccess(session);
     const phone = pickDisplayPhone(phones);
     const isOwner = isLearningOwner({ userId: user.user_id, phones });
 

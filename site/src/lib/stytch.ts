@@ -19,12 +19,22 @@ export type StytchUser = {
   trusted_metadata?: Record<string, unknown>;
 };
 
+export type StytchAuthFactor = {
+  delivery_method?: string;
+  phone_number?: string;
+  type?: string;
+};
+
 export type StytchSessionPayload = {
   session_token?: string;
   session_jwt?: string;
   user?: StytchUser;
   phone_id?: string;
   user_created?: boolean;
+  /** Present on sessions/authenticate; may carry the SMS factor phone. */
+  session?: {
+    authentication_factors?: StytchAuthFactor[];
+  };
 };
 
 export class StytchError extends Error {
@@ -52,6 +62,24 @@ function baseUrlFor(projectId: string): string {
     : "https://api.stytch.com";
 }
 
+function stytchAuthHeader(projectId: string, secret: string): string {
+  return `Basic ${Buffer.from(`${projectId}:${secret}`).toString("base64")}`;
+}
+
+async function stytchParseError(
+  res: Response,
+  payload: unknown
+): Promise<never> {
+  const record = payload as {
+    error_message?: string;
+    error_type?: string;
+  } | null;
+  const message =
+    (record && (record.error_message || record.error_type)) ||
+    `Stytch ${res.status}`;
+  throw new StytchError(message, res.status, record?.error_type);
+}
+
 async function stytchPost(
   path: string,
   body: Record<string, unknown>
@@ -61,13 +89,12 @@ async function stytchPost(
     throw new StytchError("Stytch is not configured on this deployment.", 503);
   }
   const url = baseUrlFor(env.projectId) + path;
-  const auth = Buffer.from(`${env.projectId}:${env.secret}`).toString("base64");
 
   const res = await fetch(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Basic ${auth}`,
+      Authorization: stytchAuthHeader(env.projectId, env.secret),
     },
     body: JSON.stringify(body),
   });
@@ -80,17 +107,46 @@ async function stytchPost(
   }
 
   if (!res.ok) {
-    const record = payload as unknown as {
-      error_message?: string;
-      error_type?: string;
-    } | null;
-    const message =
-      (record && (record.error_message || record.error_type)) ||
-      `Stytch ${res.status}`;
-    throw new StytchError(message, res.status, record?.error_type);
+    await stytchParseError(res, payload);
   }
 
   return payload || {};
+}
+
+async function stytchGet(path: string): Promise<StytchUser> {
+  const env = readStytchEnv();
+  if (!env) {
+    throw new StytchError("Stytch is not configured on this deployment.", 503);
+  }
+  const url = baseUrlFor(env.projectId) + path;
+  const res = await fetch(url, {
+    method: "GET",
+    headers: {
+      Authorization: stytchAuthHeader(env.projectId, env.secret),
+    },
+    cache: "no-store",
+  });
+
+  let payload: StytchUser | null = null;
+  try {
+    payload = (await res.json()) as StytchUser;
+  } catch {
+    payload = null;
+  }
+
+  if (!res.ok) {
+    await stytchParseError(res, payload);
+  }
+
+  return payload || { user_id: "" };
+}
+
+/** Full user profile (includes phone_numbers). GET /v1/users/{user_id}. */
+export async function getStytchUser(userId: string): Promise<StytchUser> {
+  if (!userId || typeof userId !== "string") {
+    throw new StytchError("user_id is required.", 400);
+  }
+  return stytchGet(`/v1/users/${encodeURIComponent(userId)}`);
 }
 
 /** Normalize a 10-digit US phone to E.164 (same as Tinker). */
@@ -172,4 +228,57 @@ export function phonesFromStytchUser(
     if (entry?.phone_number) out.push(entry.phone_number);
   }
   return out;
+}
+
+/** Phones from session authentication_factors (SMS login factor). */
+export function phonesFromSessionFactors(
+  session: StytchSessionPayload | null | undefined
+): string[] {
+  const factors = session?.session?.authentication_factors;
+  if (!factors?.length) return [];
+  const out: string[] = [];
+  for (const factor of factors) {
+    if (factor?.phone_number) out.push(factor.phone_number);
+  }
+  return out;
+}
+
+function uniquePhones(phones: string[]): string[] {
+  const seen = new Set<string>();
+  const out: string[] = [];
+  for (const phone of phones) {
+    const key = phone.trim();
+    if (!key || seen.has(key)) continue;
+    seen.add(key);
+    out.push(phone);
+  }
+  return out;
+}
+
+/**
+ * Resolve phones for ownership after sessions/authenticate.
+ * Session user payloads sometimes omit phone_numbers; fall back to
+ * authentication_factors, then users.get(user_id). Never logs phones.
+ */
+export async function loadUserPhonesForAccess(
+  session: StytchSessionPayload,
+  deps: { getUser?: (userId: string) => Promise<StytchUser> } = {}
+): Promise<string[]> {
+  const getUser = deps.getUser ?? getStytchUser;
+  const merged = uniquePhones([
+    ...phonesFromStytchUser(session.user),
+    ...phonesFromSessionFactors(session),
+  ]);
+  if (merged.length > 0) return merged;
+
+  const userId = session.user?.user_id;
+  if (!userId) return [];
+
+  try {
+    const full = await getUser(userId);
+    return uniquePhones(phonesFromStytchUser(full));
+  } catch {
+    // Fail closed on phone resolution; ownership stays false without phones.
+    return [];
+  }
 }
