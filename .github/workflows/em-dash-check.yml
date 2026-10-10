@@ -2,6 +2,8 @@ name: Em dash check
 
 on:
   pull_request:
+  # Allow manual re-runs when the pull_request event does not attach a suite.
+  workflow_dispatch:
 
 jobs:
   report:
