@@ -92,7 +92,7 @@ export const blogPosts: BlogPost[] = [
         id: 3,
         slideNumber: "03/03",
         quote:
-          "Requiring operational support at a product- and engineering-led company is a necessary growth pattern for building a system that feels like a human.",
+          "Needing operational support isn't a failure, even at a company led by product and engineering. It's how a system grows into something that feels human.",
       },
     ],
     content: [],
