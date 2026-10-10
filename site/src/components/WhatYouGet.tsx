@@ -53,7 +53,7 @@ const valuePillars: ValuePillar[] = [
     id: "methodical-enjoyable",
     title: "How I lead teams.",
     ctaSubtext: "Practices for growing engineers.",
-    descriptionHref: "/blog/building-teams-as-raising-funds",
+    descriptionHref: "/how-i-lead-teams/building-teams-as-raising-funds",
     descriptionTitle: "Building Teams as Raising Funds",
     coinType: "affirm",
     link: {
@@ -72,12 +72,6 @@ const workProducts: WorkProduct[] = [
     description:
       "The merchant lifecycle work at Affirm: system architecture treated as the product, so the portal can keep earning trust as the surface grows.",
     href: "/blog/building-product-as-system-architecture",
-  },
-  {
-    title: "Building Teams as Raising Funds",
-    description:
-      "Building the Affirm team with intentional career growth, promotions, and a shared belief that the group knows how to grow the business.",
-    href: "/blog/building-teams-as-raising-funds",
   },
 ];
 

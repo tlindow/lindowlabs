@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { FileText } from "lucide-react";
-import { blogPosts } from "@/data/blogPosts";
+import { getBlogIndexPosts, getPostHref } from "@/data/blogPosts";
 
 export const metadata: Metadata = {
   title: "Blog: Tyler Lindow",
@@ -24,6 +24,8 @@ export const metadata: Metadata = {
 };
 
 export default function BlogIndexPage() {
+  const posts = getBlogIndexPosts();
+
   return (
     <div className="min-h-screen bg-background text-foreground selection:bg-indigo-light selection:text-indigo-dark font-mono flex flex-col justify-between">
       <main className="w-full max-w-3xl mx-auto px-4 sm:px-6 pt-10 sm:pt-14 pb-20 sm:pb-32 flex-1">
@@ -39,7 +41,9 @@ export default function BlogIndexPage() {
 
         {/* Post List */}
         <div className="space-y-16">
-          {blogPosts.map((post) => (
+          {posts.map((post) => {
+            const href = getPostHref(post);
+            return (
             <article key={post.id} className="space-y-2 group">
               {/* Pre-title */}
               <span className="text-xs sm:text-sm font-mono font-bold uppercase tracking-widest text-indigo-dark block">
@@ -49,7 +53,7 @@ export default function BlogIndexPage() {
               {/* Title: Clean typography */}
               <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground font-mono leading-snug">
                 <Link
-                  href={`/blog/${post.slug}`}
+                  href={href}
                   className="hover:text-indigo-dark transition-colors"
                 >
                   {post.title}
@@ -71,7 +75,7 @@ export default function BlogIndexPage() {
               {/* Linkout */}
               <div className="pt-2">
                 <Link
-                  href={`/blog/${post.slug}`}
+                  href={href}
                   className="inline-flex items-center gap-2 rounded-xl bg-surface hover:bg-surface-alt text-foreground border border-border px-5 py-2.5 text-xs sm:text-sm font-mono font-bold shadow-xs transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
                   title={`Read ${post.title}`}
                 >
@@ -80,7 +84,8 @@ export default function BlogIndexPage() {
                 </Link>
               </div>
             </article>
-          ))}
+            );
+          })}
         </div>
       </main>
     </div>
