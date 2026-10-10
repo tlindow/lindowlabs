@@ -634,24 +634,9 @@ export default function ScrollMorphAvatar({
     setNavDockHidden(owner === "nav");
   });
 
-  // Above sticky Navbar (z-50) while contact owns the photo so the coin is
-  // not trapped under the bar after the nav img hides. Otherwise stay at 40.
-  const phaseZIndex = useTransform(
-    [activeDirectToHero, scrollY],
-    (values: number[]) => {
-      const direct = values[0] ?? 0;
-      const latestY = values[1] ?? 0;
-      if (direct > 0.5) return 40;
-      const c = coordsRef.current;
-      const windowH = typeof window !== "undefined" ? window.innerHeight : 800;
-      const contactTarget =
-        c != null ? Math.max(c.contactAbsoluteY - windowH * 0.5, 0) : 0;
-      const owner = getProfileDockOwner(latestY, contactTarget, windowH);
-      return owner === "contact" ? 60 : 40;
-    }
-  );
-
   // Drop-shadow only while the coin is the visible photo (hero / contact).
+  // filter creates a compositor layer; SiteChrome's relative z-0 keeps it
+  // under the sticky nav (z-50) even so. Local z-40 still clears body copy.
   const phaseFilter = useTransform(phaseOpacity, (op) =>
     op > 0.05 ? "drop-shadow(0 4px 6px rgb(0 0 0 / 0.15))" : "none"
   );
@@ -673,7 +658,8 @@ export default function ScrollMorphAvatar({
         top: y,
         width: size,
         height: size,
-        zIndex: phaseZIndex,
+        // Always under sticky nav (SiteChrome traps this fixed layer at z-0).
+        zIndex: 40,
         opacity: webglReady ? phaseOpacity : 0,
         visibility: phaseVisibility,
         display: navDockHidden ? "none" : "block",
