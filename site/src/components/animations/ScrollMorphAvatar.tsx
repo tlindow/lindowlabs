@@ -399,13 +399,15 @@ export default function ScrollMorphAvatar({
       handleImageLoad();
     }
 
-    // Hero→nav: upright (move/scale only). Nav→Let's talk: flip with contact progress.
+    // Hero→nav: one full flip synced to the same progress as the play morph.
+    // Nav→Let's talk: flip with contactProgress. Play button never flips.
     let animationFrameId: number;
     let hoverSpin = 0;
 
     const renderLoop = () => {
       animationFrameId = requestAnimationFrame(renderLoop);
 
+      const rawProgress = Math.min(Math.max(progress.get(), 0), 1);
       const rawContact = Math.min(Math.max(effectiveContactProgress.get(), 0), 1);
       const direct = activeDirectToHero.get();
       const isHovered = isHoveredRef.current;
@@ -444,7 +446,7 @@ export default function ScrollMorphAvatar({
           ? currentScrollY
           : owner === "contact"
             ? rawContact
-            : progress.get();
+            : rawProgress;
       if (
         Math.abs(metric - lastScrollProgress) > 0.0001 ||
         isHovered ||
@@ -473,9 +475,12 @@ export default function ScrollMorphAvatar({
           coinMesh.rotation.x =
             Math.sin(easedC * Math.PI) * 0.28 + hoverTilt;
         } else {
-          // Hero → nav: no scroll flip — face stays upright.
-          coinMesh.rotation.y = hoverSpin + clickImpulseRef.current;
-          coinMesh.rotation.x = hoverTilt;
+          // Hero → nav: flip in sync with play's move/scale (same progress).
+          const easedP1 = rawProgress * rawProgress * (3 - 2 * rawProgress);
+          coinMesh.rotation.y =
+            easedP1 * Math.PI * 2 + hoverSpin + clickImpulseRef.current;
+          coinMesh.rotation.x =
+            Math.sin(easedP1 * Math.PI) * 0.28 + hoverTilt;
         }
 
         renderer.render(scene, camera);
@@ -514,8 +519,8 @@ export default function ScrollMorphAvatar({
   const px = (n: number) => Math.round(n);
 
   // 3. Motion Interpolation for position & scale.
-  // Hero → nav morphs along a path (no flip). Nav ↔ Let's talk snaps to the
-  // contact slot (no mid-page flight) and flips in place via WebGL.
+  // Hero → nav morphs along a path (WebGL flip uses the same progress). Nav ↔
+  // Let's talk snaps to the contact slot (no mid-page flight) and flips in place.
   const x = useTransform(
     [progress, effectiveContactProgress, activeDirectToHero, scrollY],
     (values: number[]) => {

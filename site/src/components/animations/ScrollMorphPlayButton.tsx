@@ -58,8 +58,9 @@ interface ScrollMorphPlayButtonProps {
 }
 
 /**
- * Hero play control that move/scales into the nav play slot over the sticky
- * bar (no flip). Unmounts when nav owns the dock so only nav-play remains.
+ * Hero play control that move/scales into the centered nav play slot over the
+ * sticky bar (no flip; profile coin flips on the same progress). Unmounts when
+ * nav owns the dock so only nav-play remains.
  */
 export default function ScrollMorphPlayButton({
   progress: customProgress,

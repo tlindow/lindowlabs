@@ -26,8 +26,8 @@ export default function SiteChrome({ children }: { children: ReactNode }) {
   // wrapper is only as tall as the header, so position:sticky cannot pin.
   //
   // relative z-0 on the page shell traps page content (hero play, coins, etc.)
-  // below the sticky nav sibling (z-50). The profile morph coin portals to
-  // document.body at z-60 so it can paint over the nav during hero→nav.
+  // below the sticky nav sibling (z-50). The profile morph coin + play portal
+  // to document.body at z-60 so they paint over the nav during hero→nav.
   return (
     <NavbarActionsProvider>
       <PageAudioProvider>
