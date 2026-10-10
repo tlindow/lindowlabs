@@ -2,13 +2,9 @@ import { NextResponse, type NextRequest } from "next/server";
 import {
   isAuthConfigured,
   isLearningAuthBypass,
-  isLearningUserAllowed,
   STYTCH_SESSION_COOKIE,
 } from "@/lib/auth/learningAuth";
-import {
-  authenticateSession,
-  phonesFromStytchUser,
-} from "@/lib/stytch";
+import { authenticateSession } from "@/lib/stytch";
 
 /**
  * Next.js 16 proxy. Protects /learning on the server using the same Stytch
@@ -16,7 +12,8 @@ import {
  * through so the page can show "sign-in not configured yet".
  *
  * Signed-out visitors reach /learning (phone sign-in UI). Authenticated
- * but not-allowlisted visitors are sent to /learning/unauthorized.
+ * visitors (any phone) reach their own scoped desk; curriculum ownership
+ * is enforced in page/API loaders, not here.
  */
 export async function proxy(req: NextRequest) {
   const path = req.nextUrl.pathname;
@@ -29,10 +26,6 @@ export async function proxy(req: NextRequest) {
     return NextResponse.next();
   }
 
-  if (path.startsWith("/learning/unauthorized")) {
-    return NextResponse.next();
-  }
-
   const token = req.cookies.get(STYTCH_SESSION_COOKIE)?.value;
   if (!token) {
     // Page renders the SMS OTP gate.
@@ -40,13 +33,7 @@ export async function proxy(req: NextRequest) {
   }
 
   try {
-    const session = await authenticateSession(token);
-    const phones = phonesFromStytchUser(session.user);
-    if (!isLearningUserAllowed(phones)) {
-      return NextResponse.redirect(
-        new URL("/learning/unauthorized", req.nextUrl.origin)
-      );
-    }
+    await authenticateSession(token);
     return NextResponse.next();
   } catch {
     // Expired/invalid cookie: clear and show the sign-in gate.

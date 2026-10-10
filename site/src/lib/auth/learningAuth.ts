@@ -1,13 +1,9 @@
 /**
  * Learning dashboard auth helpers shared by the proxy and server pages.
  * Stytch SMS OTP (same project / env names as Tinker).
- * Access is gated by LEARNING_ALLOWED_PHONES (server-side only).
+ * Any valid phone can sign in; curriculum ownership is separate
+ * (see learningOwner.ts / LEARNING_OWNER_PHONES).
  */
-
-import {
-  isLearningPhoneAllowed,
-  isLearningPhonesAllowed,
-} from "@/lib/auth/learningPhones";
 
 /** httpOnly cookie holding the Stytch session_token. */
 export const STYTCH_SESSION_COOKIE = "stytch_session";
@@ -19,22 +15,14 @@ export function isAuthConfigured(): boolean {
 
 /**
  * Local/dev screenshot bypass. Never set on Vercel production.
- * When true, /learning renders the dashboard without Stytch sign-in.
+ * When true, /learning renders without Stytch sign-in.
+ * LEARNING_AUTH_BYPASS_OWNER=0 → non-owner empty desk (for screenshots).
  */
 export function isLearningAuthBypass(): boolean {
   return process.env.LEARNING_AUTH_BYPASS === "1";
 }
 
-export { isLearningPhoneAllowed, isLearningPhonesAllowed };
-
-/** True when any of the Stytch user's phone numbers is on the allowlist. */
-export function isLearningUserAllowed(phones: string[]): boolean {
-  return isLearningPhonesAllowed(phones);
-}
-
-/** Pick a display phone: first allowlisted match, else first phone, else null. */
-export function pickDisplayPhone(phones: string[]): string | null {
-  const allowed = phones.find((phone) => isLearningPhoneAllowed(phone));
-  if (allowed) return allowed;
-  return phones[0] ?? null;
+/** Bypass role: owner curriculum vs empty starter. Default owner. */
+export function isLearningAuthBypassOwner(): boolean {
+  return process.env.LEARNING_AUTH_BYPASS_OWNER !== "0";
 }

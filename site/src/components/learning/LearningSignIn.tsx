@@ -252,8 +252,8 @@ export default function LearningSignIn({ staticHost = false }: LearningSignInPro
         ) : null}
 
         <p className="learning-auth-gate__fineprint">
-          Private Lindow Labs learning desk. Only an allowlisted phone can sign
-          in; everyone else is refused before a code is sent.
+          Private Lindow Labs learning desk. Sign in with your phone; each
+          account only sees its own curriculum.
         </p>
 
         <p className="learning-auth-gate__fineprint">

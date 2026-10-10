@@ -1,21 +1,15 @@
 import { NextResponse } from "next/server";
 import {
   isAuthConfigured,
-  isLearningUserAllowed,
   STYTCH_SESSION_COOKIE,
 } from "@/lib/auth/learningAuth";
-import { LEARNING_PHONE_REFUSED_MESSAGE } from "@/lib/auth/learningPhones";
-import {
-  authenticateOtp,
-  phonesFromStytchUser,
-  StytchError,
-} from "@/lib/stytch";
+import { authenticateOtp, StytchError } from "@/lib/stytch";
 
 export const dynamic = "force-dynamic";
 
 const SESSION_MAX_AGE = 60 * 60 * 24 * 30; // 30 days, matches Tinker
 
-/** POST /api/auth/phone/verify — same shape as Tinker; sets httpOnly cookie. */
+/** POST /api/auth/phone/verify — any valid OTP gets a session cookie. */
 export async function POST(request: Request) {
   if (!isAuthConfigured()) {
     return NextResponse.json(
@@ -47,12 +41,11 @@ export async function POST(request: Request) {
       );
     }
 
-    const phones = phonesFromStytchUser(stytch.user);
-    if (!isLearningUserAllowed(phones)) {
-      // Authenticated with Stytch but not on the allowlist: no cookie.
+    // Fail closed: require a Stytch user_id so the desk can be scoped.
+    if (!stytch.user?.user_id) {
       return NextResponse.json(
-        { error: LEARNING_PHONE_REFUSED_MESSAGE },
-        { status: 403 }
+        { error: "Stytch returned no user id." },
+        { status: 502 }
       );
     }
 

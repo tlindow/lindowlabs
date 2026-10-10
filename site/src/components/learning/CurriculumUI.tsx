@@ -1,10 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { learningExercises } from "@/data/learningDashboard";
-import {
-  readingCurriculum,
-  type ReadingCurriculumItem,
-} from "@/data/learning/readingCurriculum";
+import type { ReadingCurriculumItem } from "@/data/learning/readingCurriculum";
 import { learningSignOut } from "@/lib/auth/learningSignOut";
 import { formatAsOfPt } from "@/lib/learning/formatPt";
 import type {
@@ -112,13 +109,39 @@ export function ReadingPlanNotConnected() {
   );
 }
 
-export function CurriculumDashboard({
+/** Empty / starter desk for signed-in users who are not the curriculum owner. */
+export function LearningStarterEmpty({
   showSignOut = true,
 }: {
   showSignOut?: boolean;
 }) {
   return (
     <Shell showSignOut={showSignOut}>
+      <p className="learning-curr__eyebrow">Lindow Labs</p>
+      <h1 className="learning-curr__title">Learning</h1>
+      <p className="learning-curr__lede">Your curriculum is being set up</p>
+      <div className="learning-curr__block" data-learning-desk="starter">
+        <h2>Your desk</h2>
+        <p>
+          This account has its own private learning space. Personalized reading
+          lists and notes will show up here once they are ready for you.
+        </p>
+      </div>
+    </Shell>
+  );
+}
+
+export function CurriculumDashboard({
+  readingItems,
+  showSignOut = true,
+}: {
+  /** Owner-only list from the server; never pass another user's items. */
+  readingItems: ReadingCurriculumItem[];
+  showSignOut?: boolean;
+}) {
+  return (
+    <Shell showSignOut={showSignOut}>
+      <div data-learning-desk="owner">
       <p className="learning-curr__eyebrow">Lindow Labs</p>
       <h1 className="learning-curr__title">Learning</h1>
       <p className="learning-curr__lede">
@@ -134,7 +157,7 @@ export function CurriculumDashboard({
           Reading curriculum
         </h2>
         <ol className="learning-curr__cards learning-curr__reading-list">
-          {readingCurriculum.map((item, index) => (
+          {readingItems.map((item, index) => (
             <li
               key={item.id}
               className={
@@ -146,7 +169,7 @@ export function CurriculumDashboard({
               <div className="learning-curr__card-top">
                 <div>
                   <p className="learning-curr__reading-order">
-                    {index + 1} of {readingCurriculum.length}
+                    {index + 1} of {readingItems.length}
                   </p>
                   <h3 className="learning-curr__card-title">{item.title}</h3>
                   <p className="learning-curr__card-author">{item.author}</p>
@@ -192,6 +215,7 @@ export function CurriculumDashboard({
         Reading list is checked in under{" "}
         <code>site/src/data/learning/readingCurriculum.ts</code>
       </p>
+      </div>
     </Shell>
   );
 }

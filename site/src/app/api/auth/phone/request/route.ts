@@ -1,14 +1,10 @@
 import { NextResponse } from "next/server";
 import { isAuthConfigured } from "@/lib/auth/learningAuth";
-import {
-  isLearningPhoneAllowed,
-  LEARNING_PHONE_REFUSED_MESSAGE,
-} from "@/lib/auth/learningPhones";
 import { sendSmsOtp, StytchError } from "@/lib/stytch";
 
 export const dynamic = "force-dynamic";
 
-/** POST /api/auth/phone/request — same shape as Tinker, plus server allowlist. */
+/** POST /api/auth/phone/request — any valid phone may receive an OTP. */
 export async function POST(request: Request) {
   if (!isAuthConfigured()) {
     return NextResponse.json(
@@ -27,14 +23,6 @@ export async function POST(request: Request) {
   const phone = body?.phone;
   if (typeof phone !== "string" || !phone.trim()) {
     return NextResponse.json({ error: "phone is required" }, { status: 400 });
-  }
-
-  // Enforce allowlist before Stytch sends any SMS.
-  if (!isLearningPhoneAllowed(phone)) {
-    return NextResponse.json(
-      { error: LEARNING_PHONE_REFUSED_MESSAGE },
-      { status: 403 }
-    );
   }
 
   try {

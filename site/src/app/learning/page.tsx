@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
+import { LearningNotConfigured } from "@/components/learning/LearningDashboard";
 import {
-  LearningNotConfigured,
-  LearningUnauthorized,
-} from "@/components/learning/LearningDashboard";
-import { CurriculumDashboard } from "@/components/learning/CurriculumUI";
+  CurriculumDashboard,
+  LearningStarterEmpty,
+} from "@/components/learning/CurriculumUI";
 import LearningSignIn from "@/components/learning/LearningSignIn";
 import { LEARNING_DASHBOARD_URL } from "@/data/urls";
+import { readingCurriculumForUser } from "@/lib/learning/learningScope";
 import { loadLearningGate } from "@/lib/learning/loadLearningPage";
 
 export const metadata: Metadata = {
@@ -40,13 +41,20 @@ export default async function LearningPage() {
   if (gate.status === "not-configured") {
     return <LearningNotConfigured />;
   }
-  if (gate.status === "unauthorized") {
-    return <LearningUnauthorized phone={gate.phone} />;
-  }
   if (gate.status === "signed-out") {
     return <LearningSignIn />;
   }
 
-  // Reading curriculum is checked-in data; Notion is optional for course deep links.
-  return <CurriculumDashboard />;
+  // Per-user scoping: only the owner identity receives Tyler's curriculum.
+  const readingItems = readingCurriculumForUser(gate.isOwner);
+  if (!gate.isOwner || readingItems.length === 0) {
+    return <LearningStarterEmpty showSignOut={!gate.bypass} />;
+  }
+
+  return (
+    <CurriculumDashboard
+      readingItems={readingItems}
+      showSignOut={!gate.bypass}
+    />
+  );
 }
