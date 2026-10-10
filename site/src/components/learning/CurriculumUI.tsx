@@ -1,10 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import {
-  curriculumEssayIntro,
-  curriculumEssayTitle,
-  type ReadingCurriculumItem,
-} from "@/data/learning/readingCurriculum";
+import type { ReadingCurriculumItem } from "@/data/learning/readingCurriculum";
+import LearningPlaylist from "@/components/learning/LearningPlaylist";
 import { learningSignOut } from "@/lib/auth/learningSignOut";
 import { formatAsOfPt } from "@/lib/learning/formatPt";
 import type {
@@ -113,15 +110,19 @@ export function LearningStarterEmpty({
 }) {
   return (
     <Shell showSignOut={showSignOut}>
-      <p className="learning-curr__eyebrow">Lindow Labs</p>
-      <h1 className="learning-curr__title">Learning</h1>
-      <p className="learning-curr__lede">Your curriculum is being set up</p>
-      <div className="learning-curr__block" data-learning-desk="starter">
-        <h2>Your desk</h2>
-        <p>
-          This account has its own private learning space. Personalized reading
-          lists and notes will show up here once they are ready for you.
-        </p>
+      <div className="learning-pl" data-learning-desk="starter">
+        <header className="learning-pl__header">
+          <p className="learning-curr__eyebrow">Lindow Labs · Playlist</p>
+          <h1 className="learning-curr__title">Your curriculum is being set up</h1>
+          <p className="learning-pl__desc">
+            This account has its own private learning playlist. Tracks show up
+            here once they are ready for you.
+          </p>
+          <p className="learning-pl__meta">0 books · 0 tracks</p>
+        </header>
+        <div className="learning-pl__empty" data-playlist-empty="true">
+          <p>No tracks yet.</p>
+        </div>
       </div>
     </Shell>
   );
@@ -137,72 +138,7 @@ export function CurriculumDashboard({
 }) {
   return (
     <Shell showSignOut={showSignOut}>
-      <article data-learning-desk="owner" className="learning-curr__essay">
-        <p className="learning-curr__eyebrow">Lindow Labs</p>
-        <h1 className="learning-curr__title">{curriculumEssayTitle}</h1>
-        <p className="learning-curr__lede">{curriculumEssayIntro}</p>
-
-        <ol className="learning-curr__essay-modules">
-          {readingItems.map((item) => (
-            <li
-              key={item.id}
-              className="learning-curr__essay-module"
-              data-module-number={item.number}
-            >
-              <div className="learning-curr__essay-module-head">
-                <h2 className="learning-curr__essay-module-title">
-                  <span className="learning-curr__essay-module-num">
-                    {item.number}.
-                  </span>{" "}
-                  {item.heading}
-                </h2>
-              </div>
-              <p className="learning-curr__essay-prose">{item.prose}</p>
-              <p className="learning-curr__essay-aside">
-                <span className="learning-curr__essay-label">
-                  Considered instead:
-                </span>{" "}
-                {item.consideredInstead}
-              </p>
-              <div className="learning-curr__exercise-block">
-                <p className="learning-curr__exercise-summary">
-                  <span className="learning-curr__essay-label">Exercise:</span>{" "}
-                  {item.exercise.summary}
-                </p>
-                <div className="learning-curr__cta-row">
-                  <a
-                    className="learning-curr__btn learning-curr__btn--primary"
-                    href={item.exercise.openInTinkerUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Do it in Tinker
-                  </a>
-                  <a
-                    className="learning-curr__btn learning-curr__btn--ghost"
-                    href={item.exercise.openInCursorUrl}
-                  >
-                    Open in Cursor
-                  </a>
-                  <a
-                    className="learning-curr__btn learning-curr__btn--ghost"
-                    href={item.exercise.githubUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    View on GitHub
-                  </a>
-                </div>
-              </div>
-            </li>
-          ))}
-        </ol>
-
-        <p className="learning-curr__footer">
-          Curriculum essay checked in under{" "}
-          <code>site/src/data/learning/readingCurriculum.ts</code>
-        </p>
-      </article>
+      <LearningPlaylist readingItems={readingItems} />
     </Shell>
   );
 }
