@@ -768,6 +768,59 @@ a.learning-curr__card:hover {
   pointer-events: none;
 }
 
+.learning-pl__shelf {
+  margin-top: 1.75rem;
+  padding: 1rem 0.85rem;
+  border: 1px solid var(--lc-border);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.learning-pl__shelf-lede {
+  margin: 0.45rem 0 0;
+  font-size: 0.85rem;
+  color: var(--lc-muted);
+  line-height: 1.45;
+}
+
+.learning-pl__shelf-list {
+  list-style: none;
+  margin: 0.85rem 0 0;
+  padding: 0;
+}
+
+.learning-pl__shelf-item {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 0.65rem 0;
+  border-top: 1px solid var(--lc-border);
+}
+
+.learning-pl__shelf-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.learning-pl__shelf-note {
+  font-size: 0.82rem;
+  color: var(--lc-muted);
+  line-height: 1.4;
+}
+
+.learning-pl__shelf-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  align-items: end;
+  margin-top: 0.85rem;
+  padding-top: 0.85rem;
+  border-top: 1px dashed var(--lc-border);
+}
+
 .learning-pl__row:hover {
   background: rgba(99, 102, 241, 0.06);
 }

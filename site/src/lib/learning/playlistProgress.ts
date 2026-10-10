@@ -4,11 +4,17 @@
  */
 
 import {
+  OWNER_ALREADY_READ_SEED,
+  type AlreadyReadEntry,
+} from "@/data/learning/alreadyReadSeed";
+import {
   formatTrackLength,
   playlistTrackMeta,
   type PlaylistTrackMeta,
 } from "@/data/learning/playlistTrackMeta";
 import type { ReadingCurriculumItem } from "@/data/learning/readingCurriculum";
+
+export type { AlreadyReadEntry };
 
 export const PLAYLIST_PROGRESS_COOKIE = "ll_learning_playlist_v1";
 
@@ -27,6 +33,13 @@ export type BookProgress = {
 export type PlaylistProgress = {
   userId: string;
   books: Record<string, BookProgress>;
+  /** Finished books outside the curriculum playlist. */
+  alreadyRead: AlreadyReadEntry[];
+  /**
+   * True after seed applied or owner edited the shelf.
+   * Prevents re-seeding over later edits (including an emptied shelf).
+   */
+  alreadyReadInitialized: boolean;
 };
 
 export type TrackStatus = "Done" | "In progress" | "Up next";
@@ -36,7 +49,65 @@ export function emptyBookProgress(): BookProgress {
 }
 
 export function emptyPlaylistProgress(userId: string): PlaylistProgress {
-  return { userId, books: {} };
+  return {
+    userId,
+    books: {},
+    alreadyRead: [],
+    alreadyReadInitialized: false,
+  };
+}
+
+/** Apply owner seed once when the shelf has never been initialized. */
+export function withAlreadyReadDefaults(
+  progress: PlaylistProgress
+): PlaylistProgress {
+  if (progress.alreadyReadInitialized) return progress;
+  return {
+    ...progress,
+    alreadyRead: OWNER_ALREADY_READ_SEED.map((entry) => ({ ...entry })),
+    alreadyReadInitialized: true,
+  };
+}
+
+export function addAlreadyRead(
+  progress: PlaylistProgress,
+  entry: Omit<AlreadyReadEntry, "id"> & { id?: string }
+): PlaylistProgress {
+  const id =
+    entry.id?.trim() ||
+    `${slugPart(entry.title)}-${slugPart(entry.author)}-${Date.now()}`;
+  const next: AlreadyReadEntry = {
+    id,
+    title: entry.title.trim(),
+    author: entry.author.trim(),
+    howMuch: entry.howMuch.trim() || "whole book",
+    note: entry.note.trim(),
+  };
+  if (!next.title || !next.author) return progress;
+  return {
+    ...progress,
+    alreadyReadInitialized: true,
+    alreadyRead: [...progress.alreadyRead, next],
+  };
+}
+
+export function removeAlreadyRead(
+  progress: PlaylistProgress,
+  id: string
+): PlaylistProgress {
+  return {
+    ...progress,
+    alreadyReadInitialized: true,
+    alreadyRead: progress.alreadyRead.filter((entry) => entry.id !== id),
+  };
+}
+
+function slugPart(value: string): string {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "")
+    .slice(0, 32) || "book";
 }
 
 export function bookProgressFor(
@@ -186,18 +257,23 @@ export function parsePlaylistProgressCookie(
   raw: string | undefined,
   userId: string
 ): PlaylistProgress {
-  if (!raw) return emptyPlaylistProgress(userId);
+  if (!raw) {
+    return withAlreadyReadDefaults(emptyPlaylistProgress(userId));
+  }
   try {
-    const parsed = JSON.parse(raw) as PlaylistProgress;
+    const parsed = JSON.parse(raw) as Partial<PlaylistProgress>;
     if (!parsed || parsed.userId !== userId || typeof parsed.books !== "object") {
-      return emptyPlaylistProgress(userId);
+      return withAlreadyReadDefaults(emptyPlaylistProgress(userId));
     }
-    return {
+    const base: PlaylistProgress = {
       userId,
       books: parsed.books ?? {},
+      alreadyRead: Array.isArray(parsed.alreadyRead) ? parsed.alreadyRead : [],
+      alreadyReadInitialized: parsed.alreadyReadInitialized === true,
     };
+    return withAlreadyReadDefaults(base);
   } catch {
-    return emptyPlaylistProgress(userId);
+    return withAlreadyReadDefaults(emptyPlaylistProgress(userId));
   }
 }
 
@@ -205,5 +281,7 @@ export function serializePlaylistProgress(progress: PlaylistProgress): string {
   return JSON.stringify({
     userId: progress.userId,
     books: progress.books,
+    alreadyRead: progress.alreadyRead,
+    alreadyReadInitialized: progress.alreadyReadInitialized,
   });
 }

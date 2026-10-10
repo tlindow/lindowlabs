@@ -67,6 +67,8 @@ export async function PUT(req: Request) {
   const progress: PlaylistProgress = {
     userId: access.userId,
     books: incoming.books ?? {},
+    alreadyRead: Array.isArray(incoming.alreadyRead) ? incoming.alreadyRead : [],
+    alreadyReadInitialized: incoming.alreadyReadInitialized === true,
   };
 
   const response = NextResponse.json({ progress });
