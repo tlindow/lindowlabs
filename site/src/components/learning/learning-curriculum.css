@@ -700,6 +700,25 @@ a.learning-curr__card:hover {
   line-height: 1.35;
 }
 
+.learning-pl__read-actions {
+  margin-top: 1rem;
+}
+
+.learning-pl__ready {
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px dashed var(--lc-border);
+}
+
+.learning-pl__ready-label {
+  margin: 0 0 0.45rem;
+  font-size: 0.78rem;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--lc-muted);
+}
+
 .learning-pl__empty {
   margin-top: 1.5rem;
   padding: 1.25rem 1rem;

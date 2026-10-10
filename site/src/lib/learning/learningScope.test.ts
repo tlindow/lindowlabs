@@ -3,7 +3,9 @@ import { describe, it } from "node:test";
 import {
   curriculumEssayIntro,
   curriculumEssayTitle,
+  ELEVENREADER_URL,
   readingCurriculum,
+  SRE_FREE_BOOK_URL,
 } from "../../data/learning/readingCurriculum.ts";
 import {
   deskPayloadForUser,
@@ -84,6 +86,7 @@ describe("readingCurriculumForUser", () => {
       assert.ok(item.consideredInstead.trim().length > 20);
       assert.equal(item.exercise.id, expected.exerciseId);
       assert.ok(item.exercise.openInTinkerUrl.includes("tinker.beginner.work"));
+      assert.ok(item.getBookUrl.startsWith("https://"));
       assert.equal(FORBIDDEN.test(item.heading), false);
       assert.equal(FORBIDDEN.test(item.prose), false);
       assert.equal(FORBIDDEN.test(item.consideredInstead), false);
@@ -96,6 +99,8 @@ describe("readingCurriculumForUser", () => {
       items[2]?.exercise.summary,
       "split a small checkout codebase into Merchant, Payments and Disputes contexts, naming each in the words your team actually used."
     );
+    assert.equal(items[0]?.getBookUrl, SRE_FREE_BOOK_URL);
+    assert.equal(ELEVENREADER_URL, "https://elevenreader.io");
   });
 
   it("non-owner sees empty curriculum (no essay modules)", () => {
