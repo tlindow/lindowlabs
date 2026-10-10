@@ -180,8 +180,87 @@ async function run() {
       throw new Error(`Expected Login label, got "${layout.loginText}"`);
     }
 
+    // Docked nav player (past hero): play + scrub + times must be visible at rest
+    // (before play), including the under-nav mobile timeline.
+    await page.evaluate(() => {
+      const contact = document.getElementById("contact");
+      const mid = contact
+        ? Math.max(280, Math.floor(contact.offsetTop * 0.45))
+        : 400;
+      window.scrollTo(0, mid);
+    });
+    await page.waitForFunction(
+      () => {
+        const player = document.querySelector(
+          '[data-page-audio="nav-full-player"]'
+        );
+        if (!player) return false;
+        const style = getComputedStyle(player);
+        return (
+          style.display !== "none" &&
+          style.visibility !== "hidden" &&
+          Number.parseFloat(style.opacity || "0") > 0.85
+        );
+      },
+      { timeout: 8000 }
+    );
+    const docked = await page.evaluate(() => {
+      const player = document.querySelector(
+        '[data-page-audio="nav-full-player"]'
+      );
+      const play = document.querySelector('[data-page-audio="nav-play"]');
+      const scrubber = document.querySelector(
+        '[data-page-audio="nav-mobile-scrubber"]'
+      );
+      const elapsed = document.querySelector(
+        '[data-page-audio="nav-mobile-time-elapsed"]'
+      );
+      const total = document.querySelector(
+        '[data-page-audio="nav-mobile-time-total"]'
+      );
+      const scrubStyle = scrubber ? getComputedStyle(scrubber) : null;
+      const range = scrubber?.querySelector('input[type="range"]');
+      return {
+        hasPlayer: !!player,
+        hasPlay: !!play,
+        scrubVisible:
+          !!scrubber &&
+          scrubStyle &&
+          scrubStyle.display !== "none" &&
+          Number.parseFloat(scrubStyle.opacity || "0") > 0.85,
+        elapsed: (elapsed?.textContent || "").trim(),
+        total: (total?.textContent || "").trim(),
+        rangeMax: range ? Number(range.getAttribute("max") || range.max) : 0,
+        heroPlay: !!document.querySelector('[data-page-audio="hero-play"]'),
+      };
+    });
+    if (!docked.hasPlayer || !docked.hasPlay) {
+      throw new Error(
+        `Docked nav player missing at rest: ${JSON.stringify(docked)}`
+      );
+    }
+    if (!docked.scrubVisible) {
+      throw new Error(
+        `Mobile scrubber not visible at rest when docked: ${JSON.stringify(docked)}`
+      );
+    }
+    if (docked.elapsed !== "0:00") {
+      throw new Error(
+        `Expected elapsed 0:00 at rest, got "${docked.elapsed}"`
+      );
+    }
+    if (!docked.total || docked.total === "0:00" || !(docked.rangeMax > 0)) {
+      throw new Error(
+        `Expected total duration at rest on mobile scrubber: ${JSON.stringify(docked)}`
+      );
+    }
+    // Mid-page dock: hero play must not compete with the nav control.
+    if (docked.heroPlay) {
+      throw new Error("hero-play still mounted while nav player is docked");
+    }
+
     console.log(
-      "check-mobile-nav: ok (Login visible at 390px, no Visitors/LinkedIn, header overflow-x safe)"
+      "check-mobile-nav: ok (Login visible at 390px, docked scrubber+times at rest, no Visitors/LinkedIn, header overflow-x safe)"
     );
   } finally {
     await browser.close();
