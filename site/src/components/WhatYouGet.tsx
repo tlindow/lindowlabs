@@ -29,8 +29,6 @@ interface ValuePillar {
     label: string;
     title: string;
   };
-  /** Playful chat-bubble aside near the CTA (Affirm pillar only today). */
-  linkAside?: string;
   /** Visible post card inside this pillar (Affirm leadership story). */
   featuredPost?: WorkProduct;
 }
@@ -60,7 +58,6 @@ const valuePillars: ValuePillar[] = [
       label: "Affirm",
       title: "Affirm",
     },
-    linkAside: "psst, my team led the latest affirm.com redesign",
     featuredPost: buildingTeamsPost
       ? {
           title: buildingTeamsPost.title,
@@ -187,14 +184,6 @@ export default function WhatYouGet() {
                         className="opacity-70 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0 text-background/80 group-hover:text-background"
                       />
                     </a>
-                    {pillar.linkAside ? (
-                      <aside
-                        className="affirm-aside-bubble relative max-w-[15.5rem] rounded-[1.15rem] bg-surface px-3 py-2 text-[11px] sm:text-xs font-mono leading-snug text-muted text-left shadow-xs"
-                        aria-label="Side note"
-                      >
-                        {pillar.linkAside}
-                      </aside>
-                    ) : null}
                   </div>
 
                   {pillar.featuredPost ? (
