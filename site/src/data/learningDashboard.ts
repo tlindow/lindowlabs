@@ -66,7 +66,7 @@ export const learningReadings: LearningReading[] = [
   {
     title: "Site Reliability Engineering",
     author: "Google",
-    note: "Ch 3, 4, 6, 14 and 15 · Owned (paperback)",
+    note: "Ch 3, 4, 6, 14 and 15",
   },
   {
     title: "The Design of Web APIs",
@@ -74,9 +74,9 @@ export const learningReadings: LearningReading[] = [
     note: "Whole book",
   },
   {
-    title: "Domain-Driven Design",
-    author: "Eric Evans",
-    note: "From Ch 2",
+    title: "Learning Domain-Driven Design",
+    author: "Vladik Khononov",
+    note: "Whole book",
   },
   {
     title: "Payments Systems in the U.S.",

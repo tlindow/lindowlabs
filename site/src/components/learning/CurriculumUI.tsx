@@ -156,11 +156,6 @@ export function CurriculumDashboard({
                   </span>{" "}
                   {item.heading}
                 </h2>
-                {item.ownership ? (
-                  <span className="learning-curr__chip learning-curr__chip--owned">
-                    {item.ownership}
-                  </span>
-                ) : null}
               </div>
               <p className="learning-curr__essay-prose">{item.prose}</p>
               <p className="learning-curr__essay-aside">
