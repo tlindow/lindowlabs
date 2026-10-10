@@ -39,11 +39,10 @@ export function LearningNotConfigured() {
         </h1>
         <p className="text-sm sm:text-base font-mono text-muted leading-relaxed">
           Stytch sign-in needs{" "}
-          <code className="text-foreground">STYTCH_PROJECT_ID</code>,{" "}
-          <code className="text-foreground">STYTCH_SECRET</code>, and{" "}
-          <code className="text-foreground">LEARNING_ALLOWED_PHONES</code> in
-          the Vercel project env (same Stytch project as Tinker). Until those
-          are set, this dashboard stays closed.
+          <code className="text-foreground">STYTCH_PROJECT_ID</code> and{" "}
+          <code className="text-foreground">STYTCH_SECRET</code> in the Vercel
+          project env (same Stytch project as Tinker). Until those are set,
+          this dashboard stays closed.
         </p>
       </div>
     </main>
