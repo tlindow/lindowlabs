@@ -60,9 +60,14 @@ export const learningExercises: LearningExercise[] = [
 
 /**
  * @deprecated Prefer `readingCurriculum` in `./learning/readingCurriculum`.
- * Kept for the legacy LearningDashboard export.
+ * Kept for the legacy LearningDashboard export. Order matches the essay.
  */
 export const learningReadings: LearningReading[] = [
+  {
+    title: "Site Reliability Engineering",
+    author: "Google",
+    note: "Ch 3, 4, 6, 14 and 15 · Owned (paperback)",
+  },
   {
     title: "The Design of Web APIs",
     author: "Arnaud Lauret",
@@ -72,11 +77,6 @@ export const learningReadings: LearningReading[] = [
     title: "Domain-Driven Design",
     author: "Eric Evans",
     note: "From Ch 2",
-  },
-  {
-    title: "Site Reliability Engineering",
-    author: "Google",
-    note: "Ch 3, 4, 6, 14, 15",
   },
   {
     title: "Payments Systems in the U.S.",
@@ -91,7 +91,7 @@ export const learningReadings: LearningReading[] = [
   {
     title: "Grokking Algorithms",
     author: "Aditya Bhargava",
-    note: "Whole book · hiring screen",
+    note: "Alongside everything else",
   },
 ];
 

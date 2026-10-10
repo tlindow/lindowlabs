@@ -1,7 +1,7 @@
 # Merchant portal SLOs
 
-Seal the gap from Site Reliability Engineering (Ch 3, 4, 6): reliability as a
-target with an error budget, not a hope.
+**/learning curriculum #1** (*Site Reliability Engineering*, Ch 3, 4, 6, 14 and
+15; owned paperback). Reliability as a target with an error budget, not a hope.
 
 **Resume line:** Merchant Portal ~99.7% → 99.9%; outage detection ~1h → under 5 min.
 
