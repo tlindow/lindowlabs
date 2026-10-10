@@ -1,6 +1,5 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { learningExercises } from "@/data/learningDashboard";
 import type { ReadingCurriculumItem } from "@/data/learning/readingCurriculum";
 import { learningSignOut } from "@/lib/auth/learningSignOut";
 import { formatAsOfPt } from "@/lib/learning/formatPt";
@@ -13,11 +12,31 @@ import type {
 } from "@/lib/learning/types";
 import "./learning-curriculum.css";
 
-function whyLine(item: ReadingCurriculumItem): string {
+function essayBlock(item: ReadingCurriculumItem) {
   if (item.essayTitle) {
-    return `${item.why} From "${item.essayTitle}".`;
+    return (
+      <>
+        <span className="learning-curr__scope-label">Essay</span>
+        <span className="learning-curr__essay-title">
+          &ldquo;{item.essayTitle}&rdquo;
+        </span>
+        {item.essayQuote ? (
+          <span className="learning-curr__essay-quote">
+            {item.essayQuote}
+          </span>
+        ) : null}
+      </>
+    );
   }
-  return item.why;
+  if (item.essaySource) {
+    return (
+      <>
+        <span className="learning-curr__scope-label">Source</span>
+        {item.essaySource}
+      </>
+    );
+  }
+  return null;
 }
 
 function StatusChip({
@@ -145,8 +164,8 @@ export function CurriculumDashboard({
       <p className="learning-curr__eyebrow">Lindow Labs</p>
       <h1 className="learning-curr__title">Learning</h1>
       <p className="learning-curr__lede">
-        Private reading curriculum and repo exercises. Notes stay in Tinker;
-        this desk never writes answers for you.
+        Six books that seal gaps against the resume. Notes stay in Tinker; each
+        book has a repo exercise. This desk never writes answers for you.
       </p>
 
       <section
@@ -177,38 +196,53 @@ export function CurriculumDashboard({
                 {index === 0 ? <StatusChip status="current" /> : null}
               </div>
               <p className="learning-curr__scope">
-                <span className="learning-curr__scope-label">Scope</span>
+                <span className="learning-curr__scope-label">Chapters</span>
                 {item.scope}
+                {item.bookNote ? (
+                  <span className="learning-curr__book-note">
+                    {" "}
+                    ({item.bookNote})
+                  </span>
+                ) : null}
               </p>
-              <p className="learning-curr__why">
-                <span className="learning-curr__scope-label">Why</span>
-                {whyLine(item)}
+              <p className="learning-curr__resume">
+                <span className="learning-curr__scope-label">Resume</span>
+                {item.resumeLine}
               </p>
+              <p className="learning-curr__why">{essayBlock(item)}</p>
+              <div className="learning-curr__exercise-block">
+                <span className="learning-curr__scope-label">Exercise</span>
+                <p className="learning-curr__exercise-summary">
+                  {item.exercise.summary}
+                </p>
+                <div className="learning-curr__cta-row">
+                  <a
+                    className="learning-curr__btn learning-curr__btn--primary"
+                    href={item.exercise.openInTinkerUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Do it in Tinker
+                  </a>
+                  <a
+                    className="learning-curr__btn learning-curr__btn--ghost"
+                    href={item.exercise.openInCursorUrl}
+                  >
+                    Open in Cursor
+                  </a>
+                  <a
+                    className="learning-curr__btn learning-curr__btn--ghost"
+                    href={item.exercise.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    View on GitHub
+                  </a>
+                </div>
+              </div>
             </li>
           ))}
         </ol>
-      </section>
-
-      <section
-        className="learning-curr__section"
-        aria-labelledby="exercises-heading"
-      >
-        <h2 id="exercises-heading" className="learning-curr__section-title">
-          Exercises
-        </h2>
-        <ul className="learning-curr__exercise-list">
-          {learningExercises.map((exercise) => (
-            <li key={exercise.slug} className="learning-curr__exercise">
-              <a
-                href={exercise.href}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {exercise.title}
-              </a>
-            </li>
-          ))}
-        </ul>
       </section>
 
       <p className="learning-curr__footer">

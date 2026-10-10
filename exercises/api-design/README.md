@@ -1,5 +1,12 @@
 # OpenAPI by hand
 
+**/learning curriculum #1** (*The Design of Web APIs*): in plain English, model
+**Merchant**, **Order**, and **Refund** as resources, map routes/methods, then
+write the OpenAPI. Steps 01–06 practice the shapes on a rides domain; step 07
+(and the worksheet) switch to payments-team words. You may name the checkout
+resource **Order** in your plain-English notes even when the worksheet table
+says payment.
+
 Start in plain English, then turn that understanding into OpenAPI YAML one
 milestone at a time. Practice files start blank on purpose.
 

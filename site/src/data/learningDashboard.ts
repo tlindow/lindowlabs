@@ -66,12 +66,12 @@ export const learningReadings: LearningReading[] = [
   {
     title: "The Design of Web APIs",
     author: "Arnaud Lauret",
-    note: "Starting now",
+    note: "Whole book",
   },
   {
     title: "Domain-Driven Design",
     author: "Eric Evans",
-    note: "Picking up at Ch 2",
+    note: "From Ch 2",
   },
   {
     title: "Site Reliability Engineering",
@@ -81,11 +81,16 @@ export const learningReadings: LearningReading[] = [
   {
     title: "Payments Systems in the U.S.",
     author: "Glenbrook",
-    note: "Fintech domain frameworks",
+    note: "Whole book",
   },
   {
-    title: "Resilient Web Design",
-    author: "Jeremy Keith",
+    title: "Designing Data-Intensive Applications",
+    author: "Martin Kleppmann",
+    note: "Ch 7 only",
+  },
+  {
+    title: "Grokking Algorithms",
+    author: "Aditya Bhargava",
     note: "Whole book",
   },
 ];
