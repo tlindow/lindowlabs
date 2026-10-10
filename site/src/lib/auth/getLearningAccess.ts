@@ -6,12 +6,15 @@ import {
   STYTCH_SESSION_COOKIE,
 } from "@/lib/auth/learningAuth";
 import {
+  getOwnerPhones,
+  getOwnerUserIds,
   isLearningOwner,
   pickDisplayPhone,
+  readOwnerPhonesEnv,
 } from "@/lib/auth/learningOwner";
 import {
   authenticateSession,
-  loadUserPhonesForAccess,
+  resolveUserPhonesForAccess,
 } from "@/lib/stytch";
 
 export type LearningAccess =
@@ -24,6 +27,26 @@ export type LearningAccess =
     }
   | { status: "not-configured" }
   | { status: "signed-out" };
+
+/**
+ * Temporary non-PII owner-gate diagnostics for production runtime logs.
+ * Booleans/counts only — never phone numbers or user ids.
+ */
+function logOwnerGateDiag(diag: {
+  hasUserId: boolean;
+  phonesFromUserCount: number;
+  phonesFromFactorsCount: number;
+  usersGetCalled: boolean;
+  usersGetOk: boolean;
+  phonesFoundCount: number;
+  ownerEnvPresent: boolean;
+  ownerEnvCount: number;
+  ownerUserIdsPresent: boolean;
+  ownerUserIdsCount: number;
+  matched: boolean;
+}) {
+  console.info("[learning-owner-gate]", JSON.stringify(diag));
+}
 
 /**
  * Server-side access gate for /learning.
@@ -61,11 +84,28 @@ export async function getLearningAccess(): Promise<LearningAccess> {
       return { status: "signed-out" };
     }
 
-    // sessions/authenticate may omit user.phone_numbers; loadUserPhonesForAccess
-    // falls back to session factors then users.get(user_id).
-    const phones = await loadUserPhonesForAccess(session);
+    // sessions/authenticate may omit user.phone_numbers; resolveUserPhonesForAccess
+    // reads phone_number_factor from factors, then users.get(user_id).
+    const { phones, diag: phoneDiag } =
+      await resolveUserPhonesForAccess(session);
     const phone = pickDisplayPhone(phones);
     const isOwner = isLearningOwner({ userId: user.user_id, phones });
+
+    const ownerPhones = getOwnerPhones();
+    const ownerUserIds = getOwnerUserIds();
+    logOwnerGateDiag({
+      hasUserId: true,
+      phonesFromUserCount: phoneDiag.phonesFromUserCount,
+      phonesFromFactorsCount: phoneDiag.phonesFromFactorsCount,
+      usersGetCalled: phoneDiag.usersGetCalled,
+      usersGetOk: phoneDiag.usersGetOk,
+      phonesFoundCount: phoneDiag.phonesFoundCount,
+      ownerEnvPresent: Boolean(readOwnerPhonesEnv()?.trim()),
+      ownerEnvCount: ownerPhones.size,
+      ownerUserIdsPresent: ownerUserIds.size > 0,
+      ownerUserIdsCount: ownerUserIds.size,
+      matched: isOwner,
+    });
 
     return {
       status: "ok",

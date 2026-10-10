@@ -14,7 +14,9 @@ export const BEGINNER_HAPI_URL = `${BEGINNER_URL}/hapi`;
 export const BEGINNER_HOST = BEGINNER_URL.replace(/^https?:\/\//, "");
 
 /**
- * Private Lindow Labs Learning dashboard.
- * Import this constant wherever the /learning URL must be referenced.
+ * Private Lindow Labs Learning dashboard (Vercel SSR + Stytch).
+ * lindowlabs.dev still points at GitHub Pages (static stub); Login must
+ * hit the Vercel host until the custom domain is moved to the SSR project.
  */
-export const LEARNING_DASHBOARD_URL = "https://lindowlabs.dev/learning";
+export const LEARNING_DASHBOARD_URL =
+  "https://lindowlabs.vercel.app/learning";

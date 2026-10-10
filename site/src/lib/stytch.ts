@@ -21,8 +21,14 @@ export type StytchUser = {
 
 export type StytchAuthFactor = {
   delivery_method?: string;
+  /** Flat shape (not what Stytch returns; kept for tests / older payloads). */
   phone_number?: string;
   type?: string;
+  /** Real Stytch SMS/OTP factor nests the E.164 under phone_number_factor. */
+  phone_number_factor?: {
+    phone_id?: string;
+    phone_number?: string;
+  };
 };
 
 export type StytchSessionPayload = {
@@ -127,9 +133,9 @@ async function stytchGet(path: string): Promise<StytchUser> {
     cache: "no-store",
   });
 
-  let payload: StytchUser | null = null;
+  let payload: (StytchUser & { user?: StytchUser }) | null = null;
   try {
-    payload = (await res.json()) as StytchUser;
+    payload = (await res.json()) as StytchUser & { user?: StytchUser };
   } catch {
     payload = null;
   }
@@ -138,6 +144,8 @@ async function stytchGet(path: string): Promise<StytchUser> {
     await stytchParseError(res, payload);
   }
 
+  // Prefer nested user when present; Consumer GET usually flattens fields.
+  if (payload?.user?.user_id) return payload.user;
   return payload || { user_id: "" };
 }
 
@@ -238,9 +246,62 @@ export function phonesFromSessionFactors(
   if (!factors?.length) return [];
   const out: string[] = [];
   for (const factor of factors) {
-    if (factor?.phone_number) out.push(factor.phone_number);
+    // Production Stytch nests under phone_number_factor (otp + sms).
+    const nested = factor?.phone_number_factor?.phone_number;
+    if (nested) out.push(nested);
+    else if (factor?.phone_number) out.push(factor.phone_number);
   }
   return out;
+}
+
+/** Non-PII phone-resolution counts for owner-gate diagnostics. */
+export type PhoneResolutionDiag = {
+  phonesFromUserCount: number;
+  phonesFromFactorsCount: number;
+  usersGetCalled: boolean;
+  usersGetOk: boolean;
+  phonesFoundCount: number;
+};
+
+/**
+ * Resolve phones for ownership after sessions/authenticate, with diag.
+ * Session user payloads sometimes omit phone_numbers; fall back to
+ * authentication_factors (phone_number_factor), then users.get(user_id).
+ * Never logs phone values.
+ */
+export async function resolveUserPhonesForAccess(
+  session: StytchSessionPayload,
+  deps: { getUser?: (userId: string) => Promise<StytchUser> } = {}
+): Promise<{ phones: string[]; diag: PhoneResolutionDiag }> {
+  const getUser = deps.getUser ?? getStytchUser;
+  const fromUser = phonesFromStytchUser(session.user);
+  const fromFactors = phonesFromSessionFactors(session);
+  const merged = uniquePhones([...fromUser, ...fromFactors]);
+  const diag: PhoneResolutionDiag = {
+    phonesFromUserCount: fromUser.length,
+    phonesFromFactorsCount: fromFactors.length,
+    usersGetCalled: false,
+    usersGetOk: false,
+    phonesFoundCount: merged.length,
+  };
+  if (merged.length > 0) {
+    return { phones: merged, diag };
+  }
+
+  const userId = session.user?.user_id;
+  if (!userId) return { phones: [], diag };
+
+  diag.usersGetCalled = true;
+  try {
+    const full = await getUser(userId);
+    const fromGet = uniquePhones(phonesFromStytchUser(full));
+    diag.usersGetOk = true;
+    diag.phonesFoundCount = fromGet.length;
+    return { phones: fromGet, diag };
+  } catch {
+    // Fail closed on phone resolution; ownership stays false without phones.
+    return { phones: [], diag };
+  }
 }
 
 function uniquePhones(phones: string[]): string[] {
@@ -264,21 +325,6 @@ export async function loadUserPhonesForAccess(
   session: StytchSessionPayload,
   deps: { getUser?: (userId: string) => Promise<StytchUser> } = {}
 ): Promise<string[]> {
-  const getUser = deps.getUser ?? getStytchUser;
-  const merged = uniquePhones([
-    ...phonesFromStytchUser(session.user),
-    ...phonesFromSessionFactors(session),
-  ]);
-  if (merged.length > 0) return merged;
-
-  const userId = session.user?.user_id;
-  if (!userId) return [];
-
-  try {
-    const full = await getUser(userId);
-    return uniquePhones(phonesFromStytchUser(full));
-  } catch {
-    // Fail closed on phone resolution; ownership stays false without phones.
-    return [];
-  }
+  const { phones } = await resolveUserPhonesForAccess(session, deps);
+  return phones;
 }
