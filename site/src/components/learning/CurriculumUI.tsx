@@ -1,9 +1,9 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import {
-  curriculumOrderRationale,
+  curriculumEssayIntro,
+  curriculumEssayTitle,
   type ReadingCurriculumItem,
-  type WhyThisModule,
 } from "@/data/learning/readingCurriculum";
 import { learningSignOut } from "@/lib/auth/learningSignOut";
 import { formatAsOfPt } from "@/lib/learning/formatPt";
@@ -15,59 +15,6 @@ import type {
   LessonStatus,
 } from "@/lib/learning/types";
 import "./learning-curriculum.css";
-
-function essayBlock(item: ReadingCurriculumItem) {
-  if (item.essayTitle) {
-    return (
-      <>
-        <span className="learning-curr__scope-label">Essay</span>
-        <span className="learning-curr__essay-title">
-          &ldquo;{item.essayTitle}&rdquo;
-        </span>
-        {item.essayQuote ? (
-          <span className="learning-curr__essay-quote">
-            {item.essayQuote}
-          </span>
-        ) : null}
-      </>
-    );
-  }
-  if (item.essaySource) {
-    return (
-      <>
-        <span className="learning-curr__scope-label">Source</span>
-        {item.essaySource}
-      </>
-    );
-  }
-  return null;
-}
-
-function WhyThisModuleBlock({ why }: { why: WhyThisModule }) {
-  return (
-    <div className="learning-curr__why-module">
-      <span className="learning-curr__scope-label">Why this module</span>
-      <dl className="learning-curr__why-dl">
-        <div>
-          <dt>Claim</dt>
-          <dd>{why.claim}</dd>
-        </div>
-        <div>
-          <dt>Gap</dt>
-          <dd>{why.gap}</dd>
-        </div>
-        <div>
-          <dt>Risk</dt>
-          <dd>{why.risk}</dd>
-        </div>
-        <div>
-          <dt>Close</dt>
-          <dd>{why.close}</dd>
-        </div>
-      </dl>
-    </div>
-  );
-}
 
 function StatusChip({
   status,
@@ -190,70 +137,41 @@ export function CurriculumDashboard({
 }) {
   return (
     <Shell showSignOut={showSignOut}>
-      <div data-learning-desk="owner">
-      <p className="learning-curr__eyebrow">Lindow Labs</p>
-      <h1 className="learning-curr__title">Learning</h1>
-      <p className="learning-curr__lede">
-        Six books that seal gaps against the resume. Notes stay in Tinker; each
-        book has a repo exercise. This desk never writes answers for you.
-      </p>
-      <p className="learning-curr__order-rationale" data-curriculum-order>
-        {curriculumOrderRationale}
-      </p>
+      <article data-learning-desk="owner" className="learning-curr__essay">
+        <p className="learning-curr__eyebrow">Lindow Labs</p>
+        <h1 className="learning-curr__title">{curriculumEssayTitle}</h1>
+        <p className="learning-curr__lede">{curriculumEssayIntro}</p>
 
-      <section
-        className="learning-curr__section"
-        aria-labelledby="reading-heading"
-      >
-        <h2 id="reading-heading" className="learning-curr__section-title">
-          Reading curriculum
-        </h2>
-        <ol className="learning-curr__cards learning-curr__reading-list">
-          {readingItems.map((item, index) => (
+        <ol className="learning-curr__essay-modules">
+          {readingItems.map((item) => (
             <li
               key={item.id}
-              className={
-                index === 0
-                  ? "learning-curr__card learning-curr__card--current"
-                  : "learning-curr__card"
-              }
+              className="learning-curr__essay-module"
+              data-module-number={item.number}
             >
-              <div className="learning-curr__card-top">
-                <div>
-                  <p className="learning-curr__reading-order">
-                    {index + 1} of {readingItems.length}
-                  </p>
-                  <h3 className="learning-curr__card-title">{item.title}</h3>
-                  <p className="learning-curr__card-author">{item.author}</p>
-                </div>
-                <div className="learning-curr__card-badges">
-                  {item.ownership ? (
-                    <span className="learning-curr__chip learning-curr__chip--owned">
-                      {item.ownership}
-                    </span>
-                  ) : null}
-                  {index === 0 ? <StatusChip status="current" /> : null}
-                </div>
-              </div>
-              <p className="learning-curr__scope">
-                <span className="learning-curr__scope-label">Chapters</span>
-                {item.scope}
-                {item.bookNote ? (
-                  <span className="learning-curr__book-note">
-                    {" "}
-                    ({item.bookNote})
+              <div className="learning-curr__essay-module-head">
+                <h2 className="learning-curr__essay-module-title">
+                  <span className="learning-curr__essay-module-num">
+                    {item.number}.
+                  </span>{" "}
+                  {item.heading}
+                </h2>
+                {item.ownership ? (
+                  <span className="learning-curr__chip learning-curr__chip--owned">
+                    {item.ownership}
                   </span>
                 ) : null}
+              </div>
+              <p className="learning-curr__essay-prose">{item.prose}</p>
+              <p className="learning-curr__essay-aside">
+                <span className="learning-curr__essay-label">
+                  Considered instead:
+                </span>{" "}
+                {item.consideredInstead}
               </p>
-              <p className="learning-curr__resume">
-                <span className="learning-curr__scope-label">Resume</span>
-                {item.resumeLine}
-              </p>
-              <p className="learning-curr__why">{essayBlock(item)}</p>
-              <WhyThisModuleBlock why={item.whyThisModule} />
               <div className="learning-curr__exercise-block">
-                <span className="learning-curr__scope-label">Exercise</span>
                 <p className="learning-curr__exercise-summary">
+                  <span className="learning-curr__essay-label">Exercise:</span>{" "}
                   {item.exercise.summary}
                 </p>
                 <div className="learning-curr__cta-row">
@@ -284,13 +202,12 @@ export function CurriculumDashboard({
             </li>
           ))}
         </ol>
-      </section>
 
-      <p className="learning-curr__footer">
-        Reading list is checked in under{" "}
-        <code>site/src/data/learning/readingCurriculum.ts</code>
-      </p>
-      </div>
+        <p className="learning-curr__footer">
+          Curriculum essay checked in under{" "}
+          <code>site/src/data/learning/readingCurriculum.ts</code>
+        </p>
+      </article>
     </Shell>
   );
 }
