@@ -6,41 +6,18 @@ import { usePageAudio } from "@/context/PageAudioProvider";
 import { usePrefersReducedMotion } from "@/hooks/useProfileAnchors";
 
 /**
- * Docked nav cluster to the right of the name:
- * - Circular profile photo when the morph is scroll-docked at the nav
- * - Play/pause + scrubber + times whenever docked (visible at rest, before play)
- * - No circular progress ring here (ring lives on the hero play control)
+ * Docked nav profile photo (right of the name). Play is centered in the bar
+ * via `NavCenteredPlay`; desktop scrubber sits before Login.
  *
  * One profile picture only: the in-flow photo owns the nav slot. ScrollMorphAvatar
- * fades out at the dock and stays under the sticky bar (page shell z-0) for contact.
- *
- * Layout: once past the hero, the avatar (+ player chrome when a clip exists)
- * stays width-reserved so show/hide is opacity-only — no flex reflow of Login,
- * no play/scrubber jump into the photo gap during the Let's talk ↔ nav handoff.
+ * fades out at the dock (display:none); while morphing it portals over the sticky bar.
  */
 export default function NavPageAudioPlayer() {
-  const {
-    hasClip,
-    clip,
-    isPastHero,
-    showNavPhoto,
-    isPlaying,
-    currentTime,
-    duration,
-    toggle,
-    seek,
-  } = usePageAudio();
+  const { isPastHero, showNavPhoto } = usePageAudio();
   const prefersReducedMotion = usePrefersReducedMotion();
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
-  const safeDuration = duration > 0 ? duration : 0;
-  // In-flow once past hero (measurement target always available).
   const inFlow = isPastHero;
-  // Full player chrome is reserved whenever a clip exists past the hero;
-  // visibility is opacity-only so Login never shifts during handoff.
-  const reservePlayerChrome = hasClip && inFlow;
-  const showDockedPlayer = hasClip && showNavPhoto;
-
   const fadeInClass = prefersReducedMotion
     ? ""
     : "motion-safe:transition-opacity motion-safe:duration-300 motion-safe:ease-out";
@@ -55,7 +32,6 @@ export default function NavPageAudioPlayer() {
       data-page-audio="nav-dock"
       aria-hidden={showNavPhoto ? undefined : true}
     >
-      {/* Fixed-size slot: opacity only — never collapse width when the photo hides. */}
       <div
         id="navbar-avatar-target"
         className={`rounded-full shrink-0 overflow-hidden h-8 w-8 min-w-8 sm:h-9 sm:w-9 sm:min-w-9 ${
@@ -64,15 +40,13 @@ export default function NavPageAudioPlayer() {
             : "bg-transparent"
         }`}
       >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={`${basePath}/profile-square.jpg`}
           alt=""
           width={36}
           height={36}
           data-profile-photo="nav"
-          // Fade in when docking into the nav. Snap hide when hero / Let's talk
-          // take over so the morph coin never overlaps a mid-fade nav photo.
-          // Opacity only — scale would visually shrink the slot beside the play control.
           className={`h-full w-full object-cover ${
             showNavPhoto
               ? `opacity-100 ${fadeInClass}`
@@ -81,16 +55,50 @@ export default function NavPageAudioPlayer() {
           draggable={false}
         />
       </div>
+    </div>
+  );
+}
 
-      {reservePlayerChrome ? (
+/**
+ * Play control centered in the sticky nav (horizontal + vertical). Always
+ * mounted when a clip exists so ScrollMorphPlayButton can measure the dock
+ * target from scroll 0; visibility is opacity-only when nav owns the photo.
+ */
+export function NavCenteredPlay() {
+  const {
+    hasClip,
+    clip,
+    showNavPhoto,
+    isPlaying,
+    toggle,
+  } = usePageAudio();
+  const prefersReducedMotion = usePrefersReducedMotion();
+
+  if (!hasClip) return null;
+
+  const showDockedPlayer = showNavPhoto;
+  const fadeInClass = prefersReducedMotion
+    ? ""
+    : "motion-safe:transition-opacity motion-safe:duration-300 motion-safe:ease-out";
+
+  return (
+    <div
+      className="pointer-events-none absolute inset-0 z-[1] flex items-center justify-center"
+      data-page-audio="nav-play-center"
+      aria-hidden={showDockedPlayer ? undefined : true}
+    >
+      <div
+        className={`pointer-events-auto ${
+          showDockedPlayer
+            ? `opacity-100 ${fadeInClass}`
+            : "opacity-0 pointer-events-none"
+        }`}
+        data-page-audio="nav-full-player"
+      >
         <div
-          className={`flex items-center gap-1.5 sm:gap-2 shrink-0 ${
-            showDockedPlayer
-              ? `opacity-100 ${fadeInClass}`
-              : "opacity-0 pointer-events-none"
-          }`}
-          data-page-audio="nav-full-player"
-          aria-hidden={showDockedPlayer ? undefined : true}
+          id="navbar-play-target"
+          className="relative h-7 w-7 sm:h-8 sm:w-8 shrink-0"
+          data-page-audio="nav-play-target"
         >
           <button
             type="button"
@@ -102,7 +110,7 @@ export default function NavPageAudioPlayer() {
             aria-label={pageAudioToggleLabel(clip, isPlaying)}
             tabIndex={showDockedPlayer ? 0 : -1}
             data-page-audio="nav-play"
-            className="inline-flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full border border-border bg-sand/80 text-indigo-dark shrink-0 transition-colors hover:bg-sand hover:border-indigo-dark/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-dark/40"
+            className="inline-flex h-full w-full items-center justify-center rounded-full border border-border bg-sand/80 text-indigo-dark shrink-0 transition-colors hover:bg-sand hover:border-indigo-dark/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-dark/40"
           >
             {isPlaying ? (
               <Pause size={12} className="shrink-0 fill-current" aria-hidden="true" />
@@ -110,44 +118,70 @@ export default function NavPageAudioPlayer() {
               <Play size={12} className="shrink-0 fill-current ml-px" aria-hidden="true" />
             )}
           </button>
-
-          {/* Seekable scrubber + times: always painted when docked (rest and mid-play).
-              Desktop/tablet: in-bar. Mobile (390): under-nav strip (see MobileScrubber). */}
-          <div
-            className="hidden sm:flex items-center gap-2 w-[11rem] md:w-[14rem] shrink-0"
-            data-page-audio="nav-scrubber"
-          >
-            <label className="sr-only" htmlFor="page-audio-scrubber">
-              Seek homepage intro
-            </label>
-            <input
-              id="page-audio-scrubber"
-              type="range"
-              min={0}
-              max={safeDuration || 0}
-              step={0.1}
-              value={Math.min(currentTime, safeDuration || 0)}
-              onChange={(e) => {
-                const next = Number(e.target.value);
-                if (Number.isFinite(next)) seek(next);
-              }}
-              aria-label="Seek homepage intro"
-              aria-valuetext={`${formatPageAudioTime(currentTime)} of ${formatPageAudioTime(safeDuration)}`}
-              disabled={safeDuration <= 0 || !showDockedPlayer}
-              tabIndex={showDockedPlayer ? 0 : -1}
-              className="w-full h-1.5 accent-indigo-dark cursor-pointer disabled:opacity-40"
-            />
-            <span
-              className="text-[10px] font-mono text-muted tabular-nums whitespace-nowrap shrink-0"
-              data-page-audio="nav-time"
-            >
-              {formatPageAudioTime(currentTime)}
-              <span className="text-border-subtle mx-0.5">/</span>
-              {formatPageAudioTime(safeDuration)}
-            </span>
-          </div>
         </div>
-      ) : null}
+      </div>
+    </div>
+  );
+}
+
+/** Desktop/tablet scrubber + times (in-bar, before Login). Mobile uses under-nav strip. */
+export function NavDesktopScrubber() {
+  const {
+    hasClip,
+    isPastHero,
+    showNavPhoto,
+    currentTime,
+    duration,
+    seek,
+  } = usePageAudio();
+  const prefersReducedMotion = usePrefersReducedMotion();
+
+  if (!hasClip || !isPastHero) return null;
+
+  const safeDuration = duration > 0 ? duration : 0;
+  const showDockedPlayer = showNavPhoto;
+  const fadeInClass = prefersReducedMotion
+    ? ""
+    : "motion-safe:transition-opacity motion-safe:duration-300 motion-safe:ease-out";
+
+  return (
+    <div
+      className={`hidden sm:flex items-center gap-2 w-[11rem] md:w-[14rem] shrink-0 ${
+        showDockedPlayer
+          ? `opacity-100 ${fadeInClass}`
+          : "opacity-0 pointer-events-none"
+      }`}
+      data-page-audio="nav-scrubber"
+      aria-hidden={showDockedPlayer ? undefined : true}
+    >
+      <label className="sr-only" htmlFor="page-audio-scrubber">
+        Seek homepage intro
+      </label>
+      <input
+        id="page-audio-scrubber"
+        type="range"
+        min={0}
+        max={safeDuration || 0}
+        step={0.1}
+        value={Math.min(currentTime, safeDuration || 0)}
+        onChange={(e) => {
+          const next = Number(e.target.value);
+          if (Number.isFinite(next)) seek(next);
+        }}
+        aria-label="Seek homepage intro"
+        aria-valuetext={`${formatPageAudioTime(currentTime)} of ${formatPageAudioTime(safeDuration)}`}
+        disabled={safeDuration <= 0 || !showDockedPlayer}
+        tabIndex={showDockedPlayer ? 0 : -1}
+        className="w-full h-1.5 accent-indigo-dark cursor-pointer disabled:opacity-40"
+      />
+      <span
+        className="text-[10px] font-mono text-muted tabular-nums whitespace-nowrap shrink-0"
+        data-page-audio="nav-time"
+      >
+        {formatPageAudioTime(currentTime)}
+        <span className="text-border-subtle mx-0.5">/</span>
+        {formatPageAudioTime(safeDuration)}
+      </span>
     </div>
   );
 }

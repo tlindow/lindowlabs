@@ -8,8 +8,9 @@ export type WebGLCoinType = "tinker" | "github" | "beginner" | "affirm";
 
 interface WebGLCoinProps {
   type: WebGLCoinType;
-  href: string;
-  title: string;
+  /** When omitted, the coin is decorative (not a link). */
+  href?: string;
+  title?: string;
   className?: string;
 }
 
@@ -195,7 +196,7 @@ export default function WebGLCoin({
 
     let needsInitialRender = true;
 
-    const paintFace = (source: CanvasImageSource, padded = false) => {
+    const paintFace = (source: CanvasImageSource) => {
       const drawOnto = (ctx: CanvasRenderingContext2D) => {
         ctx.clearRect(0, 0, 512, 512);
         ctx.fillStyle = "#FFFDF7";
@@ -205,11 +206,7 @@ export default function WebGLCoin({
         ctx.save();
         ctx.translate(256, 256);
         ctx.rotate(-Math.PI / 2);
-        if (padded) {
-          ctx.drawImage(source, -200, -80, 400, 160);
-        } else {
-          ctx.drawImage(source, -256, -256, 512, 512);
-        }
+        ctx.drawImage(source, -256, -256, 512, 512);
         ctx.restore();
         ctx.strokeStyle = "#E6E2D8";
         ctx.lineWidth = 6;
@@ -231,7 +228,7 @@ export default function WebGLCoin({
     };
 
     img.onload = () => {
-      paintFace(img, false);
+      paintFace(img);
       if (objectUrl) {
         URL.revokeObjectURL(objectUrl);
         objectUrl = null;
@@ -351,6 +348,44 @@ export default function WebGLCoin({
     };
   }, [type]);
 
+  const interactionProps = {
+    onMouseEnter: () => {
+      if (!isMobileRef.current) {
+        isHoveredRef.current = true;
+      }
+    },
+    onMouseLeave: () => {
+      isHoveredRef.current = false;
+    },
+    onClick: () => {
+      if (!isMobileRef.current || isInMiddleRef.current) {
+        clickImpulseRef.current = 0.18;
+      }
+    },
+    className:
+      "group relative inline-flex items-center justify-center cursor-pointer select-none focus:outline-none transition-transform duration-300 hover:scale-105",
+  };
+
+  const face = (
+    <div
+      ref={containerRef}
+      className={`${className} relative flex items-center justify-center drop-shadow-md group-hover:drop-shadow-2xl transition-all duration-300`}
+    />
+  );
+
+  if (!href) {
+    return (
+      <div
+        {...interactionProps}
+        title={title}
+        aria-label={title}
+        role={title ? "img" : undefined}
+      >
+        {face}
+      </div>
+    );
+  }
+
   const isExternal = href.startsWith("http");
 
   return (
@@ -360,25 +395,9 @@ export default function WebGLCoin({
       rel={isExternal ? "noopener noreferrer" : undefined}
       title={title}
       aria-label={title}
-      onMouseEnter={() => {
-        if (!isMobileRef.current) {
-          isHoveredRef.current = true;
-        }
-      }}
-      onMouseLeave={() => {
-        isHoveredRef.current = false;
-      }}
-      onClick={() => {
-        if (!isMobileRef.current || isInMiddleRef.current) {
-          clickImpulseRef.current = 0.18;
-        }
-      }}
-      className="group relative inline-flex items-center justify-center cursor-pointer select-none focus:outline-none transition-transform duration-300 hover:scale-105"
+      {...interactionProps}
     >
-      <div
-        ref={containerRef}
-        className={`${className} relative flex items-center justify-center drop-shadow-md group-hover:drop-shadow-2xl transition-all duration-300`}
-      />
+      {face}
     </Link>
   );
 }

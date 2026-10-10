@@ -6,6 +6,8 @@ import { usePathname } from "next/navigation";
 import { useNavbarActions } from "@/context/NavbarActions";
 import { LEARNING_DASHBOARD_URL } from "@/data/urls";
 import NavPageAudioPlayer, {
+  NavCenteredPlay,
+  NavDesktopScrubber,
   NavPageAudioMobileScrubber,
 } from "@/components/page-audio/NavPageAudioPlayer";
 
@@ -30,14 +32,13 @@ export default function Navbar() {
     // which hid the absolute mobile menu that hangs below this bar.
     // relative: docked page-audio mobile timeline (scrub + times) sits under this bar.
     // z-50 + isolate: sticky chrome sits above the page shell (relative z-0 in
-    // SiteChrome), so hero morph / play / coins always slide under this bar.
+    // SiteChrome), so section coins / body copy slide under this bar. Profile
+    // morph + hero play portal above (z-60) during hero→nav (move/scale only).
     // overflow-anchor: none — sticky header size/visibility changes during the
     // Let's talk ↔ nav photo handoff must not retarget scrollY (scroll hitch).
     <header className="sticky top-0 z-50 isolate w-full bg-background opacity-100 border-b border-border no-print relative [overflow-anchor:none]">
-      <div className="max-w-5xl mx-auto px-3 sm:px-6 md:px-8 h-14 sm:h-16 flex items-center gap-2 min-w-0">
-        {/* Brand cluster: logo, name, then docked profile (+ page-audio when present).
-            Inner relative wrap stays content-sized so the undocked measure target
-            (absolute left-full) sits beside the name, not at the flex-1 edge. */}
+      <div className="relative max-w-5xl mx-auto px-3 sm:px-6 md:px-8 h-14 sm:h-16 flex items-center gap-2 min-w-0">
+        {/* Brand cluster: logo, name, then docked profile photo. */}
         <div className="flex items-center flex-1 min-w-0 [overflow-anchor:none]">
           <div className="relative flex items-center gap-1.5 sm:gap-2 min-w-0">
             <Link
@@ -47,6 +48,7 @@ export default function Navbar() {
               onClick={goHome}
             >
               {/* Compact Lindow Labs mark (same asset as /learning + brand). */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={`${basePath}/brand/lindow-labs-icon.svg`}
                 alt="Lindow Labs"
@@ -65,21 +67,26 @@ export default function Navbar() {
               </div>
             </Link>
 
-            {/* Profile photo after hero scroll; + player when pageAudio has a clip. */}
             <NavPageAudioPlayer />
           </div>
         </div>
 
-        {/* Desktop + mobile: Login only (Name left | Login right) */}
-        <nav aria-label="Primary" className="flex items-center shrink-0">
-          <a
-            href={LEARNING_DASHBOARD_URL}
-            className="inline-flex items-center rounded-full px-3 py-1.5 text-xs font-mono font-bold transition-all hover:scale-[1.02] active:scale-[0.98] bg-sand/80 hover:bg-sand text-foreground/90 hover:text-indigo-dark border border-border hover:border-indigo-dark/40 shadow-2xs"
-            title="Log in to Lindow Labs Learning"
-          >
-            Login
-          </a>
-        </nav>
+        {/* Play: true center of the nav bar (morph lands here). */}
+        <NavCenteredPlay />
+
+        {/* Desktop scrubber + Login (Name left | Login right). */}
+        <div className="relative z-[2] flex items-center gap-2 sm:gap-3 shrink-0">
+          <NavDesktopScrubber />
+          <nav aria-label="Primary" className="flex items-center shrink-0">
+            <a
+              href={LEARNING_DASHBOARD_URL}
+              className="inline-flex items-center rounded-full px-3 py-1.5 text-xs font-mono font-bold transition-all hover:scale-[1.02] active:scale-[0.98] bg-sand/80 hover:bg-sand text-foreground/90 hover:text-indigo-dark border border-border hover:border-indigo-dark/40 shadow-2xs"
+              title="Log in to Lindow Labs Learning"
+            >
+              Login
+            </a>
+          </nav>
+        </div>
       </div>
       <NavPageAudioMobileScrubber />
     </header>

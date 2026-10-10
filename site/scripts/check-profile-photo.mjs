@@ -167,69 +167,88 @@ async function runAtViewport(browser, baseUrl, width, height) {
     throw new Error(`hero@${width}: expected morph coin, got ${hero.id}`);
   }
 
-  // Mid-hero scroll: morph (+ hero play when present) must slide under the
-  // sticky nav, never paint over it. Sample offsets where the coin crosses
-  // the nav bottom edge (desktop ~1024-1280 was the reported failure band).
+  // Mid-hero scroll: morph coin + morph play must paint OVER the sticky nav.
+  // Sample where they cross the nav bottom edge (desktop ~1024-1280).
   await page.evaluate(() => {
     document.documentElement.style.scrollBehavior = "auto";
   });
   for (const y of width >= 1000 ? [160, 180, 200] : [180, 220]) {
     await page.evaluate((scrollY) => window.scrollTo(0, scrollY), y);
     await settle(page);
-    const leak = await page.evaluate(() => {
+    const stack = await page.evaluate(() => {
       const nav = document.querySelector("header.sticky");
       if (!nav) return { error: "no sticky header" };
       const navRect = nav.getBoundingClientRect();
       const leaks = [];
 
-      const sampleUnderNav = (el, label) => {
-        if (!el) return;
+      const sampleHit = (el, label) => {
+        if (!el) return null;
         const style = getComputedStyle(el);
-        if (style.display === "none" || style.visibility === "hidden") return;
+        if (style.display === "none" || style.visibility === "hidden") return null;
         const op = Number.parseFloat(style.opacity || "0");
-        if (!Number.isFinite(op) || op <= 0.05) return;
+        if (!Number.isFinite(op) || op <= 0.05) return null;
         const rect = el.getBoundingClientRect();
-        if (rect.width < 4 || rect.height < 4) return;
+        if (rect.width < 4 || rect.height < 4) return null;
         const overlaps =
           rect.top < navRect.bottom - 1 && rect.bottom > navRect.top + 1;
-        if (!overlaps) return;
+        if (!overlaps) return null;
         const cx = rect.left + rect.width / 2;
         const yInNav = Math.min(
           Math.max(rect.top + 4, navRect.top + 4),
           navRect.bottom - 4
         );
         const hit = document.elementFromPoint(cx, yInNav);
-        if (hit && !hit.closest("header.sticky")) {
-          leaks.push({
-            label,
-            yInNav: Math.round(yInNav),
-            tag: hit.tagName,
-            photo: hit
-              .closest?.("[data-profile-photo]")
-              ?.getAttribute("data-profile-photo"),
-            audio: hit
-              .closest?.("[data-page-audio]")
-              ?.getAttribute("data-page-audio"),
-          });
-        }
+        const photo = hit
+          ?.closest?.("[data-profile-photo]")
+          ?.getAttribute("data-profile-photo");
+        const audio = hit
+          ?.closest?.("[data-page-audio]")
+          ?.getAttribute("data-page-audio");
+        const inHeader = Boolean(hit?.closest("header.sticky"));
+        return {
+          label,
+          yInNav: Math.round(yInNav),
+          tag: hit?.tagName || null,
+          photo,
+          audio,
+          inHeader,
+          overNav: Boolean(hit) && !inHeader,
+        };
       };
 
-      sampleUnderNav(
+      const morphHit = sampleHit(
         document.querySelector('[data-profile-photo="morph"]'),
         "morph"
       );
-      sampleUnderNav(
-        document.querySelector('[data-page-audio="hero-play"]'),
-        "hero-play"
-      );
-      return { scrollY: window.scrollY, leaks };
+      if (morphHit) {
+        const morphOverNav = morphHit.photo === "morph" || morphHit.overNav;
+        if (!morphOverNav) {
+          leaks.push({ ...morphHit, reason: "morph-under-nav" });
+        }
+      }
+
+      // Morphing play (hero-play / morph-play) must paint OVER the sticky nav,
+      // same as the profile coin. Other page-audio chrome stays under.
+      const playEl =
+        document.querySelector('[data-page-audio="morph-play"]') ||
+        document.querySelector('[data-page-audio="hero-play"]');
+      const playHit = sampleHit(playEl, "morph-play");
+      if (playHit) {
+        const playOverNav = playHit.photo === "morph" || playHit.overNav ||
+          playHit.audio === "morph-play" || playHit.audio === "hero-play";
+        if (!playOverNav) {
+          leaks.push({ ...playHit, reason: "morph-play-under-nav" });
+        }
+      }
+
+      return { scrollY: window.scrollY, leaks, morphHit };
     });
-    if (leak.error) {
-      throw new Error(`cross-nav@${width}@${y}: ${leak.error}`);
+    if (stack.error) {
+      throw new Error(`cross-nav@${width}@${y}: ${stack.error}`);
     }
-    if (leak.leaks.length > 0) {
+    if (stack.leaks.length > 0) {
       throw new Error(
-        `cross-nav@${width}@${y}: page content stacked above sticky nav: ${JSON.stringify(leak)}`
+        `cross-nav@${width}@${y}: stack order failed: ${JSON.stringify(stack)}`
       );
     }
   }
