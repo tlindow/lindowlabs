@@ -4,10 +4,11 @@ Source of truth for Tyler's literature. Tinker reading threads and the /learning
 **Domain-Driven Design** (Eric Evans), Ch 2: Communication and the Use of Language. Ch 1 done.
 
 ## Reading order
-1. **Designing Data-Intensive Applications** (Martin Kleppmann). Ch 7, 8 and 9. Backs Merchant Portal reliability, transactions, and the distributed-systems layer under integration failures.
-2. **Domain-Driven Design** (Eric Evans). Cover to cover; Ch 1 done, on Ch 2. Backs the merchant domain architecture review (which team owns which merchant data) and the domain boundaries skill.
-3. **How can we develop transformative tools for thought?** (Andy Matuschak, Michael Nielsen, free at [numinous.productions/ttft](https://numinous.productions/ttft/)). Backs the summary's Beginner Work line and the Founder bullet (an IDE for founders who want to get more technical, essays capturing the founder's voice).
-4. **TypeScript and React foundations** (official web pieces, each under an hour): [Thinking in React](https://react.dev/learn/thinking-in-react), [TypeScript for JavaScript Programmers](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html), then [Using TypeScript](https://react.dev/learn/typescript). Backs the Merchant Portal (React, TypeScript) scope.
+1. **Understanding Distributed Systems** (Roberto Vitillo), 2nd edition. Vocabulary bridge before Kleppmann.
+2. **Designing Data-Intensive Applications** (Martin Kleppmann), 2nd edition. Ch 7, 8, 9 and 10. Backs Merchant Portal reliability, sharding, transactions, and the distributed-systems layer under integration failures.
+3. **Domain-Driven Design** (Eric Evans). Cover to cover; Ch 1 done, on Ch 2. Backs the merchant domain architecture review (which team owns which merchant data) and the domain boundaries skill.
+4. **How can we develop transformative tools for thought?** (Andy Matuschak, Michael Nielsen, free at [numinous.productions/ttft](https://numinous.productions/ttft/)). Backs the summary's Beginner Work line and the Founder bullet (an IDE for founders who want to get more technical, essays capturing the founder's voice).
+5. **TypeScript and React foundations** (official web pieces, each under an hour): [Thinking in React](https://react.dev/learn/thinking-in-react), [TypeScript for JavaScript Programmers](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html), then [Using TypeScript](https://react.dev/learn/typescript). Backs the Merchant Portal (React, TypeScript) scope.
 
 ## Practice
 - **API design worksheet**, to be added as a module on Tinker's Exercises page once written, for designing APIs on the fly. Backs the partner REST API and checkout integration lines.

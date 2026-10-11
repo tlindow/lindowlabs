@@ -18,6 +18,15 @@ export const learningOverlay: OverlayFile = {
         {
           key: "ch7",
           chapterNumber: 7,
+          title: "Sharding",
+          objective:
+            "Learn how to split data across nodes by key range or hash, and what that does to queries and rebalancing.",
+          reflectionPrompt: null,
+          exercises: [],
+        },
+        {
+          key: "ch8",
+          chapterNumber: 8,
           title: "Transactions",
           objective:
             "Learn how transactions keep multi-step writes consistent, and why retries without idempotency can move money twice.",
@@ -25,8 +34,8 @@ export const learningOverlay: OverlayFile = {
           exercises: [],
         },
         {
-          key: "ch8",
-          chapterNumber: 8,
+          key: "ch9",
+          chapterNumber: 9,
           title: "The Trouble with Distributed Systems",
           objective:
             "Learn why networks, clocks, and partial failure make distributed systems unreliable by default.",
@@ -34,8 +43,8 @@ export const learningOverlay: OverlayFile = {
           exercises: [],
         },
         {
-          key: "ch9",
-          chapterNumber: 9,
+          key: "ch10",
+          chapterNumber: 10,
           title: "Consistency and Consensus",
           objective:
             "Learn what it takes for separate systems to agree on one value when messages drop and delay.",
@@ -43,6 +52,11 @@ export const learningOverlay: OverlayFile = {
           exercises: [],
         },
       ],
+    },
+    {
+      key: "uds",
+      matchTitles: ["Understanding Distributed Systems"],
+      lessons: [],
     },
     {
       key: "ddd",

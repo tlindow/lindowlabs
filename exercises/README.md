@@ -8,11 +8,12 @@ Prefer plain-English pseudocode first, then a blank starter file.
 
 | # | Exercise | Book | Brief |
 | :--- | :--- | :--- | :--- |
-| 1 | [`idempotent-refund/`](./idempotent-refund/) then [`consensus-under-partition/`](./consensus-under-partition/) | Designing Data-Intensive Applications (Ch 7, 8 and 9) | Idempotent refund; then nodes agree under drops/delays |
+| 1 | *(none)* | Understanding Distributed Systems (Vitillo, 2nd ed.) | Vocabulary bridge before Kleppmann |
 | 2 | [`api-design/`](./api-design/) | *(exercise-only)* | Merchant / Order / Refund resources → OpenAPI |
 | 3 | [`bounded-contexts/`](./bounded-contexts/) | Learning Domain-Driven Design (Khononov) | Split checkout into Merchant, Payments, Disputes |
 | 4 | [`card-payment-lifecycle/`](./card-payment-lifecycle/) | Payments Systems in the U.S. | Auth → capture → clearing → settlement state machine |
-| 5 | [`settlement-binary-search/`](./settlement-binary-search/) | Grokking Algorithms | Binary search over sorted settlement records |
+| 5 | [`idempotent-refund/`](./idempotent-refund/) then [`consensus-under-partition/`](./consensus-under-partition/) | Designing Data-Intensive Applications 2nd ed. (Ch 7–10) | Idempotent refund; then nodes agree under drops/delays |
+| 6 | [`settlement-binary-search/`](./settlement-binary-search/) | Grokking Algorithms (alongside everything else) | Binary search over sorted settlement records |
 
 ## Other practice
 

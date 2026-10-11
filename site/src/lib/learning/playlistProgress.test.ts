@@ -21,28 +21,27 @@ import {
 } from "./playlistProgress.ts";
 
 describe("playlistProgress", () => {
-  it("advances Kleppmann Ch 7-9 then finishes; no SRE bookmark seed", () => {
+  it("starts on Vitillo; Kleppmann has Ch 7 bookmark and 4-chapter length", () => {
     let p = parsePlaylistProgressCookie(undefined, "u1");
+    assert.equal(lengthLabelFor("understanding-distributed-systems"), "~8h");
     assert.equal(
       lengthLabelFor("designing-data-intensive-applications"),
-      "3 ch · ~8h"
+      "4 ch · ~10h"
     );
     assert.equal(lengthLabelFor("api-design"), "~10h");
 
     assert.equal(
       nowReadingItem(readingCurriculum, p)?.id,
-      "designing-data-intensive-applications"
+      "understanding-distributed-systems"
     );
     assert.equal(upNextItem(readingCurriculum, p)?.id, "api-design");
+
     assert.equal(
-      currentChapterLabel(
-        "designing-data-intensive-applications",
-        p.books["designing-data-intensive-applications"] ?? emptyBookProgress()
-      ),
-      "Ch 7"
+      formatBookmark(p.books["designing-data-intensive-applications"]!.bookmark),
+      "Chapter 7, sharding by hash key"
     );
     assert.equal(
-      p.books["designing-data-intensive-applications"]?.bookmark ?? null,
+      p.books["understanding-distributed-systems"]?.bookmark ?? null,
       null
     );
     assert.equal(
@@ -50,7 +49,26 @@ describe("playlistProgress", () => {
       false
     );
 
-    for (let i = 0; i < 2; i += 1) {
+    p = markBookFinished(p, "understanding-distributed-systems");
+    assert.equal(nowReadingItem(readingCurriculum, p)?.id, "api-design");
+
+    // After finishing tracks before Kleppmann, Now reading is Kleppmann Ch 7.
+    p = markBookFinished(p, "api-design");
+    p = markBookFinished(p, "learning-domain-driven-design");
+    p = markBookFinished(p, "payments-systems-us");
+    assert.equal(
+      nowReadingItem(readingCurriculum, p)?.id,
+      "designing-data-intensive-applications"
+    );
+    assert.equal(
+      currentChapterLabel(
+        "designing-data-intensive-applications",
+        p.books["designing-data-intensive-applications"]!
+      ),
+      "Ch 7"
+    );
+
+    for (let i = 0; i < 3; i += 1) {
       p = markChapterRead(p, "designing-data-intensive-applications");
       assert.equal(
         p.books["designing-data-intensive-applications"]?.finished,
@@ -69,10 +87,10 @@ describe("playlistProgress", () => {
       ),
       100
     );
-    assert.equal(nowReadingItem(readingCurriculum, p)?.id, "api-design");
+    assert.equal(nowReadingItem(readingCurriculum, p)?.id, "grokking-algorithms");
     assert.equal(
       trackStatusFor(
-        readingCurriculum[0]!,
+        readingCurriculum[4]!,
         p,
         nowReadingItem(readingCurriculum, p)?.id ?? null
       ),

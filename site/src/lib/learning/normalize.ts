@@ -19,6 +19,13 @@ export function courseKeyFromTitle(title: string): string {
   ) {
     return "ddia";
   }
+  if (
+    n.includes("understanding-distributed-systems") ||
+    n === "uds" ||
+    n === "vitillo"
+  ) {
+    return "uds";
+  }
   if (n.includes("domain-driven-design") || n === "ddd") return "ddd";
   if (n.includes("transformative-tools") || n.includes("tools-for-thought")) {
     return "ttft";

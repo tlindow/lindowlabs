@@ -2,8 +2,8 @@
  * Default playlist book progress for the owner when a track has no entry yet.
  * Partial reads stay on the module; they are never seeded onto Already read.
  *
- * Empty on purpose: Tyler has not started the current reliability reading
- * (Kleppmann Ch 7-9). Google SRE must not be seeded onto Already read.
+ * Kleppmann bookmark: Ch 7 "sharding by hash key" (2nd edition). Vitillo has
+ * no bookmark. Google SRE must not be seeded onto Already read.
  */
 
 /** Seed applied once per book id when that book is missing from progress. */
@@ -14,4 +14,13 @@ export const OWNER_BOOK_PROGRESS_SEED: Record<
     finished: boolean;
     bookmark: { chapter: number; section: string } | null;
   }
-> = {};
+> = {
+  "designing-data-intensive-applications": {
+    chaptersRead: 0,
+    finished: false,
+    bookmark: {
+      chapter: 7,
+      section: "sharding by hash key",
+    },
+  },
+};

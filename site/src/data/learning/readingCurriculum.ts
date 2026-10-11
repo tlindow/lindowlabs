@@ -1,12 +1,23 @@
 /**
- * Owner-only /learning curriculum as one essay: title, intro, five modules.
+ * Owner-only /learning curriculum as one essay: title, intro, six modules.
  * Prose is verbatim from Tyler. Non-owners never receive this payload.
+ *
+ * DDIA chapter numbers are 2nd edition (O'Reilly ISBN 9781098119058):
+ * Ch 7 Sharding, Ch 8 Transactions, Ch 9 The Trouble with Distributed Systems,
+ * Ch 10 Consistency and Consensus.
  */
 
 import {
   curriculumExerciseLinks,
   type CurriculumExerciseLinks,
 } from "@/lib/learning/openInTinker";
+
+/** Official book site for Vitillo 2nd edition. */
+export const VITILLO_BOOK_URL = "https://understandingdistributed.systems/";
+
+/** O'Reilly library page for DDIA 2nd edition (ISBN 9781098119058). */
+export const DDIA_2E_BOOK_URL =
+  "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/";
 
 export type ReadingCurriculumItem = {
   /** Stable id for React keys. */
@@ -15,7 +26,7 @@ export type ReadingCurriculumItem = {
   number: number;
   /**
    * Module heading after the number, verbatim
-   * (e.g. "Designing Data-Intensive Applications (Kleppmann), Ch 7, 8 and 9.").
+   * (e.g. "Designing Data-Intensive Applications (Kleppmann), 2nd ed., Ch 7–10.").
    */
   heading: string;
   /** Short track title (book title, or exercise name when no book). */
@@ -46,7 +57,7 @@ export type ReadingCurriculumItem = {
    * (exercise-only).
    */
   getBookUrl?: string;
-  /** Linked exercises in essay order. */
+  /** Linked exercises in essay order (empty when the module has none). */
   exercises: CurriculumExerciseLinks[];
 };
 
@@ -68,36 +79,27 @@ export const curriculumEssayTitle =
 
 /** Intro paragraph under the title (verbatim). */
 export const curriculumEssayIntro =
-  "You led merchant and partner integrations at Affirm, ran the merchant domain architecture review, and owned reliability for Merchant Portal. Your Tinker essays show where your understanding is thinner than those claims. You can't yet say how API resources map to routes. You've outgrown introductory reliability material but haven't studied what sits under it. You lean on analogies from other fields when fintech has its own frameworks. And you've said you never mastered data structures and algorithms. This curriculum closes those gaps in order of how often an interviewer will press on them.";
+  "You led merchant and partner integrations at Affirm, ran the merchant domain architecture review, and owned reliability for Merchant Portal. Your Tinker essays show where your understanding is thinner than those claims. You can't yet say how API resources map to routes. You've outgrown introductory reliability material but haven't studied what sits under it. You lean on analogies from other fields when fintech has its own frameworks. And you've said you never mastered data structures and algorithms. This curriculum closes those gaps in order of how often an interviewer will press on them. Understanding Distributed Systems (Vitillo) comes before Designing Data-Intensive Applications (Kleppmann) because it gives the vocabulary so Kleppmann's rigor lands. Grokking Algorithms runs alongside everything else.";
 
 /**
  * Ordered modules. Exercise folder ids stay stable; order matches the essay.
- * Lineup: Kleppmann Ch 7-9, API design (exercise-only), Khononov, Glenbrook, Grokking.
+ * Lineup: Vitillo, API design (exercise-only), Khononov, Glenbrook, Kleppmann
+ * Ch 7-10 (2nd ed), Grokking (alongside).
  */
 export const readingCurriculum: ReadingCurriculumItem[] = [
   {
-    id: "designing-data-intensive-applications",
+    id: "understanding-distributed-systems",
     number: 1,
-    heading:
-      "Designing Data-Intensive Applications (Kleppmann), Ch 7, 8 and 9.",
-    title: "Designing Data-Intensive Applications",
-    author: "Martin Kleppmann",
-    scope: "Ch 7, 8 and 9",
+    heading: "Understanding Distributed Systems (Vitillo), 2nd edition.",
+    title: "Understanding Distributed Systems",
+    author: "Roberto Vitillo",
+    scope: "Whole book, 2nd edition",
     prose:
-      "Tyler's reliability work was about integrations failing: slow partners, a fragile dependency, outages that took an hour to notice. Chapters 8 and 9 explain what's underneath those failures, including partial failure, unreliable networks and clocks, and what it takes for separate systems to agree. That's the layer he hasn't studied, and it's what lets an engineering leader judge reliability designs instead of just reacting to outages. Chapter 7 covers transactions, where a payments mistake moves money twice.",
+      "It covers the same ground as Kleppmann (replication, sharding, consistency, failure, resiliency) in shorter practitioner chapters, giving the vocabulary so Kleppmann lands.",
     consideredInstead:
-      "*Site Reliability Engineering* (Google) was started and sat below Tyler's level, since it restates availability and SLO work he already led. *Release It!* (Nygard) teaches the right patterns but at a practitioner pace. Kleppmann's Chapters 8 and 9 explain why those patterns are needed, which is the harder and more durable layer. Database Internals (Petrov) goes down to storage engines, which is deeper than an EM needs.",
-    getBookUrl: "https://dataintensive.net/",
-    exercises: [
-      curriculumExerciseLinks(
-        "idempotent-refund",
-        "build an idempotent refund endpoint, meaning a refund sent twice only refunds once."
-      ),
-      curriculumExerciseLinks(
-        "consensus-under-partition",
-        "a few simulated nodes must agree on one value while the network drops and delays messages, with steps building up from naive voting to a leader/quorum approach and observing where it breaks."
-      ),
-    ],
+      "System Design Interview (Alex Xu) is easier but teaches patterns to recite rather than reasons.",
+    getBookUrl: VITILLO_BOOK_URL,
+    exercises: [],
   },
   {
     id: "api-design",
@@ -156,14 +158,38 @@ export const readingCurriculum: ReadingCurriculumItem[] = [
     ],
   },
   {
-    id: "grokking-algorithms",
+    id: "designing-data-intensive-applications",
     number: 5,
+    heading:
+      "Designing Data-Intensive Applications (Kleppmann), 2nd edition, Ch 7, 8, 9 and 10.",
+    title: "Designing Data-Intensive Applications",
+    author: "Martin Kleppmann",
+    scope: "2nd edition, Ch 7, 8, 9 and 10",
+    prose:
+      "Tyler's reliability work was about integrations failing: slow partners, a fragile dependency, outages that took an hour to notice. Chapters 9 and 10 explain what's underneath those failures, including partial failure, unreliable networks and clocks, and what it takes for separate systems to agree. That's the layer he hasn't studied, and it's what lets an engineering leader judge reliability designs instead of just reacting to outages. Chapter 8 covers transactions, where a payments mistake moves money twice. Understanding Distributed Systems (Vitillo) comes first so this is the rigorous version.",
+    consideredInstead:
+      "*Site Reliability Engineering* (Google) was started and sat below Tyler's level, since it restates availability and SLO work he already led. *Release It!* (Nygard) teaches the right patterns but at a practitioner pace. Kleppmann's Chapters 9 and 10 explain why those patterns are needed, which is the harder and more durable layer. Database Internals (Petrov) goes down to storage engines, which is deeper than an EM needs.",
+    getBookUrl: DDIA_2E_BOOK_URL,
+    exercises: [
+      curriculumExerciseLinks(
+        "idempotent-refund",
+        "build an idempotent refund endpoint, meaning a refund sent twice only refunds once."
+      ),
+      curriculumExerciseLinks(
+        "consensus-under-partition",
+        "a few simulated nodes must agree on one value while the network drops and delays messages, with steps building up from naive voting to a leader/quorum approach and observing where it breaks."
+      ),
+    ],
+  },
+  {
+    id: "grokking-algorithms",
+    number: 6,
     heading: "Grokking Algorithms (Bhargava), alongside everything else.",
     title: "Grokking Algorithms",
     author: "Aditya Bhargava",
     scope: "alongside everything else",
     prose:
-      "No resume line backs this one. It's a hiring screen, since many EM loops still include a coding round. You wrote that you never mastered data structures and algorithms, and that Formation's material reads like notes, not a book. Grokking reads like a book and keeps each idea short, so it runs alongside the other modules.",
+      "No resume line backs this one. It's a hiring screen, since many EM loops still include a coding round. You wrote that you never mastered data structures and algorithms, and that Formation's material reads like notes, not a book. Grokking Algorithms runs alongside everything else.",
     consideredInstead:
       "Introduction to Algorithms (CLRS) is the full reference, but it's far heavier than a job search allows. Cracking the Coding Interview is a question bank to practice from, not a book to learn from, so it fits better after Grokking.",
     getBookUrl: "https://www.manning.com/books/grokking-algorithms",

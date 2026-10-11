@@ -1,7 +1,7 @@
 # Idempotent refund
 
-**/learning curriculum #1** (*Designing Data-Intensive Applications*, Ch 7):
-seal the transactions gap — retry must not double-refund.
+**/learning curriculum #5** (*Designing Data-Intensive Applications* 2nd ed.,
+Ch 8 Transactions): seal the transactions gap — retry must not double-refund.
 
 **Resume line:** merchant data platform RPCs replacing Snowflake.
 

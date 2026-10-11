@@ -33,8 +33,9 @@ describe("parseReadingPlanMarkdown (Reading plan fixture)", () => {
   });
 
   it("keeps Reading order and excludes Sealed / Already read / Dropped", () => {
-    assert.equal(plan.courses.length, 4);
+    assert.equal(plan.courses.length, 5);
     const titles = plan.courses.map((c) => c.title);
+    assert.ok(titles.includes("Understanding Distributed Systems"));
     assert.ok(titles.includes("Designing Data-Intensive Applications"));
     assert.ok(titles.includes("Domain-Driven Design"));
     assert.ok(
@@ -47,12 +48,12 @@ describe("parseReadingPlanMarkdown (Reading plan fixture)", () => {
     assert.ok(!titles.some((t) => /People management/i.test(t)));
   });
 
-  it("parses Kleppmann chapters from the page scope", () => {
+  it("parses Kleppmann 2nd-ed chapters from the page scope", () => {
     const ddia = plan.courses.find((c) => c.key === "ddia");
     assert.ok(ddia);
     assert.equal(ddia!.why?.startsWith("Backs"), true);
     const keys = ddia!.lessons.map((l) => l.key);
-    assert.deepEqual(keys, ["ch7", "ch8", "ch9"]);
+    assert.deepEqual(keys, ["ch7", "ch8", "ch9", "ch10"]);
   });
 
   it("marks DDD Ch 1 done and Ch 2 current from page text", () => {
