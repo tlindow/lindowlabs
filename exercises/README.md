@@ -8,17 +8,17 @@ Prefer plain-English pseudocode first, then a blank starter file.
 
 | # | Exercise | Book | Brief |
 | :--- | :--- | :--- | :--- |
-| 1 | [`merchant-portal-slos/`](./merchant-portal-slos/) | Site Reliability Engineering (Ch 4, 6, 21 and 22) | SLOs, error budget, fast-burn alert |
+| 1 | [`idempotent-refund/`](./idempotent-refund/) then [`consensus-under-partition/`](./consensus-under-partition/) | Designing Data-Intensive Applications (Ch 7, 8 and 9) | Idempotent refund; then nodes agree under drops/delays |
 | 2 | [`api-design/`](./api-design/) | *(exercise-only)* | Merchant / Order / Refund resources → OpenAPI |
 | 3 | [`bounded-contexts/`](./bounded-contexts/) | Learning Domain-Driven Design (Khononov) | Split checkout into Merchant, Payments, Disputes |
 | 4 | [`card-payment-lifecycle/`](./card-payment-lifecycle/) | Payments Systems in the U.S. | Auth → capture → clearing → settlement state machine |
-| 5 | [`idempotent-refund/`](./idempotent-refund/) | DDIA Ch 7 | Same refund twice refunds once |
-| 6 | [`settlement-binary-search/`](./settlement-binary-search/) | Grokking Algorithms | Binary search over sorted settlement records |
+| 5 | [`settlement-binary-search/`](./settlement-binary-search/) | Grokking Algorithms | Binary search over sorted settlement records |
 
 ## Other practice
 
 | Exercise | One-line brief | Run |
 | :--- | :--- | :--- |
+| [`merchant-portal-slos/`](./merchant-portal-slos/) | SLOs, error budget, fast-burn alert (no longer on the /learning essay) | See README |
 | [`stripe-payment-intent/`](./stripe-payment-intent/) | Read PaymentIntent create fixture fields (no Stripe network calls) | `cd exercises/stripe-payment-intent && npm install && npm test` |
 | [`proto-learning/`](./proto-learning/) | Protobuf & gRPC B2B merchant settlements and payout rails | See [`proto-learning/README.md`](./proto-learning/README.md) |
 | [`nextjs-learning/`](./nextjs-learning/) | Next.js App Router ledger and streaming architecture | See [`nextjs-learning/README.md`](./nextjs-learning/README.md) |

@@ -307,55 +307,64 @@ export default function LearningPlaylist({
                     </p>
                   ) : null}
 
-                  <div
-                    className={
-                      exerciseReady
-                        ? "learning-curr__exercise-block learning-pl__ready"
-                        : "learning-curr__exercise-block learning-pl__ready learning-pl__ready--dim"
-                    }
-                    data-exercise-ready={exerciseReady ? "true" : "false"}
-                  >
-                    <p className="learning-pl__ready-label">
-                      {hasBook ? (
-                        <>When you&apos;re ready: exercise</>
-                      ) : (
-                        <>Exercise</>
-                      )}
-                    </p>
-                    <p className="learning-curr__exercise-summary">
-                      {item.exercise.summary}
-                    </p>
-                    <div className="learning-curr__cta-row">
-                      <a
-                        className="learning-curr__btn learning-curr__btn--ghost"
-                        href={item.exercise.openInTinkerUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-disabled={exerciseReady ? undefined : true}
-                        tabIndex={exerciseReady ? undefined : -1}
-                      >
-                        Do it in Tinker
-                      </a>
-                      <a
-                        className="learning-curr__btn learning-curr__btn--ghost"
-                        href={item.exercise.openInCursorUrl}
-                        aria-disabled={exerciseReady ? undefined : true}
-                        tabIndex={exerciseReady ? undefined : -1}
-                      >
-                        Open in Cursor
-                      </a>
-                      <a
-                        className="learning-curr__btn learning-curr__btn--ghost"
-                        href={item.exercise.githubUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-disabled={exerciseReady ? undefined : true}
-                        tabIndex={exerciseReady ? undefined : -1}
-                      >
-                        View on GitHub
-                      </a>
+                  {item.exercises.map((ex, exIndex) => (
+                    <div
+                      key={ex.id}
+                      className={
+                        exerciseReady
+                          ? "learning-curr__exercise-block learning-pl__ready"
+                          : "learning-curr__exercise-block learning-pl__ready learning-pl__ready--dim"
+                      }
+                      data-exercise-ready={exerciseReady ? "true" : "false"}
+                      data-exercise-id={ex.id}
+                    >
+                      <p className="learning-pl__ready-label">
+                        {hasBook ? (
+                          <>
+                            When you&apos;re ready: exercise
+                            {item.exercises.length > 1
+                              ? ` ${exIndex + 1}`
+                              : ""}
+                          </>
+                        ) : (
+                          <>Exercise</>
+                        )}
+                      </p>
+                      <p className="learning-curr__exercise-summary">
+                        {ex.summary}
+                      </p>
+                      <div className="learning-curr__cta-row">
+                        <a
+                          className="learning-curr__btn learning-curr__btn--ghost"
+                          href={ex.openInTinkerUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-disabled={exerciseReady ? undefined : true}
+                          tabIndex={exerciseReady ? undefined : -1}
+                        >
+                          Do it in Tinker
+                        </a>
+                        <a
+                          className="learning-curr__btn learning-curr__btn--ghost"
+                          href={ex.openInCursorUrl}
+                          aria-disabled={exerciseReady ? undefined : true}
+                          tabIndex={exerciseReady ? undefined : -1}
+                        >
+                          Open in Cursor
+                        </a>
+                        <a
+                          className="learning-curr__btn learning-curr__btn--ghost"
+                          href={ex.githubUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-disabled={exerciseReady ? undefined : true}
+                          tabIndex={exerciseReady ? undefined : -1}
+                        >
+                          View on GitHub
+                        </a>
+                      </div>
                     </div>
-                  </div>
+                  ))}
                 </div>
               ) : null}
             </li>

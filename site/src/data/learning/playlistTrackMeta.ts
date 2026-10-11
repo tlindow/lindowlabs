@@ -17,10 +17,9 @@ export type PlaylistTrackMeta = {
 
 /** Per curriculum book id. */
 export const playlistTrackMeta: Record<string, PlaylistTrackMeta> = {
-  "site-reliability-engineering": {
-    chapterLabels: ["Ch 4", "Ch 6", "Ch 21", "Ch 22"],
-    coveredChapterLabels: ["Ch 1", "Ch 2", "Ch 3"],
-    estimatedHours: 6,
+  "designing-data-intensive-applications": {
+    chapterLabels: ["Ch 7", "Ch 8", "Ch 9"],
+    estimatedHours: 8,
   },
   "api-design": {
     chapterLabels: null,
@@ -34,17 +33,13 @@ export const playlistTrackMeta: Record<string, PlaylistTrackMeta> = {
     chapterLabels: null,
     estimatedHours: 6,
   },
-  "designing-data-intensive-applications": {
-    chapterLabels: ["Ch 7"],
-    estimatedHours: 3,
-  },
   "grokking-algorithms": {
     chapterLabels: null,
     estimatedHours: 8,
   },
 };
 
-/** Song-length style label: "5 ch · ~8h" or "~10h". */
+/** Song-length style label: "3 ch · ~8h" or "~10h". */
 export function formatTrackLength(meta: PlaylistTrackMeta | undefined): string {
   if (!meta) return "~?h";
   const hours = `~${meta.estimatedHours}h`;

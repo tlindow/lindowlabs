@@ -21,53 +21,71 @@ import {
 } from "./playlistProgress.ts";
 
 describe("playlistProgress", () => {
-  it("advances SRE remaining chapters then finishes; lengths use listed ch counts", () => {
-    let p = emptyPlaylistProgress("u1");
-    assert.equal(lengthLabelFor("site-reliability-engineering"), "4 ch · ~6h");
+  it("advances Kleppmann Ch 7-9 then finishes; no SRE bookmark seed", () => {
+    let p = parsePlaylistProgressCookie(undefined, "u1");
+    assert.equal(
+      lengthLabelFor("designing-data-intensive-applications"),
+      "3 ch · ~8h"
+    );
     assert.equal(lengthLabelFor("api-design"), "~10h");
-    assert.equal(lengthLabelFor("designing-data-intensive-applications"), "1 ch · ~3h");
 
-    // Seeded bookmark (Ch 3) does not finish the track; next chapter is Ch 4.
-    p = parsePlaylistProgressCookie(undefined, "u1");
-    assert.equal(nowReadingItem(readingCurriculum, p)?.id, "site-reliability-engineering");
+    assert.equal(
+      nowReadingItem(readingCurriculum, p)?.id,
+      "designing-data-intensive-applications"
+    );
     assert.equal(upNextItem(readingCurriculum, p)?.id, "api-design");
     assert.equal(
       currentChapterLabel(
-        "site-reliability-engineering",
-        p.books["site-reliability-engineering"]!
+        "designing-data-intensive-applications",
+        p.books["designing-data-intensive-applications"] ?? emptyBookProgress()
       ),
-      "Ch 4"
+      "Ch 7"
     );
     assert.equal(
-      formatBookmark(p.books["site-reliability-engineering"]!.bookmark),
-      "Chapter 3, Types of Failures"
+      p.books["designing-data-intensive-applications"]?.bookmark ?? null,
+      null
     );
-    // Partial read stays on the module; Already read seed has no SRE book.
     assert.equal(
-      p.alreadyRead.some((e) => /Site Reliability/i.test(e.title)),
+      p.alreadyRead.some((e) => /Site Reliability|Release It/i.test(e.title)),
       false
     );
 
-    for (let i = 0; i < 3; i += 1) {
-      p = markChapterRead(p, "site-reliability-engineering");
-      assert.equal(p.books["site-reliability-engineering"]?.finished, false);
+    for (let i = 0; i < 2; i += 1) {
+      p = markChapterRead(p, "designing-data-intensive-applications");
+      assert.equal(
+        p.books["designing-data-intensive-applications"]?.finished,
+        false
+      );
     }
-    p = markChapterRead(p, "site-reliability-engineering");
-    assert.equal(p.books["site-reliability-engineering"]?.finished, true);
-    assert.equal(bookProgressPct("site-reliability-engineering", p.books["site-reliability-engineering"]!), 100);
+    p = markChapterRead(p, "designing-data-intensive-applications");
+    assert.equal(
+      p.books["designing-data-intensive-applications"]?.finished,
+      true
+    );
+    assert.equal(
+      bookProgressPct(
+        "designing-data-intensive-applications",
+        p.books["designing-data-intensive-applications"]!
+      ),
+      100
+    );
     assert.equal(nowReadingItem(readingCurriculum, p)?.id, "api-design");
     assert.equal(
-      trackStatusFor(readingCurriculum[0]!, p, nowReadingItem(readingCurriculum, p)?.id ?? null),
+      trackStatusFor(
+        readingCurriculum[0]!,
+        p,
+        nowReadingItem(readingCurriculum, p)?.id ?? null
+      ),
       "Done"
     );
   });
 
   it("bookmark formatting and mark book finished", () => {
     let p = emptyPlaylistProgress("u1");
-    p = setBookmark(p, "site-reliability-engineering", 142, "Error budgets");
+    p = setBookmark(p, "designing-data-intensive-applications", 142, "Transactions");
     assert.equal(
-      formatBookmark(p.books["site-reliability-engineering"]!.bookmark),
-      "p. 142, Error budgets"
+      formatBookmark(p.books["designing-data-intensive-applications"]!.bookmark),
+      "p. 142, Transactions"
     );
     p = markBookFinished(p, "api-design");
     assert.equal(p.books["api-design"]?.finished, true);
