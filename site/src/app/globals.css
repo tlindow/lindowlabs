@@ -728,20 +728,12 @@ body {
   box-shadow: var(--tk-shadow-button);
 }
 
-.retreat-theme .retreat-pixel-avatar__inner {
-  width: 14px;
-  height: 14px;
-  transform: scale(4);
-  transform-origin: top left;
-}
-
-.retreat-theme .retreat-pixel-avatar__inner img {
-  width: 14px;
-  height: 14px;
-  object-fit: cover;
+.retreat-theme .retreat-pixel-avatar__canvas {
+  display: block;
+  width: 56px;
+  height: 56px;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
-  display: block;
 }
 
 .retreat-theme .retreat-transcript {
