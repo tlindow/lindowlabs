@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 
-/** Canonical contact page URL for /schedule-time, /time, and /get-your-time-back. */
+/** Canonical contact page URL for /schedule-time and /time. */
 export const LEADERS_CANONICAL_URL = "https://lindowlabs.dev/schedule-time";
 
-/** Shared meta for contact routes (canonical + og:url always point at /schedule-time). */
+/** Shared meta for contact routes (canonical + og:url always point at /schedule-time).
+ *  /get-your-time-back is a separate retreat page (see retreatPage.ts). */
 export const LEADERS_PAGE_TITLE = "30 minutes with Tyler Lindow";
 
 export const LEADERS_PAGE_DESCRIPTION =

@@ -5,7 +5,7 @@ import LeadersPaths from "@/components/leaders/LeadersPaths";
 import LeadersWho from "@/components/leaders/LeadersWho";
 import LeadersReach from "@/components/leaders/LeadersReach";
 
-/** Shared contact-page body for /schedule-time, /time, and /get-your-time-back. */
+/** Shared contact-page body for /schedule-time and /time. */
 export default function LeadersPage() {
   return (
     <HomepageTheme>

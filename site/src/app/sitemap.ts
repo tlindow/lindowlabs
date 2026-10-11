@@ -1,16 +1,18 @@
 import type { MetadataRoute } from "next";
 import { blogPosts, getPostHref } from "@/data/blogPosts";
 import { LEADERS_CANONICAL_URL } from "@/data/leadersPage";
+import { RETREAT_CANONICAL_URL } from "@/data/retreatPage";
 
 export const dynamic = "force-static";
 
 const SITE = "https://lindowlabs.dev";
 
-/** Public indexable routes. Contact aliases /time and /get-your-time-back are omitted. */
+/** Public indexable routes. Contact alias /time is omitted. */
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: `${SITE}/`, changeFrequency: "weekly", priority: 1 },
     { url: LEADERS_CANONICAL_URL, changeFrequency: "weekly", priority: 0.9 },
+    { url: RETREAT_CANONICAL_URL, changeFrequency: "weekly", priority: 0.9 },
     { url: `${SITE}/resume`, changeFrequency: "weekly", priority: 0.9 },
     { url: `${SITE}/visitors`, changeFrequency: "daily", priority: 0.7 },
     { url: `${SITE}/books-ive-read`, changeFrequency: "monthly", priority: 0.6 },
