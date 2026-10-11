@@ -48,7 +48,7 @@ export default function RetreatPage() {
           <div
             className={`w-full overflow-hidden transition-[max-height,opacity,transform] duration-500 ease-out motion-reduce:transition-none ${
               showScheduler
-                ? "max-h-[900px] opacity-100 translate-y-0"
+                ? "max-h-[1100px] opacity-100 translate-y-0"
                 : "max-h-0 opacity-0 -translate-y-2 pointer-events-none"
             }`}
             aria-hidden={!showScheduler}
