@@ -1,14 +1,11 @@
 "use client";
 
 import { useEffect } from "react";
-import { Calendar } from "lucide-react";
 import Footer from "@/components/Footer";
 import ScrollMorphAvatar from "@/components/animations/ScrollMorphAvatar";
 import ScrollMorphPlayButton from "@/components/animations/ScrollMorphPlayButton";
 import RetreatWaveform from "@/components/retreat/RetreatWaveform";
 import {
-  RETREAT_CALENDLY_URL,
-  RETREAT_CTA_LABEL,
   RETREAT_DESCRIPTION,
   RETREAT_HEADLINE,
   RETREAT_KICKER,
@@ -19,8 +16,7 @@ const RETREAT_CREAM = "#FFFDF7";
 
 /**
  * Retreat leaf as a sibling of the homepage hero layout (coin + play, mono
- * display), on cream paper. Waveform, description, then always-visible
- * "Let's get in touch" (Read resume styling) to Calendly connect.
+ * display), on cream paper. Waveform + description; connect CTA lives in Footer.
  */
 export default function RetreatPage() {
   useEffect(() => {
@@ -92,18 +88,6 @@ export default function RetreatPage() {
                 >
                   {RETREAT_DESCRIPTION}
                 </p>
-
-                <a
-                  href={RETREAT_CALENDLY_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  data-retreat="cta"
-                  className="inline-flex items-center gap-2 rounded-xl bg-surface hover:bg-surface-alt text-foreground border border-border px-5 py-2.5 text-xs sm:text-sm font-mono font-bold shadow-xs transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
-                  title={RETREAT_CTA_LABEL}
-                >
-                  <Calendar size={15} className="shrink-0" />
-                  <span>{RETREAT_CTA_LABEL}</span>
-                </a>
               </div>
             </div>
             <div
