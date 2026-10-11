@@ -639,48 +639,10 @@ body {
   --tk-font-sans: var(--font-instrument-sans), var(--font-inter), system-ui,
     -apple-system, "Segoe UI", sans-serif;
   --tk-font-display-settings: "SOFT" 100, "WONK" 0, "opsz" 144;
-  --edge-fill: linear-gradient(
-    225deg,
-    rgba(255, 253, 247, 0.95) 0%,
-    var(--logo-pink) 8%,
-    var(--logo-orange) 22%,
-    var(--logo-yellow) 36%,
-    var(--logo-leaf) 50%,
-    var(--logo-mint) 63%,
-    var(--logo-sky) 76%,
-    var(--logo-purple) 100%
-  );
-  --edge-size: clamp(140px, 22vw, 220px);
-  --edge-fade: 160px;
-  --edge-clip: polygon(0 0, 100% 0, 0 100%);
 
   color: var(--tk-fg);
   background: var(--tk-bg);
   font-family: var(--tk-font-sans);
-}
-
-.retreat-theme .retreat-edge {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: var(--edge-size);
-  height: var(--edge-size);
-  background: var(--edge-fill);
-  clip-path: var(--edge-clip);
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    #000 0%,
-    #000 calc(100% - var(--edge-fade)),
-    transparent 100%
-  );
-  mask-image: linear-gradient(
-    to bottom,
-    #000 0%,
-    #000 calc(100% - var(--edge-fade)),
-    transparent 100%
-  );
-  pointer-events: none;
-  z-index: 0;
 }
 
 .retreat-theme .retreat-headline {
@@ -695,21 +657,16 @@ body {
 }
 
 .retreat-theme .retreat-waveform {
-  background: var(--tk-card);
-  border-color: var(--tk-border);
+  background: transparent;
+  border: none;
   color: var(--tk-fg);
   cursor: pointer;
   box-shadow: none;
 }
 
-.retreat-theme .retreat-waveform:hover {
-  border-color: color-mix(in srgb, var(--tk-accent-strong) 35%, var(--tk-border));
-  background: color-mix(in srgb, var(--tk-card) 88%, var(--tk-accent-dim));
-}
-
 .retreat-theme .retreat-waveform:focus-visible {
   box-shadow: var(--tk-focus-ring);
-  border-color: var(--tk-accent-strong);
+  border-radius: var(--tk-radius-card);
 }
 
 .retreat-theme .retreat-wave-bar {
@@ -718,22 +675,45 @@ body {
   transition: opacity 80ms linear;
 }
 
-.retreat-theme .retreat-pixel-avatar {
+.retreat-theme .retreat-photo-avatar {
   width: 56px;
   height: 56px;
   border-radius: var(--tk-radius-pill);
   border: 1px solid var(--tk-border);
   background: var(--tk-card);
   overflow: hidden;
-  box-shadow: var(--tk-shadow-button);
 }
 
-.retreat-theme .retreat-pixel-avatar__canvas {
+.retreat-theme .retreat-photo-avatar img {
   display: block;
-  width: 56px;
-  height: 56px;
-  image-rendering: pixelated;
-  image-rendering: crisp-edges;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.retreat-theme .retreat-pick-link {
+  display: inline-block;
+  font-family: var(--tk-font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--tk-muted);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  background: none;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.retreat-theme .retreat-pick-link:hover {
+  color: var(--tk-fg);
+}
+
+.retreat-theme .retreat-pick-link:focus-visible {
+  outline: none;
+  box-shadow: var(--tk-focus-ring);
+  border-radius: 4px;
 }
 
 .retreat-theme .retreat-transcript {
@@ -758,24 +738,6 @@ body {
   line-height: 1.55;
   color: var(--tk-muted);
   white-space: pre-wrap;
-}
-
-.retreat-theme .retreat-cta {
-  background: var(--tk-accent-strong);
-  color: #fffdf7;
-  border-radius: var(--tk-radius-button);
-  border: 1px solid transparent;
-  font-family: var(--tk-font-sans);
-  box-shadow: var(--tk-shadow-button);
-}
-
-.retreat-theme .retreat-cta:hover {
-  background: var(--tk-accent-press);
-  box-shadow: var(--tk-shadow-button-hover);
-}
-
-.retreat-theme .retreat-cta:focus-visible {
-  box-shadow: var(--tk-focus-ring);
 }
 
 .retreat-theme .calendly-inline-widget {

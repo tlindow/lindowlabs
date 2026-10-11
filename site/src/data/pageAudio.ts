@@ -43,7 +43,7 @@ export const HOME_PAGE_AUDIO_TRANSCRIPT = [
  */
 /** Retreat intro on /get-your-time-back (Tyler, ~40s). Spells "Lindow". */
 export const RETREAT_PAGE_AUDIO_TRANSCRIPT =
-  "Hey, I'm Tyler Lindow. This is thirty minutes for engineering leaders. Not a pitch. A short retreat. Bring one thing that's been quietly eating your team's time. A partner integration that keeps slipping. An on-call rotation that wears people down. A reliability gap nobody owns. We slow down, look at it together, and you leave with one next step you can act on this week. I led merchant engineering teams at Affirm, and the way I lead comes down to this: every engineer has genius in them, and my job is clearing the path so it shows up in production. If that sounds like the half hour you need, tap the button below and pick a time.";
+  "Hey, I'm Tyler Lindow. This is thirty minutes for engineering leaders. A short retreat. Bring one thing that's been quietly eating your team's time. A partner integration that keeps slipping. An on-call rotation that wears people down. A reliability gap nobody owns. We slow down, look at it together, and you leave with one next step you can act on this week. I led merchant engineering teams at Affirm, and the way I lead comes down to this: every engineer has genius in them, and my job is clearing the path so it shows up in production. If that sounds like the half hour you need, tap the button below and pick a time.";
 
 export const pageAudio: Record<string, PageAudioClip> = {
   "/": {
