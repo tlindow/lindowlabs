@@ -15,6 +15,8 @@ export default function Navbar() {
   const pathname = usePathname() || "/";
   const { returnToHero } = useNavbarActions();
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
+  /** Retreat leaf keeps nav chrome + player; Login is homepage/learning only. */
+  const showLogin = pathname !== "/get-your-time-back";
 
   const goHome = (e: MouseEvent) => {
     if (pathname !== "/") return;
@@ -74,18 +76,20 @@ export default function Navbar() {
         {/* Play: true center of the nav bar (morph lands here). */}
         <NavCenteredPlay />
 
-        {/* Desktop scrubber + Login (Name left | Login right). */}
+        {/* Desktop scrubber + Login (Name left | Login right). Login hidden on retreat. */}
         <div className="relative z-[2] flex items-center gap-2 sm:gap-3 shrink-0">
           <NavDesktopScrubber />
-          <nav aria-label="Primary" className="flex items-center shrink-0">
-            <a
-              href={LEARNING_DASHBOARD_URL}
-              className="inline-flex items-center rounded-full px-3 py-1.5 text-xs font-mono font-bold transition-all hover:scale-[1.02] active:scale-[0.98] bg-sand/80 hover:bg-sand text-foreground/90 hover:text-indigo-dark border border-border hover:border-indigo-dark/40 shadow-2xs"
-              title="Log in to Lindow Labs Learning"
-            >
-              Login
-            </a>
-          </nav>
+          {showLogin ? (
+            <nav aria-label="Primary" className="flex items-center shrink-0">
+              <a
+                href={LEARNING_DASHBOARD_URL}
+                className="inline-flex items-center rounded-full px-3 py-1.5 text-xs font-mono font-bold transition-all hover:scale-[1.02] active:scale-[0.98] bg-sand/80 hover:bg-sand text-foreground/90 hover:text-indigo-dark border border-border hover:border-indigo-dark/40 shadow-2xs"
+                title="Log in to Lindow Labs Learning"
+              >
+                Login
+              </a>
+            </nav>
+          ) : null}
         </div>
       </div>
       <NavPageAudioMobileScrubber />
