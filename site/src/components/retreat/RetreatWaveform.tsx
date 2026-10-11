@@ -4,11 +4,10 @@ import { useEffect, useRef, useState } from "react";
 import { TINKER_RAINBOW_PALETTE } from "@/data/tinkerRetreatTokens";
 import { usePageAudio } from "@/context/PageAudioProvider";
 
-const BAR_COUNT = 64;
+const BAR_COUNT = 48;
 const IDLE_HEIGHTS = Array.from({ length: BAR_COUNT }, (_, i) => {
   const t = i / (BAR_COUNT - 1);
-  // Soft center swell so idle still reads as a full-bleed field.
-  return 0.22 + 0.28 * Math.sin(t * Math.PI);
+  return 0.22 + 0.2 * Math.sin(t * Math.PI);
 });
 
 /** Module-level Web Audio graph so createMediaElementSource runs once. */
@@ -48,18 +47,9 @@ function ensureAnalyser(audio: HTMLAudioElement): AnalyserNode | null {
   }
 }
 
-/** Resume Web Audio when the owner taps play (call from the play button). */
-export function primeRetreatAudioGraph() {
-  const audio = document.querySelector("audio");
-  if (audio) ensureAnalyser(audio);
-  if (sharedAudioCtx?.state === "suspended") {
-    void sharedAudioCtx.resume();
-  }
-}
-
 /**
- * Full-viewport multi-color waveform (Tinker rainbow-web / heatmap palette).
- * Decorative layer: bars animate while PageAudio is playing.
+ * Wide multi-color waveform under the retreat hero (Tinker rainbow palette).
+ * Bars animate while PageAudio is playing; decorative (play is the hero coin).
  */
 export default function RetreatWaveform() {
   const { hasClip, isPlaying } = usePageAudio();
@@ -93,8 +83,8 @@ export default function RetreatWaveform() {
               0.35 +
               0.55 *
                 Math.abs(
-                  Math.sin(phaseRef.current + i * 0.28) *
-                    Math.cos(phaseRef.current * 0.7 + i * 0.14)
+                  Math.sin(phaseRef.current + i * 0.35) *
+                    Math.cos(phaseRef.current * 0.7 + i * 0.18)
                 );
             next[i] = wave;
           }
@@ -110,6 +100,16 @@ export default function RetreatWaveform() {
     rafRef.current = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(rafRef.current);
   }, [hasClip, isPlaying]);
+
+  // Resume analyser graph once playback starts (hero play toggles PageAudio).
+  useEffect(() => {
+    if (!isPlaying) return;
+    const audio = document.querySelector("audio");
+    if (audio) ensureAnalyser(audio);
+    if (sharedAudioCtx?.state === "suspended") {
+      void sharedAudioCtx.resume();
+    }
+  }, [isPlaying]);
 
   if (!hasClip) return null;
 
@@ -127,7 +127,7 @@ export default function RetreatWaveform() {
             height: `${Math.round(h * 100)}%`,
             backgroundColor:
               TINKER_RAINBOW_PALETTE[i % TINKER_RAINBOW_PALETTE.length],
-            opacity: isPlaying ? 1 : 0.62,
+            opacity: isPlaying ? 1 : 0.55,
           }}
         />
       ))}

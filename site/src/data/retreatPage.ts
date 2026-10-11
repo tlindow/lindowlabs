@@ -2,16 +2,21 @@ import type { Metadata } from "next";
 
 /**
  * Public retreat page: /get-your-time-back.
- * Visual system ported from beginner-work/tinker (see tinkerRetreatTokens.ts).
+ * Sibling of the homepage hero (same lavender surface, coin, play, type).
  */
 export const RETREAT_CANONICAL_URL =
   "https://lindowlabs.dev/get-your-time-back";
 
-export const RETREAT_PAGE_TITLE =
-  "A 30-minute retreat for engineering leaders";
+export const RETREAT_PAGE_TITLE = "Get your time back";
 
 export const RETREAT_PAGE_DESCRIPTION =
-  "Thirty minutes for engineering leaders. Bring one thing eating your team's time. Leave with one next step you can act on this week.";
+  "A 30-minute retreat for engineering leaders. Bring what's on your plate, and leave lighter.";
+
+export const RETREAT_KICKER = "Free, 30 minutes";
+
+export const RETREAT_HEADLINE = "Get your time back";
+
+export const RETREAT_SUBTITLE = RETREAT_PAGE_DESCRIPTION;
 
 /**
  * Same Calendly event the contact leaf uses today.

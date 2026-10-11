@@ -604,183 +604,35 @@ body {
   white-space: nowrap;
 }
 
-/* ---- /get-your-time-back retreat leaf (scoped Tinker tokens) ----
-   Ported from beginner-work/tinker:
-   design-tokens.css + styles.css :root + rainbow-web logo aliases.
-   Full-viewport waveform + centered play; booking CTA after audio ends. */
-.retreat-theme {
-  --tk-bg: #fffdf7;
-  --tk-fg: #2d2a26;
-  --tk-muted: #6f6a65;
-  --tk-card: #fff9f0;
-  --tk-border: #ede8e0;
-  --tk-accent: #a5b4fc;
-  --tk-accent-dim: #eef2ff;
-  --tk-accent-strong: #6366f1;
-  --tk-accent-press: #4f46e5;
-  --tk-cream: #f5f3ef;
-  --tk-leaf: #7bc47a;
-  --tk-forest: #2d5a3d;
-  --logo-pink: #f9a8d4;
-  --logo-orange: #fdba74;
-  --logo-yellow: #fde68a;
-  --logo-leaf: #7bc47a;
-  --logo-sky: #7dd3fc;
-  --logo-mint: #6ee7b7;
-  --logo-purple: #c8b6e2;
-  --tk-radius-card: 12px;
-  --tk-radius-button: 10px;
-  --tk-radius-pill: 999px;
-  --tk-shadow-button: 0 1px 0 rgba(45, 42, 38, 0.04),
-    0 1px 2px rgba(45, 42, 38, 0.06);
-  --tk-shadow-button-hover: 0 1px 0 rgba(45, 42, 38, 0.05),
-    0 2px 4px rgba(45, 42, 38, 0.08);
-  --tk-focus-ring: 0 0 0 4px rgba(99, 102, 241, 0.18);
-  --tk-font-display: var(--font-fraunces), Georgia, "Times New Roman", serif;
-  --tk-font-sans: var(--font-instrument-sans), var(--font-inter), system-ui,
-    -apple-system, "Segoe UI", sans-serif;
-  --tk-font-display-settings: "SOFT" 100, "WONK" 0, "opsz" 144;
-
-  color: var(--tk-fg);
-  background: var(--tk-bg);
-  font-family: var(--tk-font-sans);
-}
-
-.retreat-theme.retreat-stage {
-  position: relative;
-  width: 100%;
-  min-height: 100dvh;
-  height: 100dvh;
-  overflow: hidden;
-}
-
-.retreat-theme .retreat-waveform {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
+/* ---- /get-your-time-back: wide Tinker rainbow waveform under hero ---- */
+.retreat-waveform {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: stretch;
-  gap: clamp(2px, 0.45vw, 6px);
+  gap: clamp(2px, 0.4vw, 5px);
   width: 100%;
-  height: 100%;
-  padding: 0 clamp(4px, 1vw, 12px);
+  max-width: 100%;
+  height: 4.5rem;
+  min-height: 3.5rem;
+  padding: 0;
   box-sizing: border-box;
   pointer-events: none;
   background: transparent;
   border: none;
 }
 
-.retreat-theme .retreat-wave-bar {
+.retreat-wave-bar {
   flex: 1 1 0;
   min-width: 2px;
-  max-width: 18px;
-  min-height: 8px;
-  align-self: center;
-  border-radius: var(--tk-radius-pill);
+  max-width: 14px;
+  min-height: 4px;
+  align-self: flex-end;
+  border-radius: 999px;
   transition: opacity 120ms linear, height 80ms linear;
 }
 
-.retreat-theme .retreat-controls {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 1.25rem;
-  padding: 1.5rem;
-  pointer-events: none;
-}
-
-.retreat-theme .retreat-play-btn {
-  pointer-events: auto;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 5.5rem;
-  height: 5.5rem;
-  border-radius: var(--tk-radius-pill);
-  border: 1px solid var(--tk-border);
-  background: var(--tk-card);
-  color: var(--tk-accent-strong);
-  box-shadow: var(--tk-shadow-button-hover);
-  cursor: pointer;
-  transition:
-    transform 160ms ease,
-    background 160ms ease,
-    box-shadow 160ms ease;
-}
-
-.retreat-theme .retreat-play-btn:hover {
-  background: #fff;
-  transform: scale(1.04);
-  box-shadow: var(--tk-shadow-button-hover);
-}
-
-.retreat-theme .retreat-play-btn:active {
-  transform: scale(0.98);
-  background: var(--tk-accent-dim);
-}
-
-.retreat-theme .retreat-play-btn:focus-visible {
-  outline: none;
-  box-shadow: var(--tk-focus-ring), var(--tk-shadow-button-hover);
-}
-
-.retreat-theme .retreat-pick-btn {
-  pointer-events: auto;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 2.75rem;
-  padding: 0.7rem 1.35rem;
-  border-radius: var(--tk-radius-button);
-  border: 1px solid var(--tk-accent-press);
-  background: var(--tk-accent-strong);
-  color: #fffdf7;
-  font-family: var(--tk-font-sans);
-  font-size: 0.95rem;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  text-decoration: none;
-  box-shadow: var(--tk-shadow-button);
-  cursor: pointer;
-  animation: retreat-pick-in 320ms ease-out both;
-}
-
-.retreat-theme .retreat-pick-btn:hover {
-  background: var(--tk-accent-press);
-  box-shadow: var(--tk-shadow-button-hover);
-}
-
-.retreat-theme .retreat-pick-btn:focus-visible {
-  outline: none;
-  box-shadow: var(--tk-focus-ring), var(--tk-shadow-button-hover);
-}
-
-@keyframes retreat-pick-in {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .retreat-theme .retreat-wave-bar {
+  .retreat-wave-bar {
     transition: none;
-  }
-
-  .retreat-theme .retreat-play-btn {
-    transition: none;
-  }
-
-  .retreat-theme .retreat-pick-btn {
-    animation: none;
   }
 }

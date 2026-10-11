@@ -1,5 +1,6 @@
 /**
- * Scroll-derived ownership of Tyler's profile photo on the homepage.
+ * Scroll-derived ownership of Tyler's profile photo on homepage-style leaves
+ * (home + /get-your-time-back retreat hero).
  *
  * The WebGL morph coin travels hero → nav. Nav ↔ Let's talk is an in-place
  * crossfade (nav img ↔ morph parked at contact) — never a flight across body
@@ -10,6 +11,13 @@
  */
 
 export type ProfileDockOwner = "hero" | "nav" | "contact";
+
+/** Routes that use the hero↔nav↔contact profile dock (not always-nav). */
+const PROFILE_DOCK_PATHS = new Set(["/", "/get-your-time-back"]);
+
+export function isProfileDockPath(pathname: string): boolean {
+  return PROFILE_DOCK_PATHS.has(pathname);
+}
 
 /**
  * Must match AVATAR_MORPH_SCROLL_DISTANCE / HERO_PIN_SCROLL_DISTANCE in
