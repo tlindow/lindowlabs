@@ -21,7 +21,7 @@ export default function RetreatCalendly() {
         target="_blank"
         rel="noopener noreferrer"
         data-retreat="calendly-link"
-        className="retreat-cta inline-flex items-center justify-center gap-2 rounded-xl px-7 py-3.5 text-sm sm:text-base font-mono font-bold transition-transform hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 motion-reduce:hover:scale-100"
+        className="retreat-cta inline-flex items-center justify-center gap-2 px-7 py-3.5 text-sm sm:text-base font-semibold focus:outline-none"
         title="Choose a time with Tyler Lindow"
       >
         <Calendar size={15} className="shrink-0" aria-hidden="true" />

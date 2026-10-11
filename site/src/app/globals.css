@@ -604,87 +604,196 @@ body {
   white-space: nowrap;
 }
 
-/* ---- /get-your-time-back retreat leaf (scoped; not site-wide) ----
-   Warm coral → amber → violet. High-contrast ink on luminous surfaces. */
+/* ---- /get-your-time-back retreat leaf (scoped Tinker tokens) ----
+   Ported from beginner-work/tinker:
+   design-tokens.css + styles.css :root + rainbow-web logo aliases. */
 .retreat-theme {
-  --retreat-coral: #ff4d6d;
-  --retreat-orange: #ff6b35;
-  --retreat-amber: #f7b801;
-  --retreat-violet: #c77dff;
-  --retreat-ink: #1a0a14;
-  --retreat-ink-soft: #3d1528;
-  --retreat-surface: rgba(255, 252, 248, 0.92);
-  --retreat-surface-border: rgba(26, 10, 20, 0.18);
-  --retreat-cta-bg: #1a0a14;
-  --retreat-cta-fg: #fff7f0;
-  --retreat-ring: #fff7f0;
+  --tk-bg: #fffdf7;
+  --tk-fg: #2d2a26;
+  --tk-muted: #6f6a65;
+  --tk-card: #fff9f0;
+  --tk-border: #ede8e0;
+  --tk-accent: #a5b4fc;
+  --tk-accent-dim: #eef2ff;
+  --tk-accent-strong: #6366f1;
+  --tk-accent-press: #4f46e5;
+  --tk-cream: #f5f3ef;
+  --tk-leaf: #7bc47a;
+  --tk-forest: #2d5a3d;
+  --logo-pink: #f9a8d4;
+  --logo-orange: #fdba74;
+  --logo-yellow: #fde68a;
+  --logo-leaf: #7bc47a;
+  --logo-sky: #7dd3fc;
+  --logo-mint: #6ee7b7;
+  --logo-purple: #c8b6e2;
+  --tk-radius-card: 12px;
+  --tk-radius-button: 10px;
+  --tk-radius-pill: 999px;
+  --tk-shadow-button: 0 1px 0 rgba(45, 42, 38, 0.04),
+    0 1px 2px rgba(45, 42, 38, 0.06);
+  --tk-shadow-button-hover: 0 1px 0 rgba(45, 42, 38, 0.05),
+    0 2px 4px rgba(45, 42, 38, 0.08);
+  --tk-focus-ring: 0 0 0 4px rgba(99, 102, 241, 0.18);
+  --tk-font-display: var(--font-fraunces), Georgia, "Times New Roman", serif;
+  --tk-font-sans: var(--font-instrument-sans), var(--font-inter), system-ui,
+    -apple-system, "Segoe UI", sans-serif;
+  --tk-font-display-settings: "SOFT" 100, "WONK" 0, "opsz" 144;
+  --edge-fill: linear-gradient(
+    225deg,
+    rgba(255, 253, 247, 0.95) 0%,
+    var(--logo-pink) 8%,
+    var(--logo-orange) 22%,
+    var(--logo-yellow) 36%,
+    var(--logo-leaf) 50%,
+    var(--logo-mint) 63%,
+    var(--logo-sky) 76%,
+    var(--logo-purple) 100%
+  );
+  --edge-size: clamp(140px, 22vw, 220px);
+  --edge-fade: 160px;
+  --edge-clip: polygon(0 0, 100% 0, 0 100%);
 
-  color: var(--retreat-ink);
-  background:
-    radial-gradient(
-      120% 80% at 10% 0%,
-      color-mix(in srgb, var(--retreat-coral) 88%, white) 0%,
-      transparent 55%
-    ),
-    radial-gradient(
-      100% 70% at 90% 20%,
-      color-mix(in srgb, var(--retreat-violet) 70%, white) 0%,
-      transparent 50%
-    ),
-    linear-gradient(
-      145deg,
-      var(--retreat-coral) 0%,
-      var(--retreat-orange) 42%,
-      var(--retreat-amber) 78%,
-      var(--retreat-violet) 100%
-    );
+  color: var(--tk-fg);
+  background: var(--tk-bg);
+  font-family: var(--tk-font-sans);
+}
+
+.retreat-theme .retreat-edge {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--edge-size);
+  height: var(--edge-size);
+  background: var(--edge-fill);
+  clip-path: var(--edge-clip);
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 calc(100% - var(--edge-fade)),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 calc(100% - var(--edge-fade)),
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 0;
 }
 
 .retreat-theme .retreat-headline {
-  color: var(--retreat-ink);
-  text-shadow: 0 1px 0 rgba(255, 247, 240, 0.35);
+  margin: 0;
+  font-family: var(--tk-font-display);
+  font-variation-settings: var(--tk-font-display-settings);
+  font-size: clamp(26px, 4.5vw, 38px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--tk-fg);
 }
 
-.retreat-theme .retreat-player {
-  background: var(--retreat-surface);
-  border-color: var(--retreat-surface-border);
-  color: var(--retreat-ink);
-  box-shadow: 0 12px 40px rgba(26, 10, 20, 0.18);
-  backdrop-filter: blur(10px);
+.retreat-theme .retreat-waveform {
+  background: var(--tk-card);
+  border-color: var(--tk-border);
+  color: var(--tk-fg);
+  cursor: pointer;
+  box-shadow: none;
 }
 
-.retreat-theme .retreat-play-btn {
-  background: var(--retreat-cta-bg);
-  color: var(--retreat-cta-fg);
-  border: 1px solid rgba(255, 247, 240, 0.25);
+.retreat-theme .retreat-waveform:hover {
+  border-color: color-mix(in srgb, var(--tk-accent-strong) 35%, var(--tk-border));
+  background: color-mix(in srgb, var(--tk-card) 88%, var(--tk-accent-dim));
 }
 
-.retreat-theme .retreat-play-btn:focus-visible {
-  --tw-ring-color: var(--retreat-ink);
-  --tw-ring-offset-color: var(--retreat-amber);
+.retreat-theme .retreat-waveform:focus-visible {
+  box-shadow: var(--tk-focus-ring);
+  border-color: var(--tk-accent-strong);
 }
 
-.retreat-theme .retreat-scrubber {
-  accent-color: var(--retreat-ink-soft);
+.retreat-theme .retreat-wave-bar {
+  min-height: 4px;
+  align-self: flex-end;
+  transition: opacity 80ms linear;
+}
+
+.retreat-theme .retreat-pixel-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--tk-radius-pill);
+  border: 1px solid var(--tk-border);
+  background: var(--tk-card);
+  overflow: hidden;
+  box-shadow: var(--tk-shadow-button);
+}
+
+.retreat-theme .retreat-pixel-avatar__inner {
+  width: 14px;
+  height: 14px;
+  transform: scale(4);
+  transform-origin: top left;
+}
+
+.retreat-theme .retreat-pixel-avatar__inner img {
+  width: 14px;
+  height: 14px;
+  object-fit: cover;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  display: block;
+}
+
+.retreat-theme .retreat-transcript {
+  font-family: var(--tk-font-sans);
+  font-size: 13px;
+  color: var(--tk-muted);
+}
+
+.retreat-theme .retreat-transcript summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--tk-fg);
+  list-style: none;
+}
+
+.retreat-theme .retreat-transcript summary::-webkit-details-marker {
+  display: none;
+}
+
+.retreat-theme .retreat-transcript p {
+  margin: 8px 0 0;
+  line-height: 1.55;
+  color: var(--tk-muted);
+  white-space: pre-wrap;
 }
 
 .retreat-theme .retreat-cta {
-  background: var(--retreat-cta-bg);
-  color: var(--retreat-cta-fg);
-  box-shadow: 0 8px 24px rgba(26, 10, 20, 0.28);
+  background: var(--tk-accent-strong);
+  color: #fffdf7;
+  border-radius: var(--tk-radius-button);
+  border: 1px solid transparent;
+  font-family: var(--tk-font-sans);
+  box-shadow: var(--tk-shadow-button);
 }
 
 .retreat-theme .retreat-cta:hover {
-  background: var(--retreat-ink-soft);
+  background: var(--tk-accent-press);
+  box-shadow: var(--tk-shadow-button-hover);
 }
 
 .retreat-theme .retreat-cta:focus-visible {
-  --tw-ring-color: var(--retreat-ink);
-  --tw-ring-offset-color: var(--retreat-amber);
+  box-shadow: var(--tk-focus-ring);
 }
 
 .retreat-theme .calendly-inline-widget {
-  background: var(--retreat-surface);
-  border: 1px solid var(--retreat-surface-border);
-  box-shadow: 0 12px 40px rgba(26, 10, 20, 0.16);
+  background: var(--tk-card);
+  border: 1px solid var(--tk-border);
+  border-radius: var(--tk-radius-card);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .retreat-theme .retreat-wave-bar {
+    transition: none;
+  }
 }
