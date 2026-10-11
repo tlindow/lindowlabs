@@ -328,6 +328,13 @@ export default function Home() {
                     />
                   </span>
                 </span>
+                {/* Keep two-line hero height so scroll morph stack checks stay aligned. */}
+                <span
+                  className="block invisible select-none pointer-events-none"
+                  aria-hidden="true"
+                >
+                  {"\u00a0"}
+                </span>
               </h1>
 
               {/* Below: support, CTA, logo panel — top of bottom 1fr; overflow paints into spacer */}
