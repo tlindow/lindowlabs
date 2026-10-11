@@ -25,8 +25,6 @@ export const RETREAT_CALENDLY_URL =
 export const RETREAT_HEADLINE =
   "A 30-minute retreat for engineering leaders";
 
-export const RETREAT_INTEREST_CTA = "Save my 30 minutes";
-
 export const retreatPageMetadata: Metadata = {
   title: RETREAT_PAGE_TITLE,
   description: RETREAT_PAGE_DESCRIPTION,

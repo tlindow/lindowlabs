@@ -58,36 +58,7 @@ export default function RetreatWaveform() {
   const [heights, setHeights] = useState<number[]>(() => [...IDLE_HEIGHTS]);
   const rafRef = useRef(0);
   const phaseRef = useRef(0);
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
-
-  // Crisp pixel avatar: downscale to a tiny grid, then upscale with smoothing off.
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const PIXEL = 10;
-    const DISPLAY = 56;
-    canvas.width = DISPLAY;
-    canvas.height = DISPLAY;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    const img = new Image();
-    img.decoding = "async";
-    img.src = `${basePath}/profile-square.jpg`;
-    img.onload = () => {
-      const tmp = document.createElement("canvas");
-      tmp.width = PIXEL;
-      tmp.height = PIXEL;
-      const tctx = tmp.getContext("2d");
-      if (!tctx) return;
-      tctx.imageSmoothingEnabled = false;
-      tctx.drawImage(img, 0, 0, PIXEL, PIXEL);
-      ctx.imageSmoothingEnabled = false;
-      ctx.clearRect(0, 0, DISPLAY, DISPLAY);
-      ctx.drawImage(tmp, 0, 0, PIXEL, PIXEL, 0, 0, DISPLAY, DISPLAY);
-    };
-  }, [basePath]);
 
   useEffect(() => {
     if (!hasClip) return;
@@ -140,17 +111,19 @@ export default function RetreatWaveform() {
       className="retreat-wave-row flex items-center justify-center gap-3 sm:gap-4 w-full max-w-md mx-auto"
       data-retreat="player"
     >
-      {/* Pixelated profile (Tinker-style circle avatar) beside the waveform */}
+      {/* Regular profile photo beside the waveform (Tinker circle crop). */}
       <div
-        className="retreat-pixel-avatar shrink-0"
+        className="retreat-photo-avatar shrink-0"
         aria-hidden="true"
-        data-retreat="pixel-avatar"
+        data-retreat="photo-avatar"
       >
-        <canvas
-          ref={canvasRef}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={`${basePath}/profile-square.jpg`}
+          alt=""
           width={56}
           height={56}
-          className="retreat-pixel-avatar__canvas"
+          draggable={false}
         />
       </div>
 
@@ -169,7 +142,7 @@ export default function RetreatWaveform() {
         aria-label={pageAudioToggleLabel(clip, isPlaying)}
         data-page-audio="retreat-play"
         data-retreat="waveform"
-        className="retreat-waveform flex-1 min-w-0 h-16 sm:h-20 inline-flex items-end justify-center gap-[3px] sm:gap-1 px-3 sm:px-4 py-2 rounded-[var(--tk-radius-card)] border focus:outline-none focus-visible:ring-0"
+        className="retreat-waveform flex-1 min-w-0 h-16 sm:h-20 inline-flex items-end justify-center gap-[3px] sm:gap-1 px-1 sm:px-2 py-2 focus:outline-none"
       >
         {heights.map((h, i) => (
           <span
