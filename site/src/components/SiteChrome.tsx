@@ -8,7 +8,6 @@ import { PageAudioProvider } from "@/context/PageAudioProvider";
 
 const LAVENDER_ROUTES = new Set([
   "/",
-  "/get-your-time-back",
   "/schedule-time",
   "/time",
   "/visitors",
@@ -16,7 +15,7 @@ const LAVENDER_ROUTES = new Set([
 
 /**
  * Persistent site chrome: sticky top nav on every route, with the lavender
- * homepage theme applied to the nav on recruiter / retreat surfaces.
+ * homepage theme on recruiter surfaces. Retreat keeps cream paper (not lavender).
  */
 export default function SiteChrome({ children }: { children: ReactNode }) {
   const pathname = usePathname() || "/";
