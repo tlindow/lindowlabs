@@ -1,18 +1,25 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { RETREAT_CALENDLY_URL, RETREAT_HEADLINE } from "@/data/retreatPage";
+import { Play, Pause } from "lucide-react";
+import {
+  RETREAT_CALENDLY_URL,
+  RETREAT_PAGE_TITLE,
+} from "@/data/retreatPage";
+import { pageAudioToggleLabel } from "@/data/pageAudio";
 import { usePageAudio } from "@/context/PageAudioProvider";
-import RetreatWaveform from "@/components/retreat/RetreatWaveform";
-import RetreatCalendly from "@/components/retreat/RetreatCalendly";
+import RetreatWaveform, {
+  primeRetreatAudioGraph,
+} from "@/components/retreat/RetreatWaveform";
 
 /**
- * Minimal retreat leaf: headline + waveform + Pick a time text link.
- * Calendly embed reveals when audio ends. Pick a time links to Calendly.
+ * Full-viewport retreat leaf: rainbow waveform + one play control.
+ * "Pick a time" appears only after retreat-v4 audio ends (Calendly link, new tab).
+ * Transcript stays sr-only via PageAudioProvider.
  */
 export default function RetreatPage() {
-  const [showScheduler, setShowScheduler] = useState(false);
-  const { clip } = usePageAudio();
+  const [showPickTime, setShowPickTime] = useState(false);
+  const { hasClip, clip, isPlaying, toggle } = usePageAudio();
 
   useEffect(() => {
     const previous = document.body.style.background;
@@ -22,52 +29,58 @@ export default function RetreatPage() {
     };
   }, []);
 
-  // Reveal Calendly when retreat audio finishes.
+  // Reveal booking only when retreat audio finishes (not before).
   useEffect(() => {
     const audio = document.querySelector("audio");
     if (!audio) return;
-    const onEnded = () => setShowScheduler(true);
+    const onEnded = () => setShowPickTime(true);
     audio.addEventListener("ended", onEnded);
     return () => audio.removeEventListener("ended", onEnded);
   }, []);
 
   return (
-    <div className="retreat-theme min-h-[calc(100vh-4rem)] w-full flex flex-col relative overflow-hidden">
-      <main className="relative z-[1] flex-1 w-full flex flex-col items-center justify-center px-4 sm:px-6 py-10 sm:py-14">
-        <div className="w-full max-w-xl mx-auto flex flex-col items-center text-center gap-8 sm:gap-10">
-          <h1 className="retreat-headline max-w-lg">{RETREAT_HEADLINE}</h1>
-
-          <div className="w-full space-y-3">
-            <RetreatWaveform />
-            <a
-              href={RETREAT_CALENDLY_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              data-retreat="pick-time"
-              className="retreat-pick-link"
-            >
-              Pick a time
-            </a>
-            {clip?.transcript ? (
-              <details className="retreat-transcript text-left max-w-md mx-auto">
-                <summary>Transcript</summary>
-                <p>{clip.transcript}</p>
-              </details>
-            ) : null}
-          </div>
-
-          <div
-            className={`w-full overflow-hidden transition-[max-height,opacity] duration-500 ease-out motion-reduce:transition-none ${
-              showScheduler
-                ? "max-h-[1100px] opacity-100"
-                : "max-h-0 opacity-0 pointer-events-none"
-            }`}
-            aria-hidden={!showScheduler}
+    <div className="retreat-theme retreat-stage" data-retreat="stage">
+      <h1 className="sr-only">{RETREAT_PAGE_TITLE}</h1>
+      <RetreatWaveform />
+      <div className="retreat-controls" data-retreat="controls">
+        {hasClip ? (
+          <button
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              primeRetreatAudioGraph();
+              toggle();
+            }}
+            aria-label={pageAudioToggleLabel(clip, isPlaying)}
+            data-page-audio="retreat-play"
+            data-retreat="play"
+            className="retreat-play-btn"
           >
-            {showScheduler ? <RetreatCalendly /> : null}
-          </div>
-        </div>
-      </main>
+            {isPlaying ? (
+              <Pause size={28} className="shrink-0 fill-current" aria-hidden />
+            ) : (
+              <Play
+                size={28}
+                className="shrink-0 fill-current ml-0.5"
+                aria-hidden
+              />
+            )}
+          </button>
+        ) : null}
+
+        {showPickTime ? (
+          <a
+            href={RETREAT_CALENDLY_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-retreat="pick-time"
+            className="retreat-pick-btn"
+          >
+            Pick a time
+          </a>
+        ) : null}
+      </div>
     </div>
   );
 }

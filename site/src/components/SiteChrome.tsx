@@ -13,13 +13,17 @@ const LAVENDER_ROUTES = new Set([
   "/visitors",
 ]);
 
+/** Full-bleed retreat leaf: no site nav / nav audio player chrome. */
+const HIDE_NAV_ROUTES = new Set(["/get-your-time-back"]);
+
 /**
- * Persistent site chrome: sticky top nav on every route, with the lavender
- * homepage theme applied to the nav on recruiter surfaces.
+ * Persistent site chrome: sticky top nav on most routes, with the lavender
+ * homepage theme applied to the nav on recruiter surfaces. Retreat hides nav.
  */
 export default function SiteChrome({ children }: { children: ReactNode }) {
   const pathname = usePathname() || "/";
   const lavenderNav = LAVENDER_ROUTES.has(pathname);
+  const hideNav = HIDE_NAV_ROUTES.has(pathname);
 
   // Sticky nav must share a tall scroll container with page content. A nav-only
   // wrapper is only as tall as the header, so position:sticky cannot pin.
@@ -37,7 +41,7 @@ export default function SiteChrome({ children }: { children: ReactNode }) {
               : "min-h-screen"
           }
         >
-          <Navbar />
+          {hideNav ? null : <Navbar />}
           <div className="relative z-0">{children}</div>
         </div>
       </PageAudioProvider>

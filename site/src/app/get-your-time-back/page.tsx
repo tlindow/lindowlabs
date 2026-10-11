@@ -3,7 +3,7 @@ import { retreatPageMetadata } from "@/data/retreatPage";
 
 export const metadata = retreatPageMetadata;
 
-/** Standalone 30-minute engineering leader retreat (audio first, then Calendly). */
+/** Standalone retreat leaf: full-bleed waveform, then Calendly after audio ends. */
 export default function GetYourTimeBackRoute() {
   return <RetreatPage />;
 }
