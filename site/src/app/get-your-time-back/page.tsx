@@ -1,9 +1,9 @@
-import LeadersPage from "@/components/leaders/LeadersPage";
-import { leadersPageMetadata } from "@/data/leadersPage";
+import RetreatPage from "@/components/retreat/RetreatPage";
+import { retreatPageMetadata } from "@/data/retreatPage";
 
-/** Same contact page as /schedule-time; canonical + og:url point there. No redirect. */
-export const metadata = leadersPageMetadata;
+export const metadata = retreatPageMetadata;
 
+/** Standalone 30-minute engineering leader retreat (audio first, then Calendly). */
 export default function GetYourTimeBackRoute() {
-  return <LeadersPage />;
+  return <RetreatPage />;
 }

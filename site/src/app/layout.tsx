@@ -6,9 +6,10 @@ import {
   Fraunces,
   Instrument_Sans,
 } from "next/font/google";
+import PersonJsonLd from "@/components/PersonJsonLd";
 import SiteChrome from "@/components/SiteChrome";
 import { AnalyticsProvider } from "@/context/AnalyticsProvider";
-import { SITE_SHARE_TITLE, SITE_SUPPORT, SITE_TITLE } from "@/data/positioning";
+import { SITE_SHARE_TITLE, SITE_SUPPORT } from "@/data/positioning";
 import "./globals.css";
 
 /** Site-wide mobile zoom lock: no pinch or double-tap zoom. */
@@ -79,31 +80,6 @@ export const metadata: Metadata = {
   },
 };
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Person",
-      "@id": "https://tlindow.github.io/#person",
-      "name": "Tyler Lindow",
-      "jobTitle": SITE_TITLE,
-      "email": "tyler@lindowlabs.dev",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "San Diego",
-        "addressRegion": "CA",
-        "postalCode": "92102",
-        "addressCountry": "US"
-      },
-      "url": "https://tlindow.github.io",
-      "sameAs": [
-        "https://www.linkedin.com/in/tlindow",
-        "https://github.com/tlindow"
-      ]
-    }
-  ]
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -111,15 +87,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth">
-      <head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
-      </head>
       <body
         className={`${inter.variable} ${spaceMono.variable} ${silkscreen.variable} ${fraunces.variable} ${instrumentSans.variable} font-mono antialiased bg-background text-foreground selection:bg-indigo-light selection:text-indigo-dark`}
       >
+        <PersonJsonLd />
         <AnalyticsProvider>
           <SiteChrome>{children}</SiteChrome>
         </AnalyticsProvider>

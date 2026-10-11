@@ -603,3 +603,88 @@ body {
 .resume-nowrap {
   white-space: nowrap;
 }
+
+/* ---- /get-your-time-back retreat leaf (scoped; not site-wide) ----
+   Warm coral → amber → violet. High-contrast ink on luminous surfaces. */
+.retreat-theme {
+  --retreat-coral: #ff4d6d;
+  --retreat-orange: #ff6b35;
+  --retreat-amber: #f7b801;
+  --retreat-violet: #c77dff;
+  --retreat-ink: #1a0a14;
+  --retreat-ink-soft: #3d1528;
+  --retreat-surface: rgba(255, 252, 248, 0.92);
+  --retreat-surface-border: rgba(26, 10, 20, 0.18);
+  --retreat-cta-bg: #1a0a14;
+  --retreat-cta-fg: #fff7f0;
+  --retreat-ring: #fff7f0;
+
+  color: var(--retreat-ink);
+  background:
+    radial-gradient(
+      120% 80% at 10% 0%,
+      color-mix(in srgb, var(--retreat-coral) 88%, white) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      100% 70% at 90% 20%,
+      color-mix(in srgb, var(--retreat-violet) 70%, white) 0%,
+      transparent 50%
+    ),
+    linear-gradient(
+      145deg,
+      var(--retreat-coral) 0%,
+      var(--retreat-orange) 42%,
+      var(--retreat-amber) 78%,
+      var(--retreat-violet) 100%
+    );
+}
+
+.retreat-theme .retreat-headline {
+  color: var(--retreat-ink);
+  text-shadow: 0 1px 0 rgba(255, 247, 240, 0.35);
+}
+
+.retreat-theme .retreat-player {
+  background: var(--retreat-surface);
+  border-color: var(--retreat-surface-border);
+  color: var(--retreat-ink);
+  box-shadow: 0 12px 40px rgba(26, 10, 20, 0.18);
+  backdrop-filter: blur(10px);
+}
+
+.retreat-theme .retreat-play-btn {
+  background: var(--retreat-cta-bg);
+  color: var(--retreat-cta-fg);
+  border: 1px solid rgba(255, 247, 240, 0.25);
+}
+
+.retreat-theme .retreat-play-btn:focus-visible {
+  --tw-ring-color: var(--retreat-ink);
+  --tw-ring-offset-color: var(--retreat-amber);
+}
+
+.retreat-theme .retreat-scrubber {
+  accent-color: var(--retreat-ink-soft);
+}
+
+.retreat-theme .retreat-cta {
+  background: var(--retreat-cta-bg);
+  color: var(--retreat-cta-fg);
+  box-shadow: 0 8px 24px rgba(26, 10, 20, 0.28);
+}
+
+.retreat-theme .retreat-cta:hover {
+  background: var(--retreat-ink-soft);
+}
+
+.retreat-theme .retreat-cta:focus-visible {
+  --tw-ring-color: var(--retreat-ink);
+  --tw-ring-offset-color: var(--retreat-amber);
+}
+
+.retreat-theme .calendly-inline-widget {
+  background: var(--retreat-surface);
+  border: 1px solid var(--retreat-surface-border);
+  box-shadow: 0 12px 40px rgba(26, 10, 20, 0.16);
+}
