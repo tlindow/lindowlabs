@@ -1,5 +1,5 @@
 /**
- * Owner-only /learning curriculum as one essay: title, intro, six modules.
+ * Owner-only /learning curriculum as one essay: title, intro, five modules.
  * Prose is verbatim from Tyler. Non-owners never receive this payload.
  */
 
@@ -8,10 +8,6 @@ import {
   type CurriculumExerciseLinks,
 } from "@/lib/learning/openInTinker";
 
-/** Free SRE book (Google). Used as Get the book for module 1. */
-export const SRE_FREE_BOOK_URL =
-  "https://sre.google/sre-book/table-of-contents/";
-
 export type ReadingCurriculumItem = {
   /** Stable id for React keys. */
   id: string;
@@ -19,7 +15,7 @@ export type ReadingCurriculumItem = {
   number: number;
   /**
    * Module heading after the number, verbatim
-   * (e.g. "Site Reliability Engineering (Google), Ch 4, 6, 21 and 22.").
+   * (e.g. "Designing Data-Intensive Applications (Kleppmann), Ch 7, 8 and 9.").
    */
   heading: string;
   /** Short track title (book title, or exercise name when no book). */
@@ -50,8 +46,8 @@ export type ReadingCurriculumItem = {
    * (exercise-only).
    */
   getBookUrl?: string;
-  /** Linked exercise; summary matches the essay Exercise line exactly. */
-  exercise: CurriculumExerciseLinks;
+  /** Linked exercises in essay order. */
+  exercises: CurriculumExerciseLinks[];
 };
 
 /** True when the module has a book to get (not exercise-only). */
@@ -72,30 +68,36 @@ export const curriculumEssayTitle =
 
 /** Intro paragraph under the title (verbatim). */
 export const curriculumEssayIntro =
-  "You led merchant and partner integrations at Affirm, ran the merchant domain architecture review, and owned reliability for Merchant Portal. Your Tinker essays show where your understanding is thinner than those claims. You can't yet say how API resources map to routes. You aren't confident defending your own availability number. You lean on analogies from other fields when fintech has its own frameworks. And you've said you never mastered data structures and algorithms. This curriculum closes those gaps in order of how often an interviewer will press on them. Most modules are a book with one exercise in Tinker. The API design gap is closed by an exercise ladder alone, worked through code.";
+  "You led merchant and partner integrations at Affirm, ran the merchant domain architecture review, and owned reliability for Merchant Portal. Your Tinker essays show where your understanding is thinner than those claims. You can't yet say how API resources map to routes. You've outgrown introductory reliability material but haven't studied what sits under it. You lean on analogies from other fields when fintech has its own frameworks. And you've said you never mastered data structures and algorithms. This curriculum closes those gaps in order of how often an interviewer will press on them.";
 
 /**
  * Ordered modules. Exercise folder ids stay stable; order matches the essay.
- * Lineup: SRE, API design (exercise-only), Khononov, Glenbrook, Kleppmann Ch 7, Grokking.
+ * Lineup: Kleppmann Ch 7-9, API design (exercise-only), Khononov, Glenbrook, Grokking.
  */
 export const readingCurriculum: ReadingCurriculumItem[] = [
   {
-    id: "site-reliability-engineering",
+    id: "designing-data-intensive-applications",
     number: 1,
-    heading: "Site Reliability Engineering (Google), Ch 4, 6, 21 and 22.",
-    title: "Site Reliability Engineering",
-    author: "Google",
-    scope: "Ch 4, 6, 21 and 22",
-    coveredWithinModule: "Chapters 1 to 3",
+    heading:
+      "Designing Data-Intensive Applications (Kleppmann), Ch 7, 8 and 9.",
+    title: "Designing Data-Intensive Applications",
+    author: "Martin Kleppmann",
+    scope: "Ch 7, 8 and 9",
     prose:
-      "Chapters 1 to 3 restate availability and risk work Tyler already led. The gap starts at turning targets into SLOs and designing for overload and cascading failure, so the reading starts there.",
+      "Tyler's reliability work was about integrations failing: slow partners, a fragile dependency, outages that took an hour to notice. Chapters 8 and 9 explain what's underneath those failures, including partial failure, unreliable networks and clocks, and what it takes for separate systems to agree. That's the layer he hasn't studied, and it's what lets an engineering leader judge reliability designs instead of just reacting to outages. Chapter 7 covers transactions, where a payments mistake moves money twice.",
     consideredInstead:
-      "Implementing Service Level Objectives (Hidalgo) goes deeper on SLOs, but it leaves out incidents and postmortems, which is half your story. The Site Reliability Workbook is a set of worked examples that assumes you already know these concepts.",
-    getBookUrl: SRE_FREE_BOOK_URL,
-    exercise: curriculumExerciseLinks(
-      "merchant-portal-slos",
-      "write SLOs and an error budget for a merchant portal, then a small check that alerts when errors burn through the budget too fast."
-    ),
+      "*Site Reliability Engineering* (Google) was started and sat below Tyler's level, since it restates availability and SLO work he already led. *Release It!* (Nygard) teaches the right patterns but at a practitioner pace. Kleppmann's Chapters 8 and 9 explain why those patterns are needed, which is the harder and more durable layer. Database Internals (Petrov) goes down to storage engines, which is deeper than an EM needs.",
+    getBookUrl: "https://dataintensive.net/",
+    exercises: [
+      curriculumExerciseLinks(
+        "idempotent-refund",
+        "build an idempotent refund endpoint, meaning a refund sent twice only refunds once."
+      ),
+      curriculumExerciseLinks(
+        "consensus-under-partition",
+        "a few simulated nodes must agree on one value while the network drops and delays messages, with steps building up from naive voting to a leader/quorum approach and observing where it breaks."
+      ),
+    ],
   },
   {
     id: "api-design",
@@ -106,10 +108,12 @@ export const readingCurriculum: ReadingCurriculumItem[] = [
     scope: "in Tinker",
     prose:
       "No book here. The gap is turning resources into routes, and that only sticks by building it. Each step in this exercise models one more resource and wires its routes in code, so the design choices come from writing it, not from reading about it.",
-    exercise: curriculumExerciseLinks(
-      "api-design",
-      "model Merchant, Order and Refund as resources, map each one to routes and methods, then write the OpenAPI spec."
-    ),
+    exercises: [
+      curriculumExerciseLinks(
+        "api-design",
+        "model Merchant, Order and Refund as resources, map each one to routes and methods, then write the OpenAPI spec."
+      ),
+    ],
   },
   {
     id: "learning-domain-driven-design",
@@ -124,10 +128,12 @@ export const readingCurriculum: ReadingCurriculumItem[] = [
       "Domain-Driven Design (Evans) is the original, but it spends most of its pages on modeling objects in code and leaves strategic design for the last part. Implementing Domain-Driven Design (Vernon) is aimed at the engineer writing the code, not the manager drawing the boundaries.",
     getBookUrl:
       "https://www.oreilly.com/library/view/learning-domain-driven-design/9781098100124/",
-    exercise: curriculumExerciseLinks(
-      "bounded-contexts",
-      "split a small checkout codebase into Merchant, Payments and Disputes contexts, naming each in the words your team actually used."
-    ),
+    exercises: [
+      curriculumExerciseLinks(
+        "bounded-contexts",
+        "split a small checkout codebase into Merchant, Payments and Disputes contexts, naming each in the words your team actually used."
+      ),
+    ],
   },
   {
     id: "payments-systems-us",
@@ -142,31 +148,16 @@ export const readingCurriculum: ReadingCurriculumItem[] = [
       "The Anatomy of the Swipe (Siddiqui) is a readable story of the card industry, but it covers cards as a business, not payment systems as a structure, and it leaves out ACH and settlement.",
     getBookUrl:
       "https://glenbrook.com/product/payments-systems-in-the-us-a-guide-for-the-payments-professionals/",
-    exercise: curriculumExerciseLinks(
-      "card-payment-lifecycle",
-      "trace one card payment through authorization, capture, clearing and settlement as a state machine in code."
-    ),
-  },
-  {
-    id: "designing-data-intensive-applications",
-    number: 5,
-    heading: "Designing Data-Intensive Applications (Kleppmann), Ch 7 only.",
-    title: "Designing Data-Intensive Applications",
-    author: "Martin Kleppmann",
-    scope: "Ch 7 only",
-    prose:
-      'You moved Merchant Portal off Snowflake and onto the merchant data platform\'s RPCs. In "I\'m still learning how to code everyday" you said data management is the core of the work and you haven\'t done much of it. In payments, a data mistake means money moves twice. Ch 7, on transactions, covers exactly that failure. The rest of the book is about scaling and storage, which your resume doesn\'t need to defend.',
-    consideredInstead:
-      "Database Internals (Petrov) goes down to storage engines, which is deeper than an EM needs. The Postgres docs on transaction isolation cover the same ground, but they're online reference, and books come first.",
-    getBookUrl: "https://dataintensive.net/",
-    exercise: curriculumExerciseLinks(
-      "idempotent-refund",
-      "build an idempotent refund endpoint, meaning a refund sent twice only refunds once."
-    ),
+    exercises: [
+      curriculumExerciseLinks(
+        "card-payment-lifecycle",
+        "trace one card payment through authorization, capture, clearing and settlement as a state machine in code."
+      ),
+    ],
   },
   {
     id: "grokking-algorithms",
-    number: 6,
+    number: 5,
     heading: "Grokking Algorithms (Bhargava), alongside everything else.",
     title: "Grokking Algorithms",
     author: "Aditya Bhargava",
@@ -176,9 +167,11 @@ export const readingCurriculum: ReadingCurriculumItem[] = [
     consideredInstead:
       "Introduction to Algorithms (CLRS) is the full reference, but it's far heavier than a job search allows. Cracking the Coding Interview is a question bank to practice from, not a book to learn from, so it fits better after Grokking.",
     getBookUrl: "https://www.manning.com/books/grokking-algorithms",
-    exercise: curriculumExerciseLinks(
-      "settlement-binary-search",
-      "one algorithm per session, applied to merchant data, like binary search over sorted settlement records."
-    ),
+    exercises: [
+      curriculumExerciseLinks(
+        "settlement-binary-search",
+        "one algorithm per session, applied to merchant data, like binary search over sorted settlement records."
+      ),
+    ],
   },
 ];

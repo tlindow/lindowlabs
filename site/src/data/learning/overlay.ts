@@ -12,42 +12,33 @@ const fastify = fastifyPaymentsExercise();
 export const learningOverlay: OverlayFile = {
   courses: [
     {
-      key: "sre",
-      matchTitles: ["Site Reliability Engineering"],
+      key: "ddia",
+      matchTitles: ["Designing Data-Intensive Applications"],
       lessons: [
         {
-          key: "ch4",
-          chapterNumber: 4,
-          title: "Service Level Objectives",
+          key: "ch7",
+          chapterNumber: 7,
+          title: "Transactions",
           objective:
-            "Learn how to choose and define service level indicators (SLIs), objectives (SLOs), and agreements (SLAs), and how they differ.",
+            "Learn how transactions keep multi-step writes consistent, and why retries without idempotency can move money twice.",
           reflectionPrompt: null,
           exercises: [],
         },
         {
-          key: "ch6",
-          chapterNumber: 6,
-          title: "Monitoring Distributed Systems",
+          key: "ch8",
+          chapterNumber: 8,
+          title: "The Trouble with Distributed Systems",
           objective:
-            'Learn what to monitor and alert on in a distributed system, including the "four golden signals" and the difference between symptoms and causes.',
+            "Learn why networks, clocks, and partial failure make distributed systems unreliable by default.",
           reflectionPrompt: null,
           exercises: [],
         },
         {
-          key: "ch21",
-          chapterNumber: 21,
-          title: "Handling Overload",
+          key: "ch9",
+          chapterNumber: 9,
+          title: "Consistency and Consensus",
           objective:
-            "Learn how to shed load and protect a service when demand exceeds capacity, without cascading failure into the rest of the system.",
-          reflectionPrompt: null,
-          exercises: [],
-        },
-        {
-          key: "ch22",
-          chapterNumber: 22,
-          title: "Addressing Cascading Failures",
-          objective:
-            "Learn how overload and retries can amplify a local failure into a system-wide outage, and how to design so that does not happen.",
+            "Learn what it takes for separate systems to agree on one value when messages drop and delay.",
           reflectionPrompt: null,
           exercises: [],
         },

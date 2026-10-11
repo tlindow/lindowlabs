@@ -17,11 +17,9 @@ const fixtureMd = readFileSync(
 );
 
 describe("parseChapterList", () => {
-  it("parses SRE-style chapter lists", () => {
+  it("parses chapter lists", () => {
+    assert.deepEqual(parseChapterList("Ch 7, 8 and 9."), [7, 8, 9]);
     assert.deepEqual(parseChapterList("Ch 4, 6, 21 and 22."), [4, 6, 21, 22]);
-    assert.deepEqual(parseChapterList("Ch 3, 4, 6, 14 and 15."), [
-      3, 4, 6, 14, 15,
-    ]);
   });
 });
 
@@ -37,7 +35,7 @@ describe("parseReadingPlanMarkdown (Reading plan fixture)", () => {
   it("keeps Reading order and excludes Sealed / Already read / Dropped", () => {
     assert.equal(plan.courses.length, 4);
     const titles = plan.courses.map((c) => c.title);
-    assert.ok(titles.includes("Site Reliability Engineering"));
+    assert.ok(titles.includes("Designing Data-Intensive Applications"));
     assert.ok(titles.includes("Domain-Driven Design"));
     assert.ok(
       titles.some((t) => t.includes("transformative tools for thought"))
@@ -49,12 +47,12 @@ describe("parseReadingPlanMarkdown (Reading plan fixture)", () => {
     assert.ok(!titles.some((t) => /People management/i.test(t)));
   });
 
-  it("parses SRE chapters from the page scope", () => {
-    const sre = plan.courses.find((c) => c.key === "sre");
-    assert.ok(sre);
-    assert.equal(sre!.why?.startsWith("Backs"), true);
-    const keys = sre!.lessons.map((l) => l.key);
-    assert.deepEqual(keys, ["ch4", "ch6", "ch21", "ch22"]);
+  it("parses Kleppmann chapters from the page scope", () => {
+    const ddia = plan.courses.find((c) => c.key === "ddia");
+    assert.ok(ddia);
+    assert.equal(ddia!.why?.startsWith("Backs"), true);
+    const keys = ddia!.lessons.map((l) => l.key);
+    assert.deepEqual(keys, ["ch7", "ch8", "ch9"]);
   });
 
   it("marks DDD Ch 1 done and Ch 2 current from page text", () => {

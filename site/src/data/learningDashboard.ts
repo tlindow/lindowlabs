@@ -64,9 +64,9 @@ export const learningExercises: LearningExercise[] = [
  */
 export const learningReadings: LearningReading[] = [
   {
-    title: "Site Reliability Engineering",
-    author: "Google",
-    note: "Ch 4, 6, 21 and 22",
+    title: "Designing Data-Intensive Applications",
+    author: "Martin Kleppmann",
+    note: "Ch 7, 8 and 9",
   },
   {
     title: "Learning Domain-Driven Design",
@@ -77,11 +77,6 @@ export const learningReadings: LearningReading[] = [
     title: "Payments Systems in the U.S.",
     author: "Glenbrook",
     note: "Whole book",
-  },
-  {
-    title: "Designing Data-Intensive Applications",
-    author: "Martin Kleppmann",
-    note: "Ch 7 only",
   },
   {
     title: "Grokking Algorithms",

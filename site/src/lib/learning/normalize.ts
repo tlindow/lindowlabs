@@ -12,6 +12,13 @@ export function normalizeTitle(title: string): string {
 export function courseKeyFromTitle(title: string): string {
   const n = normalizeTitle(title);
   if (n.includes("site-reliability") || n === "sre") return "sre";
+  if (
+    n.includes("designing-data-intensive") ||
+    n.includes("data-intensive-applications") ||
+    n === "ddia"
+  ) {
+    return "ddia";
+  }
   if (n.includes("domain-driven-design") || n === "ddd") return "ddd";
   if (n.includes("transformative-tools") || n.includes("tools-for-thought")) {
     return "ttft";

@@ -6,7 +6,6 @@ import {
   curriculumEssayTitle,
   moduleHasBook,
   readingCurriculum,
-  SRE_FREE_BOOK_URL,
 } from "../../data/learning/readingCurriculum.ts";
 import {
   deskPayloadForUser,
@@ -16,11 +15,11 @@ import {
 
 const EXPECTED_ORDER = [
   {
-    id: "site-reliability-engineering",
-    title: "Site Reliability Engineering",
-    author: "Google",
-    scope: "Ch 4, 6, 21 and 22",
-    exerciseId: "merchant-portal-slos",
+    id: "designing-data-intensive-applications",
+    title: "Designing Data-Intensive Applications",
+    author: "Martin Kleppmann",
+    scope: "Ch 7, 8 and 9",
+    exerciseIds: ["idempotent-refund", "consensus-under-partition"],
     hasBook: true,
   },
   {
@@ -28,7 +27,7 @@ const EXPECTED_ORDER = [
     title: "API design",
     author: "Exercise",
     scope: "in Tinker",
-    exerciseId: "api-design",
+    exerciseIds: ["api-design"],
     hasBook: false,
   },
   {
@@ -36,7 +35,7 @@ const EXPECTED_ORDER = [
     title: "Learning Domain-Driven Design",
     author: "Vladik Khononov",
     scope: "Whole book",
-    exerciseId: "bounded-contexts",
+    exerciseIds: ["bounded-contexts"],
     hasBook: true,
   },
   {
@@ -44,15 +43,7 @@ const EXPECTED_ORDER = [
     title: "Payments Systems in the U.S.",
     author: "Glenbrook",
     scope: "Whole book",
-    exerciseId: "card-payment-lifecycle",
-    hasBook: true,
-  },
-  {
-    id: "designing-data-intensive-applications",
-    title: "Designing Data-Intensive Applications",
-    author: "Martin Kleppmann",
-    scope: "Ch 7 only",
-    exerciseId: "idempotent-refund",
+    exerciseIds: ["card-payment-lifecycle"],
     hasBook: true,
   },
   {
@@ -60,26 +51,26 @@ const EXPECTED_ORDER = [
     title: "Grokking Algorithms",
     author: "Aditya Bhargava",
     scope: "alongside everything else",
-    exerciseId: "settlement-binary-search",
+    exerciseIds: ["settlement-binary-search"],
     hasBook: true,
   },
 ] as const;
 
 const FORBIDDEN =
-  /Oct 4|Sep 30|your earlier pick|on your plan|ruled out|already reading|one chapter in|Owned \(paperback\)|You own this one in paperback|Lauret|Design of Web APIs|Designing Web APIs|Each module is a book|Ch 3, 4, 6, 14 and 15|Ch 14|Ch 15/i;
+  /Oct 4|Sep 30|your earlier pick|on your plan|ruled out|already reading|one chapter in|Owned \(paperback\)|You own this one in paperback|Lauret|Design of Web APIs|Designing Web APIs|Each module is a book|Ch 3, 4, 6, 14 and 15|Ch 4, 6, 21 and 22|Types of Failures|Release It! is the pick|site-reliability-engineering/i;
 
 describe("readingCurriculumForUser", () => {
-  it("owner sees essay lineup with exercise-only API design and no Lauret book", () => {
+  it("owner sees 5-module essay with Kleppmann Ch 7-9 first", () => {
     const items = readingCurriculumForUser(true);
-    assert.equal(items.length, 6);
+    assert.equal(items.length, 5);
     assert.equal(items.length, readingCurriculum.length);
-    assert.equal(curriculumBookCount(items), 5);
+    assert.equal(curriculumBookCount(items), 4);
     assert.equal(
       curriculumEssayTitle,
       "A curriculum for an engineering manager in developer experience and payments"
     );
     assert.match(curriculumEssayIntro, /^You led merchant and partner/);
-    assert.match(curriculumEssayIntro, /exercise ladder alone/);
+    assert.match(curriculumEssayIntro, /outgrown introductory reliability/);
     assert.equal(FORBIDDEN.test(curriculumEssayIntro), false);
 
     for (let i = 0; i < EXPECTED_ORDER.length; i += 1) {
@@ -93,33 +84,34 @@ describe("readingCurriculumForUser", () => {
       assert.ok(item.heading.includes(expected.title.split(" (")[0]!));
       assert.ok(item.prose.trim().length > 40);
       assert.equal(moduleHasBook(item), expected.hasBook);
-      assert.equal(item.exercise.id, expected.exerciseId);
-      assert.ok(item.exercise.openInTinkerUrl.includes("tinker.beginner.work"));
+      assert.deepEqual(
+        item.exercises.map((e) => e.id),
+        [...expected.exerciseIds]
+      );
+      for (const ex of item.exercises) {
+        assert.ok(ex.openInTinkerUrl.includes("tinker.beginner.work"));
+        assert.equal(FORBIDDEN.test(ex.summary), false);
+      }
       if (expected.hasBook) {
         assert.ok(item.getBookUrl?.startsWith("https://"));
         assert.ok((item.consideredInstead ?? "").trim().length > 20);
       } else {
         assert.equal(item.getBookUrl, undefined);
         assert.equal(item.consideredInstead, undefined);
-        assert.equal(item.alreadyReadNote, undefined);
       }
       assert.equal(FORBIDDEN.test(item.heading), false);
       assert.equal(FORBIDDEN.test(item.prose), false);
       assert.equal(FORBIDDEN.test(item.consideredInstead ?? ""), false);
-      assert.equal(FORBIDDEN.test(item.exercise.summary), false);
     }
 
     assert.equal(
-      items[1]?.prose,
-      "No book here. The gap is turning resources into routes, and that only sticks by building it. Each step in this exercise models one more resource and wires its routes in code, so the design choices come from writing it, not from reading about it."
-    );
-    assert.equal(items[0]?.getBookUrl, SRE_FREE_BOOK_URL);
-    assert.equal(items[0]?.coveredWithinModule, "Chapters 1 to 3");
-    assert.equal(
       items[0]?.prose,
-      "Chapters 1 to 3 restate availability and risk work Tyler already led. The gap starts at turning targets into SLOs and designing for overload and cascading failure, so the reading starts there."
+      "Tyler's reliability work was about integrations failing: slow partners, a fragile dependency, outages that took an hour to notice. Chapters 8 and 9 explain what's underneath those failures, including partial failure, unreliable networks and clocks, and what it takes for separate systems to agree. That's the layer he hasn't studied, and it's what lets an engineering leader judge reliability designs instead of just reacting to outages. Chapter 7 covers transactions, where a payments mistake moves money twice."
     );
-    assert.equal(items[2]?.title, "Learning Domain-Driven Design");
+    assert.match(items[0]?.consideredInstead ?? "", /Site Reliability Engineering/);
+    assert.match(items[0]?.consideredInstead ?? "", /Release It!/);
+    assert.match(items[0]?.consideredInstead ?? "", /Database Internals/);
+    assert.equal(items[0]?.coveredWithinModule, undefined);
   });
 
   it("non-owner sees empty curriculum (no essay modules)", () => {
