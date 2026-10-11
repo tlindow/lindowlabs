@@ -45,9 +45,8 @@ interface ScrollMorphAvatarProps {
   directToHero?: MotionValue<number>;
   onReturnToHero?: () => void;
   /**
-   * Homepage: keep the morph off the Let's talk slot (static footer photo owns
-   * it). Retreat and other leaves leave this false so the coin can still park
-   * at #contact-avatar-target.
+   * Keep the morph off the Let's talk slot (Footer owns a plain static photo).
+   * Default true on every dock leaf; pass false only for experimental parking.
    */
   hideAtContact?: boolean;
 }
@@ -90,7 +89,7 @@ export default function ScrollMorphAvatar({
   contactProgress: customContactProgress,
   directToHero: customDirectToHero,
   onReturnToHero,
-  hideAtContact = false,
+  hideAtContact = true,
 }: ScrollMorphAvatarProps) {
   const [coords, setCoords] = useState<Coords | null>(null);
   const coordsRef = useRef<Coords | null>(null);

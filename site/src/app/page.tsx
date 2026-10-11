@@ -275,7 +275,6 @@ export default function Home() {
         contactProgress={contactProgress}
         directToHero={directToHero}
         onReturnToHero={handleReturnToHero}
-        hideAtContact
       />
       <ScrollMorphPlayButton
         progress={avatarProgress}
@@ -382,7 +381,7 @@ export default function Home() {
       {/* ========================================================= */}
       {/* 4. FOOTER (LET'S TALK, PHILOSOPHY)                        */}
       {/* ========================================================= */}
-      <Footer profilePhotoAnchor staticProfilePhoto />
+      <Footer profilePhotoAnchor />
     </div>
   );
 }
