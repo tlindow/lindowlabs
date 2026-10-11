@@ -606,7 +606,8 @@ body {
 
 /* ---- /get-your-time-back retreat leaf (scoped Tinker tokens) ----
    Ported from beginner-work/tinker:
-   design-tokens.css + styles.css :root + rainbow-web logo aliases. */
+   design-tokens.css + styles.css :root + rainbow-web logo aliases.
+   Full-viewport waveform + centered play; booking CTA after audio ends. */
 .retreat-theme {
   --tk-bg: #fffdf7;
   --tk-fg: #2d2a26;
@@ -645,109 +646,141 @@ body {
   font-family: var(--tk-font-sans);
 }
 
-.retreat-theme .retreat-headline {
-  margin: 0;
-  font-family: var(--tk-font-display);
-  font-variation-settings: var(--tk-font-display-settings);
-  font-size: clamp(26px, 4.5vw, 38px);
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  line-height: 1.1;
-  color: var(--tk-fg);
-}
-
-.retreat-theme .retreat-waveform {
-  background: transparent;
-  border: none;
-  color: var(--tk-fg);
-  cursor: pointer;
-  box-shadow: none;
-}
-
-.retreat-theme .retreat-waveform:focus-visible {
-  box-shadow: var(--tk-focus-ring);
-  border-radius: var(--tk-radius-card);
-}
-
-.retreat-theme .retreat-wave-bar {
-  min-height: 4px;
-  align-self: flex-end;
-  transition: opacity 80ms linear;
-}
-
-.retreat-theme .retreat-photo-avatar {
-  width: 56px;
-  height: 56px;
-  border-radius: var(--tk-radius-pill);
-  border: 1px solid var(--tk-border);
-  background: var(--tk-card);
+.retreat-theme.retreat-stage {
+  position: relative;
+  width: 100%;
+  min-height: 100dvh;
+  height: 100dvh;
   overflow: hidden;
 }
 
-.retreat-theme .retreat-photo-avatar img {
-  display: block;
+.retreat-theme .retreat-waveform {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: flex;
+  align-items: center;
+  justify-content: stretch;
+  gap: clamp(2px, 0.45vw, 6px);
   width: 100%;
   height: 100%;
-  object-fit: cover;
-}
-
-.retreat-theme .retreat-pick-link {
-  display: inline-block;
-  font-family: var(--tk-font-sans);
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--tk-muted);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  background: none;
+  padding: 0 clamp(4px, 1vw, 12px);
+  box-sizing: border-box;
+  pointer-events: none;
+  background: transparent;
   border: none;
-  box-shadow: none;
-  padding: 0;
-  cursor: pointer;
 }
 
-.retreat-theme .retreat-pick-link:hover {
-  color: var(--tk-fg);
+.retreat-theme .retreat-wave-bar {
+  flex: 1 1 0;
+  min-width: 2px;
+  max-width: 18px;
+  min-height: 8px;
+  align-self: center;
+  border-radius: var(--tk-radius-pill);
+  transition: opacity 120ms linear, height 80ms linear;
 }
 
-.retreat-theme .retreat-pick-link:focus-visible {
-  outline: none;
-  box-shadow: var(--tk-focus-ring);
-  border-radius: 4px;
+.retreat-theme .retreat-controls {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  padding: 1.5rem;
+  pointer-events: none;
 }
 
-.retreat-theme .retreat-transcript {
-  font-family: var(--tk-font-sans);
-  font-size: 13px;
-  color: var(--tk-muted);
-}
-
-.retreat-theme .retreat-transcript summary {
-  cursor: pointer;
-  font-weight: 600;
-  color: var(--tk-fg);
-  list-style: none;
-}
-
-.retreat-theme .retreat-transcript summary::-webkit-details-marker {
-  display: none;
-}
-
-.retreat-theme .retreat-transcript p {
-  margin: 8px 0 0;
-  line-height: 1.55;
-  color: var(--tk-muted);
-  white-space: pre-wrap;
-}
-
-.retreat-theme .calendly-inline-widget {
-  background: var(--tk-card);
+.retreat-theme .retreat-play-btn {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 5.5rem;
+  height: 5.5rem;
+  border-radius: var(--tk-radius-pill);
   border: 1px solid var(--tk-border);
-  border-radius: var(--tk-radius-card);
+  background: var(--tk-card);
+  color: var(--tk-accent-strong);
+  box-shadow: var(--tk-shadow-button-hover);
+  cursor: pointer;
+  transition:
+    transform 160ms ease,
+    background 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.retreat-theme .retreat-play-btn:hover {
+  background: #fff;
+  transform: scale(1.04);
+  box-shadow: var(--tk-shadow-button-hover);
+}
+
+.retreat-theme .retreat-play-btn:active {
+  transform: scale(0.98);
+  background: var(--tk-accent-dim);
+}
+
+.retreat-theme .retreat-play-btn:focus-visible {
+  outline: none;
+  box-shadow: var(--tk-focus-ring), var(--tk-shadow-button-hover);
+}
+
+.retreat-theme .retreat-pick-btn {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.75rem;
+  padding: 0.7rem 1.35rem;
+  border-radius: var(--tk-radius-button);
+  border: 1px solid var(--tk-accent-press);
+  background: var(--tk-accent-strong);
+  color: #fffdf7;
+  font-family: var(--tk-font-sans);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  box-shadow: var(--tk-shadow-button);
+  cursor: pointer;
+  animation: retreat-pick-in 320ms ease-out both;
+}
+
+.retreat-theme .retreat-pick-btn:hover {
+  background: var(--tk-accent-press);
+  box-shadow: var(--tk-shadow-button-hover);
+}
+
+.retreat-theme .retreat-pick-btn:focus-visible {
+  outline: none;
+  box-shadow: var(--tk-focus-ring), var(--tk-shadow-button-hover);
+}
+
+@keyframes retreat-pick-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .retreat-theme .retreat-wave-bar {
     transition: none;
+  }
+
+  .retreat-theme .retreat-play-btn {
+    transition: none;
+  }
+
+  .retreat-theme .retreat-pick-btn {
+    animation: none;
   }
 }

@@ -1,14 +1,14 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { pageAudioToggleLabel } from "@/data/pageAudio";
 import { TINKER_RAINBOW_PALETTE } from "@/data/tinkerRetreatTokens";
 import { usePageAudio } from "@/context/PageAudioProvider";
 
-const BAR_COUNT = 28;
+const BAR_COUNT = 64;
 const IDLE_HEIGHTS = Array.from({ length: BAR_COUNT }, (_, i) => {
   const t = i / (BAR_COUNT - 1);
-  return 0.18 + 0.12 * Math.sin(t * Math.PI);
+  // Soft center swell so idle still reads as a full-bleed field.
+  return 0.22 + 0.28 * Math.sin(t * Math.PI);
 });
 
 /** Module-level Web Audio graph so createMediaElementSource runs once. */
@@ -36,7 +36,7 @@ function ensureAnalyser(audio: HTMLAudioElement): AnalyserNode | null {
     if (!sharedSource) {
       sharedSource = sharedAudioCtx.createMediaElementSource(audio);
       sharedAnalyser = sharedAudioCtx.createAnalyser();
-      sharedAnalyser.fftSize = 64;
+      sharedAnalyser.fftSize = 128;
       sharedAnalyser.smoothingTimeConstant = 0.72;
       sharedSource.connect(sharedAnalyser);
       sharedAnalyser.connect(sharedAudioCtx.destination);
@@ -48,17 +48,24 @@ function ensureAnalyser(audio: HTMLAudioElement): AnalyserNode | null {
   }
 }
 
+/** Resume Web Audio when the owner taps play (call from the play button). */
+export function primeRetreatAudioGraph() {
+  const audio = document.querySelector("audio");
+  if (audio) ensureAnalyser(audio);
+  if (sharedAudioCtx?.state === "suspended") {
+    void sharedAudioCtx.resume();
+  }
+}
+
 /**
- * Multi-color waveform tap target bound to PageAudio (retreat-v4.mp3).
- * Colors from Tinker rainbow-web / heatmap palette. Bars animate while
- * playing (Web Audio analyser when available; otherwise a looping pulse).
+ * Full-viewport multi-color waveform (Tinker rainbow-web / heatmap palette).
+ * Decorative layer: bars animate while PageAudio is playing.
  */
 export default function RetreatWaveform() {
-  const { hasClip, clip, isPlaying, toggle } = usePageAudio();
+  const { hasClip, isPlaying } = usePageAudio();
   const [heights, setHeights] = useState<number[]>(() => [...IDLE_HEIGHTS]);
   const rafRef = useRef(0);
   const phaseRef = useRef(0);
-  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
   useEffect(() => {
     if (!hasClip) return;
@@ -77,7 +84,7 @@ export default function RetreatWaveform() {
               bins.length - 1,
               Math.floor((i / BAR_COUNT) * bins.length)
             );
-            next[i] = Math.max(0.12, bins[idx] / 255);
+            next[i] = Math.max(0.14, bins[idx] / 255);
           }
         } else {
           phaseRef.current = now / 180;
@@ -86,8 +93,8 @@ export default function RetreatWaveform() {
               0.35 +
               0.55 *
                 Math.abs(
-                  Math.sin(phaseRef.current + i * 0.45) *
-                    Math.cos(phaseRef.current * 0.7 + i * 0.2)
+                  Math.sin(phaseRef.current + i * 0.28) *
+                    Math.cos(phaseRef.current * 0.7 + i * 0.14)
                 );
             next[i] = wave;
           }
@@ -108,55 +115,22 @@ export default function RetreatWaveform() {
 
   return (
     <div
-      className="retreat-wave-row flex items-center justify-center gap-3 sm:gap-4 w-full max-w-md mx-auto"
-      data-retreat="player"
+      className="retreat-waveform"
+      data-retreat="waveform"
+      aria-hidden="true"
     >
-      {/* Regular profile photo beside the waveform (Tinker circle crop). */}
-      <div
-        className="retreat-photo-avatar shrink-0"
-        aria-hidden="true"
-        data-retreat="photo-avatar"
-      >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={`${basePath}/profile-square.jpg`}
-          alt=""
-          width={56}
-          height={56}
-          draggable={false}
+      {heights.map((h, i) => (
+        <span
+          key={i}
+          className="retreat-wave-bar"
+          style={{
+            height: `${Math.round(h * 100)}%`,
+            backgroundColor:
+              TINKER_RAINBOW_PALETTE[i % TINKER_RAINBOW_PALETTE.length],
+            opacity: isPlaying ? 1 : 0.62,
+          }}
         />
-      </div>
-
-      <button
-        type="button"
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          const audio = document.querySelector("audio");
-          if (audio) ensureAnalyser(audio);
-          if (sharedAudioCtx?.state === "suspended") {
-            void sharedAudioCtx.resume();
-          }
-          toggle();
-        }}
-        aria-label={pageAudioToggleLabel(clip, isPlaying)}
-        data-page-audio="retreat-play"
-        data-retreat="waveform"
-        className="retreat-waveform flex-1 min-w-0 h-16 sm:h-20 inline-flex items-end justify-center gap-[3px] sm:gap-1 px-1 sm:px-2 py-2 focus:outline-none"
-      >
-        {heights.map((h, i) => (
-          <span
-            key={i}
-            className="retreat-wave-bar block w-[3px] sm:w-[4px] rounded-full"
-            style={{
-              height: `${Math.round(h * 100)}%`,
-              backgroundColor:
-                TINKER_RAINBOW_PALETTE[i % TINKER_RAINBOW_PALETTE.length],
-              opacity: isPlaying ? 1 : 0.55,
-            }}
-          />
-        ))}
-      </button>
+      ))}
     </div>
   );
 }

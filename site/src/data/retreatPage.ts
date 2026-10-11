@@ -22,9 +22,6 @@ export const RETREAT_PAGE_DESCRIPTION =
 export const RETREAT_CALENDLY_URL =
   "https://calendly.com/tylerlindow/get-your-time-back";
 
-export const RETREAT_HEADLINE =
-  "A 30-minute retreat for engineering leaders";
-
 export const retreatPageMetadata: Metadata = {
   title: RETREAT_PAGE_TITLE,
   description: RETREAT_PAGE_DESCRIPTION,
