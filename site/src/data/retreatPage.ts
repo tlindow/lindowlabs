@@ -7,16 +7,17 @@ import type { Metadata } from "next";
 export const RETREAT_CANONICAL_URL =
   "https://lindowlabs.dev/get-your-time-back";
 
-export const RETREAT_PAGE_TITLE = "Get your time back";
+export const RETREAT_PAGE_TITLE = "Empowering engineering leaders";
 
 export const RETREAT_PAGE_DESCRIPTION =
-  "A 30-minute retreat for engineering leaders. Bring what's on your plate, and leave lighter.";
+  "Get back your time by getting back to a time where engineering was nothing but fun.";
 
 export const RETREAT_KICKER = "Free, 30 minutes";
 
-export const RETREAT_HEADLINE = "Get your time back";
+export const RETREAT_HEADLINE = "Empowering engineering leaders";
 
-export const RETREAT_SUBTITLE = RETREAT_PAGE_DESCRIPTION;
+/** One line below the waveform (homepage subtitle style). */
+export const RETREAT_DESCRIPTION = RETREAT_PAGE_DESCRIPTION;
 
 /**
  * Same Calendly event the contact leaf uses today.

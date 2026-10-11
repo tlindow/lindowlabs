@@ -9,15 +9,14 @@ import ScrollMorphPlayButton from "@/components/animations/ScrollMorphPlayButton
 import RetreatWaveform from "@/components/retreat/RetreatWaveform";
 import {
   RETREAT_CALENDLY_URL,
-  RETREAT_HEADLINE,
+  RETREAT_DESCRIPTION,
   RETREAT_KICKER,
-  RETREAT_SUBTITLE,
 } from "@/data/retreatPage";
 
 /**
  * Retreat leaf as a sibling of the homepage hero: same lavender surface,
  * morph coin + progress-ring play, mono display type. Waveform below;
- * "Pick a time" (Read resume styling) only after retreat-v4 ends.
+ * description under the waveform; "Pick a time" only after retreat-v4 ends.
  */
 export default function RetreatPage() {
   const [showPickTime, setShowPickTime] = useState(false);
@@ -78,8 +77,9 @@ export default function RetreatPage() {
 
               <h1 className="w-full max-w-full min-w-0 px-0.5 text-[length:clamp(1.05rem,min(6.2cqi,calc(100cqi/15.5)),4.7rem)] font-black tracking-tight text-foreground leading-[1.08] mx-auto overflow-x-clip">
                 <span className="block">
+                  {"Empowering engineering "}
                   <span className="inline-flex items-center whitespace-nowrap">
-                    {RETREAT_HEADLINE}
+                    leaders
                     <TinkerMark
                       className="ml-[0.12em] mr-[0.02em] h-[1cap] w-[1cap]"
                       alt="Tinker"
@@ -98,10 +98,6 @@ export default function RetreatPage() {
                 id="hero-below"
                 className="flex flex-col items-center justify-start gap-5 sm:gap-6 w-full min-h-0 min-w-0 max-w-full pt-3 sm:pt-4 pb-8 sm:pb-10"
               >
-                <p className="text-sm sm:text-base md:text-lg font-mono text-muted mx-auto w-full max-w-full min-w-0 text-pretty px-1">
-                  {RETREAT_SUBTITLE}
-                </p>
-
                 {showPickTime ? (
                   <a
                     href={RETREAT_CALENDLY_URL}
@@ -119,6 +115,13 @@ export default function RetreatPage() {
                 <div className="w-full min-w-0 max-w-full">
                   <RetreatWaveform />
                 </div>
+
+                <p
+                  className="text-sm sm:text-base md:text-lg font-mono text-muted mx-auto w-full max-w-full min-w-0 text-pretty px-1"
+                  data-retreat="description"
+                >
+                  {RETREAT_DESCRIPTION}
+                </p>
               </div>
             </div>
             <div
