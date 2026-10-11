@@ -305,41 +305,53 @@ async function runAtViewport(browser, baseUrl, width, height) {
     );
   }
 
-  // Footer Let's talk: scroll contact avatar into view.
+  // Footer Let's talk: plain static circular photo (no WebGL morph).
   await page.evaluate(() => {
     const target =
       document.getElementById("contact-avatar-target") ||
       document.getElementById("contact");
     target?.scrollIntoView({ block: "center" });
   });
-  // Wait until the morph coin is actually docked beside Let's talk (aligned to
-  // the contact target, visible) and the nav photo is hidden. Waiting only for
-  // nav opacity was a false green while the coin lagged under the sticky bar.
   await page.waitForFunction(
     () => {
       const nav = document.querySelector('[data-profile-photo="nav"]');
       const morph = document.querySelector('[data-profile-photo="morph"]');
-      const contact = document.getElementById("contact-avatar-target");
-      if (!morph || !contact) return false;
+      const contact = document.querySelector('[data-profile-photo="contact"]');
+      if (!contact) return false;
       const navOp = nav
         ? Number.parseFloat(getComputedStyle(nav).opacity || "0")
         : 0;
-      const morphOp = Number.parseFloat(getComputedStyle(morph).opacity || "0");
-      if (navOp > 0.15 || morphOp <= 0.15) return false;
-      const mr = morph.getBoundingClientRect();
-      const cr = contact.getBoundingClientRect();
-      return (
-        Math.abs(mr.top - cr.top) < 24 &&
-        Math.abs(mr.left - cr.left) < 24 &&
-        mr.width > 24
+      const contactOp = Number.parseFloat(
+        getComputedStyle(contact).opacity || "0"
       );
+      const contactStyle = getComputedStyle(contact);
+      if (navOp > 0.15 || contactOp <= 0.15) return false;
+      if (contactStyle.display === "none" || contactStyle.visibility === "hidden") {
+        return false;
+      }
+      // Morph must leave the paint tree (or stay fully faded) at Let's talk.
+      if (morph) {
+        const morphStyle = getComputedStyle(morph);
+        const morphOp = Number.parseFloat(morphStyle.opacity || "0");
+        if (
+          morphStyle.display !== "none" &&
+          morphStyle.visibility !== "hidden" &&
+          morphOp > 0.15
+        ) {
+          return false;
+        }
+      }
+      const cr = contact.getBoundingClientRect();
+      return cr.width > 24 && cr.height > 24;
     },
     { timeout: 5000 }
   );
   await settle(page);
   const footer = await assertOnePhoto(page, `footer@${width}`);
-  if (footer.id !== "morph") {
-    throw new Error(`footer@${width}: expected morph coin at Let's talk, got ${footer.id}`);
+  if (footer.id !== "contact") {
+    throw new Error(
+      `footer@${width}: expected static contact photo at Let's talk, got ${footer.id}`
+    );
   }
 
   // Confirm nav photo is not also painting.

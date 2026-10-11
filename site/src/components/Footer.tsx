@@ -18,14 +18,20 @@ type FooterProps = {
   contactLeaf?: boolean;
   /**
    * Mark the Let's talk avatar slot as a profile-photo anchor (hides the nav
-   * photo while in view). Homepage only: ScrollMorph owns the visible coin.
+   * photo while in view). Used on homepage and retreat.
    */
   profilePhotoAnchor?: boolean;
+  /**
+   * Homepage: plain static circular photo (no WebGL / morph). Other leaves keep
+   * the invisible morph target so ScrollMorph can still park there.
+   */
+  staticProfilePhoto?: boolean;
 };
 
 export default function Footer({
   contactLeaf = false,
   profilePhotoAnchor = false,
+  staticProfilePhoto = false,
 }: FooterProps) {
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
@@ -53,18 +59,42 @@ export default function Footer({
                 </Link>
               </h3>
             ) : null}
-            {/* Homepage morph avatar slot; profilePhotoAnchor hides nav photo while in view. */}
             {!contactLeaf ? (
-              <div className="flex justify-center items-center py-2 min-h-[72px] sm:min-h-[88px]">
-                <div
-                  id="contact-avatar-target"
-                  {...(profilePhotoAnchor
-                    ? { "data-profile-anchor": "contact" }
-                    : {})}
-                  className="w-16 h-16 sm:w-20 sm:h-20 rounded-full opacity-0 pointer-events-none"
-                  aria-hidden="true"
-                />
-              </div>
+              staticProfilePhoto ? (
+                <div className="flex justify-center items-center py-2">
+                  <div
+                    id="contact-avatar-target"
+                    {...(profilePhotoAnchor
+                      ? { "data-profile-anchor": "contact" }
+                      : {})}
+                    className="w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden shrink-0 ring-1 ring-border/80 shadow-2xs bg-sand/40"
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={`${basePath}/profile-square.jpg`}
+                      alt="Tyler Lindow"
+                      width={80}
+                      height={80}
+                      {...(profilePhotoAnchor
+                        ? { "data-profile-photo": "contact" }
+                        : {})}
+                      className="h-full w-full object-cover"
+                      draggable={false}
+                    />
+                  </div>
+                </div>
+              ) : (
+                <div className="flex justify-center items-center py-2 min-h-[72px] sm:min-h-[88px]">
+                  <div
+                    id="contact-avatar-target"
+                    {...(profilePhotoAnchor
+                      ? { "data-profile-anchor": "contact" }
+                      : {})}
+                    className="w-16 h-16 sm:w-20 sm:h-20 rounded-full opacity-0 pointer-events-none"
+                    aria-hidden="true"
+                  />
+                </div>
+              )
             ) : null}
             <p className="text-xs sm:text-sm font-mono text-muted max-w-md mx-auto leading-relaxed">
               Open to Engineering Manager and Senior EM roles in developer experience, developer platforms, and partner integrations.
