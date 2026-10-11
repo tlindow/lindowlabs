@@ -16,6 +16,7 @@ import { pageAudio, type PageAudioClip } from "@/data/pageAudio";
 import {
   getDirectToHeroActive,
   getProfileDockOwner,
+  isProfileDockPath,
   measureContactTargetScrollY,
   NAV_DOCK_SCROLL_PX,
   subscribeDirectToHeroActive,
@@ -135,7 +136,7 @@ function readDockSnapshot(pathname: string): DockSnapshot {
   if (typeof window === "undefined") {
     return { owner: "nav", isPastHero: true, showNavPhoto: true };
   }
-  if (pathname !== "/") {
+  if (!isProfileDockPath(pathname)) {
     return { owner: "nav", isPastHero: true, showNavPhoto: true };
   }
   const scrollY = window.scrollY;
@@ -173,7 +174,7 @@ const DOCK_SSR_OTHER: DockSnapshot = {
 
 function useProfileDock(pathname: string): DockSnapshot {
   const cachedRef = useRef<DockSnapshot>(
-    pathname === "/" ? DOCK_SSR_HOME : DOCK_SSR_OTHER
+    isProfileDockPath(pathname) ? DOCK_SSR_HOME : DOCK_SSR_OTHER
   );
 
   const subscribe = useCallback(
@@ -233,7 +234,7 @@ function useProfileDock(pathname: string): DockSnapshot {
 
   // Stable server snapshot references (new objects every call → infinite loop).
   const getServerSnapshot = useCallback(
-    () => (pathname === "/" ? DOCK_SSR_HOME : DOCK_SSR_OTHER),
+    () => (isProfileDockPath(pathname) ? DOCK_SSR_HOME : DOCK_SSR_OTHER),
     [pathname]
   );
 

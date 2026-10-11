@@ -3,7 +3,7 @@ import { retreatPageMetadata } from "@/data/retreatPage";
 
 export const metadata = retreatPageMetadata;
 
-/** Standalone retreat leaf: full-bleed waveform, then Calendly after audio ends. */
+/** Retreat hero sibling of the homepage: coin + play, then Calendly after audio ends. */
 export default function GetYourTimeBackRoute() {
   return <RetreatPage />;
 }

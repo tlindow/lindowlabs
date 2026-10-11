@@ -3,8 +3,17 @@ import { describe, it } from "node:test";
 import {
   contactTransitDistance,
   getProfileDockOwner,
+  isProfileDockPath,
   NAV_DOCK_SCROLL_PX,
 } from "./profileDock.ts";
+
+describe("isProfileDockPath", () => {
+  it("includes home and the retreat hero leaf", () => {
+    assert.equal(isProfileDockPath("/"), true);
+    assert.equal(isProfileDockPath("/get-your-time-back"), true);
+    assert.equal(isProfileDockPath("/resume"), false);
+  });
+});
 
 describe("getProfileDockOwner", () => {
   const vh = 800;
