@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 
-/** Public retreat page: /get-your-time-back */
+/**
+ * Public retreat page: /get-your-time-back.
+ * Visual system ported from beginner-work/tinker (see tinkerRetreatTokens.ts).
+ */
 export const RETREAT_CANONICAL_URL =
   "https://lindowlabs.dev/get-your-time-back";
 
