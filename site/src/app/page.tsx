@@ -7,6 +7,7 @@ import {
   TrustedPartnersBar,
   EducationInstitutionsBar,
 } from "@/components/brand/PartnerLogos";
+import { TinkerMark } from "@/components/brand/TinkerLogo";
 import About from "@/components/About";
 import WhatYouGet from "@/components/WhatYouGet";
 import Footer from "@/components/Footer";
@@ -319,8 +320,14 @@ export default function Home() {
               <h1 className="w-full max-w-full min-w-0 px-0.5 text-[length:clamp(1.05rem,min(6.2cqi,calc(100cqi/15.5)),4.7rem)] font-black tracking-tight text-foreground leading-[1.08] mx-auto overflow-x-clip">
                 <span className="block">
                   {"Inspiring every engineer's "}
+                  <span className="inline-flex items-center whitespace-nowrap">
+                    genius
+                    <TinkerMark
+                      className="ml-[0.12em] mr-[0.02em] h-[1cap] w-[1cap]"
+                      alt="Tinker"
+                    />
+                  </span>
                 </span>
-                <span className="block">genius leadership.</span>
               </h1>
 
               {/* Below: support, CTA, logo panel — top of bottom 1fr; overflow paints into spacer */}
