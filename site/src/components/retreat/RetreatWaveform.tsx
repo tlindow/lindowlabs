@@ -49,7 +49,7 @@ function ensureAnalyser(audio: HTMLAudioElement): AnalyserNode | null {
 }
 
 /**
- * Multi-color waveform tap target bound to PageAudio (retreat.mp3).
+ * Multi-color waveform tap target bound to PageAudio (retreat-v4.mp3).
  * Colors from Tinker rainbow-web / heatmap palette. Bars animate while
  * playing (Web Audio analyser when available; otherwise a looping pulse).
  */
