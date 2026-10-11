@@ -8,6 +8,7 @@ import ScrollMorphPlayButton from "@/components/animations/ScrollMorphPlayButton
 import RetreatWaveform from "@/components/retreat/RetreatWaveform";
 import {
   RETREAT_CALENDLY_URL,
+  RETREAT_CTA_LABEL,
   RETREAT_DESCRIPTION,
   RETREAT_HEADLINE,
   RETREAT_KICKER,
@@ -19,7 +20,7 @@ const RETREAT_CREAM = "#FFFDF7";
 /**
  * Retreat leaf as a sibling of the homepage hero layout (coin + play, mono
  * display), on cream paper. Waveform, description, then always-visible
- * "Pick a time" (Read resume styling) to Calendly.
+ * "Let's get in touch" (Read resume styling) to Calendly connect.
  */
 export default function RetreatPage() {
   useEffect(() => {
@@ -96,12 +97,12 @@ export default function RetreatPage() {
                   href={RETREAT_CALENDLY_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  data-retreat="pick-time"
+                  data-retreat="cta"
                   className="inline-flex items-center gap-2 rounded-xl bg-surface hover:bg-surface-alt text-foreground border border-border px-5 py-2.5 text-xs sm:text-sm font-mono font-bold shadow-xs transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
-                  title="Pick a time on Calendly"
+                  title={RETREAT_CTA_LABEL}
                 >
                   <Calendar size={15} className="shrink-0" />
-                  <span>Pick a time</span>
+                  <span>{RETREAT_CTA_LABEL}</span>
                 </a>
               </div>
             </div>
