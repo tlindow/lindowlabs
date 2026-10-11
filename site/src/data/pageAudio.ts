@@ -5,8 +5,8 @@
  * has an entry for that pathname. There is no master enable flag.
  *
  * Homepage drop-in (one step):
- *   1. Add `"/": { src: "/audio/pages/home.mp3", ... }` to `pageAudio` below.
- *   2. Place the file at `site/public/audio/pages/home.mp3`.
+ *   1. Add `"/": { src: "/audio/pages/home-v2.mp3", ... }` to `pageAudio` below.
+ *   2. Place the file at `site/public/audio/pages/home-v2.mp3`.
  * Duration is read from audio metadata; `durationSeconds` is an optional hint.
  */
 export type PageAudioClip = {
@@ -22,24 +22,13 @@ export type PageAudioClip = {
   title?: string;
 };
 
-/** Final homepage intro script (Tyler approved Oct 8, 2026). Spells "Lindow". */
-export const HOME_PAGE_AUDIO_TRANSCRIPT = [
-  "Hi, I'm Tyler Lindow. Ex-Affirm, ex-founder. I'm an engineering manager, and developer experience is my niche.",
-  "",
-  "Affirm is where I used to work. I led merchant and partner integrations. We cut outage detection for higher-transaction merchants from about an hour to under five minutes. I also led a domain architecture review that reshaped the merchant org.",
-  "",
-  "Then I was founder and CEO of Beginner Work, from March to July of 2026. I self-funded it and built Tinker, an IDE for founders who want to get more technical. It shipped to twenty-eight early users after talking to eighty-seven founders and five investors. I made the tough call to wind it down after my go-to-market approach wasn't compounding, and so now the tool is open-source. You should try it out!",
-  "",
-  "How I lead teams? I am and always will be someone who prioritizes inspiring engineers. I want teams working as close to the metal as possible. Here are two posts on how I build systems and teams.",
-  "",
-  "If that's what your team needs, let's talk. I'm open to engineering manager and senior engineering manager roles in developer platforms and partner integrations.",
-  "",
-  "Last, it starts with home. Home is my foundation and excellence follows self-respect.",
-].join("\n");
+/** Homepage intro script (v2, ~70s). Spells "Lindow". */
+export const HOME_PAGE_AUDIO_TRANSCRIPT =
+  "Hi, I'm Tyler Lindow. Ex-Affirm, ex-founder. I'm an engineering manager, and developer experience is my niche. At Affirm, I led merchant and partner integrations. We cut outage detection for higher-transaction merchants from about an hour to under five minutes. I also led a domain architecture review that reshaped the merchant org. Then I was founder and CEO of Beginner Work, from March to July of 2026. I self-funded it and built Tinker, an IDE for founders who want to get more technical. It shipped to twenty-eight early users after talking to eighty-seven founders and five investors. I made the tough call to wind it down after my go-to-market approach wasn't compounding, and so now the tool is open-source. How I lead teams? I am and always will be someone who prioritizes inspiring engineers. I want teams working as close to the metal as possible. If that's what your team needs, let's talk. I'm open to engineering manager and senior engineering manager roles in developer platforms and partner integrations.";
 
 /**
  * Pathname -> clip.
- * Example: `"/": { src: "/audio/pages/home.mp3" }`
+ * Example: `"/": { src: "/audio/pages/home-v2.mp3" }`
  */
 /** Retreat intro on /get-your-time-back (Tyler, ~39s). Spells "Lindow". */
 export const RETREAT_PAGE_AUDIO_TRANSCRIPT =
@@ -47,9 +36,9 @@ export const RETREAT_PAGE_AUDIO_TRANSCRIPT =
 
 export const pageAudio: Record<string, PageAudioClip> = {
   "/": {
-    src: "/audio/pages/home.mp3",
-    // ~77.8s recording (v108); metadata still wins once loaded.
-    durationSeconds: 78,
+    src: "/audio/pages/home-v2.mp3",
+    // ~69.9s recording (v2); metadata still wins once loaded.
+    durationSeconds: 70,
     title: "homepage intro",
     transcript: HOME_PAGE_AUDIO_TRANSCRIPT,
   },
