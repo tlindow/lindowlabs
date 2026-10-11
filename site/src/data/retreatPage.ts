@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 /**
  * Public retreat page: /get-your-time-back.
- * Sibling of the homepage hero (same lavender surface, coin, play, type).
+ * Homepage-hero layout sibling on cream paper (not lavender).
  */
 export const RETREAT_CANONICAL_URL =
   "https://lindowlabs.dev/get-your-time-back";
@@ -12,7 +12,7 @@ export const RETREAT_PAGE_TITLE = "Empowering engineering leaders";
 export const RETREAT_PAGE_DESCRIPTION =
   "Get back your time by getting back to a time where engineering was nothing but fun.";
 
-export const RETREAT_KICKER = "Free, 30 minutes";
+export const RETREAT_KICKER = "30-minute retreat";
 
 export const RETREAT_HEADLINE = "Empowering engineering leaders";
 

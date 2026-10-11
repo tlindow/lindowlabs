@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { Calendar } from "lucide-react";
-import { TinkerMark } from "@/components/brand/TinkerLogo";
 import Footer from "@/components/Footer";
 import ScrollMorphAvatar from "@/components/animations/ScrollMorphAvatar";
 import ScrollMorphPlayButton from "@/components/animations/ScrollMorphPlayButton";
@@ -10,20 +9,24 @@ import RetreatWaveform from "@/components/retreat/RetreatWaveform";
 import {
   RETREAT_CALENDLY_URL,
   RETREAT_DESCRIPTION,
+  RETREAT_HEADLINE,
   RETREAT_KICKER,
 } from "@/data/retreatPage";
 
+/** Cream paper surface from the earlier retreat leaf (not homepage lavender). */
+const RETREAT_CREAM = "#FFFDF7";
+
 /**
- * Retreat leaf as a sibling of the homepage hero: same lavender surface,
- * morph coin + progress-ring play, mono display type. Waveform below;
- * description under the waveform; "Pick a time" only after retreat-v4 ends.
+ * Retreat leaf as a sibling of the homepage hero layout (coin + play, mono
+ * display), on cream paper. Waveform below; description under the waveform;
+ * "Pick a time" only after retreat-v4 ends. No Tinker mark in the headline.
  */
 export default function RetreatPage() {
   const [showPickTime, setShowPickTime] = useState(false);
 
   useEffect(() => {
     const previous = document.body.style.background;
-    document.body.style.background = "#F3EEF8";
+    document.body.style.background = RETREAT_CREAM;
     return () => {
       document.body.style.background = previous;
     };
@@ -39,7 +42,7 @@ export default function RetreatPage() {
   }, []);
 
   return (
-    <div className="homepage-theme min-h-screen bg-background text-foreground selection:bg-indigo-light selection:text-indigo-dark font-mono flex flex-col justify-between overflow-x-clip">
+    <div className="min-h-screen bg-background text-foreground selection:bg-indigo-light selection:text-indigo-dark font-mono flex flex-col justify-between overflow-x-clip">
       <ScrollMorphAvatar />
       <ScrollMorphPlayButton />
 
@@ -76,16 +79,7 @@ export default function RetreatPage() {
               </div>
 
               <h1 className="w-full max-w-full min-w-0 px-0.5 text-[length:clamp(1.05rem,min(6.2cqi,calc(100cqi/15.5)),4.7rem)] font-black tracking-tight text-foreground leading-[1.08] mx-auto overflow-x-clip">
-                <span className="block">
-                  {"Empowering engineering "}
-                  <span className="inline-flex items-center whitespace-nowrap">
-                    leaders
-                    <TinkerMark
-                      className="ml-[0.12em] mr-[0.02em] h-[1cap] w-[1cap]"
-                      alt="Tinker"
-                    />
-                  </span>
-                </span>
+                <span className="block">{RETREAT_HEADLINE}</span>
                 <span
                   className="block invisible select-none pointer-events-none"
                   aria-hidden="true"
