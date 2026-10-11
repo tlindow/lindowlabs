@@ -58,7 +58,36 @@ export default function RetreatWaveform() {
   const [heights, setHeights] = useState<number[]>(() => [...IDLE_HEIGHTS]);
   const rafRef = useRef(0);
   const phaseRef = useRef(0);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
+
+  // Crisp pixel avatar: downscale to a tiny grid, then upscale with smoothing off.
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const PIXEL = 10;
+    const DISPLAY = 56;
+    canvas.width = DISPLAY;
+    canvas.height = DISPLAY;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const img = new Image();
+    img.decoding = "async";
+    img.src = `${basePath}/profile-square.jpg`;
+    img.onload = () => {
+      const tmp = document.createElement("canvas");
+      tmp.width = PIXEL;
+      tmp.height = PIXEL;
+      const tctx = tmp.getContext("2d");
+      if (!tctx) return;
+      tctx.imageSmoothingEnabled = false;
+      tctx.drawImage(img, 0, 0, PIXEL, PIXEL);
+      ctx.imageSmoothingEnabled = false;
+      ctx.clearRect(0, 0, DISPLAY, DISPLAY);
+      ctx.drawImage(tmp, 0, 0, PIXEL, PIXEL, 0, 0, DISPLAY, DISPLAY);
+    };
+  }, [basePath]);
 
   useEffect(() => {
     if (!hasClip) return;
@@ -117,16 +146,12 @@ export default function RetreatWaveform() {
         aria-hidden="true"
         data-retreat="pixel-avatar"
       >
-        <div className="retreat-pixel-avatar__inner">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={`${basePath}/profile-square.jpg`}
-            alt=""
-            width={14}
-            height={14}
-            draggable={false}
-          />
-        </div>
+        <canvas
+          ref={canvasRef}
+          width={56}
+          height={56}
+          className="retreat-pixel-avatar__canvas"
+        />
       </div>
 
       <button
