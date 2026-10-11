@@ -7,6 +7,7 @@ import {
   OWNER_ALREADY_READ_SEED,
   type AlreadyReadEntry,
 } from "@/data/learning/alreadyReadSeed";
+import { OWNER_BOOK_PROGRESS_SEED } from "@/data/learning/playlistBookSeed";
 import {
   formatTrackLength,
   playlistTrackMeta,
@@ -19,7 +20,10 @@ export type { AlreadyReadEntry };
 export const PLAYLIST_PROGRESS_COOKIE = "ll_learning_playlist_v1";
 
 export type PlaylistBookmark = {
-  page: number;
+  /** Optional page when the owner marks a page number. */
+  page?: number;
+  /** Optional chapter when the owner marks a chapter (e.g. SRE Ch 3). */
+  chapter?: number;
   section: string;
 };
 
@@ -67,6 +71,46 @@ export function withAlreadyReadDefaults(
     alreadyRead: OWNER_ALREADY_READ_SEED.map((entry) => ({ ...entry })),
     alreadyReadInitialized: true,
   };
+}
+
+/**
+ * Seed missing book progress (bookmark / chapters) without touching Already read.
+ * Does not overwrite chaptersRead / finished. Fills a missing bookmark from seed.
+ */
+export function withBookProgressDefaults(
+  progress: PlaylistProgress
+): PlaylistProgress {
+  let next = progress;
+  for (const [bookId, seed] of Object.entries(OWNER_BOOK_PROGRESS_SEED)) {
+    const existing = next.books[bookId];
+    if (!existing) {
+      next = withBook(next, bookId, {
+        chaptersRead: seed.chaptersRead,
+        finished: seed.finished,
+        bookmark: seed.bookmark
+          ? { chapter: seed.bookmark.chapter, section: seed.bookmark.section }
+          : null,
+      });
+      continue;
+    }
+    if (!existing.bookmark && seed.bookmark) {
+      next = withBook(next, bookId, {
+        ...existing,
+        bookmark: {
+          chapter: seed.bookmark.chapter,
+          section: seed.bookmark.section,
+        },
+      });
+    }
+  }
+  return next;
+}
+
+/** Already-read shelf + per-book progress seeds. */
+export function withPlaylistDefaults(
+  progress: PlaylistProgress
+): PlaylistProgress {
+  return withBookProgressDefaults(withAlreadyReadDefaults(progress));
 }
 
 export function addAlreadyRead(
@@ -184,11 +228,25 @@ export function bookProgressPct(bookId: string, book: BookProgress): number {
   return Math.min(100, Math.round((book.chaptersRead / total) * 100));
 }
 
+/** Location line for a bookmark (no leading "Bookmark:" label). */
 export function formatBookmark(bookmark: PlaylistBookmark | null): string | null {
   if (!bookmark) return null;
   const section = bookmark.section.trim();
-  if (section) return `Bookmarked: p. ${bookmark.page}, ${section}`;
-  return `Bookmarked: p. ${bookmark.page}`;
+  if (bookmark.chapter != null && Number.isFinite(bookmark.chapter)) {
+    if (section) return `Chapter ${bookmark.chapter}, ${section}`;
+    return `Chapter ${bookmark.chapter}`;
+  }
+  if (bookmark.page != null && Number.isFinite(bookmark.page)) {
+    if (section) return `p. ${bookmark.page}, ${section}`;
+    return `p. ${bookmark.page}`;
+  }
+  if (section) return section;
+  return null;
+}
+
+/** Covered-within-module labels for a track (empty when none). */
+export function coveredChapterLabelsFor(bookId: string): string[] {
+  return metaFor(bookId)?.coveredChapterLabels ?? [];
 }
 
 export function lengthLabelFor(bookId: string): string {
@@ -258,23 +316,54 @@ export function parsePlaylistProgressCookie(
   userId: string
 ): PlaylistProgress {
   if (!raw) {
-    return withAlreadyReadDefaults(emptyPlaylistProgress(userId));
+    return withPlaylistDefaults(emptyPlaylistProgress(userId));
   }
   try {
     const parsed = JSON.parse(raw) as Partial<PlaylistProgress>;
     if (!parsed || parsed.userId !== userId || typeof parsed.books !== "object") {
-      return withAlreadyReadDefaults(emptyPlaylistProgress(userId));
+      return withPlaylistDefaults(emptyPlaylistProgress(userId));
+    }
+    const books: Record<string, BookProgress> = {};
+    for (const [id, rawBook] of Object.entries(parsed.books ?? {})) {
+      if (!rawBook || typeof rawBook !== "object") continue;
+      const b = rawBook as Partial<BookProgress>;
+      const bookmark = normalizeBookmark(b.bookmark);
+      books[id] = {
+        chaptersRead:
+          typeof b.chaptersRead === "number" && Number.isFinite(b.chaptersRead)
+            ? Math.max(0, Math.floor(b.chaptersRead))
+            : 0,
+        finished: b.finished === true,
+        bookmark,
+      };
     }
     const base: PlaylistProgress = {
       userId,
-      books: parsed.books ?? {},
+      books,
       alreadyRead: Array.isArray(parsed.alreadyRead) ? parsed.alreadyRead : [],
       alreadyReadInitialized: parsed.alreadyReadInitialized === true,
     };
-    return withAlreadyReadDefaults(base);
+    return withPlaylistDefaults(base);
   } catch {
-    return withAlreadyReadDefaults(emptyPlaylistProgress(userId));
+    return withPlaylistDefaults(emptyPlaylistProgress(userId));
   }
+}
+
+function normalizeBookmark(
+  raw: Partial<PlaylistBookmark> | null | undefined
+): PlaylistBookmark | null {
+  if (!raw || typeof raw !== "object") return null;
+  const section = typeof raw.section === "string" ? raw.section : "";
+  const chapter =
+    typeof raw.chapter === "number" && Number.isFinite(raw.chapter)
+      ? Math.max(1, Math.floor(raw.chapter))
+      : undefined;
+  const page =
+    typeof raw.page === "number" && Number.isFinite(raw.page)
+      ? Math.max(1, Math.floor(raw.page))
+      : undefined;
+  if (chapter == null && page == null && !section.trim()) return null;
+  return { chapter, page, section };
 }
 
 export function serializePlaylistProgress(progress: PlaylistProgress): string {

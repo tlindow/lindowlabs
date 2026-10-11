@@ -74,7 +74,7 @@ function extractWhy(text: string): { body: string; why: string | null } {
   };
 }
 
-/** Parse "Ch 3, 4, 6, 14 and 15" into chapter numbers. */
+/** Parse "Ch 4, 6, 21 and 22" (or similar lists) into chapter numbers. */
 export function parseChapterList(scope: string): number[] {
   const m = scope.match(/\bch(?:apters?)?\s+([0-9,\sand]+)/i);
   if (!m) return [];

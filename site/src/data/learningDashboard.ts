@@ -66,7 +66,7 @@ export const learningReadings: LearningReading[] = [
   {
     title: "Site Reliability Engineering",
     author: "Google",
-    note: "Ch 3, 4, 6, 14 and 15",
+    note: "Ch 4, 6, 21 and 22",
   },
   {
     title: "Learning Domain-Driven Design",

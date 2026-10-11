@@ -19,7 +19,7 @@ const EXPECTED_ORDER = [
     id: "site-reliability-engineering",
     title: "Site Reliability Engineering",
     author: "Google",
-    scope: "Ch 3, 4, 6, 14 and 15",
+    scope: "Ch 4, 6, 21 and 22",
     exerciseId: "merchant-portal-slos",
     hasBook: true,
   },
@@ -66,7 +66,7 @@ const EXPECTED_ORDER = [
 ] as const;
 
 const FORBIDDEN =
-  /Oct 4|Sep 30|your earlier pick|on your plan|ruled out|already reading|one chapter in|Owned \(paperback\)|You own this one in paperback|Lauret|Design of Web APIs|Designing Web APIs|Each module is a book/i;
+  /Oct 4|Sep 30|your earlier pick|on your plan|ruled out|already reading|one chapter in|Owned \(paperback\)|You own this one in paperback|Lauret|Design of Web APIs|Designing Web APIs|Each module is a book|Ch 3, 4, 6, 14 and 15|Ch 14|Ch 15/i;
 
 describe("readingCurriculumForUser", () => {
   it("owner sees essay lineup with exercise-only API design and no Lauret book", () => {
@@ -114,6 +114,11 @@ describe("readingCurriculumForUser", () => {
       "No book here. The gap is turning resources into routes, and that only sticks by building it. Each step in this exercise models one more resource and wires its routes in code, so the design choices come from writing it, not from reading about it."
     );
     assert.equal(items[0]?.getBookUrl, SRE_FREE_BOOK_URL);
+    assert.equal(items[0]?.coveredWithinModule, "Chapters 1 to 3");
+    assert.equal(
+      items[0]?.prose,
+      "Chapters 1 to 3 restate availability and risk work Tyler already led. The gap starts at turning targets into SLOs and designing for overload and cascading failure, so the reading starts there."
+    );
     assert.equal(items[2]?.title, "Learning Domain-Driven Design");
   });
 

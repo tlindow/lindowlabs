@@ -19,7 +19,7 @@ export type ReadingCurriculumItem = {
   number: number;
   /**
    * Module heading after the number, verbatim
-   * (e.g. "Site Reliability Engineering (Google), Ch 3, 4, 6, 14 and 15.").
+   * (e.g. "Site Reliability Engineering (Google), Ch 4, 6, 21 and 22.").
    */
   heading: string;
   /** Short track title (book title, or exercise name when no book). */
@@ -28,6 +28,11 @@ export type ReadingCurriculumItem = {
   author: string;
   /** Chapter scope or exercise scope line. */
   scope: string;
+  /**
+   * Chapters already covered in this module only (verbatim label body).
+   * Not the Already read shelf; partial reads do not count as finished books.
+   */
+  coveredWithinModule?: string;
   /** Body prose under the heading (verbatim). */
   prose: string;
   /**
@@ -77,12 +82,13 @@ export const readingCurriculum: ReadingCurriculumItem[] = [
   {
     id: "site-reliability-engineering",
     number: 1,
-    heading: "Site Reliability Engineering (Google), Ch 3, 4, 6, 14 and 15.",
+    heading: "Site Reliability Engineering (Google), Ch 4, 6, 21 and 22.",
     title: "Site Reliability Engineering",
     author: "Google",
-    scope: "Ch 3, 4, 6, 14 and 15",
+    scope: "Ch 4, 6, 21 and 22",
+    coveredWithinModule: "Chapters 1 to 3",
     prose:
-      'Your strongest resume claims are reliability claims: Merchant Portal from ~99.7% to 99.9%, and outage detection cut from ~1 hour to under 5 minutes. In "Merchant portal reliability" you wrote that you weren\'t comfortable claiming the 99.9%, and that the 10 incidents came from adding logging you didn\'t have before. Defending that takes two ideas together: SLOs (reliability targets) and error budgets explain why 99.9% matters, and monitoring and postmortem culture explain why more visibility shows more incidents. These five chapters are the only book source that covers both, written by the team that defined the terms. It comes first because it backs up the number an interviewer is most likely to ask about.',
+      "Chapters 1 to 3 restate availability and risk work Tyler already led. The gap starts at turning targets into SLOs and designing for overload and cascading failure, so the reading starts there.",
     consideredInstead:
       "Implementing Service Level Objectives (Hidalgo) goes deeper on SLOs, but it leaves out incidents and postmortems, which is half your story. The Site Reliability Workbook is a set of worked examples that assumes you already know these concepts.",
     getBookUrl: SRE_FREE_BOOK_URL,
