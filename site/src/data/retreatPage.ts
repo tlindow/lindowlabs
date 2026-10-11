@@ -20,13 +20,13 @@ export const RETREAT_HEADLINE = "Empowering engineering leaders";
 export const RETREAT_DESCRIPTION = RETREAT_PAGE_DESCRIPTION;
 
 /**
- * Same Calendly event the contact leaf uses today.
- * Availability is configured in Calendly (synced to Tyler's Google Calendar),
- * not in this repo. Desired windows: Tue-Thu 9 AM-8 PM, Fri 9 AM-3 PM,
- * Sun 11 AM-12 PM PT, no Mondays. Confirm in Calendly if those hold.
+ * Always-visible bottom CTA on the retreat leaf → Calendly /connect.
+ * Availability is configured in Calendly (synced to Tyler's Google Calendar).
  */
 export const RETREAT_CALENDLY_URL =
-  "https://calendly.com/tylerlindow/get-your-time-back";
+  "https://calendly.com/tylerlindow/connect";
+
+export const RETREAT_CTA_LABEL = "Let's get in touch";
 
 export const retreatPageMetadata: Metadata = {
   title: RETREAT_PAGE_TITLE,
