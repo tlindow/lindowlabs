@@ -5,8 +5,8 @@ import { Calendar, ArrowUpRight, Mail } from "lucide-react";
 import { LinkedInIcon } from "@/components/brand/PartnerLogos";
 import { resumeContact } from "@/data/resumeData";
 
-/** Homepage Let's talk primary CTA (Calendly connect). */
-const HOMEPAGE_CONNECT_URL = "https://calendly.com/tylerlindow/connect";
+/** Shared Let's talk primary CTA (Calendly connect). */
+const CONNECT_URL = "https://calendly.com/tylerlindow/connect";
 
 /**
  * Icon-only contacts under the primary contact CTA.
@@ -16,25 +16,23 @@ const HOMEPAGE_CONNECT_URL = "https://calendly.com/tylerlindow/connect";
 const CONTACT_ICON_BTN_CLASS =
   "inline-flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full border border-border/60 bg-foreground text-background shadow-2xs transition-all hover:bg-foreground/90 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C4B5FD] focus-visible:ring-offset-2 focus-visible:ring-offset-[#3B2A5C] motion-reduce:hover:scale-100";
 
+/** Light pill + dark ink on deep #contact; matches Read resume shape/weight. */
+const CONNECT_CTA_CLASS =
+  "inline-flex items-center gap-2 rounded-xl bg-foreground text-background border border-border px-5 py-2.5 text-xs sm:text-sm font-mono font-bold shadow-xs transition-all hover:bg-foreground/90 hover:scale-[1.02] active:scale-[0.98] cursor-pointer";
+
 type FooterProps = {
   /** Contact leaf: drop duplicate Let's talk heading; hide unused avatar slot. */
   contactLeaf?: boolean;
   /**
-   * Mark the Let's talk avatar slot as a profile-photo anchor (hides the nav
-   * photo while in view). Used on homepage and retreat.
+   * Mark the Let's talk static photo as a profile-photo anchor (hides the nav
+   * photo while in view). Used on homepage and retreat dock leaves.
    */
   profilePhotoAnchor?: boolean;
-  /**
-   * Homepage: plain static circular photo (no WebGL / morph). Other leaves keep
-   * the invisible morph target so ScrollMorph can still park there.
-   */
-  staticProfilePhoto?: boolean;
 };
 
 export default function Footer({
   contactLeaf = false,
   profilePhotoAnchor = false,
-  staticProfilePhoto = false,
 }: FooterProps) {
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
@@ -62,42 +60,30 @@ export default function Footer({
                 </Link>
               </h3>
             ) : null}
+            {/* Plain static circular photo (no WebGL / morph) on every full footer. */}
             {!contactLeaf ? (
-              staticProfilePhoto ? (
-                <div className="flex justify-center items-center py-2">
-                  <div
-                    id="contact-avatar-target"
+              <div className="flex justify-center items-center py-2">
+                <div
+                  id="contact-avatar-target"
+                  {...(profilePhotoAnchor
+                    ? { "data-profile-anchor": "contact" }
+                    : {})}
+                  className="w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden shrink-0 ring-1 ring-border/80 shadow-2xs bg-sand/40"
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={`${basePath}/profile-square.jpg`}
+                    alt="Tyler Lindow"
+                    width={80}
+                    height={80}
                     {...(profilePhotoAnchor
-                      ? { "data-profile-anchor": "contact" }
+                      ? { "data-profile-photo": "contact" }
                       : {})}
-                    className="w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden shrink-0 ring-1 ring-border/80 shadow-2xs bg-sand/40"
-                  >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={`${basePath}/profile-square.jpg`}
-                      alt="Tyler Lindow"
-                      width={80}
-                      height={80}
-                      {...(profilePhotoAnchor
-                        ? { "data-profile-photo": "contact" }
-                        : {})}
-                      className="h-full w-full object-cover"
-                      draggable={false}
-                    />
-                  </div>
-                </div>
-              ) : (
-                <div className="flex justify-center items-center py-2 min-h-[72px] sm:min-h-[88px]">
-                  <div
-                    id="contact-avatar-target"
-                    {...(profilePhotoAnchor
-                      ? { "data-profile-anchor": "contact" }
-                      : {})}
-                    className="w-16 h-16 sm:w-20 sm:h-20 rounded-full opacity-0 pointer-events-none"
-                    aria-hidden="true"
+                    className="h-full w-full object-cover"
+                    draggable={false}
                   />
                 </div>
-              )
+              </div>
             ) : null}
             <p className="text-xs sm:text-sm font-mono text-muted max-w-md mx-auto leading-relaxed">
               Open to Engineering Manager and Senior EM roles in developer experience, developer platforms, and partner integrations.
@@ -105,31 +91,18 @@ export default function Footer({
           </div>
 
           <div className="pt-2 flex flex-col items-center gap-3">
-            {staticProfilePhoto ? (
-              // On #contact (deep violet), bg-foreground/text-background map to
-              // lavender fill + deep ink — same light-pill look as Read resume.
-              <a
-                href={HOMEPAGE_CONNECT_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-xl bg-foreground text-background border border-border px-5 py-2.5 text-xs sm:text-sm font-mono font-bold shadow-xs transition-all hover:bg-foreground/90 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
-                title="Let's get in touch on Calendly"
-              >
-                <Calendar size={15} className="shrink-0" />
-                <span>Let&apos;s get in touch</span>
-              </a>
-            ) : (
-              <Link
-                href="/schedule-time"
-                className="inline-flex items-center justify-center gap-2 rounded-xl px-7 py-3.5 text-sm font-mono font-bold transition-all hover:scale-[1.02] active:scale-[0.98] bg-foreground text-background hover:bg-foreground/90 shadow-xs"
-                title="Book 30 minutes with Tyler Lindow"
-              >
-                <Calendar size={15} className="shrink-0" />
-                <span>Book 30 minutes</span>
-              </Link>
-            )}
+            <a
+              href={CONNECT_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={CONNECT_CTA_CLASS}
+              title="Let's get in touch on Calendly"
+            >
+              <Calendar size={15} className="shrink-0" />
+              <span>Let&apos;s get in touch</span>
+            </a>
 
-            {/* Homepage: subtle icon-only mail + LinkedIn (equal weight, no text labels) */}
+            {/* Subtle icon-only mail + LinkedIn (equal weight, no text labels) */}
             {!contactLeaf ? (
               <div className="flex items-center justify-center gap-3">
                 <a

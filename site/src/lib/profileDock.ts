@@ -2,7 +2,7 @@
  * Scroll-derived ownership of Tyler's profile photo on homepage-style leaves
  * (home + /get-your-time-back retreat hero).
  *
- * The WebGL morph coin travels hero → nav only. On the homepage, Let's talk
+ * The WebGL morph coin travels hero → nav only. Let's talk (shared Footer)
  * shows a plain static circular photo; the morph stays hidden there (same as
  * while docked at nav). Nav photo may show ONLY while docked at the nav.
  *

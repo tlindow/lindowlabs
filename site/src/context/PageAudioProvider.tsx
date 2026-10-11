@@ -49,7 +49,7 @@ type PageAudioContextValue = {
   dockOwner: ProfileDockOwner;
   /** Hero owns the photo (morph at hero). */
   heroAnchorVisible: boolean;
-  /** Let's talk owns the photo (static footer img on homepage). */
+  /** Let's talk owns the photo (static Footer img on dock leaves). */
   contactAnchorVisible: boolean;
   /**
    * @deprecated Prefer showNavPhoto. True when the nav owns the visible photo
