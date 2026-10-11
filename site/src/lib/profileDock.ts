@@ -2,12 +2,12 @@
  * Scroll-derived ownership of Tyler's profile photo on homepage-style leaves
  * (home + /get-your-time-back retreat hero).
  *
- * The WebGL morph coin travels hero → nav. Nav ↔ Let's talk is an in-place
- * crossfade (nav img ↔ morph parked at contact) — never a flight across body
- * text. The in-nav photo may show ONLY while docked at the nav (morph faded).
+ * The WebGL morph coin travels hero → nav only. On the homepage, Let's talk
+ * shows a plain static circular photo; the morph stays hidden there (same as
+ * while docked at nav). Nav photo may show ONLY while docked at the nav.
  *
- * Click-to-hero (direct flight contact→hero) suspends the nav photo for the
- * whole trip so the morph coin never shares the screen with the nav img.
+ * Click-to-hero suspends the nav photo for the whole trip so the morph never
+ * shares the screen with the nav img.
  */
 
 export type ProfileDockOwner = "hero" | "nav" | "contact";
@@ -45,7 +45,7 @@ export function contactMidScrollY(
  * Which slot owns the visible photo at this scrollY.
  * - hero: morph coin at / leaving hero (nav photo must stay hidden)
  * - nav: morph faded at nav dock (exactly one: the nav img)
- * - contact: morph snapped at Let's talk (nav photo hidden; no mid-page flight)
+ * - contact: static Let's talk photo (nav + morph hidden)
  */
 export function getProfileDockOwner(
   scrollY: number,
@@ -58,7 +58,7 @@ export function getProfileDockOwner(
     const start =
       contactTargetScrollY - contactTransitDistance(viewportHeight);
     // Contact owns as soon as scroll enters the Let's talk handoff band —
-    // morph snaps to the contact slot; nav img crossfades out.
+    // static footer photo owns the slot; nav img + morph stay hidden.
     if (scrollY >= start) return "contact";
   }
 

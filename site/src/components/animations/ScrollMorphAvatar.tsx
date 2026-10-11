@@ -44,6 +44,12 @@ interface ScrollMorphAvatarProps {
   contactProgress?: MotionValue<number>;
   directToHero?: MotionValue<number>;
   onReturnToHero?: () => void;
+  /**
+   * Homepage: keep the morph off the Let's talk slot (static footer photo owns
+   * it). Retreat and other leaves leave this false so the coin can still park
+   * at #contact-avatar-target.
+   */
+  hideAtContact?: boolean;
 }
 
 /**
@@ -84,9 +90,11 @@ export default function ScrollMorphAvatar({
   contactProgress: customContactProgress,
   directToHero: customDirectToHero,
   onReturnToHero,
+  hideAtContact = false,
 }: ScrollMorphAvatarProps) {
   const [coords, setCoords] = useState<Coords | null>(null);
   const coordsRef = useRef<Coords | null>(null);
+  const hideAtContactRef = useRef(hideAtContact);
   const [isReady, setIsReady] = useState(false);
   const [webglReady, setWebglReady] = useState(false);
   // Plain React display (not a MotionValue): framer can skip applying
@@ -115,6 +123,10 @@ export default function ScrollMorphAvatar({
       setNavDockHidden((prev) => (prev === hidden ? prev : hidden));
     });
   };
+
+  useEffect(() => {
+    hideAtContactRef.current = hideAtContact;
+  }, [hideAtContact]);
 
   // Fallback internal scroll progress if customProgress is not passed
   const { scrollY } = useScroll();
@@ -400,7 +412,7 @@ export default function ScrollMorphAvatar({
     }
 
     // Hero→nav: one full flip synced to the same progress as the play morph.
-    // Nav→Let's talk: flip with contactProgress. Play button never flips.
+    // Nav→Let's talk flip only when the morph still parks at contact (retreat).
     let animationFrameId: number;
     let hoverSpin = 0;
 
@@ -412,6 +424,7 @@ export default function ScrollMorphAvatar({
       const direct = activeDirectToHero.get();
       const isHovered = isHoveredRef.current;
       const hasClick = clickImpulseRef.current > 0.001;
+      const staticContact = hideAtContactRef.current;
 
       const c = coordsRef.current;
       const currentScrollY = scrollY.get();
@@ -425,9 +438,13 @@ export default function ScrollMorphAvatar({
           ? null
           : getProfileDockOwner(currentScrollY, contactTargetY, windowH);
 
-      // Every frame: while nav owns the photo, take the morph out of the paint
-      // tree. Opacity/visibility alone still left a compositor sliver under the bar.
-      if (owner === "nav") {
+      // Every frame: while nav owns the photo (or homepage Let's talk owns a
+      // static img), take the morph out of the paint tree.
+      const paintHidden =
+        owner === "nav" ||
+        (staticContact && owner === "contact") ||
+        (staticContact && direct > 0.5 && currentScrollY > 40);
+      if (paintHidden) {
         if (rootRef.current) rootRef.current.style.display = "none";
         renderer.domElement.style.visibility = "hidden";
         renderer.domElement.style.opacity = "0";
@@ -467,7 +484,10 @@ export default function ScrollMorphAvatar({
 
         const hoverTilt = isHovered ? 0.15 : 0;
 
-        if (owner === "contact" || (direct > 0.5 && rawContact > 0.001)) {
+        if (
+          !staticContact &&
+          (owner === "contact" || (direct > 0.5 && rawContact > 0.001))
+        ) {
           // Nav → Let's talk (and contact leg of click-to-hero): one full flip.
           const easedC = rawContact * rawContact * (3 - 2 * rawContact);
           coinMesh.rotation.y =
@@ -518,9 +538,14 @@ export default function ScrollMorphAvatar({
   // Pixel-round to cut subpixel jitter while pinned at Let's talk / nav.
   const px = (n: number) => Math.round(n);
 
+  const morphPaintHiddenForOwner = (
+    owner: ReturnType<typeof getProfileDockOwner>
+  ) => owner === "nav" || (hideAtContactRef.current && owner === "contact");
+
   // 3. Motion Interpolation for position & scale.
-  // Hero → nav morphs along a path (WebGL flip uses the same progress). Nav ↔
-  // Let's talk snaps to the contact slot (no mid-page flight) and flips in place.
+  // Hero → nav morphs along a path (WebGL flip uses the same progress). When
+  // hideAtContact is false, nav ↔ Let's talk snaps to the contact slot. When
+  // true (homepage), the morph stays out of the paint tree at contact.
   const x = useTransform(
     [progress, effectiveContactProgress, activeDirectToHero, scrollY],
     (values: number[]) => {
@@ -531,10 +556,11 @@ export default function ScrollMorphAvatar({
       const latestY = values[3] ?? 0;
       const windowH = viewportHRef.current;
       const contactTargetY = Math.max(c.contactAbsoluteY - windowH * 0.5, 0);
+      const staticContact = hideAtContactRef.current;
 
-      // Click-to-hero only: intentional long flight.
+      // Click-to-hero: homepage skips the contact→hero flight; retreat keeps it.
       if (direct > 0.5) {
-        if (latestY <= 0) return px(c.heroX);
+        if (staticContact || latestY <= 0) return px(c.heroX);
         const t = Math.min(Math.max(latestY / Math.max(contactTargetY, 1), 0), 1);
         const easedT = t * t * (3 - 2 * t);
         return px(c.heroX + (c.contactX - c.heroX) * easedT);
@@ -543,11 +569,10 @@ export default function ScrollMorphAvatar({
       if (latestY <= 0) return px(c.heroX);
 
       const owner = getProfileDockOwner(latestY, contactTargetY, windowH);
-      // Snap to Let's talk — no mid-page flight.
-      if (owner === "contact") return px(c.contactX);
+      if (owner === "contact" && !staticContact) return px(c.contactX);
       // Park exactly on the nav slot while docked (spring p1 can lag and leave
       // an oversized box hanging below the sticky bar).
-      if (owner === "nav") return px(c.navX);
+      if (owner === "nav" || owner === "contact") return px(c.navX);
 
       const clampedP1 = Math.min(Math.max(p1, 0), 1);
       const safeP1 = clampedP1 < 0.005 ? 0 : clampedP1;
@@ -568,8 +593,9 @@ export default function ScrollMorphAvatar({
       const contactTargetY = Math.max(c.contactAbsoluteY - windowH * 0.5, 0);
       const contactViewportY = c.contactAbsoluteY - latestY;
 
+      const staticContact = hideAtContactRef.current;
       if (direct > 0.5) {
-        if (latestY <= 0) return px(c.heroY - latestY);
+        if (staticContact || latestY <= 0) return px(c.heroY - latestY);
         const t = Math.min(Math.max(latestY / Math.max(contactTargetY, 1), 0), 1);
         const easedT = t * t * (3 - 2 * t);
         return px(c.heroY + (contactViewportY - c.heroY) * easedT);
@@ -578,8 +604,8 @@ export default function ScrollMorphAvatar({
       if (latestY <= 0) return px(c.heroY - latestY);
 
       const owner = getProfileDockOwner(latestY, contactTargetY, windowH);
-      if (owner === "contact") return px(contactViewportY);
-      if (owner === "nav") return px(c.navY);
+      if (owner === "contact" && !staticContact) return px(contactViewportY);
+      if (owner === "nav" || owner === "contact") return px(c.navY);
 
       const clampedP1 = Math.min(Math.max(p1, 0), 1);
       const safeP1 = clampedP1 < 0.005 ? 0 : clampedP1;
@@ -599,8 +625,9 @@ export default function ScrollMorphAvatar({
       const windowH = viewportHRef.current;
       const contactTargetY = Math.max(c.contactAbsoluteY - windowH * 0.5, 0);
 
+      const staticContact = hideAtContactRef.current;
       if (direct > 0.5) {
-        if (latestY <= 0) return px(c.heroSize);
+        if (staticContact || latestY <= 0) return px(c.heroSize);
         const t = Math.min(Math.max(latestY / Math.max(contactTargetY, 1), 0), 1);
         const easedT = t * t * (3 - 2 * t);
         return px(c.heroSize + (c.contactSize - c.heroSize) * easedT);
@@ -609,8 +636,8 @@ export default function ScrollMorphAvatar({
       if (latestY <= 0) return px(c.heroSize);
 
       const owner = getProfileDockOwner(latestY, contactTargetY, windowH);
-      if (owner === "contact") return px(c.contactSize);
-      if (owner === "nav") return px(c.navSize);
+      if (owner === "contact" && !staticContact) return px(c.contactSize);
+      if (owner === "nav" || owner === "contact") return px(c.navSize);
 
       const clampedP1 = Math.min(Math.max(p1, 0), 1);
       const safeP1 = clampedP1 < 0.005 ? 0 : clampedP1;
@@ -619,17 +646,21 @@ export default function ScrollMorphAvatar({
     }
   );
 
-  // In-nav photo owns the docked slot. Visibility/opacity alone still left a
-  // WebGL/compositor sliver under the sticky bar (oversized box from spring
-  // lag). While owner === "nav": display none — out of the document paint
-  // tree entirely. Hero + Let's talk keep the morph as the visible photo.
+  // In-nav photo owns the docked slot. Homepage Let's talk owns a static img.
+  // Visibility/opacity alone still left a WebGL/compositor sliver under the
+  // sticky bar — use display:none while those owners are active.
   const phaseOpacity = useTransform(
     [progress, effectiveContactProgress, activeDirectToHero, scrollY],
     (values: number[]) => {
       const p1 = values[0] ?? 0;
       const direct = values[2] ?? 0;
       const latestY = values[3] ?? 0;
-      if (direct > 0.5) return 1;
+      const staticContact = hideAtContactRef.current;
+      if (direct > 0.5) {
+        // Homepage: no contact→hero flight; reappear only near the top.
+        if (staticContact) return latestY <= 40 ? 1 : 0;
+        return 1;
+      }
 
       const c = coordsRef.current;
       const windowH = viewportHRef.current;
@@ -637,7 +668,7 @@ export default function ScrollMorphAvatar({
         c != null ? Math.max(c.contactAbsoluteY - windowH * 0.5, 0) : 0;
       const owner = getProfileDockOwner(latestY, contactTarget, windowH);
 
-      if (owner === "nav") return 0;
+      if (morphPaintHiddenForOwner(owner)) return 0;
       if (owner === "contact") return 1;
 
       // Hero: fade out over the last stretch of hero → nav morph.
@@ -654,20 +685,26 @@ export default function ScrollMorphAvatar({
     (values: number[]) => {
       const direct = values[0] ?? 0;
       const latestY = values[1] ?? 0;
-      if (direct > 0.5) return "visible";
+      const staticContact = hideAtContactRef.current;
+      if (direct > 0.5) {
+        if (staticContact && latestY > 40) return "hidden";
+        return "visible";
+      }
       const c = coordsRef.current;
       const windowH = viewportHRef.current;
       const contactTarget =
         c != null ? Math.max(c.contactAbsoluteY - windowH * 0.5, 0) : 0;
       const owner = getProfileDockOwner(latestY, contactTarget, windowH);
-      return owner === "nav" ? "hidden" : "visible";
+      return morphPaintHiddenForOwner(owner) ? "hidden" : "visible";
     }
   );
 
   // Keep React display in sync with scroll owner (rAF-throttled; no layout reads).
   useMotionValueEvent(scrollY, "change", (latestY) => {
     if (activeDirectToHero.get() > 0.5) {
-      setNavDockHiddenThrottled(false);
+      setNavDockHiddenThrottled(
+        hideAtContactRef.current ? latestY > 40 : false
+      );
       return;
     }
     const c = coordsRef.current;
@@ -675,11 +712,13 @@ export default function ScrollMorphAvatar({
     const contactTarget =
       c != null ? Math.max(c.contactAbsoluteY - windowH * 0.5, 0) : 0;
     const owner = getProfileDockOwner(latestY, contactTarget, windowH);
-    setNavDockHiddenThrottled(owner === "nav");
+    setNavDockHiddenThrottled(morphPaintHiddenForOwner(owner));
   });
   useMotionValueEvent(activeDirectToHero, "change", (direct) => {
     if (direct > 0.5) {
-      setNavDockHiddenThrottled(false);
+      setNavDockHiddenThrottled(
+        hideAtContactRef.current ? scrollY.get() > 40 : false
+      );
       return;
     }
     const c = coordsRef.current;
@@ -687,7 +726,7 @@ export default function ScrollMorphAvatar({
     const contactTarget =
       c != null ? Math.max(c.contactAbsoluteY - windowH * 0.5, 0) : 0;
     const owner = getProfileDockOwner(scrollY.get(), contactTarget, windowH);
-    setNavDockHiddenThrottled(owner === "nav");
+    setNavDockHiddenThrottled(morphPaintHiddenForOwner(owner));
   });
 
   // Drop-shadow only on hero (filter thrash jitters Let's talk while scrolling).
