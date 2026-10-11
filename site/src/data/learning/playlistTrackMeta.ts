@@ -4,8 +4,13 @@
  */
 
 export type PlaylistTrackMeta = {
-  /** Listed chapter labels (essay scope), or null when whole-book / unknown. */
+  /** Remaining chapter labels (essay scope), or null when whole-book / unknown. */
   chapterLabels: string[] | null;
+  /**
+   * Chapters already covered in this module only (not Already read shelf).
+   * Shown in the track panel; excluded from length / Mark chapter counts.
+   */
+  coveredChapterLabels?: string[];
   /** Rough listen/read hours estimate for the length column. */
   estimatedHours: number;
 };
@@ -13,8 +18,9 @@ export type PlaylistTrackMeta = {
 /** Per curriculum book id. */
 export const playlistTrackMeta: Record<string, PlaylistTrackMeta> = {
   "site-reliability-engineering": {
-    chapterLabels: ["Ch 3", "Ch 4", "Ch 6", "Ch 14", "Ch 15"],
-    estimatedHours: 8,
+    chapterLabels: ["Ch 4", "Ch 6", "Ch 21", "Ch 22"],
+    coveredChapterLabels: ["Ch 1", "Ch 2", "Ch 3"],
+    estimatedHours: 6,
   },
   "api-design": {
     chapterLabels: null,

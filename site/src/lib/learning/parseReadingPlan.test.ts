@@ -18,6 +18,7 @@ const fixtureMd = readFileSync(
 
 describe("parseChapterList", () => {
   it("parses SRE-style chapter lists", () => {
+    assert.deepEqual(parseChapterList("Ch 4, 6, 21 and 22."), [4, 6, 21, 22]);
     assert.deepEqual(parseChapterList("Ch 3, 4, 6, 14 and 15."), [
       3, 4, 6, 14, 15,
     ]);
@@ -53,7 +54,7 @@ describe("parseReadingPlanMarkdown (Reading plan fixture)", () => {
     assert.ok(sre);
     assert.equal(sre!.why?.startsWith("Backs"), true);
     const keys = sre!.lessons.map((l) => l.key);
-    assert.deepEqual(keys, ["ch3", "ch4", "ch6", "ch14", "ch15"]);
+    assert.deepEqual(keys, ["ch4", "ch6", "ch21", "ch22"]);
   });
 
   it("marks DDD Ch 1 done and Ch 2 current from page text", () => {

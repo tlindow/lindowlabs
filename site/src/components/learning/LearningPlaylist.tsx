@@ -13,6 +13,7 @@ import {
   bookProgressFor,
   bookProgressPct,
   currentChapterLabel,
+  formatBookmark,
   lengthLabelFor,
   markBookFinished,
   markChapterRead,
@@ -86,6 +87,14 @@ export default function LearningPlaylist({
                     · {lengthLabelFor(now.id)}
                   </span>
                 </p>
+                {nowHasBook && formatBookmark(nowBook.bookmark) ? (
+                  <p
+                    className="learning-pl__bookmark-line"
+                    data-bookmark={now.id}
+                  >
+                    Bookmark: {formatBookmark(nowBook.bookmark)}
+                  </p>
+                ) : null}
               </div>
             </div>
             {nowHasBook ? (
@@ -259,6 +268,28 @@ export default function LearningPlaylist({
 
                   <p className="learning-pl__heading">{item.heading}</p>
                   <p className="learning-curr__essay-prose">{item.prose}</p>
+                  {item.coveredWithinModule ? (
+                    <p
+                      className="learning-curr__essay-aside"
+                      data-covered-within={item.id}
+                    >
+                      <span className="learning-curr__essay-label">
+                        Already covered:
+                      </span>{" "}
+                      {item.coveredWithinModule}
+                    </p>
+                  ) : null}
+                  {formatBookmark(book.bookmark) ? (
+                    <p
+                      className="learning-curr__essay-aside"
+                      data-module-bookmark={item.id}
+                    >
+                      <span className="learning-curr__essay-label">
+                        Bookmark:
+                      </span>{" "}
+                      {formatBookmark(book.bookmark)}
+                    </p>
+                  ) : null}
                   {item.consideredInstead ? (
                     <p className="learning-curr__essay-aside">
                       <span className="learning-curr__essay-label">

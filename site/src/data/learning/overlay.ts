@@ -16,15 +16,6 @@ export const learningOverlay: OverlayFile = {
       matchTitles: ["Site Reliability Engineering"],
       lessons: [
         {
-          key: "ch3",
-          chapterNumber: 3,
-          title: "Embracing Risk",
-          objective:
-            "Learn how SRE treats reliability as a target to manage against the cost of more reliability, using risk tolerance and error budgets instead of aiming for 100%.",
-          reflectionPrompt: null,
-          exercises: [],
-        },
-        {
           key: "ch4",
           chapterNumber: 4,
           title: "Service Level Objectives",
@@ -43,20 +34,20 @@ export const learningOverlay: OverlayFile = {
           exercises: [],
         },
         {
-          key: "ch14",
-          chapterNumber: 14,
-          title: "Managing Incidents",
+          key: "ch21",
+          chapterNumber: 21,
+          title: "Handling Overload",
           objective:
-            "Learn a structured way to run incident response, with clear roles, a single point of command, and ongoing communication.",
+            "Learn how to shed load and protect a service when demand exceeds capacity, without cascading failure into the rest of the system.",
           reflectionPrompt: null,
           exercises: [],
         },
         {
-          key: "ch15",
-          chapterNumber: 15,
-          title: "Postmortem Culture: Learning from Failure",
+          key: "ch22",
+          chapterNumber: 22,
+          title: "Addressing Cascading Failures",
           objective:
-            "Learn how to write blameless postmortems that capture what happened and lead to follow-up fixes.",
+            "Learn how overload and retries can amplify a local failure into a system-wide outage, and how to design so that does not happen.",
           reflectionPrompt: null,
           exercises: [],
         },
