@@ -106,11 +106,13 @@ export default function Footer({
 
           <div className="pt-2 flex flex-col items-center gap-3">
             {staticProfilePhoto ? (
+              // On #contact (deep violet), bg-foreground/text-background map to
+              // lavender fill + deep ink — same light-pill look as Read resume.
               <a
                 href={HOMEPAGE_CONNECT_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-xl bg-surface hover:bg-surface-alt text-foreground border border-border px-5 py-2.5 text-xs sm:text-sm font-mono font-bold shadow-xs transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+                className="inline-flex items-center gap-2 rounded-xl bg-foreground text-background border border-border px-5 py-2.5 text-xs sm:text-sm font-mono font-bold shadow-xs transition-all hover:bg-foreground/90 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
                 title="Let's get in touch on Calendly"
               >
                 <Calendar size={15} className="shrink-0" />
