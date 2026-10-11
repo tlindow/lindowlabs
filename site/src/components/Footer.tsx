@@ -5,8 +5,11 @@ import { Calendar, ArrowUpRight, Mail } from "lucide-react";
 import { LinkedInIcon } from "@/components/brand/PartnerLogos";
 import { resumeContact } from "@/data/resumeData";
 
+/** Homepage Let's talk primary CTA (Calendly connect). */
+const HOMEPAGE_CONNECT_URL = "https://calendly.com/tylerlindow/connect";
+
 /**
- * Icon-only contacts under Book 30 minutes.
+ * Icon-only contacts under the primary contact CTA.
  * Use bg-foreground + text-background so #contact theme maps to lavender fill
  * and deep purple (#3B2A5C) glyphs (WCAG 3:1+), not washed lavender-on-lavender.
  */
@@ -102,14 +105,27 @@ export default function Footer({
           </div>
 
           <div className="pt-2 flex flex-col items-center gap-3">
-            <Link
-              href="/schedule-time"
-              className="inline-flex items-center justify-center gap-2 rounded-xl px-7 py-3.5 text-sm font-mono font-bold transition-all hover:scale-[1.02] active:scale-[0.98] bg-foreground text-background hover:bg-foreground/90 shadow-xs"
-              title="Book 30 minutes with Tyler Lindow"
-            >
-              <Calendar size={15} className="shrink-0" />
-              <span>Book 30 minutes</span>
-            </Link>
+            {staticProfilePhoto ? (
+              <a
+                href={HOMEPAGE_CONNECT_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-xl bg-surface hover:bg-surface-alt text-foreground border border-border px-5 py-2.5 text-xs sm:text-sm font-mono font-bold shadow-xs transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+                title="Let's get in touch on Calendly"
+              >
+                <Calendar size={15} className="shrink-0" />
+                <span>Let&apos;s get in touch</span>
+              </a>
+            ) : (
+              <Link
+                href="/schedule-time"
+                className="inline-flex items-center justify-center gap-2 rounded-xl px-7 py-3.5 text-sm font-mono font-bold transition-all hover:scale-[1.02] active:scale-[0.98] bg-foreground text-background hover:bg-foreground/90 shadow-xs"
+                title="Book 30 minutes with Tyler Lindow"
+              >
+                <Calendar size={15} className="shrink-0" />
+                <span>Book 30 minutes</span>
+              </Link>
+            )}
 
             {/* Homepage: subtle icon-only mail + LinkedIn (equal weight, no text labels) */}
             {!contactLeaf ? (
