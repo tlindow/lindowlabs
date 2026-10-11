@@ -1,9 +1,9 @@
 # Consensus under partition
 
-**/learning curriculum #1** (*Designing Data-Intensive Applications*, Ch 8 and
-9): a few simulated nodes must agree on one value while the network drops and
-delays messages. Steps build from naive voting to a leader/quorum approach, then
-you observe where each design breaks.
+**/learning curriculum #5** (*Designing Data-Intensive Applications* 2nd ed.,
+Ch 9 and 10): a few simulated nodes must agree on one value while the network
+drops and delays messages. Steps build from naive voting to a leader/quorum
+approach, then you observe where each design breaks.
 
 Start in plain English, then encode the simulation one milestone at a time.
 Practice files start blank on purpose.

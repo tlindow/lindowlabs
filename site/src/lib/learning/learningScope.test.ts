@@ -4,8 +4,10 @@ import {
   curriculumBookCount,
   curriculumEssayIntro,
   curriculumEssayTitle,
+  DDIA_2E_BOOK_URL,
   moduleHasBook,
   readingCurriculum,
+  VITILLO_BOOK_URL,
 } from "../../data/learning/readingCurriculum.ts";
 import {
   deskPayloadForUser,
@@ -15,11 +17,11 @@ import {
 
 const EXPECTED_ORDER = [
   {
-    id: "designing-data-intensive-applications",
-    title: "Designing Data-Intensive Applications",
-    author: "Martin Kleppmann",
-    scope: "Ch 7, 8 and 9",
-    exerciseIds: ["idempotent-refund", "consensus-under-partition"],
+    id: "understanding-distributed-systems",
+    title: "Understanding Distributed Systems",
+    author: "Roberto Vitillo",
+    scope: "Whole book, 2nd edition",
+    exerciseIds: [] as string[],
     hasBook: true,
   },
   {
@@ -47,6 +49,14 @@ const EXPECTED_ORDER = [
     hasBook: true,
   },
   {
+    id: "designing-data-intensive-applications",
+    title: "Designing Data-Intensive Applications",
+    author: "Martin Kleppmann",
+    scope: "2nd edition, Ch 7, 8, 9 and 10",
+    exerciseIds: ["idempotent-refund", "consensus-under-partition"],
+    hasBook: true,
+  },
+  {
     id: "grokking-algorithms",
     title: "Grokking Algorithms",
     author: "Aditya Bhargava",
@@ -57,20 +67,27 @@ const EXPECTED_ORDER = [
 ] as const;
 
 const FORBIDDEN =
-  /Oct 4|Sep 30|your earlier pick|on your plan|ruled out|already reading|one chapter in|Owned \(paperback\)|You own this one in paperback|Lauret|Design of Web APIs|Designing Web APIs|Each module is a book|Ch 3, 4, 6, 14 and 15|Ch 4, 6, 21 and 22|Types of Failures|Release It! is the pick|site-reliability-engineering/i;
+  /Oct 4|Sep 30|your earlier pick|on your plan|ruled out|already reading|one chapter in|Owned \(paperback\)|You own this one in paperback|Lauret|Design of Web APIs|Designing Web APIs|Each module is a book|Ch 3, 4, 6, 14 and 15|Ch 4, 6, 21 and 22|Types of Failures|Release It! is the pick|site-reliability-engineering|Ch 7 only|Ch 7, 8 and 9(?! and 10)/i;
 
 describe("readingCurriculumForUser", () => {
-  it("owner sees 5-module essay with Kleppmann Ch 7-9 first", () => {
+  it("owner sees Vitillo bridge then Kleppmann 2nd-ed Ch 7-10", () => {
     const items = readingCurriculumForUser(true);
-    assert.equal(items.length, 5);
+    assert.equal(items.length, 6);
     assert.equal(items.length, readingCurriculum.length);
-    assert.equal(curriculumBookCount(items), 4);
+    assert.equal(curriculumBookCount(items), 5);
     assert.equal(
       curriculumEssayTitle,
       "A curriculum for an engineering manager in developer experience and payments"
     );
     assert.match(curriculumEssayIntro, /^You led merchant and partner/);
-    assert.match(curriculumEssayIntro, /outgrown introductory reliability/);
+    assert.match(
+      curriculumEssayIntro,
+      /Vitillo\) comes before Designing Data-Intensive Applications/
+    );
+    assert.match(
+      curriculumEssayIntro,
+      /Grokking Algorithms runs alongside everything else/
+    );
     assert.equal(FORBIDDEN.test(curriculumEssayIntro), false);
 
     for (let i = 0; i < EXPECTED_ORDER.length; i += 1) {
@@ -104,14 +121,12 @@ describe("readingCurriculumForUser", () => {
       assert.equal(FORBIDDEN.test(item.consideredInstead ?? ""), false);
     }
 
-    assert.equal(
-      items[0]?.prose,
-      "Tyler's reliability work was about integrations failing: slow partners, a fragile dependency, outages that took an hour to notice. Chapters 8 and 9 explain what's underneath those failures, including partial failure, unreliable networks and clocks, and what it takes for separate systems to agree. That's the layer he hasn't studied, and it's what lets an engineering leader judge reliability designs instead of just reacting to outages. Chapter 7 covers transactions, where a payments mistake moves money twice."
-    );
-    assert.match(items[0]?.consideredInstead ?? "", /Site Reliability Engineering/);
-    assert.match(items[0]?.consideredInstead ?? "", /Release It!/);
-    assert.match(items[0]?.consideredInstead ?? "", /Database Internals/);
-    assert.equal(items[0]?.coveredWithinModule, undefined);
+    assert.equal(items[0]?.getBookUrl, VITILLO_BOOK_URL);
+    assert.equal(items[0]?.exercises.length, 0);
+    assert.equal(items[4]?.getBookUrl, DDIA_2E_BOOK_URL);
+    assert.match(items[4]?.prose ?? "", /Vitillo\) comes first so this is the rigorous version/);
+    assert.match(items[4]?.consideredInstead ?? "", /Chapters 9 and 10/);
+    assert.match(items[5]?.prose ?? "", /runs alongside everything else/);
   });
 
   it("non-owner sees empty curriculum (no essay modules)", () => {

@@ -64,9 +64,9 @@ export const learningExercises: LearningExercise[] = [
  */
 export const learningReadings: LearningReading[] = [
   {
-    title: "Designing Data-Intensive Applications",
-    author: "Martin Kleppmann",
-    note: "Ch 7, 8 and 9",
+    title: "Understanding Distributed Systems",
+    author: "Roberto Vitillo",
+    note: "Whole book, 2nd edition",
   },
   {
     title: "Learning Domain-Driven Design",
@@ -77,6 +77,11 @@ export const learningReadings: LearningReading[] = [
     title: "Payments Systems in the U.S.",
     author: "Glenbrook",
     note: "Whole book",
+  },
+  {
+    title: "Designing Data-Intensive Applications",
+    author: "Martin Kleppmann",
+    note: "2nd edition, Ch 7, 8, 9 and 10",
   },
   {
     title: "Grokking Algorithms",

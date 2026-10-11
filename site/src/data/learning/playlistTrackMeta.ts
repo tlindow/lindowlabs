@@ -1,6 +1,10 @@
 /**
  * Playlist track length metadata. Chapter counts only when the essay lists
  * specific chapters; otherwise estimated hours only (no invented chapter totals).
+ *
+ * DDIA labels follow 2nd edition (O'Reilly ISBN 9781098119058):
+ * Ch 7 Sharding, Ch 8 Transactions, Ch 9 The Trouble with Distributed Systems,
+ * Ch 10 Consistency and Consensus.
  */
 
 export type PlaylistTrackMeta = {
@@ -17,8 +21,8 @@ export type PlaylistTrackMeta = {
 
 /** Per curriculum book id. */
 export const playlistTrackMeta: Record<string, PlaylistTrackMeta> = {
-  "designing-data-intensive-applications": {
-    chapterLabels: ["Ch 7", "Ch 8", "Ch 9"],
+  "understanding-distributed-systems": {
+    chapterLabels: null,
     estimatedHours: 8,
   },
   "api-design": {
@@ -33,13 +37,17 @@ export const playlistTrackMeta: Record<string, PlaylistTrackMeta> = {
     chapterLabels: null,
     estimatedHours: 6,
   },
+  "designing-data-intensive-applications": {
+    chapterLabels: ["Ch 7", "Ch 8", "Ch 9", "Ch 10"],
+    estimatedHours: 10,
+  },
   "grokking-algorithms": {
     chapterLabels: null,
     estimatedHours: 8,
   },
 };
 
-/** Song-length style label: "3 ch · ~8h" or "~10h". */
+/** Song-length style label: "4 ch · ~10h" or "~10h". */
 export function formatTrackLength(meta: PlaylistTrackMeta | undefined): string {
   if (!meta) return "~?h";
   const hours = `~${meta.estimatedHours}h`;
