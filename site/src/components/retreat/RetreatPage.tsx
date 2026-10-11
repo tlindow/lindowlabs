@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Calendar } from "lucide-react";
 import Footer from "@/components/Footer";
 import ScrollMorphAvatar from "@/components/animations/ScrollMorphAvatar";
@@ -18,27 +18,16 @@ const RETREAT_CREAM = "#FFFDF7";
 
 /**
  * Retreat leaf as a sibling of the homepage hero layout (coin + play, mono
- * display), on cream paper. Waveform below; description under the waveform;
- * "Pick a time" only after retreat-v4 ends. No Tinker mark in the headline.
+ * display), on cream paper. Waveform, description, then always-visible
+ * "Pick a time" (Read resume styling) to Calendly.
  */
 export default function RetreatPage() {
-  const [showPickTime, setShowPickTime] = useState(false);
-
   useEffect(() => {
     const previous = document.body.style.background;
     document.body.style.background = RETREAT_CREAM;
     return () => {
       document.body.style.background = previous;
     };
-  }, []);
-
-  // Reveal booking only when retreat audio finishes (not before).
-  useEffect(() => {
-    const audio = document.querySelector("audio");
-    if (!audio) return;
-    const onEnded = () => setShowPickTime(true);
-    audio.addEventListener("ended", onEnded);
-    return () => audio.removeEventListener("ended", onEnded);
   }, []);
 
   return (
@@ -92,20 +81,6 @@ export default function RetreatPage() {
                 id="hero-below"
                 className="flex flex-col items-center justify-start gap-5 sm:gap-6 w-full min-h-0 min-w-0 max-w-full pt-3 sm:pt-4 pb-8 sm:pb-10"
               >
-                {showPickTime ? (
-                  <a
-                    href={RETREAT_CALENDLY_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    data-retreat="pick-time"
-                    className="inline-flex items-center gap-2 rounded-xl bg-surface hover:bg-surface-alt text-foreground border border-border px-5 py-2.5 text-xs sm:text-sm font-mono font-bold shadow-xs transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
-                    title="Pick a time on Calendly"
-                  >
-                    <Calendar size={15} className="shrink-0" />
-                    <span>Pick a time</span>
-                  </a>
-                ) : null}
-
                 <div className="w-full min-w-0 max-w-full">
                   <RetreatWaveform />
                 </div>
@@ -116,6 +91,18 @@ export default function RetreatPage() {
                 >
                   {RETREAT_DESCRIPTION}
                 </p>
+
+                <a
+                  href={RETREAT_CALENDLY_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-retreat="pick-time"
+                  className="inline-flex items-center gap-2 rounded-xl bg-surface hover:bg-surface-alt text-foreground border border-border px-5 py-2.5 text-xs sm:text-sm font-mono font-bold shadow-xs transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+                  title="Pick a time on Calendly"
+                >
+                  <Calendar size={15} className="shrink-0" />
+                  <span>Pick a time</span>
+                </a>
               </div>
             </div>
             <div
