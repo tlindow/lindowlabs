@@ -1,12 +1,13 @@
 /** Site-wide share title, after the name. */
-export const SITE_TITLE = "Engineering Manager, Developer Experience";
+export const SITE_TITLE = "Engineering Leader, Developer Experience";
 
 /** Document title, og:title, and twitter:title default. */
-export const SITE_SHARE_TITLE = `Tyler Lindow | ${SITE_TITLE}`;
+export const SITE_SHARE_TITLE =
+  "Tyler Lindow | Empowering engineering leaders";
 
 /** Site-wide share description / homepage pitch line. */
 export const SITE_SUPPORT =
-  "Engineering manager for developer experience, platforms, and merchant and partner integrations. Ex-Affirm, ex-founder of Beginner Work.";
+  "Grab a 30-minute slot to chat, and learn what I can bring to your team.";
 
 /** Locked public resume summary. Use verbatim on the lean narrative; do not paraphrase metrics. */
 export const HEADLINE =

@@ -7,10 +7,10 @@ import {
   TrustedPartnersBar,
   EducationInstitutionsBar,
 } from "@/components/brand/PartnerLogos";
-import { TinkerMark } from "@/components/brand/TinkerLogo";
 import About from "@/components/About";
 import WhatYouGet from "@/components/WhatYouGet";
 import Footer from "@/components/Footer";
+import RetreatWaveform from "@/components/retreat/RetreatWaveform";
 import ScrollMorphAvatar, {
   HERO_PIN_SCROLL_DISTANCE,
 } from "@/components/animations/ScrollMorphAvatar";
@@ -22,7 +22,14 @@ import { useRegisterReturnToHero } from "@/context/NavbarActions";
 import { useHeroOverflowSpacer } from "@/hooks/useHeroOverflowSpacer";
 import { usePrefersReducedMotion } from "@/hooks/useProfileAnchors";
 import { setDirectToHeroActive } from "@/lib/profileDock";
-import { SITE_SUPPORT } from "@/data/positioning";
+import {
+  HOME_ABOUT_BODY,
+  HOME_CONTACT_BLURB,
+  HOME_DESCRIPTION,
+  HOME_HEADLINE,
+  HOME_KICKER,
+  HOME_MUSEUM_BODY,
+} from "@/data/homepage";
 import {
   RESUME_PDF_DOWNLOAD_NAME,
   RESUME_PDF_PATH,
@@ -278,23 +285,14 @@ export default function Home() {
                 <HeroAudioEndCta />
 
                 <span className="text-xs sm:text-sm font-mono font-bold text-indigo-dark uppercase tracking-widest block">
-                  ex-Affirm, ex-founder
+                  {HOME_KICKER}
                 </span>
               </div>
 
               {/* Fluid size: clamp to container so Space Mono never overflows at
                   320-430px. Block spans prefer two lines; wrap if still tight. */}
               <h1 className="w-full max-w-full min-w-0 px-0.5 text-[length:clamp(1.05rem,min(6.2cqi,calc(100cqi/15.5)),4.7rem)] font-black tracking-tight text-foreground leading-[1.08] mx-auto overflow-x-clip">
-                <span className="block">
-                  {"Inspiring every engineer's "}
-                  <span className="inline-flex items-center whitespace-nowrap">
-                    genius
-                    <TinkerMark
-                      className="ml-[0.12em] mr-[0.02em] h-[1cap] w-[1cap]"
-                      alt="Tinker"
-                    />
-                  </span>
-                </span>
+                <span className="block">{HOME_HEADLINE}</span>
                 {/* Keep two-line hero height so scroll morph stack checks stay aligned. */}
                 <span
                   className="block invisible select-none pointer-events-none"
@@ -304,13 +302,22 @@ export default function Home() {
                 </span>
               </h1>
 
-              {/* Below: support, CTA, logo panel — top of bottom 1fr; overflow paints into spacer */}
+              {/* Below: waveform, support, CTA, logo panel — top of bottom 1fr */}
               <div
                 id="hero-below"
                 className="flex flex-col items-center justify-start gap-5 sm:gap-6 w-full min-h-0 min-w-0 max-w-full pt-3 sm:pt-4 pb-8 sm:pb-10"
               >
+                {/*
+                  Pull the waveform into the h1 trailing spacer line (same
+                  clamp/leading as the headline) so description → CTA matches
+                  prior leaders leaf rhythm.
+                */}
+                <div className="w-full min-w-0 max-w-full -mt-[calc(1.08*clamp(1.05rem,min(6.2cqi,calc(100cqi/15.5)),4.7rem))]">
+                  <RetreatWaveform />
+                </div>
+
                 <p className="text-sm sm:text-base md:text-lg font-mono text-muted mx-auto w-full max-w-full min-w-0 text-pretty px-1">
-                  {SITE_SUPPORT}
+                  {HOME_DESCRIPTION}
                 </p>
 
                 <a
@@ -340,7 +347,7 @@ export default function Home() {
             <div id="hero-overflow-spacer" className="w-full" aria-hidden="true" />
           </header>
 
-          <About />
+          <About body={HOME_ABOUT_BODY} afterBody={HOME_MUSEUM_BODY} />
 
           {/* ======================================================= */}
           {/* 2. VALUE PROPOSITION: WHAT YOU GET IF YOU BUY ME       */}
@@ -352,7 +359,10 @@ export default function Home() {
       {/* ========================================================= */}
       {/* 4. FOOTER (LET'S TALK, PHILOSOPHY)                        */}
       {/* ========================================================= */}
-      <Footer profilePhotoAnchor contactCta={{ kind: "icons" }} />
+      <Footer
+        profilePhotoAnchor
+        contactBlurb={HOME_CONTACT_BLURB}
+      />
     </div>
   );
 }

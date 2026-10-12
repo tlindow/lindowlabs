@@ -1,6 +1,5 @@
 /**
- * Scroll-derived ownership of Tyler's profile photo on homepage-style leaves
- * (home + /engineering-leaders). Legacy /get-your-time-back redirects there.
+ * Scroll-derived ownership of Tyler's profile photo on the homepage dock.
  *
  * The WebGL morph coin travels hero → nav only. Let's talk (shared Footer)
  * shows a plain static circular photo; the morph stays hidden there (same as
@@ -13,11 +12,7 @@
 export type ProfileDockOwner = "hero" | "nav" | "contact";
 
 /** Routes that use the hero↔nav↔contact profile dock (not always-nav). */
-const PROFILE_DOCK_PATHS = new Set([
-  "/",
-  "/engineering-leaders",
-  "/get-your-time-back",
-]);
+const PROFILE_DOCK_PATHS = new Set(["/"]);
 
 export function isProfileDockPath(pathname: string): boolean {
   return PROFILE_DOCK_PATHS.has(pathname);

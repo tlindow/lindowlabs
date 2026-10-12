@@ -6,7 +6,7 @@ import { useEffect } from "react";
  * When #hero-below paints past the 100svh #hero-stage, reserve matching flow
  * space on #hero-overflow-spacer so the next section (About) is not covered.
  * Also ensures a minimum gap under #trusted-partners. Shared by homepage and
- * /engineering-leaders so the credentials strip cannot overlap About.
+ * homepage so the credentials strip cannot overlap About.
  */
 export function useHeroOverflowSpacer() {
   useEffect(() => {

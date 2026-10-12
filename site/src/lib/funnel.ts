@@ -16,15 +16,11 @@ export const FUNNEL_UTM_KEYS = [
 const SESSION_UTM_KEY = "lindowlabs.funnel.utm";
 
 export type FunnelEvent =
-  | "schedule_with_tyler_hero"
-  | "schedule_with_tyler_contact"
   | "download_resume"
   | "linkedin_icon"
   | "email_icon"
   | "nav_linkedin_icon"
-  | "nav_email_icon"
-  | "nav_for_recruiters"
-  | "nav_for_engineering_leaders";
+  | "nav_email_icon";
 
 export type FunnelUtmProps = Partial<
   Record<(typeof FUNNEL_UTM_KEYS)[number], string>
