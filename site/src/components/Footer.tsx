@@ -1,29 +1,28 @@
 "use client";
 
-import Link from "next/link";
 import { Calendar, ArrowUpRight, Mail } from "lucide-react";
 import { LinkedInIcon } from "@/components/brand/PartnerLogos";
 import { resumeContact } from "@/data/resumeData";
 
-/** Shared Let's talk primary CTA (Calendly connect). Default for non-home pages. */
+/** Shared Let's talk Calendly connect CTA (non-home pages). */
 const CONNECT_URL = "https://calendly.com/tylerlindow/connect";
 
 /**
- * Icon-only contacts under the primary contact CTA.
- * Use bg-foreground + text-background so #contact theme maps to lavender fill
- * and deep purple (#3B2A5C) glyphs (WCAG 3:1+), not washed lavender-on-lavender.
+ * Icon-only contacts. Use bg-foreground + text-background so #contact theme
+ * maps to lavender fill and deep purple (#3B2A5C) glyphs (WCAG 3:1+).
  */
 const CONTACT_ICON_BTN_CLASS =
   "inline-flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full border border-border/60 bg-foreground text-background shadow-2xs transition-all hover:bg-foreground/90 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C4B5FD] focus-visible:ring-offset-2 focus-visible:ring-offset-[#3B2A5C] motion-reduce:hover:scale-100";
 
-/** Light pill + dark ink on deep #contact; matches Read resume shape/weight. */
+/** Light pill + dark ink on deep #contact; matches Download resume shape/weight. */
 const CONNECT_CTA_CLASS =
   "inline-flex items-center gap-2 rounded-xl bg-foreground text-background border border-border px-5 py-2.5 text-xs sm:text-sm font-mono font-bold shadow-xs transition-all hover:bg-foreground/90 hover:scale-[1.02] active:scale-[0.98] cursor-pointer";
 
 export type FooterContactCta =
-  | { kind: "calendly"; href?: string; label?: string }
-  /** Homepage: Calendly connect + Message on LinkedIn + Send an email. */
-  | { kind: "calendly-and-channels"; href?: string; label?: string };
+  /** Homepage: LinkedIn + email icons only (no Calendly text button). */
+  | { kind: "icons" }
+  /** /engineering-leaders and default: Calendly connect pill. */
+  | { kind: "calendly"; href?: string; label?: string };
 
 export type FooterPhilosophyBook = {
   src: string;
@@ -46,8 +45,8 @@ type FooterProps = {
    */
   profilePhotoAnchor?: boolean;
   /**
-   * Primary CTA(s) under Let's talk. Default (and /engineering-leaders) is
-   * Calendly connect; homepage adds LinkedIn + email beside it.
+   * Contact actions under Let's talk. Homepage uses icons; leaders uses
+   * Calendly connect (default).
    */
   contactCta?: FooterContactCta;
   /** Optional override for the open-to-roles / leaders support line. */
@@ -67,9 +66,15 @@ export default function Footer({
   philosophyBook = DEFAULT_PHILOSOPHY_BOOK,
 }: FooterProps) {
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
-  const showChannelButtons = contactCta.kind === "calendly-and-channels";
-  const calendlyHref = contactCta.href ?? CONNECT_URL;
-  const calendlyLabel = contactCta.label ?? "Let's get in touch";
+  const iconsOnly = contactCta.kind === "icons";
+  const calendlyHref =
+    contactCta.kind === "calendly"
+      ? (contactCta.href ?? CONNECT_URL)
+      : CONNECT_URL;
+  const calendlyLabel =
+    contactCta.kind === "calendly"
+      ? (contactCta.label ?? "Let's get in touch")
+      : "Let's get in touch";
   const bookSrc = philosophyBook.src.startsWith("http")
     ? philosophyBook.src
     : `${basePath}${philosophyBook.src}`;
@@ -91,12 +96,7 @@ export default function Footer({
             </span>
             {!contactLeaf ? (
               <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground font-mono">
-                <Link
-                  href="/schedule-time"
-                  className="hover:text-indigo-dark transition-colors underline-offset-4 hover:underline"
-                >
-                  Let&apos;s talk
-                </Link>
+                Let&apos;s talk
               </h3>
             ) : null}
             {/* Plain static circular photo (no WebGL / morph) on every full footer. */}
@@ -130,41 +130,30 @@ export default function Footer({
           </div>
 
           <div className="pt-2 flex flex-col items-center gap-3">
-            {showChannelButtons ? (
+            {iconsOnly ? (
               <div
-                className="flex flex-col sm:flex-row items-center justify-center gap-2.5 sm:gap-3"
-                data-contact-cta="calendly-and-channels"
+                className="flex items-center justify-center gap-3"
+                data-contact-cta="icons"
               >
-                <a
-                  href={calendlyHref}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={CONNECT_CTA_CLASS}
-                  title="Let's get in touch on Calendly"
-                  data-contact-cta="calendly"
-                >
-                  <Calendar size={15} className="shrink-0" />
-                  <span>{calendlyLabel}</span>
-                </a>
                 <a
                   href={resumeContact.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={CONNECT_CTA_CLASS}
-                  title="Message on LinkedIn"
+                  className={CONTACT_ICON_BTN_CLASS}
+                  aria-label="Message me on LinkedIn"
+                  title="Message me on LinkedIn"
                 >
-                  <span className="inline-flex shrink-0" aria-hidden="true">
-                    <LinkedInIcon size={15} className="shrink-0" />
+                  <span className="inline-flex" aria-hidden="true">
+                    <LinkedInIcon size={16} className="shrink-0" />
                   </span>
-                  <span>Message on LinkedIn</span>
                 </a>
                 <a
                   href={`mailto:${resumeContact.email}`}
-                  className={CONNECT_CTA_CLASS}
-                  title={`Send an email to ${resumeContact.email}`}
+                  className={CONTACT_ICON_BTN_CLASS}
+                  aria-label={`Email ${resumeContact.email}`}
+                  title={`Email ${resumeContact.email}`}
                 >
-                  <Mail size={15} className="shrink-0" />
-                  <span>Send an email</span>
+                  <Mail size={16} className="shrink-0" aria-hidden="true" />
                 </a>
               </div>
             ) : (
@@ -181,7 +170,7 @@ export default function Footer({
                   <span>{calendlyLabel}</span>
                 </a>
 
-                {/* Icon-only mail + LinkedIn under the single Calendly CTA. */}
+                {/* Icon-only mail + LinkedIn under the Calendly CTA. */}
                 {!contactLeaf ? (
                   <div className="flex items-center justify-center gap-3">
                     <a
