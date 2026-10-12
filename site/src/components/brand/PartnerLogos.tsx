@@ -248,7 +248,7 @@ export function TrustedPartnersBar() {
   return (
     <div className="pt-5 sm:pt-6 pb-1 flex flex-col items-center gap-3.5 text-center w-full min-w-0 max-w-full">
       <span className="text-[10px] sm:text-[11px] font-mono uppercase tracking-widest text-muted font-bold">
-        Previous Employers
+        Previously at
       </span>
       <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-3 sm:gap-x-6 sm:gap-y-4 md:gap-7 w-full min-w-0 max-w-full text-foreground/80 hover:text-foreground transition-colors">
         {/* Beginner Partner Badge */}
