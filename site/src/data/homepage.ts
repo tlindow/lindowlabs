@@ -28,7 +28,7 @@ export const HOME_MUSEUM_BODY =
 
 /** Let's talk support line. */
 export const HOME_CONTACT_BLURB =
-  "Book 30 minutes to talk developer experience and how your team can get more done. Or reply with a time that works.";
+  "Book 30 minutes to talk developer experience and how your team can get more done.";
 
 /** Share / document description for the unified homepage. */
 export const HOME_SHARE_DESCRIPTION = HOME_DESCRIPTION;
