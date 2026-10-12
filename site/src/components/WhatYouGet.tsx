@@ -72,7 +72,7 @@ const valuePillars: ValuePillar[] = [
   {
     id: "methodical-enjoyable",
     title: "How I lead teams.",
-    ctaSubtext: "Practices for growing engineers.",
+    ctaSubtext: "Ways to get more from the engineers you lead.",
     coinType: "affirm",
     featuredPosts: affirmFeaturedPosts,
   },

@@ -7,7 +7,7 @@ export const SITE_SHARE_TITLE =
 
 /** Site-wide share description / homepage pitch line. */
 export const SITE_SUPPORT =
-  "Grab a 30-minute slot to chat, and learn what I can bring to your team.";
+  "I focus on developer experience and help engineering leaders get the most out of their teams. Book 30 minutes.";
 
 /** Locked public resume summary. Use verbatim on the lean narrative; do not paraphrase metrics. */
 export const HEADLINE =

@@ -20,7 +20,12 @@ export type PageAudioClip = {
 };
 
 /**
- * Homepage intro (leaders retreat script on /, ~36s). Spells "Lindow".
+ * Homepage intro (~36s). Spells "Lindow".
+ *
+ * Kept: the recording already centers the leader's team problem and the
+ * "every engineer has genius / clear the path" thesis (You are the product).
+ * No in-repo TTS pipeline to regenerate a new take; do not rewrite this
+ * transcript without a matching audio file.
  */
 export const HOME_PAGE_AUDIO_TRANSCRIPT =
   "Hey, I'm Tyler Lindow. This is thirty minutes for engineering leaders. A short retreat. Bring one thing that's been eating your team's time. A partner integration that keeps slipping, an on-call rotation that wears people down, a reliability gap nobody owns. We slow down, look at it together, and you leave with one next step you can act on this week. I led merchant engineering teams at Affirm, and the way I lead comes down to this: every engineer has genius in them. My job is clearing the path so it shows up in production. If that sounds like the half hour you need, let's find a time.";
