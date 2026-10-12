@@ -29,14 +29,18 @@ export const ENGINEERING_LEADERS_DESCRIPTION =
 
 /**
  * Let's talk "Let's get in touch" → Calendly connect (shared Footer default).
- * Hero CTA is Download resume (same PDF as homepage). No get-your-time-back
- * Calendly links on this page.
+ * Hero CTA "Tinker with Tyler" → get-your-time-back booking (below).
  */
 export const ENGINEERING_LEADERS_CALENDLY_URL =
   "https://calendly.com/tylerlindow/connect";
 
-/** @deprecated Hero CTA is Download resume; kept for retreatPage re-export. */
-export const ENGINEERING_LEADERS_CTA_LABEL = "Download resume";
+/** Hero primary CTA: opens Calendly booking (not a download). */
+export const ENGINEERING_LEADERS_HERO_CTA_LABEL = "Tinker with Tyler";
+export const ENGINEERING_LEADERS_HERO_CTA_URL =
+  "https://calendly.com/tylerlindow/get-your-time-back";
+
+/** @deprecated Prefer ENGINEERING_LEADERS_HERO_CTA_LABEL. */
+export const ENGINEERING_LEADERS_CTA_LABEL = ENGINEERING_LEADERS_HERO_CTA_LABEL;
 
 /**
  * About body on this leaf: homepage FORMATION_SUMMARY without the job-search

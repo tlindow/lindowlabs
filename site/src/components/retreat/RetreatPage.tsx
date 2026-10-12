@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { FileText } from "lucide-react";
+import { Calendar } from "lucide-react";
 import Footer from "@/components/Footer";
 import ScrollMorphAvatar from "@/components/animations/ScrollMorphAvatar";
 import ScrollMorphPlayButton from "@/components/animations/ScrollMorphPlayButton";
@@ -11,19 +11,16 @@ import {
   EducationInstitutionsBar,
   TrustedPartnersBar,
 } from "@/components/brand/PartnerLogos";
-import { useAnalytics } from "@/context/AnalyticsProvider";
 import { useHeroOverflowSpacer } from "@/hooks/useHeroOverflowSpacer";
 import {
   ENGINEERING_LEADERS_CONTACT_BLURB,
   ENGINEERING_LEADERS_DESCRIPTION,
   ENGINEERING_LEADERS_HEADLINE,
+  ENGINEERING_LEADERS_HERO_CTA_LABEL,
+  ENGINEERING_LEADERS_HERO_CTA_URL,
   ENGINEERING_LEADERS_KICKER,
   ENGINEERING_LEADERS_PHILOSOPHY_BOOK,
 } from "@/data/engineeringLeadersPage";
-import {
-  RESUME_PDF_DOWNLOAD_NAME,
-  RESUME_PDF_PATH,
-} from "@/data/urls";
 
 /** Cream paper surface from the earlier retreat leaf (not homepage lavender). */
 const RETREAT_CREAM = "#FFFDF7";
@@ -33,8 +30,6 @@ const RETREAT_CREAM = "#FFFDF7";
  * cream paper, shared credentials strip in normal flow, then leader sections.
  */
 export default function RetreatPage() {
-  const { logResumeView } = useAnalytics();
-  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
   useHeroOverflowSpacer();
 
   useEffect(() => {
@@ -98,8 +93,8 @@ export default function RetreatPage() {
               >
                 {/*
                   Pull the waveform into the h1 trailing spacer line (same
-                  clamp/leading as the headline) so description → Download
-                  resume matches homepage subtitle → Download resume on desktop.
+                  clamp/leading as the headline) so description → CTA matches
+                  homepage subtitle → Download resume on desktop.
                 */}
                 <div className="w-full min-w-0 max-w-full -mt-[calc(1.08*clamp(1.05rem,min(6.2cqi,calc(100cqi/15.5)),4.7rem))]">
                   <RetreatWaveform />
@@ -113,15 +108,15 @@ export default function RetreatPage() {
                 </p>
 
                 <a
-                  href={`${basePath}${RESUME_PDF_PATH}`}
-                  download={RESUME_PDF_DOWNLOAD_NAME}
-                  onClick={() => logResumeView("download_pdf")}
-                  data-retreat="download-resume"
+                  href={ENGINEERING_LEADERS_HERO_CTA_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-retreat="tinker-with-tyler"
                   className="inline-flex items-center gap-2 rounded-xl bg-surface hover:bg-surface-alt text-foreground border border-border px-5 py-2.5 text-xs sm:text-sm font-mono font-bold shadow-xs transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
-                  title="Download Tyler Lindow's resume PDF"
+                  title="Book a 30-minute slot with Tyler"
                 >
-                  <FileText size={15} className="shrink-0" />
-                  <span>Download resume</span>
+                  <Calendar size={15} className="shrink-0" aria-hidden="true" />
+                  <span>{ENGINEERING_LEADERS_HERO_CTA_LABEL}</span>
                 </a>
 
                 {/* Same shared credentials strip as homepage (can't drift). */}
