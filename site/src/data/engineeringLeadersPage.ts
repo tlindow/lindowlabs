@@ -29,15 +29,15 @@ export const ENGINEERING_LEADERS_DESCRIPTION =
 
 /**
  * Let's talk "Let's get in touch" → Calendly connect (shared Footer default).
- * Hero CTA "Tinker with Tyler" → get-your-time-back booking (below).
+ * Hero CTA "Tinker with Tyler" → /tinker booking (below).
  */
 export const ENGINEERING_LEADERS_CALENDLY_URL =
   "https://calendly.com/tylerlindow/connect";
 
-/** Hero primary CTA: opens Calendly booking (not a download). */
+/** Hero primary CTA: opens Calendly /tinker booking (not a download). */
 export const ENGINEERING_LEADERS_HERO_CTA_LABEL = "Tinker with Tyler";
 export const ENGINEERING_LEADERS_HERO_CTA_URL =
-  "https://calendly.com/tylerlindow/get-your-time-back";
+  "https://calendly.com/tylerlindow/tinker";
 
 /** @deprecated Prefer ENGINEERING_LEADERS_HERO_CTA_LABEL. */
 export const ENGINEERING_LEADERS_CTA_LABEL = ENGINEERING_LEADERS_HERO_CTA_LABEL;
