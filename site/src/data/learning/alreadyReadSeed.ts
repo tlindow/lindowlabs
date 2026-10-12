@@ -1,7 +1,7 @@
 /**
  * Default Already read shelf for the owner when storage has never been
  * initialized. Whole books only (partial reads do not count).
- * Public titles/authors also appear on /books-ive-read; this seed adds
+ * Public titles/authors also appear on /books-ive-read (Other books); this seed adds
  * private shelf fields (id, howMuch, note) only.
  */
 
