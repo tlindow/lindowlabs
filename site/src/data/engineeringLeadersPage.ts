@@ -28,13 +28,15 @@ export const ENGINEERING_LEADERS_DESCRIPTION =
   "Get back your time with a 30-minute retreat that borrows from the museum floor, where hands-on exhibits pull you back into tinkering.";
 
 /**
- * Hero "Pick a time" and Let's talk "Let's get in touch" both use this
- * Calendly event. No /connect on this page.
+ * Let's talk "Let's get in touch" → Calendly connect (shared Footer default).
+ * Hero CTA is Download resume (same PDF as homepage). No get-your-time-back
+ * Calendly links on this page.
  */
 export const ENGINEERING_LEADERS_CALENDLY_URL =
-  "https://calendly.com/tylerlindow/get-your-time-back";
+  "https://calendly.com/tylerlindow/connect";
 
-export const ENGINEERING_LEADERS_CTA_LABEL = "Pick a time";
+/** @deprecated Hero CTA is Download resume; kept for retreatPage re-export. */
+export const ENGINEERING_LEADERS_CTA_LABEL = "Download resume";
 
 /**
  * About body for leaders. Early-career lead-in (exact), then Affirm EM /
@@ -91,11 +93,11 @@ export const ENGINEERING_LEADERS_TOPICS = [
 ] as const;
 
 /**
- * Let's talk blurb on this page only. Same domains as SITE_SUPPORT / Footer,
- * without open-to-roles language. Software engineering leader phrasing.
+ * Let's talk blurb on this page only (homepage keeps its open-to-roles line).
+ * Exact technical "talk shop" copy.
  */
 export const ENGINEERING_LEADERS_CONTACT_BLURB =
-  "Software engineering leader for developer experience, platforms, and merchant and partner integrations.";
+  "Want to talk shop? I'm always up for a conversation about developer experience, developer platforms, partner integrations, and reliability.";
 
 /** Philosophy book on this leaf (homepage keeps Marie Kondo). */
 export const ENGINEERING_LEADERS_PHILOSOPHY_BOOK = {

@@ -11,7 +11,7 @@ export const LEADERS_PAGE_DESCRIPTION =
   "Book 30 minutes with an engineering manager for developer experience, platforms, and merchant and partner integrations.";
 
 export const LEADERS_CALENDLY_URL =
-  "https://calendly.com/tylerlindow/get-your-time-back";
+  "https://calendly.com/tylerlindow/connect";
 
 export const leadersPageMetadata: Metadata = {
   title: LEADERS_PAGE_TITLE,
