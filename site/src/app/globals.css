@@ -604,15 +604,6 @@ body {
   white-space: nowrap;
 }
 
-/*
- * Calendly badge sits bottom-right by default. Lift it above the floating
- * glass audio dock (centered pill) so they never overlap at 1024 or 375.
- */
-.calendly-badge-widget {
-  bottom: calc(4.75rem + env(safe-area-inset-bottom, 0px)) !important;
-  z-index: 45 !important;
-}
-
 /* ---- Homepage hero: wide Tinker rainbow waveform under headline ---- */
 .retreat-waveform {
   display: flex;

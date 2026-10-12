@@ -1,6 +1,7 @@
 "use client";
 
 import { Pause, Play } from "lucide-react";
+import ScheduleCalendarButton from "@/components/ScheduleCalendarButton";
 import { formatPageAudioTime, pageAudioToggleLabel } from "@/data/pageAudio";
 import { usePageAudio } from "@/context/PageAudioProvider";
 import { usePrefersReducedMotion } from "@/hooks/useProfileAnchors";
@@ -18,8 +19,8 @@ function playProgressFraction(currentTime: number, duration: number): number {
 
 /**
  * Floating bottom audio dock (past hero): profile coin + play with progress
- * ring + scrubber/times. Glass pill, safe-area aware. Morph targets live here
- * (`#navbar-avatar-target` / `#navbar-play-target` ids kept for morph measure).
+ * ring + scrubber/times + schedule calendar icon. Glass pill, safe-area aware.
+ * Morph targets live here (`#navbar-avatar-target` / `#navbar-play-target`).
  */
 export default function BottomDockPlayer() {
   const {
@@ -185,6 +186,8 @@ export default function BottomDockPlayer() {
             {formatPageAudioTime(safeDuration)}
           </span>
         </div>
+
+        <ScheduleCalendarButton placement="dock" />
       </div>
     </div>
   );

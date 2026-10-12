@@ -17,6 +17,7 @@ const SESSION_UTM_KEY = "lindowlabs.funnel.utm";
 
 export type FunnelEvent =
   | "download_resume"
+  | "schedule_calendar_icon"
   | "linkedin_icon"
   | "email_icon"
   | "nav_linkedin_icon"
