@@ -65,3 +65,4 @@ Format: `YYYY-MM-DD | loop | failure type | fixing PR | prevention`
 | 2026-10-12 | inner: Cursor | none (one-audience homepage) | this PR | `/` = former leaders content + Marie Kondo; delete `/engineering-leaders`; both legacy paths → `/` one hop; Calendly badge site-wide; no audience nav; `check:mobile-nav` asserts LinkedIn+email only |
 | 2026-10-12 | inner: Cursor | none (Other books covers) | #192 | `/books-ive-read` → Other books + self-hosted covers; Educational institutions label already on shared credentials bar |
 | 2026-10-12 | inner: Cursor | none (Calendly calendar icon) | this PR | Drop badge widget; calendar icon beside Download resume, hands off into bottom dock; `initPopupWidget` + UTMs; `schedule_calendar_icon` funnel event |
+| 2026-10-12 | inner: Cursor | none (Schedule time CTAs) | this PR | Hero + Let's talk labeled Schedule time; dock keeps compact icon; funnel `location` prop hero|dock|contact |
