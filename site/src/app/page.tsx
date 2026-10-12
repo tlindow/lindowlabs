@@ -20,6 +20,10 @@ import { useRegisterReturnToHero } from "@/context/NavbarActions";
 import { usePrefersReducedMotion } from "@/hooks/useProfileAnchors";
 import { setDirectToHeroActive } from "@/lib/profileDock";
 import { SITE_SUPPORT } from "@/data/positioning";
+import {
+  RESUME_PDF_DOWNLOAD_NAME,
+  RESUME_PDF_PATH,
+} from "@/data/urls";
 
 export default function Home() {
   const { scrollY } = useScroll();
