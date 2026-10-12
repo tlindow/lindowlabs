@@ -20,6 +20,10 @@ import { useRegisterReturnToHero } from "@/context/NavbarActions";
 import { usePrefersReducedMotion } from "@/hooks/useProfileAnchors";
 import { setDirectToHeroActive } from "@/lib/profileDock";
 import { SITE_SUPPORT } from "@/data/positioning";
+import {
+  RESUME_PDF_DOWNLOAD_NAME,
+  RESUME_PDF_PATH,
+} from "@/data/urls";
 
 export default function Home() {
   const { scrollY } = useScroll();
@@ -347,13 +351,14 @@ export default function Home() {
                 </p>
 
                 <a
-                  href={`${basePath}/resume`}
-                  onClick={() => logResumeView("hero_cta")}
+                  href={`${basePath}${RESUME_PDF_PATH}`}
+                  download={RESUME_PDF_DOWNLOAD_NAME}
+                  onClick={() => logResumeView("download_pdf")}
                   className="inline-flex items-center gap-2 rounded-xl bg-surface hover:bg-surface-alt text-foreground border border-border px-5 py-2.5 text-xs sm:text-sm font-mono font-bold shadow-xs transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
-                  title="Read Tyler Lindow's resume"
+                  title="Download Tyler Lindow's resume PDF"
                 >
                   <FileText size={15} className="shrink-0" />
-                  <span>Read resume</span>
+                  <span>Download resume</span>
                 </a>
 
                 {/* Previous employers + education logos in one panel */}
@@ -381,7 +386,10 @@ export default function Home() {
       {/* ========================================================= */}
       {/* 4. FOOTER (LET'S TALK, PHILOSOPHY)                        */}
       {/* ========================================================= */}
-      <Footer profilePhotoAnchor />
+      <Footer
+        profilePhotoAnchor
+        contactCta={{ kind: "linkedin-email" }}
+      />
     </div>
   );
 }

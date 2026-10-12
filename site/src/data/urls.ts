@@ -17,3 +17,10 @@ export const BEGINNER_HOST = BEGINNER_URL.replace(/^https?:\/\//, "");
  */
 export const LEARNING_DASHBOARD_URL =
   "https://lindowlabs.vercel.app/learning";
+
+
+/** Current public resume PDF in site/public (synced from Drive). */
+export const RESUME_PDF_PATH = "/Tyler_Lindow_Resume.pdf";
+
+/** Suggested download filename for the public resume PDF. */
+export const RESUME_PDF_DOWNLOAD_NAME = "Tyler_Lindow_Resume.pdf";

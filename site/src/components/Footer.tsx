@@ -5,7 +5,7 @@ import { Calendar, ArrowUpRight, Mail } from "lucide-react";
 import { LinkedInIcon } from "@/components/brand/PartnerLogos";
 import { resumeContact } from "@/data/resumeData";
 
-/** Shared Let's talk primary CTA (Calendly connect). */
+/** Shared Let's talk primary CTA (Calendly connect). Default for non-home pages. */
 const CONNECT_URL = "https://calendly.com/tylerlindow/connect";
 
 /**
@@ -20,6 +20,10 @@ const CONTACT_ICON_BTN_CLASS =
 const CONNECT_CTA_CLASS =
   "inline-flex items-center gap-2 rounded-xl bg-foreground text-background border border-border px-5 py-2.5 text-xs sm:text-sm font-mono font-bold shadow-xs transition-all hover:bg-foreground/90 hover:scale-[1.02] active:scale-[0.98] cursor-pointer";
 
+export type FooterContactCta =
+  | { kind: "calendly"; href?: string; label?: string }
+  | { kind: "linkedin-email" };
+
 type FooterProps = {
   /** Contact leaf: drop duplicate Let's talk heading; hide unused avatar slot. */
   contactLeaf?: boolean;
@@ -28,13 +32,34 @@ type FooterProps = {
    * photo while in view). Used on homepage and retreat dock leaves.
    */
   profilePhotoAnchor?: boolean;
+  /**
+   * Primary CTA(s) under Let's talk. Homepage uses LinkedIn + email;
+   * default (and /engineering-leaders) keeps Calendly connect.
+   */
+  contactCta?: FooterContactCta;
+  /** Optional override for the open-to-roles / leaders support line. */
+  contactBlurb?: string;
 };
+
+const DEFAULT_CONTACT_BLURB =
+  "Open to Engineering Manager and Senior EM roles in developer experience, developer platforms, and partner integrations.";
 
 export default function Footer({
   contactLeaf = false,
   profilePhotoAnchor = false,
+  contactCta = { kind: "calendly" },
+  contactBlurb = DEFAULT_CONTACT_BLURB,
 }: FooterProps) {
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
+  const useLinkedInEmail = contactCta.kind === "linkedin-email";
+  const calendlyHref =
+    contactCta.kind === "calendly"
+      ? contactCta.href ?? CONNECT_URL
+      : CONNECT_URL;
+  const calendlyLabel =
+    contactCta.kind === "calendly"
+      ? contactCta.label ?? "Let's get in touch"
+      : "Let's get in touch";
 
   return (
     <footer className="no-print font-mono w-full">
@@ -86,24 +111,53 @@ export default function Footer({
               </div>
             ) : null}
             <p className="text-xs sm:text-sm font-mono text-muted max-w-md mx-auto leading-relaxed">
-              Open to Engineering Manager and Senior EM roles in developer experience, developer platforms, and partner integrations.
+              {contactBlurb}
             </p>
           </div>
 
           <div className="pt-2 flex flex-col items-center gap-3">
-            <a
-              href={CONNECT_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={CONNECT_CTA_CLASS}
-              title="Let's get in touch on Calendly"
-            >
-              <Calendar size={15} className="shrink-0" />
-              <span>Let&apos;s get in touch</span>
-            </a>
+            {useLinkedInEmail ? (
+              <div
+                className="flex flex-col sm:flex-row items-center justify-center gap-2.5 sm:gap-3"
+                data-contact-cta="linkedin-email"
+              >
+                <a
+                  href={resumeContact.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={CONNECT_CTA_CLASS}
+                  title="Message on LinkedIn"
+                >
+                  <span className="inline-flex shrink-0" aria-hidden="true">
+                    <LinkedInIcon size={15} className="shrink-0" />
+                  </span>
+                  <span>Message on LinkedIn</span>
+                </a>
+                <a
+                  href={`mailto:${resumeContact.email}`}
+                  className={CONNECT_CTA_CLASS}
+                  title={`Send an email to ${resumeContact.email}`}
+                >
+                  <Mail size={15} className="shrink-0" />
+                  <span>Send an email</span>
+                </a>
+              </div>
+            ) : (
+              <a
+                href={calendlyHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={CONNECT_CTA_CLASS}
+                title="Let's get in touch on Calendly"
+                data-contact-cta="calendly"
+              >
+                <Calendar size={15} className="shrink-0" />
+                <span>{calendlyLabel}</span>
+              </a>
+            )}
 
-            {/* Subtle icon-only mail + LinkedIn (equal weight, no text labels) */}
-            {!contactLeaf ? (
+            {/* Icon-only mail + LinkedIn only when Calendly is the primary CTA. */}
+            {!contactLeaf && !useLinkedInEmail ? (
               <div className="flex items-center justify-center gap-3">
                 <a
                   href={`mailto:${resumeContact.email}`}
