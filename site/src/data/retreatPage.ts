@@ -20,13 +20,13 @@ export const RETREAT_HEADLINE = "Empowering engineering leaders";
 export const RETREAT_DESCRIPTION = RETREAT_PAGE_DESCRIPTION;
 
 /**
- * Always-visible bottom CTA on the retreat leaf → Calendly /connect.
- * Availability is configured in Calendly (synced to Tyler's Google Calendar).
+ * Always-visible hero schedule CTA → Calendly get-your-time-back.
+ * Separate from Footer's Let's get in touch (/connect).
  */
 export const RETREAT_CALENDLY_URL =
-  "https://calendly.com/tylerlindow/connect";
+  "https://calendly.com/tylerlindow/get-your-time-back";
 
-export const RETREAT_CTA_LABEL = "Let's get in touch";
+export const RETREAT_CTA_LABEL = "Pick a time";
 
 export const retreatPageMetadata: Metadata = {
   title: RETREAT_PAGE_TITLE,
