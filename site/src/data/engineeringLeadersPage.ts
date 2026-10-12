@@ -39,39 +39,15 @@ export const ENGINEERING_LEADERS_CALENDLY_URL =
 export const ENGINEERING_LEADERS_CTA_LABEL = "Download resume";
 
 /**
- * About body for leaders. Early-career lead-in (exact), then Affirm EM /
- * Beginner Work claims already on homepage/resume. No job-seeking line.
- * Uses software engineering leader (not engineering manager) on this page.
+ * Extra museum section after the shared homepage About on this leaf only.
+ * Exact copy. Homepage About (FORMATION_SUMMARY) is reused unchanged.
  */
-export const ENGINEERING_LEADERS_ABOUT_HEADING =
-  "Software engineering leader, developer experience";
-
-export const ENGINEERING_LEADERS_ABOUT_BODY =
-  "I started out teaching. At the Computer History Museum and The Tech Interactive, I taught people to design, code, and build. At Galvanize / Hack Reactor, I led as a software engineering immersive resident. At Affirm, I started as a developer support engineer, helping 300+ merchants debug their checkout integrations, and built the Snowflake pipelines that turned their feedback into platform fixes. That's where developer experience became my niche. At Affirm, I led up to 9 engineers on merchant and partner integrations and developer experience. Cut higher-transaction merchant outage detection from ~1 hour to under 5 minutes, led a merchant domain architecture review that reshaped the merchant org, and took Merchant Portal from ~99.7% to 99.9% availability with zero BFCM 2025 incidents. As founder of Beginner Work, built Tinker, an IDE for founders who want to get more technical.";
-
-/** Affirm pillar framing (homepage WhatYouGet / resume claims). */
-export const ENGINEERING_LEADERS_AFFIRM_TITLE =
-  "At Affirm, I led merchant and partner integrations.";
-
-export const ENGINEERING_LEADERS_AFFIRM_SUBTEXT =
-  "Developer experience, partner integrations, and Merchant Portal reliability.";
-
-/** Beginner / Tinker pillar (homepage WhatYouGet copy, unchanged claims). */
-export const ENGINEERING_LEADERS_BEGINNER_TITLE =
-  "Founder and CEO, Beginner Work.";
-
-export const ENGINEERING_LEADERS_BEGINNER_SUBTEXT =
-  "Built Tinker, an IDE for folks who want to get more technical. 28 early users from 87 founder conversations. Wound it down in July 2026 and open-sourced it.";
-
-/** How I lead teams (homepage WhatYouGet). */
-export const ENGINEERING_LEADERS_LEAD_TITLE = "How I lead teams.";
-
-export const ENGINEERING_LEADERS_LEAD_SUBTEXT =
-  "Practices for growing engineers.";
+export const ENGINEERING_LEADERS_MUSEUM_BODY =
+  "Before software, I taught at The Tech Interactive as an Experience Development Specialist (2017 to 2019) and at the Computer History Museum as a Design Code Build Instructor (2017 to 2018). That's where I learned how hands-on exhibits pull people into tinkering, and it still shapes how I lead.";
 
 /**
- * Logo strip under the hero (homepage Previous employers slot). Tinker stack
- * from the resume: Vercel, Stytch, GitHub, Anthropic.
+ * Logo strip under the hero (optional toolkit; pending keep/remove).
+ * Tinker stack from the resume: Vercel, Stytch, GitHub, Anthropic.
  */
 export const ENGINEERING_LEADERS_STACK_LABEL = "My enterprise toolkit";
 
