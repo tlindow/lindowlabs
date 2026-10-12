@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect } from "react";
 import Script from "next/script";
 import { captureLandingUtms, withPageUtms } from "@/lib/funnel";
 
@@ -24,6 +24,7 @@ type CalendlyApi = {
     textColor: string;
     branding: boolean;
   }) => void;
+  destroyBadgeWidget?: () => void;
 };
 
 declare global {
@@ -32,28 +33,23 @@ declare global {
   }
 }
 
-/** Remove prior badge DOM so client navigations never stack widgets. */
-function clearCalendlyBadgeDom(): void {
-  if (typeof document === "undefined") return;
-  document
-    .querySelectorAll(
-      ".calendly-badge-widget, .calendly-badge-content, .calendly-overlay"
-    )
-    .forEach((node) => node.remove());
-}
+/** Module flag: SiteChrome stays mounted across client nav; init once. */
+let badgeInitialized = false;
 
 /**
  * Site-wide Calendly badge. Script loads via next/script; init runs in
- * onReady so it survives client-side navigation without window.onload.
- * CSS lifts the badge above the floating bottom audio dock.
+ * onReady (not window.onload) so it survives client-side navigation and is
+ * not duplicated. CSS lifts the badge above the floating bottom audio dock.
  */
 export default function CalendlyBadge() {
-  const initedRef = useRef(false);
-
   const initBadge = useCallback(() => {
     if (typeof window === "undefined" || !window.Calendly) return;
+    if (badgeInitialized) return;
+    if (document.querySelector(".calendly-badge-widget")) {
+      badgeInitialized = true;
+      return;
+    }
     captureLandingUtms();
-    clearCalendlyBadgeDom();
     window.Calendly.initBadgeWidget({
       url: withPageUtms(CALENDLY_BADGE_URL),
       text: BADGE_TEXT,
@@ -61,7 +57,7 @@ export default function CalendlyBadge() {
       textColor: BADGE_TEXT_COLOR,
       branding: true,
     });
-    initedRef.current = true;
+    badgeInitialized = true;
   }, []);
 
   // Ensure widget.css is present (next/script does not load stylesheets).
@@ -78,9 +74,9 @@ export default function CalendlyBadge() {
     document.head.appendChild(link);
   }, []);
 
-  // Re-init if the script already loaded (e.g. Soft remount) without onReady.
+  // Script already on the page (soft remount / HMR): init without waiting.
   useEffect(() => {
-    if (initedRef.current) return;
+    if (badgeInitialized) return;
     if (window.Calendly) initBadge();
   }, [initBadge]);
 
@@ -89,7 +85,6 @@ export default function CalendlyBadge() {
       src={WIDGET_JS}
       strategy="afterInteractive"
       onReady={initBadge}
-      onLoad={initBadge}
     />
   );
 }
