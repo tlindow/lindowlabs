@@ -82,7 +82,12 @@ export default function RetreatPage() {
                 id="hero-below"
                 className="flex flex-col items-center justify-start gap-5 sm:gap-6 w-full min-h-0 min-w-0 max-w-full pt-3 sm:pt-4 pb-8 sm:pb-10"
               >
-                <div className="w-full min-w-0 max-w-full">
+                {/*
+                  Pull the waveform into the h1 trailing spacer line (same
+                  clamp/leading as the headline) so description → Pick a time
+                  matches homepage subtitle → Read resume on desktop.
+                */}
+                <div className="w-full min-w-0 max-w-full -mt-[calc(1.08*clamp(1.05rem,min(6.2cqi,calc(100cqi/15.5)),4.7rem))]">
                   <RetreatWaveform />
                 </div>
 
