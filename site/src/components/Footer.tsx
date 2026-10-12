@@ -3,6 +3,7 @@
 import { Calendar, ArrowUpRight, Mail } from "lucide-react";
 import { LinkedInIcon } from "@/components/brand/PartnerLogos";
 import { resumeContact } from "@/data/resumeData";
+import { openTrackedExternal, trackFunnel } from "@/lib/funnel";
 
 /** Shared Let's talk Calendly connect CTA (non-home pages). */
 const CONNECT_URL = "https://calendly.com/tylerlindow/connect";
@@ -21,8 +22,17 @@ const CONNECT_CTA_CLASS =
 export type FooterContactCta =
   /** Homepage: LinkedIn + email icons only (no Calendly text button). */
   | { kind: "icons" }
-  /** /engineering-leaders and default: Calendly connect pill. */
-  | { kind: "calendly"; href?: string; label?: string };
+  /**
+   * Calendly pill. Pass forwardUtms on /engineering-leaders so landing
+   * utm_* are appended to the booking URL at click time.
+   */
+  | {
+      kind: "calendly";
+      href?: string;
+      label?: string;
+      forwardUtms?: boolean;
+      trackEvent?: "schedule_with_tyler_contact" | "schedule_with_tyler_hero";
+    };
 
 export type FooterPhilosophyBook = {
   src: string;
@@ -75,6 +85,12 @@ export default function Footer({
     contactCta.kind === "calendly"
       ? (contactCta.label ?? "Let's get in touch")
       : "Let's get in touch";
+  const calendlyForwardUtms =
+    contactCta.kind === "calendly" ? Boolean(contactCta.forwardUtms) : false;
+  const calendlyTrackEvent =
+    contactCta.kind === "calendly"
+      ? (contactCta.trackEvent ?? "schedule_with_tyler_contact")
+      : "schedule_with_tyler_contact";
   const bookSrc = philosophyBook.src.startsWith("http")
     ? philosophyBook.src
     : `${basePath}${philosophyBook.src}`;
@@ -142,6 +158,7 @@ export default function Footer({
                   className={CONTACT_ICON_BTN_CLASS}
                   aria-label="Message me on LinkedIn"
                   title="Message me on LinkedIn"
+                  onClick={() => trackFunnel("linkedin_icon")}
                 >
                   <span className="inline-flex" aria-hidden="true">
                     <LinkedInIcon size={16} className="shrink-0" />
@@ -152,6 +169,7 @@ export default function Footer({
                   className={CONTACT_ICON_BTN_CLASS}
                   aria-label={`Email ${resumeContact.email}`}
                   title={`Email ${resumeContact.email}`}
+                  onClick={() => trackFunnel("email_icon")}
                 >
                   <Mail size={16} className="shrink-0" aria-hidden="true" />
                 </a>
@@ -163,8 +181,14 @@ export default function Footer({
                   target="_blank"
                   rel="noopener noreferrer"
                   className={CONNECT_CTA_CLASS}
-                  title="Let's get in touch on Calendly"
+                  title={calendlyLabel}
                   data-contact-cta="calendly"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    openTrackedExternal(calendlyHref, calendlyTrackEvent, {
+                      forwardUtms: calendlyForwardUtms,
+                    });
+                  }}
                 >
                   <Calendar size={15} className="shrink-0" />
                   <span>{calendlyLabel}</span>
@@ -178,6 +202,7 @@ export default function Footer({
                       className={CONTACT_ICON_BTN_CLASS}
                       aria-label={`Email ${resumeContact.email}`}
                       title={`Email ${resumeContact.email}`}
+                      onClick={() => trackFunnel("email_icon")}
                     >
                       <Mail size={16} className="shrink-0" aria-hidden="true" />
                     </a>
@@ -188,6 +213,7 @@ export default function Footer({
                       className={CONTACT_ICON_BTN_CLASS}
                       aria-label="Message me on LinkedIn"
                       title="Message me on LinkedIn"
+                      onClick={() => trackFunnel("linkedin_icon")}
                     >
                       <span className="inline-flex" aria-hidden="true">
                         <LinkedInIcon size={16} className="shrink-0" />

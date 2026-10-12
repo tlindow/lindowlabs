@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
 import Navbar from "@/components/Navbar";
+import BottomDockPlayer from "@/components/page-audio/BottomDockPlayer";
 import { NavbarActionsProvider } from "@/context/NavbarActions";
 import { PageAudioProvider } from "@/context/PageAudioProvider";
 
@@ -14,19 +15,16 @@ const LAVENDER_ROUTES = new Set([
 ]);
 
 /**
- * Persistent site chrome: sticky top nav on every route, with the lavender
- * homepage theme on recruiter surfaces. Retreat keeps cream paper (not lavender).
+ * Persistent site chrome: sticky top nav on every route, floating bottom audio
+ * dock on page-audio leaves, lavender homepage theme on recruiter surfaces.
  */
 export default function SiteChrome({ children }: { children: ReactNode }) {
   const pathname = usePathname() || "/";
   const lavenderNav = LAVENDER_ROUTES.has(pathname);
 
-  // Sticky nav must share a tall scroll container with page content. A nav-only
-  // wrapper is only as tall as the header, so position:sticky cannot pin.
-  //
-  // relative z-0 on the page shell traps page content (hero play, coins, etc.)
-  // below the sticky nav sibling (z-50). The profile morph coin + play portal
-  // to document.body at z-60 so they paint over the nav during hero→nav.
+  // Sticky nav must share a tall scroll container with page content.
+  // relative z-0 on the page shell traps page content below sticky nav (z-50).
+  // Profile morph + play portal to document.body at z-60 during hero→dock.
   return (
     <NavbarActionsProvider>
       <PageAudioProvider>
@@ -39,6 +37,7 @@ export default function SiteChrome({ children }: { children: ReactNode }) {
         >
           <Navbar />
           <div className="relative z-0">{children}</div>
+          <BottomDockPlayer />
         </div>
       </PageAudioProvider>
     </NavbarActionsProvider>

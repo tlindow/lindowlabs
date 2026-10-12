@@ -130,8 +130,10 @@ async function run() {
         'a[data-nav="for-engineering-leaders"], a[href="/engineering-leaders"]'
       );
       const visitors = header?.querySelector('a[href="/visitors"]');
-      const linkedIn = [...(header?.querySelectorAll("a") || [])].find((a) =>
-        /linkedin\.com/i.test(a.href || "")
+      const linkedIn = header?.querySelector('a[data-nav="linkedin"]');
+      const email = header?.querySelector('a[data-nav="email"]');
+      const topAudio = header?.querySelector(
+        '[data-page-audio="nav-full-player"], [data-page-audio="nav-play"]'
       );
 
       if (!header || !brand || !audience) {
@@ -155,19 +157,23 @@ async function run() {
           ar.top >= hr.top - 1 &&
           ar.bottom <= hr.bottom + 1 &&
           !visitors &&
-          !linkedIn,
+          !!linkedIn &&
+          !!email &&
+          !topAudio,
         brandLeft: br.left,
         audienceLeft: ar.left,
         audienceHref: audience.getAttribute("href"),
         audienceText: (audience.textContent || "").replace(/\s+/g, " ").trim(),
         hasVisitors: !!visitors,
         hasLinkedIn: !!linkedIn,
+        hasEmail: !!email,
+        hasTopAudio: !!topAudio,
       };
     });
 
     if (!layout?.ok) {
       throw new Error(
-        `Expected Name left | For engineering leaders → right with no Visitors/LinkedIn: ${JSON.stringify(layout)}`
+        `Expected Name left | LinkedIn+email icons | For engineering leaders → right, no top audio: ${JSON.stringify(layout)}`
       );
     }
 
@@ -183,8 +189,7 @@ async function run() {
       );
     }
 
-    // Docked nav player (past hero): play + scrub + times must be visible at rest
-    // (before play), including the under-nav mobile timeline.
+    // Bottom floating dock (past hero): play + scrub + times at rest.
     await page.evaluate(() => {
       const contact = document.getElementById("contact");
       const mid = contact
@@ -194,11 +199,12 @@ async function run() {
     });
     await page.waitForFunction(
       () => {
+        const dock = document.querySelector('[data-page-audio="bottom-dock"]');
         const player = document.querySelector(
           '[data-page-audio="nav-full-player"]'
         );
-        if (!player) return false;
-        const style = getComputedStyle(player);
+        if (!dock || !player) return false;
+        const style = getComputedStyle(dock);
         return (
           style.display !== "none" &&
           style.visibility !== "hidden" &&
@@ -208,12 +214,13 @@ async function run() {
       { timeout: 8000 }
     );
     const docked = await page.evaluate(() => {
+      const dock = document.querySelector('[data-page-audio="bottom-dock"]');
       const player = document.querySelector(
         '[data-page-audio="nav-full-player"]'
       );
       const play = document.querySelector('[data-page-audio="nav-play"]');
       const scrubber = document.querySelector(
-        '[data-page-audio="nav-mobile-scrubber"]'
+        '[data-page-audio="nav-scrubber"]'
       );
       const elapsed = document.querySelector(
         '[data-page-audio="nav-mobile-time-elapsed"]'
@@ -221,30 +228,30 @@ async function run() {
       const total = document.querySelector(
         '[data-page-audio="nav-mobile-time-total"]'
       );
-      const scrubStyle = scrubber ? getComputedStyle(scrubber) : null;
       const range = scrubber?.querySelector('input[type="range"]');
+      const dockRect = dock?.getBoundingClientRect();
       return {
+        hasDock: !!dock,
         hasPlayer: !!player,
         hasPlay: !!play,
-        scrubVisible:
-          !!scrubber &&
-          scrubStyle &&
-          scrubStyle.display !== "none" &&
-          Number.parseFloat(scrubStyle.opacity || "0") > 0.85,
+        hasScrubber: !!scrubber,
         elapsed: (elapsed?.textContent || "").trim(),
         total: (total?.textContent || "").trim(),
         rangeMax: range ? Number(range.getAttribute("max") || range.max) : 0,
         heroPlay: !!document.querySelector('[data-page-audio="hero-play"]'),
+        dockBottom: dockRect ? Math.round(dockRect.bottom) : null,
+        viewportH: window.innerHeight,
+        inHeader: !!play?.closest("header"),
       };
     });
-    if (!docked.hasPlayer || !docked.hasPlay) {
+    if (!docked.hasDock || !docked.hasPlayer || !docked.hasPlay) {
       throw new Error(
-        `Docked nav player missing at rest: ${JSON.stringify(docked)}`
+        `Bottom dock player missing at rest: ${JSON.stringify(docked)}`
       );
     }
-    if (!docked.scrubVisible) {
+    if (!docked.hasScrubber) {
       throw new Error(
-        `Mobile scrubber not visible at rest when docked: ${JSON.stringify(docked)}`
+        `Bottom dock scrubber missing at rest: ${JSON.stringify(docked)}`
       );
     }
     if (docked.elapsed !== "0:00") {
@@ -254,45 +261,26 @@ async function run() {
     }
     if (!docked.total || docked.total === "0:00" || !(docked.rangeMax > 0)) {
       throw new Error(
-        `Expected total duration at rest on mobile scrubber: ${JSON.stringify(docked)}`
+        `Expected total duration at rest on bottom dock: ${JSON.stringify(docked)}`
       );
     }
-    // Mid-page dock: hero play must not compete with the nav control.
     if (docked.heroPlay) {
-      throw new Error("hero-play still mounted while nav player is docked");
+      throw new Error("hero-play still mounted while bottom dock is visible");
     }
-
-    // Docked play must sit at the horizontal + vertical center of the sticky bar.
-    const playCenter = await page.evaluate(() => {
-      const header = document.querySelector("header.sticky");
-      const play = document.querySelector('[data-page-audio="nav-play"]');
-      if (!header || !play) return { error: "missing header or nav-play" };
-      const hr = header.getBoundingClientRect();
-      const pr = play.getBoundingClientRect();
-      const playCx = pr.left + pr.width / 2;
-      const playCy = pr.top + pr.height / 2;
-      const headerCx = hr.left + hr.width / 2;
-      const headerCy = hr.top + hr.height / 2;
-      return {
-        dx: Math.abs(playCx - headerCx),
-        dy: Math.abs(playCy - headerCy),
-        playCx: Math.round(playCx),
-        headerCx: Math.round(headerCx),
-        playCy: Math.round(playCy),
-        headerCy: Math.round(headerCy),
-      };
-    });
-    if (playCenter.error) {
-      throw new Error(playCenter.error);
+    if (docked.inHeader) {
+      throw new Error("nav-play must not live in the sticky header anymore");
     }
-    if (playCenter.dx > 8 || playCenter.dy > 6) {
+    if (
+      docked.dockBottom == null ||
+      docked.dockBottom < docked.viewportH - 80
+    ) {
       throw new Error(
-        `Docked nav-play not centered in header: ${JSON.stringify(playCenter)}`
+        `Bottom dock not near viewport bottom: ${JSON.stringify(docked)}`
       );
     }
 
     console.log(
-      "check-mobile-nav: ok (For engineering leaders → visible at 390px, docked scrubber+times at rest, centered play, no Visitors/LinkedIn, header overflow-x safe)"
+      "check-mobile-nav: ok (LinkedIn+email icons + For engineering leaders → at 390px, bottom dock play+scrub+times at rest, no top audio, header overflow-x safe)"
     );
   } finally {
     await browser.close();

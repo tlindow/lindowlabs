@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "@types/three": "^0.185.4",
+    "@vercel/analytics": "^2.0.1",
     "dotenv": "^17.4.2",
     "firebase": "^12.18.0",
     "framer-motion": "^12.35.0",

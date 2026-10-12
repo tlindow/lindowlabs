@@ -7,6 +7,7 @@ import ScrollMorphAvatar from "@/components/animations/ScrollMorphAvatar";
 import ScrollMorphPlayButton from "@/components/animations/ScrollMorphPlayButton";
 import RetreatWaveform from "@/components/retreat/RetreatWaveform";
 import LeadersBody from "@/components/leaders/LeadersBody";
+import HeroAudioEndCta from "@/components/page-audio/HeroAudioEndCta";
 import {
   EducationInstitutionsBar,
   TrustedPartnersBar,
@@ -21,6 +22,7 @@ import {
   ENGINEERING_LEADERS_KICKER,
   ENGINEERING_LEADERS_PHILOSOPHY_BOOK,
 } from "@/data/engineeringLeadersPage";
+import { openTrackedExternal } from "@/lib/funnel";
 
 /** Cream paper surface from the earlier retreat leaf (not homepage lavender). */
 const RETREAT_CREAM = "#FFFDF7";
@@ -72,6 +74,8 @@ export default function RetreatPage() {
                   </div>
                 </div>
 
+                <HeroAudioEndCta />
+
                 <span className="text-xs sm:text-sm font-mono font-bold text-indigo-dark uppercase tracking-widest block">
                   {ENGINEERING_LEADERS_KICKER}
                 </span>
@@ -111,9 +115,17 @@ export default function RetreatPage() {
                   href={ENGINEERING_LEADERS_HERO_CTA_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  data-retreat="tinker-with-tyler"
+                  data-retreat="schedule-with-tyler"
                   className="inline-flex items-center gap-2 rounded-xl bg-surface hover:bg-surface-alt text-foreground border border-border px-5 py-2.5 text-xs sm:text-sm font-mono font-bold shadow-xs transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
                   title="Book a 30-minute slot with Tyler"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    openTrackedExternal(
+                      ENGINEERING_LEADERS_HERO_CTA_URL,
+                      "schedule_with_tyler_hero",
+                      { forwardUtms: true }
+                    );
+                  }}
                 >
                   <Calendar size={15} className="shrink-0" aria-hidden="true" />
                   <span>{ENGINEERING_LEADERS_HERO_CTA_LABEL}</span>
@@ -153,6 +165,8 @@ export default function RetreatPage() {
           kind: "calendly",
           href: ENGINEERING_LEADERS_HERO_CTA_URL,
           label: ENGINEERING_LEADERS_HERO_CTA_LABEL,
+          forwardUtms: true,
+          trackEvent: "schedule_with_tyler_contact",
         }}
         philosophyBook={ENGINEERING_LEADERS_PHILOSOPHY_BOOK}
       />

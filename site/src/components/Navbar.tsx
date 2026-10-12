@@ -3,16 +3,18 @@
 import type { MouseEvent } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Mail } from "lucide-react";
+import { LinkedInIcon } from "@/components/brand/PartnerLogos";
 import { useNavbarActions } from "@/context/NavbarActions";
 import { ENGINEERING_LEADERS_PATH } from "@/data/engineeringLeadersPage";
-import NavPageAudioPlayer, {
-  NavCenteredPlay,
-  NavDesktopScrubber,
-  NavPageAudioMobileScrubber,
-} from "@/components/page-audio/NavPageAudioPlayer";
+import { resumeContact } from "@/data/resumeData";
+import { trackFunnel } from "@/lib/funnel";
 
 const AUDIENCE_PILL_CLASS =
   "inline-flex items-center rounded-full px-3 py-1.5 text-xs font-mono font-bold transition-all hover:scale-[1.02] active:scale-[0.98] bg-sand/80 hover:bg-sand text-foreground/90 hover:text-indigo-dark border border-border hover:border-indigo-dark/40 shadow-2xs";
+
+const NAV_ICON_BTN_CLASS =
+  "inline-flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full border border-border bg-sand/80 text-foreground/90 hover:bg-sand hover:text-indigo-dark hover:border-indigo-dark/40 shadow-2xs transition-all hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-dark/40";
 
 export default function Navbar() {
   const pathnameRaw = usePathname() || "/";
@@ -23,7 +25,6 @@ export default function Navbar() {
       : pathnameRaw;
   const { returnToHero } = useNavbarActions();
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
-  /** Leaders leaf ↔ homepage audience toggle (Login removed from nav). */
   const onLeadersPage =
     pathname === ENGINEERING_LEADERS_PATH ||
     pathname === "/get-your-time-back";
@@ -36,66 +37,72 @@ export default function Navbar() {
     }
   };
 
-  // Always painted at scroll 0. No scroll-linked opacity, visibility, or
-  // translate: the old fade-in (scrollY / hero progress) was removed so the
-  // bar is persistent from first paint and stays sticky while scrolling.
   return (
-    // No overflow-x-clip here: Safari also clips Y when overflow-x is clip,
-    // which hid the absolute mobile menu that hangs below this bar.
-    // relative: docked page-audio mobile timeline (scrub + times) sits under this bar.
-    // z-50 + isolate: sticky chrome sits above the page shell (relative z-0 in
-    // SiteChrome), so section coins / body copy slide under this bar. Profile
-    // morph + hero play portal above (z-60) during hero→nav (coin flips; play slides).
-    // overflow-anchor: none — sticky header size/visibility changes during the
-    // Let's talk ↔ nav photo handoff must not retarget scrollY (scroll hitch).
+    // No audio player in the top nav — playback docks in BottomDockPlayer.
+    // overflow-anchor: none — sticky header size changes must not retarget scrollY.
     <header className="sticky top-0 z-50 isolate w-full bg-background opacity-100 border-b border-border no-print relative [overflow-anchor:none]">
       <div className="relative max-w-5xl mx-auto px-3 sm:px-6 md:px-8 h-14 sm:h-16 flex items-center gap-2 min-w-0">
-        {/* Brand cluster: logo, name, then docked profile photo. */}
         <div className="flex items-center flex-1 min-w-0 [overflow-anchor:none]">
-          <div className="relative flex items-center gap-1.5 sm:gap-2 min-w-0">
-            <Link
-              href="/"
-              className="relative flex items-center gap-2 sm:gap-2.5 group cursor-pointer focus:outline-none min-w-0"
-              aria-label="Lindow Labs - Tyler Lindow, back to top"
-              onClick={goHome}
-            >
-              {/* Compact Lindow Labs mark (same asset as /learning + brand). */}
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={`${basePath}/brand/lindow-labs-icon.svg`}
-                alt="Lindow Labs"
-                width={28}
-                height={28}
-                className="h-6 w-6 sm:h-7 sm:w-7 shrink-0"
-              />
+          <Link
+            href="/"
+            className="relative flex items-center gap-2 sm:gap-2.5 group cursor-pointer focus:outline-none min-w-0"
+            aria-label="Lindow Labs - Tyler Lindow, back to top"
+            onClick={goHome}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={`${basePath}/brand/lindow-labs-icon.svg`}
+              alt="Lindow Labs"
+              width={28}
+              height={28}
+              className="h-6 w-6 sm:h-7 sm:w-7 shrink-0"
+            />
 
-              <div className="flex flex-col min-w-0 text-left">
-                <span className="font-bold text-sm sm:text-base text-foreground group-hover:text-indigo-dark transition-colors leading-tight font-mono truncate">
-                  Tyler Lindow
-                </span>
-                <span className="text-[10px] text-muted font-mono leading-none hidden sm:inline truncate">
-                  Developer Experience &amp; Platform
-                </span>
-              </div>
-            </Link>
-
-            <NavPageAudioPlayer />
-          </div>
+            <div className="flex flex-col min-w-0 text-left">
+              <span className="font-bold text-sm sm:text-base text-foreground group-hover:text-indigo-dark transition-colors leading-tight font-mono truncate">
+                Tyler Lindow
+              </span>
+              <span className="text-[10px] text-muted font-mono leading-none hidden sm:inline truncate">
+                Developer Experience &amp; Platform
+              </span>
+            </div>
+          </Link>
         </div>
 
-        {/* Play: true center of the nav bar (morph lands here). */}
-        <NavCenteredPlay />
+        <div className="relative z-[2] flex items-center gap-1.5 sm:gap-2 shrink-0">
+          <a
+            href={resumeContact.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={NAV_ICON_BTN_CLASS}
+            aria-label="Message me on LinkedIn"
+            title="Message me on LinkedIn"
+            data-nav="linkedin"
+            onClick={() => trackFunnel("nav_linkedin_icon")}
+          >
+            <span className="inline-flex" aria-hidden="true">
+              <LinkedInIcon size={15} className="shrink-0" />
+            </span>
+          </a>
+          <a
+            href={`mailto:${resumeContact.email}`}
+            className={NAV_ICON_BTN_CLASS}
+            aria-label={`Email ${resumeContact.email}`}
+            title={`Email ${resumeContact.email}`}
+            data-nav="email"
+            onClick={() => trackFunnel("nav_email_icon")}
+          >
+            <Mail size={15} className="shrink-0" aria-hidden="true" />
+          </a>
 
-        {/* Desktop scrubber + audience pill (Name left | For … right). */}
-        <div className="relative z-[2] flex items-center gap-2 sm:gap-3 shrink-0">
-          <NavDesktopScrubber />
-          <nav aria-label="Audience" className="flex items-center shrink-0">
+          <nav aria-label="Audience" className="flex items-center shrink-0 ml-0.5 sm:ml-1">
             {onLeadersPage ? (
               <Link
                 href="/"
                 className={AUDIENCE_PILL_CLASS}
                 title="For recruiters"
                 data-nav="for-recruiters"
+                onClick={() => trackFunnel("nav_for_recruiters")}
               >
                 For recruiters{" "}
                 <span aria-hidden="true" className="ml-0.5">
@@ -108,6 +115,7 @@ export default function Navbar() {
                 className={AUDIENCE_PILL_CLASS}
                 title="For engineering leaders"
                 data-nav="for-engineering-leaders"
+                onClick={() => trackFunnel("nav_for_engineering_leaders")}
               >
                 For engineering leaders{" "}
                 <span aria-hidden="true" className="ml-0.5">
@@ -118,7 +126,6 @@ export default function Navbar() {
           </nav>
         </div>
       </div>
-      <NavPageAudioMobileScrubber />
     </header>
   );
 }

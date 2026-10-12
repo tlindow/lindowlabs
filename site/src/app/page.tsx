@@ -16,6 +16,8 @@ import ScrollMorphAvatar, {
 } from "@/components/animations/ScrollMorphAvatar";
 import ScrollMorphPlayButton from "@/components/animations/ScrollMorphPlayButton";
 import { useAnalytics } from "@/context/AnalyticsProvider";
+import HeroAudioEndCta from "@/components/page-audio/HeroAudioEndCta";
+import { trackFunnel } from "@/lib/funnel";
 import { useRegisterReturnToHero } from "@/context/NavbarActions";
 import { useHeroOverflowSpacer } from "@/hooks/useHeroOverflowSpacer";
 import { usePrefersReducedMotion } from "@/hooks/useProfileAnchors";
@@ -273,6 +275,8 @@ export default function Home() {
                   </div>
                 </div>
 
+                <HeroAudioEndCta />
+
                 <span className="text-xs sm:text-sm font-mono font-bold text-indigo-dark uppercase tracking-widest block">
                   ex-Affirm, ex-founder
                 </span>
@@ -312,7 +316,10 @@ export default function Home() {
                 <a
                   href={`${basePath}${RESUME_PDF_PATH}`}
                   download={RESUME_PDF_DOWNLOAD_NAME}
-                  onClick={() => logResumeView("download_pdf")}
+                  onClick={() => {
+                    logResumeView("download_pdf");
+                    trackFunnel("download_resume");
+                  }}
                   className="inline-flex items-center gap-2 rounded-xl bg-surface hover:bg-surface-alt text-foreground border border-border px-5 py-2.5 text-xs sm:text-sm font-mono font-bold shadow-xs transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
                   title="Download Tyler Lindow's resume PDF"
                 >
