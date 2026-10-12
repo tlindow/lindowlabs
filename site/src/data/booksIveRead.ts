@@ -1,6 +1,6 @@
 /**
  * Public finished-books list for /books-ive-read ("Other books").
- * Titles, authors, and self-hosted cover paths only — nothing from the
+ * Titles, authors, and self-hosted cover paths only. Nothing from the
  * private /learning curriculum.
  */
 
