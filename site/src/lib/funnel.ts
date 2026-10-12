@@ -60,10 +60,16 @@ export function readStoredUtms(): FunnelUtmProps {
   }
 }
 
-/** Fire a Vercel Analytics custom event with stored utm_* properties. */
-export function trackFunnel(event: FunnelEvent): void {
+/**
+ * Fire a Vercel Analytics custom event with stored utm_* properties.
+ * Optional `extra` merges in (e.g. location: hero | dock | contact).
+ */
+export function trackFunnel(
+  event: FunnelEvent,
+  extra?: Record<string, string>
+): void {
   try {
-    const props = readStoredUtms();
+    const props = { ...readStoredUtms(), ...(extra ?? {}) };
     if (Object.keys(props).length > 0) {
       track(event, props);
     } else {

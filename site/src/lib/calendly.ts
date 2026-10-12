@@ -7,7 +7,8 @@ import { captureLandingUtms, withPageUtms } from "@/lib/funnel";
 export const CALENDLY_CONNECT_URL =
   "https://calendly.com/tylerlindow/connect";
 
-export const CALENDLY_SCHEDULE_LABEL = "Schedule time with me";
+/** Visible label (hero / Let's talk) and aria-label / tooltip (all placements). */
+export const CALENDLY_SCHEDULE_LABEL = "Schedule time";
 
 type CalendlyApi = {
   initPopupWidget: (options: { url: string }) => void;

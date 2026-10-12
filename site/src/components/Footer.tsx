@@ -2,6 +2,7 @@
 
 import { ArrowUpRight, Mail } from "lucide-react";
 import { LinkedInIcon } from "@/components/brand/PartnerLogos";
+import ScheduleCalendarButton from "@/components/ScheduleCalendarButton";
 import { OTHER_BOOKS_LABEL } from "@/data/booksIveRead";
 import { HOME_CONTACT_BLURB } from "@/data/homepage";
 import { resumeContact } from "@/data/resumeData";
@@ -103,11 +104,12 @@ export default function Footer({
           </div>
 
           <div className="pt-2 flex flex-col items-center gap-3">
-            {/* Scheduling is the site-wide Calendly badge; Let's talk stays icons. */}
+            {/* Let's talk: Schedule time + LinkedIn + email. Heading stays plain text. */}
             <div
-              className="flex items-center justify-center gap-3"
+              className="flex flex-wrap items-center justify-center gap-3"
               data-contact-cta="icons"
             >
+              <ScheduleCalendarButton placement="contact" />
               <a
                 href={resumeContact.linkedin}
                 target="_blank"
