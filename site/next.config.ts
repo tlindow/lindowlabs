@@ -20,12 +20,28 @@ const nextConfig: NextConfig = {
   devIndicators: false,
   reactStrictMode: true,
   // Static export ignores redirects; write-redirects.mjs emits HTML for Pages.
+  // Both legacy paths go straight to / (no chain through each other).
   async redirects() {
     if (useStaticExport) return [];
     return [
       {
+        source: "/engineering-leaders",
+        destination: "/",
+        permanent: true,
+      },
+      {
+        source: "/engineering-leaders/",
+        destination: "/",
+        permanent: true,
+      },
+      {
         source: "/get-your-time-back",
-        destination: "/engineering-leaders",
+        destination: "/",
+        permanent: true,
+      },
+      {
+        source: "/get-your-time-back/",
+        destination: "/",
         permanent: true,
       },
     ];

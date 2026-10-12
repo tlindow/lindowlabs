@@ -3,10 +3,8 @@ import type { Metadata } from "next";
 /** Canonical contact page URL for /schedule-time and /time. */
 export const LEADERS_CANONICAL_URL = "https://lindowlabs.dev/schedule-time";
 
-/** Shared meta for contact routes (canonical + og:url always point at /schedule-time).
- *  /engineering-leaders is the leaders retreat leaf (see engineeringLeadersPage.ts). */
+/** Shared meta for contact routes (canonical + og:url always point at /schedule-time). */
 export const LEADERS_PAGE_TITLE = "30 minutes with Tyler Lindow";
-
 export const LEADERS_PAGE_DESCRIPTION =
   "Book 30 minutes with an engineering manager for developer experience, platforms, and merchant and partner integrations.";
 

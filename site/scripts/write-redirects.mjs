@@ -13,11 +13,16 @@ const PATH_MOVES = [
   },
 ];
 
-/** Top-level path moves (not under /blog). Written as nested index.html. */
+/** Top-level path moves (not under /blog). Written as nested index.html.
+ *  Each legacy path hops straight to / (no chain). */
 const TOP_LEVEL_PATH_MOVES = [
   {
     from: "get-your-time-back",
-    href: "/engineering-leaders",
+    href: "/",
+  },
+  {
+    from: "engineering-leaders",
+    href: "/",
   },
 ];
 

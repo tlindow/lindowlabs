@@ -1,12 +1,10 @@
 "use client";
 
-import { Calendar, ArrowUpRight, Mail } from "lucide-react";
+import { ArrowUpRight, Mail } from "lucide-react";
 import { LinkedInIcon } from "@/components/brand/PartnerLogos";
+import { HOME_CONTACT_BLURB } from "@/data/homepage";
 import { resumeContact } from "@/data/resumeData";
-import { openTrackedExternal, trackFunnel } from "@/lib/funnel";
-
-/** Shared Let's talk Calendly connect CTA (non-home pages). */
-const CONNECT_URL = "https://calendly.com/tylerlindow/connect";
+import { trackFunnel } from "@/lib/funnel";
 
 /**
  * Icon-only contacts. Use bg-foreground + text-background so #contact theme
@@ -15,31 +13,13 @@ const CONNECT_URL = "https://calendly.com/tylerlindow/connect";
 const CONTACT_ICON_BTN_CLASS =
   "inline-flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full border border-border/60 bg-foreground text-background shadow-2xs transition-all hover:bg-foreground/90 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C4B5FD] focus-visible:ring-offset-2 focus-visible:ring-offset-[#3B2A5C] motion-reduce:hover:scale-100";
 
-/** Light pill + dark ink on deep #contact; matches Download resume shape/weight. */
-const CONNECT_CTA_CLASS =
-  "inline-flex items-center gap-2 rounded-xl bg-foreground text-background border border-border px-5 py-2.5 text-xs sm:text-sm font-mono font-bold shadow-xs transition-all hover:bg-foreground/90 hover:scale-[1.02] active:scale-[0.98] cursor-pointer";
-
-export type FooterContactCta =
-  /** Homepage: LinkedIn + email icons only (no Calendly text button). */
-  | { kind: "icons" }
-  /**
-   * Calendly pill. Pass forwardUtms on /engineering-leaders so landing
-   * utm_* are appended to the booking URL at click time.
-   */
-  | {
-      kind: "calendly";
-      href?: string;
-      label?: string;
-      forwardUtms?: boolean;
-      trackEvent?: "schedule_with_tyler_contact" | "schedule_with_tyler_hero";
-    };
-
 export type FooterPhilosophyBook = {
   src: string;
   title: string;
   author: string;
 };
 
+/** Homepage philosophy book (Marie Kondo; not Don Norman). */
 const DEFAULT_PHILOSOPHY_BOOK: FooterPhilosophyBook = {
   src: "/book-marie-kondo.jpg",
   title: "The Life-Changing Magic of Tidying Up",
@@ -51,46 +31,22 @@ type FooterProps = {
   contactLeaf?: boolean;
   /**
    * Mark the Let's talk static photo as a profile-photo anchor (hides the nav
-   * photo while in view). Used on homepage and retreat dock leaves.
+   * photo while in view). Used on homepage dock leaves.
    */
   profilePhotoAnchor?: boolean;
-  /**
-   * Contact actions under Let's talk. Homepage uses icons; leaders uses
-   * Calendly connect (default).
-   */
-  contactCta?: FooterContactCta;
-  /** Optional override for the open-to-roles / leaders support line. */
+  /** Optional override for the Let's talk support line. */
   contactBlurb?: string;
-  /** Philosophy book cover (homepage Marie Kondo; leaders Don Norman). */
+  /** Philosophy book cover (defaults to Marie Kondo). */
   philosophyBook?: FooterPhilosophyBook;
 };
-
-const DEFAULT_CONTACT_BLURB =
-  "Open to Engineering Manager and Senior EM roles in developer experience, developer platforms, and partner integrations.";
 
 export default function Footer({
   contactLeaf = false,
   profilePhotoAnchor = false,
-  contactCta = { kind: "calendly" },
-  contactBlurb = DEFAULT_CONTACT_BLURB,
+  contactBlurb = HOME_CONTACT_BLURB,
   philosophyBook = DEFAULT_PHILOSOPHY_BOOK,
 }: FooterProps) {
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
-  const iconsOnly = contactCta.kind === "icons";
-  const calendlyHref =
-    contactCta.kind === "calendly"
-      ? (contactCta.href ?? CONNECT_URL)
-      : CONNECT_URL;
-  const calendlyLabel =
-    contactCta.kind === "calendly"
-      ? (contactCta.label ?? "Let's get in touch")
-      : "Let's get in touch";
-  const calendlyForwardUtms =
-    contactCta.kind === "calendly" ? Boolean(contactCta.forwardUtms) : false;
-  const calendlyTrackEvent =
-    contactCta.kind === "calendly"
-      ? (contactCta.trackEvent ?? "schedule_with_tyler_contact")
-      : "schedule_with_tyler_contact";
   const bookSrc = philosophyBook.src.startsWith("http")
     ? philosophyBook.src
     : `${basePath}${philosophyBook.src}`;
@@ -146,83 +102,34 @@ export default function Footer({
           </div>
 
           <div className="pt-2 flex flex-col items-center gap-3">
-            {iconsOnly ? (
-              <div
-                className="flex items-center justify-center gap-3"
-                data-contact-cta="icons"
+            {/* Scheduling is the site-wide Calendly badge; Let's talk stays icons. */}
+            <div
+              className="flex items-center justify-center gap-3"
+              data-contact-cta="icons"
+            >
+              <a
+                href={resumeContact.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={CONTACT_ICON_BTN_CLASS}
+                aria-label="Message me on LinkedIn"
+                title="Message me on LinkedIn"
+                onClick={() => trackFunnel("linkedin_icon")}
               >
-                <a
-                  href={resumeContact.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={CONTACT_ICON_BTN_CLASS}
-                  aria-label="Message me on LinkedIn"
-                  title="Message me on LinkedIn"
-                  onClick={() => trackFunnel("linkedin_icon")}
-                >
-                  <span className="inline-flex" aria-hidden="true">
-                    <LinkedInIcon size={16} className="shrink-0" />
-                  </span>
-                </a>
-                <a
-                  href={`mailto:${resumeContact.email}`}
-                  className={CONTACT_ICON_BTN_CLASS}
-                  aria-label={`Email ${resumeContact.email}`}
-                  title={`Email ${resumeContact.email}`}
-                  onClick={() => trackFunnel("email_icon")}
-                >
-                  <Mail size={16} className="shrink-0" aria-hidden="true" />
-                </a>
-              </div>
-            ) : (
-              <>
-                <a
-                  href={calendlyHref}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={CONNECT_CTA_CLASS}
-                  title={calendlyLabel}
-                  data-contact-cta="calendly"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    openTrackedExternal(calendlyHref, calendlyTrackEvent, {
-                      forwardUtms: calendlyForwardUtms,
-                    });
-                  }}
-                >
-                  <Calendar size={15} className="shrink-0" />
-                  <span>{calendlyLabel}</span>
-                </a>
-
-                {/* Icon-only mail + LinkedIn under the Calendly CTA. */}
-                {!contactLeaf ? (
-                  <div className="flex items-center justify-center gap-3">
-                    <a
-                      href={`mailto:${resumeContact.email}`}
-                      className={CONTACT_ICON_BTN_CLASS}
-                      aria-label={`Email ${resumeContact.email}`}
-                      title={`Email ${resumeContact.email}`}
-                      onClick={() => trackFunnel("email_icon")}
-                    >
-                      <Mail size={16} className="shrink-0" aria-hidden="true" />
-                    </a>
-                    <a
-                      href={resumeContact.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={CONTACT_ICON_BTN_CLASS}
-                      aria-label="Message me on LinkedIn"
-                      title="Message me on LinkedIn"
-                      onClick={() => trackFunnel("linkedin_icon")}
-                    >
-                      <span className="inline-flex" aria-hidden="true">
-                        <LinkedInIcon size={16} className="shrink-0" />
-                      </span>
-                    </a>
-                  </div>
-                ) : null}
-              </>
-            )}
+                <span className="inline-flex" aria-hidden="true">
+                  <LinkedInIcon size={16} className="shrink-0" />
+                </span>
+              </a>
+              <a
+                href={`mailto:${resumeContact.email}`}
+                className={CONTACT_ICON_BTN_CLASS}
+                aria-label={`Email ${resumeContact.email}`}
+                title={`Email ${resumeContact.email}`}
+                onClick={() => trackFunnel("email_icon")}
+              >
+                <Mail size={16} className="shrink-0" aria-hidden="true" />
+              </a>
+            </div>
           </div>
         </div>
       </section>

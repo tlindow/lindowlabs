@@ -4,9 +4,9 @@ import ScrollReveal from "@/components/animations/ScrollReveal";
 import { FORMATION_SUMMARY } from "@/data/positioning";
 
 type AboutProps = {
-  /** Homepage uses FORMATION_SUMMARY; leaders omits job-search closing. */
+  /** Defaults to FORMATION_SUMMARY; homepage passes HOME_ABOUT_BODY. */
   body?: string;
-  /** Leaders-only museum paragraph, painted right after the About body. */
+  /** Optional museum paragraph, painted right after the About body. */
   afterBody?: string;
 };
 

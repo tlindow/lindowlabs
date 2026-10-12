@@ -8,10 +8,10 @@ import {
 } from "./profileDock.ts";
 
 describe("isProfileDockPath", () => {
-  it("includes home and the engineering-leaders leaf", () => {
+  it("includes only the homepage dock", () => {
     assert.equal(isProfileDockPath("/"), true);
-    assert.equal(isProfileDockPath("/engineering-leaders"), true);
-    assert.equal(isProfileDockPath("/get-your-time-back"), true);
+    assert.equal(isProfileDockPath("/engineering-leaders"), false);
+    assert.equal(isProfileDockPath("/get-your-time-back"), false);
     assert.equal(isProfileDockPath("/resume"), false);
   });
 });

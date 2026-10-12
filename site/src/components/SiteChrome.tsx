@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
+import CalendlyBadge from "@/components/CalendlyBadge";
 import Navbar from "@/components/Navbar";
 import BottomDockPlayer from "@/components/page-audio/BottomDockPlayer";
 import { NavbarActionsProvider } from "@/context/NavbarActions";
@@ -15,8 +16,8 @@ const LAVENDER_ROUTES = new Set([
 ]);
 
 /**
- * Persistent site chrome: sticky top nav on every route, floating bottom audio
- * dock on page-audio leaves, lavender homepage theme on recruiter surfaces.
+ * Persistent site chrome: sticky top nav, floating bottom audio dock on
+ * page-audio leaves, site-wide Calendly badge, lavender theme on home surfaces.
  */
 export default function SiteChrome({ children }: { children: ReactNode }) {
   const pathname = usePathname() || "/";
@@ -38,6 +39,7 @@ export default function SiteChrome({ children }: { children: ReactNode }) {
           <Navbar />
           <div className="relative z-0">{children}</div>
           <BottomDockPlayer />
+          <CalendlyBadge />
         </div>
       </PageAudioProvider>
     </NavbarActionsProvider>

@@ -2,8 +2,8 @@
 /**
  * Smoke-test the sticky top nav against the static export in site/out.
  *
- * Opens the homepage at a 390px viewport, asserts the audience pill is visible
- * (Name left | For engineering leaders right), and guards against reintroducing
+ * Opens the homepage at a 390px viewport, asserts Name left | LinkedIn+email
+ * icons right (no audience pills), and guards against reintroducing
  * overflow-x: clip on the sticky header (Safari clips overflow-y when
  * overflow-x is clip).
  *
@@ -127,7 +127,7 @@ async function run() {
       const header = document.querySelector("header");
       const brand = header?.querySelector('a[href="/"]');
       const audience = header?.querySelector(
-        'a[data-nav="for-engineering-leaders"], a[href="/engineering-leaders"]'
+        'a[data-nav="for-engineering-leaders"], a[data-nav="for-recruiters"], a[href="/engineering-leaders"], nav[aria-label="Audience"]'
       );
       const visitors = header?.querySelector('a[href="/visitors"]');
       const linkedIn = header?.querySelector('a[data-nav="linkedin"]');
@@ -136,35 +136,39 @@ async function run() {
         '[data-page-audio="nav-full-player"], [data-page-audio="nav-play"]'
       );
 
-      if (!header || !brand || !audience) {
+      if (!header || !brand) {
         return {
           ok: false,
-          reason: "missing header, brand, or For engineering leaders pill",
+          reason: "missing header or brand",
           brand: !!brand,
-          audience: !!audience,
         };
       }
 
       const hr = header.getBoundingClientRect();
       const br = brand.getBoundingClientRect();
-      const ar = audience.getBoundingClientRect();
+      const lr = linkedIn?.getBoundingClientRect();
+      const er = email?.getBoundingClientRect();
 
       return {
         ok:
-          ar.width > 0 &&
-          ar.height > 0 &&
-          br.left < ar.left &&
-          ar.top >= hr.top - 1 &&
-          ar.bottom <= hr.bottom + 1 &&
-          !visitors &&
           !!linkedIn &&
           !!email &&
+          lr != null &&
+          er != null &&
+          lr.width > 0 &&
+          er.width > 0 &&
+          br.left < lr.left &&
+          lr.left < er.left &&
+          er.top >= hr.top - 1 &&
+          er.bottom <= hr.bottom + 1 &&
+          !visitors &&
+          !audience &&
           !topAudio,
         brandLeft: br.left,
-        audienceLeft: ar.left,
-        audienceHref: audience.getAttribute("href"),
-        audienceText: (audience.textContent || "").replace(/\s+/g, " ").trim(),
+        linkedInLeft: lr?.left ?? null,
+        emailLeft: er?.left ?? null,
         hasVisitors: !!visitors,
+        hasAudience: !!audience,
         hasLinkedIn: !!linkedIn,
         hasEmail: !!email,
         hasTopAudio: !!topAudio,
@@ -173,19 +177,7 @@ async function run() {
 
     if (!layout?.ok) {
       throw new Error(
-        `Expected Name left | LinkedIn+email icons | For engineering leaders → right, no top audio: ${JSON.stringify(layout)}`
-      );
-    }
-
-    if (!/\/engineering-leaders\/?$/.test(layout.audienceHref || "")) {
-      throw new Error(
-        `Audience href should point at /engineering-leaders, got ${layout.audienceHref}`
-      );
-    }
-
-    if (layout.audienceText !== "For engineering leaders →") {
-      throw new Error(
-        `Expected For engineering leaders → label, got "${layout.audienceText}"`
+        `Expected Name left | LinkedIn+email icons right, no audience pills, no top audio: ${JSON.stringify(layout)}`
       );
     }
 
@@ -280,7 +272,7 @@ async function run() {
     }
 
     console.log(
-      "check-mobile-nav: ok (LinkedIn+email icons + For engineering leaders → at 390px, bottom dock play+scrub+times at rest, no top audio, header overflow-x safe)"
+      "check-mobile-nav: ok (LinkedIn+email icons at 390px, no audience pills, bottom dock play+scrub+times at rest, no top audio, header overflow-x safe)"
     );
   } finally {
     await browser.close();

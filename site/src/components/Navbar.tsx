@@ -6,28 +6,20 @@ import { usePathname } from "next/navigation";
 import { Mail } from "lucide-react";
 import { LinkedInIcon } from "@/components/brand/PartnerLogos";
 import { useNavbarActions } from "@/context/NavbarActions";
-import { ENGINEERING_LEADERS_PATH } from "@/data/engineeringLeadersPage";
 import { resumeContact } from "@/data/resumeData";
 import { trackFunnel } from "@/lib/funnel";
-
-const AUDIENCE_PILL_CLASS =
-  "inline-flex items-center rounded-full px-3 py-1.5 text-xs font-mono font-bold transition-all hover:scale-[1.02] active:scale-[0.98] bg-sand/80 hover:bg-sand text-foreground/90 hover:text-indigo-dark border border-border hover:border-indigo-dark/40 shadow-2xs";
 
 const NAV_ICON_BTN_CLASS =
   "inline-flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full border border-border bg-sand/80 text-foreground/90 hover:bg-sand hover:text-indigo-dark hover:border-indigo-dark/40 shadow-2xs transition-all hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-dark/40";
 
 export default function Navbar() {
   const pathnameRaw = usePathname() || "/";
-  // Static export / trailing-slash hosts may report /engineering-leaders/.
   const pathname =
     pathnameRaw.length > 1 && pathnameRaw.endsWith("/")
       ? pathnameRaw.slice(0, -1)
       : pathnameRaw;
   const { returnToHero } = useNavbarActions();
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
-  const onLeadersPage =
-    pathname === ENGINEERING_LEADERS_PATH ||
-    pathname === "/get-your-time-back";
 
   const goHome = (e: MouseEvent) => {
     if (pathname !== "/") return;
@@ -94,36 +86,6 @@ export default function Navbar() {
           >
             <Mail size={15} className="shrink-0" aria-hidden="true" />
           </a>
-
-          <nav aria-label="Audience" className="flex items-center shrink-0 ml-0.5 sm:ml-1">
-            {onLeadersPage ? (
-              <Link
-                href="/"
-                className={AUDIENCE_PILL_CLASS}
-                title="For recruiters"
-                data-nav="for-recruiters"
-                onClick={() => trackFunnel("nav_for_recruiters")}
-              >
-                For recruiters{" "}
-                <span aria-hidden="true" className="ml-0.5">
-                  →
-                </span>
-              </Link>
-            ) : (
-              <Link
-                href={ENGINEERING_LEADERS_PATH}
-                className={AUDIENCE_PILL_CLASS}
-                title="For engineering leaders"
-                data-nav="for-engineering-leaders"
-                onClick={() => trackFunnel("nav_for_engineering_leaders")}
-              >
-                For engineering leaders{" "}
-                <span aria-hidden="true" className="ml-0.5">
-                  →
-                </span>
-              </Link>
-            )}
-          </nav>
         </div>
       </div>
     </header>

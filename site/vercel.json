@@ -1,3 +1,25 @@
 {
-  "$schema": "https://openapi.vercel.sh/vercel.json"
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    {
+      "source": "/engineering-leaders",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/engineering-leaders/",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/get-your-time-back",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/get-your-time-back/",
+      "destination": "/",
+      "permanent": true
+    }
+  ]
 }
