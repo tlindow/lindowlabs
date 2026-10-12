@@ -96,6 +96,12 @@ export default function ScrollMorphAvatar({
   const hideAtContactRef = useRef(hideAtContact);
   const [isReady, setIsReady] = useState(false);
   const [webglReady, setWebglReady] = useState(false);
+  /**
+   * Homepage (hideAtContact): tear down the Three.js context once nav or
+   * Let's talk owns the photo so #contact has zero live WebGL contexts.
+   * Recreate only while the hero owns the morph.
+   */
+  const [allowWebgl, setAllowWebgl] = useState(true);
   // Plain React display (not a MotionValue): framer can skip applying
   // style.display from useTransform, which left a compositor sliver under nav.
   const [navDockHidden, setNavDockHidden] = useState(false);
@@ -195,6 +201,22 @@ export default function ScrollMorphAvatar({
         setCoords(newCoords);
       }
       setIsReady(true);
+
+      // Initial dock sync (hard refresh mid-page / at Let's talk).
+      if (hideAtContactRef.current) {
+        const windowH = viewportHRef.current;
+        const contactTarget = Math.max(
+          newCoords.contactAbsoluteY - windowH * 0.5,
+          0
+        );
+        const owner = getProfileDockOwner(
+          currentScrollY,
+          contactTarget,
+          windowH
+        );
+        setAllowWebgl(owner === "hero");
+        setNavDockHiddenThrottled(owner === "nav" || owner === "contact");
+      }
     };
 
     // rAF-throttle ResizeObserver so body size chatter during scroll does not
@@ -241,7 +263,9 @@ export default function ScrollMorphAvatar({
 
   // 2. Three.js WebGL Profile Coin Setup
   useEffect(() => {
-    if (!isReady || !portalEl || !canvasContainerRef.current) return;
+    if (!isReady || !portalEl || !allowWebgl || !canvasContainerRef.current) {
+      return;
+    }
     const container = canvasContainerRef.current;
 
     const size = 384; // Crisp texture resolution
@@ -521,11 +545,15 @@ export default function ScrollMorphAvatar({
       frontTexture.dispose();
       backTexture.dispose();
       rimBump.dispose();
+      // Drop the GL context (not only hide the canvas) so Let's talk has none.
+      renderer.forceContextLoss();
       renderer.dispose();
+      setWebglReady(false);
     };
   }, [
     isReady,
     portalEl,
+    allowWebgl,
     basePath,
     onReady,
     progress,
@@ -698,12 +726,12 @@ export default function ScrollMorphAvatar({
     }
   );
 
-  // Keep React display in sync with scroll owner (rAF-throttled; no layout reads).
-  useMotionValueEvent(scrollY, "change", (latestY) => {
-    if (activeDirectToHero.get() > 0.5) {
-      setNavDockHiddenThrottled(
-        hideAtContactRef.current ? latestY > 40 : false
-      );
+  const syncDockPaint = (latestY: number, direct: number) => {
+    const staticContact = hideAtContactRef.current;
+    if (direct > 0.5) {
+      const nearHero = latestY <= 40;
+      setNavDockHiddenThrottled(staticContact ? !nearHero : false);
+      if (staticContact) setAllowWebgl(nearHero);
       return;
     }
     const c = coordsRef.current;
@@ -712,20 +740,16 @@ export default function ScrollMorphAvatar({
       c != null ? Math.max(c.contactAbsoluteY - windowH * 0.5, 0) : 0;
     const owner = getProfileDockOwner(latestY, contactTarget, windowH);
     setNavDockHiddenThrottled(morphPaintHiddenForOwner(owner));
+    // Homepage: only keep a GL context while the hero owns the morph.
+    if (staticContact) setAllowWebgl(owner === "hero");
+  };
+
+  // Keep React display + WebGL mount in sync with scroll owner.
+  useMotionValueEvent(scrollY, "change", (latestY) => {
+    syncDockPaint(latestY, activeDirectToHero.get());
   });
   useMotionValueEvent(activeDirectToHero, "change", (direct) => {
-    if (direct > 0.5) {
-      setNavDockHiddenThrottled(
-        hideAtContactRef.current ? scrollY.get() > 40 : false
-      );
-      return;
-    }
-    const c = coordsRef.current;
-    const windowH = viewportHRef.current;
-    const contactTarget =
-      c != null ? Math.max(c.contactAbsoluteY - windowH * 0.5, 0) : 0;
-    const owner = getProfileDockOwner(scrollY.get(), contactTarget, windowH);
-    setNavDockHiddenThrottled(morphPaintHiddenForOwner(owner));
+    syncDockPaint(scrollY.get(), direct);
   });
 
   // Drop-shadow only on hero (filter thrash jitters Let's talk while scrolling).

@@ -159,7 +159,7 @@ async function run() {
         brandLeft: br.left,
         audienceLeft: ar.left,
         audienceHref: audience.getAttribute("href"),
-        audienceText: (audience.textContent || "").trim(),
+        audienceText: (audience.textContent || "").replace(/\s+/g, " ").trim(),
         hasVisitors: !!visitors,
         hasLinkedIn: !!linkedIn,
       };
@@ -167,7 +167,7 @@ async function run() {
 
     if (!layout?.ok) {
       throw new Error(
-        `Expected Name left | For engineering leaders right with no Visitors/LinkedIn: ${JSON.stringify(layout)}`
+        `Expected Name left | For engineering leaders → right with no Visitors/LinkedIn: ${JSON.stringify(layout)}`
       );
     }
 
@@ -177,9 +177,9 @@ async function run() {
       );
     }
 
-    if (layout.audienceText !== "For engineering leaders") {
+    if (layout.audienceText !== "For engineering leaders →") {
       throw new Error(
-        `Expected For engineering leaders label, got "${layout.audienceText}"`
+        `Expected For engineering leaders → label, got "${layout.audienceText}"`
       );
     }
 

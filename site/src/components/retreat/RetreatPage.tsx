@@ -9,20 +9,16 @@ import RetreatWaveform from "@/components/retreat/RetreatWaveform";
 import LeadersBody from "@/components/leaders/LeadersBody";
 import {
   EducationInstitutionsBar,
-  KeyTopicsBar,
-  MyEnterpriseToolkitBar,
   TrustedPartnersBar,
 } from "@/components/brand/PartnerLogos";
 import { useAnalytics } from "@/context/AnalyticsProvider";
+import { useHeroOverflowSpacer } from "@/hooks/useHeroOverflowSpacer";
 import {
   ENGINEERING_LEADERS_CONTACT_BLURB,
   ENGINEERING_LEADERS_DESCRIPTION,
   ENGINEERING_LEADERS_HEADLINE,
   ENGINEERING_LEADERS_KICKER,
   ENGINEERING_LEADERS_PHILOSOPHY_BOOK,
-  ENGINEERING_LEADERS_STACK_LABEL,
-  ENGINEERING_LEADERS_TOPICS,
-  ENGINEERING_LEADERS_TOPICS_LABEL,
 } from "@/data/engineeringLeadersPage";
 import {
   RESUME_PDF_DOWNLOAD_NAME,
@@ -34,11 +30,12 @@ const RETREAT_CREAM = "#FFFDF7";
 
 /**
  * /engineering-leaders: homepage-hero sibling (coin + play, mono display) on
- * cream paper, then leader-framed sections + Let's talk footer.
+ * cream paper, shared credentials strip in normal flow, then leader sections.
  */
 export default function RetreatPage() {
   const { logResumeView } = useAnalytics();
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
+  useHeroOverflowSpacer();
 
   useEffect(() => {
     const previous = document.body.style.background;
@@ -140,22 +137,9 @@ export default function RetreatPage() {
                     <EducationInstitutionsBar />
                   </div>
                 </div>
-
-                {/* Kept pending owner keep/remove; below shared credentials. */}
-                <div
-                  className="w-full min-w-0 max-w-full"
-                  data-leaders="toolkit-topics-pending"
-                >
-                  <MyEnterpriseToolkitBar
-                    label={ENGINEERING_LEADERS_STACK_LABEL}
-                  />
-                  <KeyTopicsBar
-                    label={ENGINEERING_LEADERS_TOPICS_LABEL}
-                    topics={ENGINEERING_LEADERS_TOPICS}
-                  />
-                </div>
               </div>
             </div>
+            {/* Reserves flow space when #hero-below paints past the 100svh stage */}
             <div
               id="hero-overflow-spacer"
               className="w-full"

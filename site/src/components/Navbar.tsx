@@ -92,7 +92,10 @@ export default function Navbar() {
                 title="For recruiters"
                 data-nav="for-recruiters"
               >
-                For recruiters
+                For recruiters{" "}
+                <span aria-hidden="true" className="ml-0.5">
+                  →
+                </span>
               </Link>
             ) : (
               <Link
@@ -101,7 +104,10 @@ export default function Navbar() {
                 title="For engineering leaders"
                 data-nav="for-engineering-leaders"
               >
-                For engineering leaders
+                For engineering leaders{" "}
+                <span aria-hidden="true" className="ml-0.5">
+                  →
+                </span>
               </Link>
             )}
           </nav>

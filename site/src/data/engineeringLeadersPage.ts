@@ -16,7 +16,7 @@ export const ENGINEERING_LEADERS_LEGACY_PATH = "/get-your-time-back";
 export const ENGINEERING_LEADERS_PAGE_TITLE = "Empowering engineering leaders";
 
 export const ENGINEERING_LEADERS_PAGE_DESCRIPTION =
-  "Get back your time with a 30-minute retreat that borrows from the museum floor, where hands-on exhibits pull you back into tinkering.";
+  "Grab a 30-minute slot to chat, and learn what I can bring to your team.";
 
 /** Same kicker as homepage (CSS uppercase → EX-AFFIRM, EX-FOUNDER). */
 export const ENGINEERING_LEADERS_KICKER = "ex-Affirm, ex-founder";
@@ -25,7 +25,7 @@ export const ENGINEERING_LEADERS_HEADLINE = "Empowering engineering leaders";
 
 /** One line below the waveform (homepage subtitle style). Exact hero copy. */
 export const ENGINEERING_LEADERS_DESCRIPTION =
-  "Get back your time with a 30-minute retreat that borrows from the museum floor, where hands-on exhibits pull you back into tinkering.";
+  "Grab a 30-minute slot to chat, and learn what I can bring to your team.";
 
 /**
  * Let's talk "Let's get in touch" → Calendly connect (shared Footer default).
@@ -39,34 +39,18 @@ export const ENGINEERING_LEADERS_CALENDLY_URL =
 export const ENGINEERING_LEADERS_CTA_LABEL = "Download resume";
 
 /**
- * Extra museum section after the shared homepage About on this leaf only.
- * Exact copy. Homepage About (FORMATION_SUMMARY) is reused unchanged.
+ * About body on this leaf: homepage FORMATION_SUMMARY without the job-search
+ * closing sentence. Homepage keeps the Targeting EM line.
+ */
+export const ENGINEERING_LEADERS_ABOUT_BODY =
+  "Led up to 9 engineers on Affirm's merchant and partner integrations and developer experience. Cut higher-transaction merchant outage detection from ~1 hour to under 5 minutes, led a merchant domain architecture review that reshaped the merchant org, and took Merchant Portal from ~99.7% to 99.9% availability with zero BFCM 2025 incidents. As founder of Beginner Work, built Tinker, an IDE for founders who want to get more technical.";
+
+/**
+ * Museum paragraph painted immediately after About body on this leaf only.
+ * Exact copy.
  */
 export const ENGINEERING_LEADERS_MUSEUM_BODY =
   "Before software, I taught at The Tech Interactive as an Experience Development Specialist (2017 to 2019) and at the Computer History Museum as a Design Code Build Instructor (2017 to 2018). That's where I learned how hands-on exhibits pull people into tinkering, and it still shapes how I lead.";
-
-/**
- * Logo strip under the hero (optional toolkit; pending keep/remove).
- * Tinker stack from the resume: Vercel, Stytch, GitHub, Anthropic.
- */
-export const ENGINEERING_LEADERS_STACK_LABEL = "My enterprise toolkit";
-
-/**
- * Topic chips under the toolkit (homepage Devs & educational institutions slot).
- * Each topic is grounded in the resume.
- */
-export const ENGINEERING_LEADERS_TOPICS_LABEL =
-  "Key topics and skills I'm ready to discuss";
-
-export const ENGINEERING_LEADERS_TOPICS = [
-  "Developer experience",
-  "Merchant and partner integrations",
-  "Reliability and observability",
-  "Domain architecture",
-  "Enterprise authentication rollouts",
-  "Reshaping teams and Kanban",
-  "AI-assisted development",
-] as const;
 
 /**
  * Let's talk blurb on this page only (homepage keeps its open-to-roles line).

@@ -3,7 +3,17 @@
 import ScrollReveal from "@/components/animations/ScrollReveal";
 import { FORMATION_SUMMARY } from "@/data/positioning";
 
-export default function About() {
+type AboutProps = {
+  /** Homepage uses FORMATION_SUMMARY; leaders omits job-search closing. */
+  body?: string;
+  /** Leaders-only museum paragraph, painted right after the About body. */
+  afterBody?: string;
+};
+
+export default function About({
+  body = FORMATION_SUMMARY,
+  afterBody,
+}: AboutProps) {
   return (
     <section id="about" className="py-16 sm:py-24 px-4 sm:px-6 border-t border-border/70">
       <div className="mx-auto max-w-3xl">
@@ -17,9 +27,21 @@ export default function About() {
         </ScrollReveal>
 
         <ScrollReveal delay={0.12}>
-          <p className="mt-8 sm:mt-10 text-[15px] sm:text-lg leading-relaxed text-muted font-mono">
-            {FORMATION_SUMMARY}
+          <p
+            className="mt-8 sm:mt-10 text-[15px] sm:text-lg leading-relaxed text-muted font-mono"
+            data-about="body"
+          >
+            {body}
           </p>
+          {afterBody ? (
+            <p
+              className="mt-6 sm:mt-8 text-[15px] sm:text-lg leading-relaxed text-muted font-mono"
+              data-about="museum"
+              data-leaders="museum"
+            >
+              {afterBody}
+            </p>
+          ) : null}
         </ScrollReveal>
       </div>
     </section>
