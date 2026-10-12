@@ -30,9 +30,17 @@ export const HOME_PAGE_AUDIO_TRANSCRIPT =
  * Pathname -> clip.
  * Example: `"/": { src: "/audio/pages/home-v3.mp3" }`
  */
-/** Retreat intro on /get-your-time-back (Tyler, ~36s). Spells "Lindow". */
+/** Retreat intro on /engineering-leaders (Tyler, ~36s). Spells "Lindow". */
 export const RETREAT_PAGE_AUDIO_TRANSCRIPT =
   "Hey, I'm Tyler Lindow. This is thirty minutes for engineering leaders. A short retreat. Bring one thing that's been eating your team's time. A partner integration that keeps slipping, an on-call rotation that wears people down, a reliability gap nobody owns. We slow down, look at it together, and you leave with one next step you can act on this week. I led merchant engineering teams at Affirm, and the way I lead comes down to this: every engineer has genius in them. My job is clearing the path so it shows up in production. If that sounds like the half hour you need, let's find a time.";
+
+const RETREAT_PAGE_AUDIO_CLIP: PageAudioClip = {
+  src: "/audio/pages/retreat-v5.mp3",
+  // ~36.4s recording; metadata still wins once loaded.
+  durationSeconds: 36,
+  title: "retreat intro",
+  transcript: RETREAT_PAGE_AUDIO_TRANSCRIPT,
+};
 
 export const pageAudio: Record<string, PageAudioClip> = {
   "/": {
@@ -42,13 +50,9 @@ export const pageAudio: Record<string, PageAudioClip> = {
     title: "homepage intro",
     transcript: HOME_PAGE_AUDIO_TRANSCRIPT,
   },
-  "/get-your-time-back": {
-    src: "/audio/pages/retreat-v5.mp3",
-    // ~36.4s recording; metadata still wins once loaded.
-    durationSeconds: 36,
-    title: "retreat intro",
-    transcript: RETREAT_PAGE_AUDIO_TRANSCRIPT,
-  },
+  "/engineering-leaders": RETREAT_PAGE_AUDIO_CLIP,
+  // Legacy path kept until redirect-only; dock/audio resolve if ever hit.
+  "/get-your-time-back": RETREAT_PAGE_AUDIO_CLIP,
 };
 
 /** Format seconds as m:ss for the docked scrubber. */

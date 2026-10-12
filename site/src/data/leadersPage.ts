@@ -4,14 +4,14 @@ import type { Metadata } from "next";
 export const LEADERS_CANONICAL_URL = "https://lindowlabs.dev/schedule-time";
 
 /** Shared meta for contact routes (canonical + og:url always point at /schedule-time).
- *  /get-your-time-back is a separate retreat page (see retreatPage.ts). */
+ *  /engineering-leaders is the leaders retreat leaf (see engineeringLeadersPage.ts). */
 export const LEADERS_PAGE_TITLE = "30 minutes with Tyler Lindow";
 
 export const LEADERS_PAGE_DESCRIPTION =
   "Book 30 minutes with an engineering manager for developer experience, platforms, and merchant and partner integrations.";
 
 export const LEADERS_CALENDLY_URL =
-  "https://calendly.com/tylerlindow/get-your-time-back";
+  "https://calendly.com/tylerlindow/connect";
 
 export const leadersPageMetadata: Metadata = {
   title: LEADERS_PAGE_TITLE,

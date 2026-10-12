@@ -2,9 +2,10 @@
 /**
  * Smoke-test the sticky top nav against the static export in site/out.
  *
- * Opens the homepage at a 390px viewport, asserts the Login control is visible
- * (Name left | Login right), and guards against reintroducing overflow-x: clip
- * on the sticky header (Safari clips overflow-y when overflow-x is clip).
+ * Opens the homepage at a 390px viewport, asserts the audience pill is visible
+ * (Name left | For engineering leaders right), and guards against reintroducing
+ * overflow-x: clip on the sticky header (Safari clips overflow-y when
+ * overflow-x is clip).
  *
  * Usage (after npm run build:static):
  *   node scripts/check-mobile-nav.mjs
@@ -125,40 +126,40 @@ async function run() {
     const layout = await page.evaluate(() => {
       const header = document.querySelector("header");
       const brand = header?.querySelector('a[href="/"]');
-      const login = header?.querySelector(
-        'a[href*="/learning"], a[title*="Log in"]'
+      const audience = header?.querySelector(
+        'a[data-nav="for-engineering-leaders"], a[href="/engineering-leaders"]'
       );
       const visitors = header?.querySelector('a[href="/visitors"]');
       const linkedIn = [...(header?.querySelectorAll("a") || [])].find((a) =>
         /linkedin\.com/i.test(a.href || "")
       );
 
-      if (!header || !brand || !login) {
+      if (!header || !brand || !audience) {
         return {
           ok: false,
-          reason: "missing header, brand, or Login",
+          reason: "missing header, brand, or For engineering leaders pill",
           brand: !!brand,
-          login: !!login,
+          audience: !!audience,
         };
       }
 
       const hr = header.getBoundingClientRect();
       const br = brand.getBoundingClientRect();
-      const lr = login.getBoundingClientRect();
+      const ar = audience.getBoundingClientRect();
 
       return {
         ok:
-          lr.width > 0 &&
-          lr.height > 0 &&
-          br.left < lr.left &&
-          lr.top >= hr.top - 1 &&
-          lr.bottom <= hr.bottom + 1 &&
+          ar.width > 0 &&
+          ar.height > 0 &&
+          br.left < ar.left &&
+          ar.top >= hr.top - 1 &&
+          ar.bottom <= hr.bottom + 1 &&
           !visitors &&
           !linkedIn,
         brandLeft: br.left,
-        loginLeft: lr.left,
-        loginHref: login.getAttribute("href"),
-        loginText: (login.textContent || "").trim(),
+        audienceLeft: ar.left,
+        audienceHref: audience.getAttribute("href"),
+        audienceText: (audience.textContent || "").trim(),
         hasVisitors: !!visitors,
         hasLinkedIn: !!linkedIn,
       };
@@ -166,18 +167,20 @@ async function run() {
 
     if (!layout?.ok) {
       throw new Error(
-        `Expected Name left | Login right with no Visitors/LinkedIn: ${JSON.stringify(layout)}`
+        `Expected Name left | For engineering leaders right with no Visitors/LinkedIn: ${JSON.stringify(layout)}`
       );
     }
 
-    if (!/\/learning\/?$/.test(layout.loginHref || "")) {
+    if (!/\/engineering-leaders\/?$/.test(layout.audienceHref || "")) {
       throw new Error(
-        `Login href should point at /learning, got ${layout.loginHref}`
+        `Audience href should point at /engineering-leaders, got ${layout.audienceHref}`
       );
     }
 
-    if (layout.loginText !== "Login") {
-      throw new Error(`Expected Login label, got "${layout.loginText}"`);
+    if (layout.audienceText !== "For engineering leaders") {
+      throw new Error(
+        `Expected For engineering leaders label, got "${layout.audienceText}"`
+      );
     }
 
     // Docked nav player (past hero): play + scrub + times must be visible at rest
@@ -289,7 +292,7 @@ async function run() {
     }
 
     console.log(
-      "check-mobile-nav: ok (Login visible at 390px, docked scrubber+times at rest, centered play, no Visitors/LinkedIn, header overflow-x safe)"
+      "check-mobile-nav: ok (For engineering leaders visible at 390px, docked scrubber+times at rest, centered play, no Visitors/LinkedIn, header overflow-x safe)"
     );
   } finally {
     await browser.close();

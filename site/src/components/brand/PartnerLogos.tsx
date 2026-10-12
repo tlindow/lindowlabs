@@ -169,11 +169,86 @@ export function OlinCollegeLogo({ className = "h-4 sm:h-5 w-auto" }: { className
   );
 }
 
+/** Wordmark from /public/stack (Tinker resume vendors). Monochrome via currentColor. */
+function StackWordmark({
+  name,
+  file,
+  className = "h-4 sm:h-5 w-auto",
+}: {
+  name: string;
+  file: string;
+  className?: string;
+}) {
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={`${basePath}/stack/${file}`}
+      alt={name}
+      className={`object-contain ${className}`}
+      loading="eager"
+      decoding="async"
+    />
+  );
+}
+
+/**
+ * Optional /engineering-leaders strip (kept pending owner keep/remove).
+ * Rendered below the shared homepage credentials on that leaf.
+ * Tinker stack from the resume (Vercel, Stytch, GitHub, Anthropic).
+ */
+export function MyEnterpriseToolkitBar({
+  label = "My enterprise toolkit",
+}: {
+  label?: string;
+}) {
+  return (
+    <div
+      className="pt-5 sm:pt-6 pb-1 flex flex-col items-center gap-3.5 text-center w-full min-w-0 max-w-full"
+      data-leaders="enterprise-toolkit"
+    >
+      <span className="text-[10px] sm:text-[11px] font-mono uppercase tracking-widest text-muted font-bold">
+        {label}
+      </span>
+      <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-3 sm:gap-x-6 sm:gap-y-4 md:gap-7 w-full min-w-0 max-w-full text-foreground/80 hover:text-foreground transition-colors">
+        <div className="flex items-center gap-2 px-1.5 sm:px-2 py-1 rounded-xl hover:bg-surface-alt transition-colors max-w-full shrink">
+          <StackWordmark
+            name="Vercel"
+            file="vercel.svg"
+            className="h-3.5 sm:h-5 w-auto max-w-[5.5rem] sm:max-w-[7rem]"
+          />
+        </div>
+        <div className="flex items-center gap-2 px-1.5 sm:px-2 py-1 rounded-xl hover:bg-surface-alt transition-colors max-w-full shrink">
+          <StackWordmark
+            name="Stytch"
+            file="stytch.svg"
+            className="h-4 sm:h-6 w-auto max-w-[5.5rem] sm:max-w-[7rem]"
+          />
+        </div>
+        <div className="flex items-center gap-2 px-1.5 sm:px-2 py-1 rounded-xl hover:bg-surface-alt transition-colors max-w-full shrink">
+          <StackWordmark
+            name="GitHub"
+            file="github.svg"
+            className="h-4 sm:h-6 w-auto max-w-[5.5rem] sm:max-w-[7rem]"
+          />
+        </div>
+        <div className="flex items-center gap-2 px-1.5 sm:px-2 py-1 rounded-xl hover:bg-surface-alt transition-colors max-w-full shrink">
+          <StackWordmark
+            name="Anthropic"
+            file="anthropic.svg"
+            className="h-3 sm:h-4 w-auto max-w-[6rem] sm:max-w-[8rem]"
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function TrustedPartnersBar() {
   return (
     <div className="pt-5 sm:pt-6 pb-1 flex flex-col items-center gap-3.5 text-center w-full min-w-0 max-w-full">
       <span className="text-[10px] sm:text-[11px] font-mono uppercase tracking-widest text-muted font-bold">
-        Previous Employers
+        Previously at
       </span>
       <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-3 sm:gap-x-6 sm:gap-y-4 md:gap-7 w-full min-w-0 max-w-full text-foreground/80 hover:text-foreground transition-colors">
         {/* Beginner Partner Badge */}
@@ -210,11 +285,44 @@ export function TrustedPartnersBar() {
   );
 }
 
+/**
+ * Optional /engineering-leaders topic chips (kept pending owner keep/remove).
+ * Rendered below the shared homepage credentials on that leaf.
+ */
+export function KeyTopicsBar({
+  label,
+  topics,
+}: {
+  label: string;
+  topics: readonly string[];
+}) {
+  return (
+    <div
+      className="pt-5 sm:pt-6 pb-5 sm:pb-6 flex flex-col items-center gap-3.5 text-center w-full min-w-0 max-w-full"
+      data-leaders="key-topics"
+    >
+      <span className="text-[10px] sm:text-[11px] font-mono uppercase tracking-widest text-muted font-bold">
+        {label}
+      </span>
+      <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-2.5 sm:gap-x-3 sm:gap-y-3 w-full min-w-0 max-w-full">
+        {topics.map((topic) => (
+          <span
+            key={topic}
+            className="inline-flex items-center rounded-full px-3 py-1.5 text-[11px] sm:text-xs font-mono font-bold text-foreground/85 bg-surface border border-border shadow-2xs"
+          >
+            {topic}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export function EducationInstitutionsBar() {
   return (
     <div className="pt-5 sm:pt-6 pb-5 sm:pb-6 flex flex-col items-center gap-3.5 text-center w-full min-w-0 max-w-full">
       <span className="text-[10px] sm:text-[11px] font-mono uppercase tracking-widest text-muted font-bold">
-        Devs &amp; educational institutions
+        Educational institutions
       </span>
       <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-3 sm:gap-x-9 sm:gap-y-4 w-full min-w-0 max-w-full text-foreground/80 hover:text-foreground transition-colors">
         {/* UC San Diego Badge */}

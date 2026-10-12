@@ -13,6 +13,14 @@ const PATH_MOVES = [
   },
 ];
 
+/** Top-level path moves (not under /blog). Written as nested index.html. */
+const TOP_LEVEL_PATH_MOVES = [
+  {
+    from: "get-your-time-back",
+    href: "/engineering-leaders",
+  },
+];
+
 function destinationHref(slug) {
   return `${base}/blog/${slug}`;
 }
@@ -92,6 +100,23 @@ for (const move of PATH_MOVES) {
       `redirect /blog/${move.oldBlogSlug} -> ${href} (${path.relative(outDir, file)})`
     );
   }
+}
+
+for (const move of TOP_LEVEL_PATH_MOVES) {
+  const href = absoluteHref(move.href);
+  const nestedDir = path.join(outDir, move.from);
+  mkdirSync(nestedDir, { recursive: true });
+  const nested = path.join(nestedDir, "index.html");
+  writeFileSync(nested, redirectHtml(href));
+  count += 1;
+  console.log(
+    `redirect /${move.from} -> ${href} (${path.relative(outDir, nested)})`
+  );
+  const flat = path.join(outDir, `${move.from}.html`);
+  writeFileSync(flat, redirectHtml(href));
+  console.log(
+    `redirect /${move.from} -> ${href} (${path.relative(outDir, flat)})`
+  );
 }
 
 console.log(`write-redirects: ${count} redirect(s)`);

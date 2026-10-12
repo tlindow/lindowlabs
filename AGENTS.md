@@ -30,7 +30,7 @@ That runs, in order:
 6. `npm run check:labels`
 7. `npm run check:em-dashes` (U+2014 in `site/out/**/*.html`)
 8. `npm run check:locations`
-9. `npm run check:mobile-nav` (390px: Name left | Login right; no Visitors/LinkedIn; guards header `overflow-x: clip`)
+9. `npm run check:mobile-nav` (390px: Name left | For engineering leaders right; no Visitors/LinkedIn; guards header `overflow-x: clip`)
 10. `npm run check:profile-photo` (hero / middle / Let's talk: exactly one visible `data-profile-photo`)
 
 ### Shared helpers (client vs server)

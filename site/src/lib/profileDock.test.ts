@@ -8,8 +8,9 @@ import {
 } from "./profileDock.ts";
 
 describe("isProfileDockPath", () => {
-  it("includes home and the retreat hero leaf", () => {
+  it("includes home and the engineering-leaders leaf", () => {
     assert.equal(isProfileDockPath("/"), true);
+    assert.equal(isProfileDockPath("/engineering-leaders"), true);
     assert.equal(isProfileDockPath("/get-your-time-back"), true);
     assert.equal(isProfileDockPath("/resume"), false);
   });

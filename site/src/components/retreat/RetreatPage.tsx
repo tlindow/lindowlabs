@@ -1,28 +1,45 @@
 "use client";
 
 import { useEffect } from "react";
-import { Calendar } from "lucide-react";
+import { FileText } from "lucide-react";
 import Footer from "@/components/Footer";
 import ScrollMorphAvatar from "@/components/animations/ScrollMorphAvatar";
 import ScrollMorphPlayButton from "@/components/animations/ScrollMorphPlayButton";
 import RetreatWaveform from "@/components/retreat/RetreatWaveform";
+import LeadersBody from "@/components/leaders/LeadersBody";
 import {
-  RETREAT_CALENDLY_URL,
-  RETREAT_CTA_LABEL,
-  RETREAT_DESCRIPTION,
-  RETREAT_HEADLINE,
-  RETREAT_KICKER,
-} from "@/data/retreatPage";
+  EducationInstitutionsBar,
+  KeyTopicsBar,
+  MyEnterpriseToolkitBar,
+  TrustedPartnersBar,
+} from "@/components/brand/PartnerLogos";
+import { useAnalytics } from "@/context/AnalyticsProvider";
+import {
+  ENGINEERING_LEADERS_CONTACT_BLURB,
+  ENGINEERING_LEADERS_DESCRIPTION,
+  ENGINEERING_LEADERS_HEADLINE,
+  ENGINEERING_LEADERS_KICKER,
+  ENGINEERING_LEADERS_PHILOSOPHY_BOOK,
+  ENGINEERING_LEADERS_STACK_LABEL,
+  ENGINEERING_LEADERS_TOPICS,
+  ENGINEERING_LEADERS_TOPICS_LABEL,
+} from "@/data/engineeringLeadersPage";
+import {
+  RESUME_PDF_DOWNLOAD_NAME,
+  RESUME_PDF_PATH,
+} from "@/data/urls";
 
 /** Cream paper surface from the earlier retreat leaf (not homepage lavender). */
 const RETREAT_CREAM = "#FFFDF7";
 
 /**
- * Retreat leaf as a sibling of the homepage hero layout (coin + play, mono
- * display), on cream paper. Waveform + description + always-visible
- * "Pick a time" (Read resume styling). Footer keeps Let's get in touch.
+ * /engineering-leaders: homepage-hero sibling (coin + play, mono display) on
+ * cream paper, then leader-framed sections + Let's talk footer.
  */
 export default function RetreatPage() {
+  const { logResumeView } = useAnalytics();
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
+
   useEffect(() => {
     const previous = document.body.style.background;
     document.body.style.background = RETREAT_CREAM;
@@ -64,12 +81,12 @@ export default function RetreatPage() {
                 </div>
 
                 <span className="text-xs sm:text-sm font-mono font-bold text-indigo-dark uppercase tracking-widest block">
-                  {RETREAT_KICKER}
+                  {ENGINEERING_LEADERS_KICKER}
                 </span>
               </div>
 
               <h1 className="w-full max-w-full min-w-0 px-0.5 text-[length:clamp(1.05rem,min(6.2cqi,calc(100cqi/15.5)),4.7rem)] font-black tracking-tight text-foreground leading-[1.08] mx-auto overflow-x-clip">
-                <span className="block">{RETREAT_HEADLINE}</span>
+                <span className="block">{ENGINEERING_LEADERS_HEADLINE}</span>
                 <span
                   className="block invisible select-none pointer-events-none"
                   aria-hidden="true"
@@ -84,8 +101,8 @@ export default function RetreatPage() {
               >
                 {/*
                   Pull the waveform into the h1 trailing spacer line (same
-                  clamp/leading as the headline) so description → Pick a time
-                  matches homepage subtitle → Read resume on desktop.
+                  clamp/leading as the headline) so description → Download
+                  resume matches homepage subtitle → Download resume on desktop.
                 */}
                 <div className="w-full min-w-0 max-w-full -mt-[calc(1.08*clamp(1.05rem,min(6.2cqi,calc(100cqi/15.5)),4.7rem))]">
                   <RetreatWaveform />
@@ -95,20 +112,48 @@ export default function RetreatPage() {
                   className="text-sm sm:text-base md:text-lg font-mono text-muted mx-auto w-full max-w-full min-w-0 text-pretty px-1"
                   data-retreat="description"
                 >
-                  {RETREAT_DESCRIPTION}
+                  {ENGINEERING_LEADERS_DESCRIPTION}
                 </p>
 
                 <a
-                  href={RETREAT_CALENDLY_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  data-retreat="pick-time"
+                  href={`${basePath}${RESUME_PDF_PATH}`}
+                  download={RESUME_PDF_DOWNLOAD_NAME}
+                  onClick={() => logResumeView("download_pdf")}
+                  data-retreat="download-resume"
                   className="inline-flex items-center gap-2 rounded-xl bg-surface hover:bg-surface-alt text-foreground border border-border px-5 py-2.5 text-xs sm:text-sm font-mono font-bold shadow-xs transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
-                  title="Pick a time on Calendly"
+                  title="Download Tyler Lindow's resume PDF"
                 >
-                  <Calendar size={15} className="shrink-0" />
-                  <span>{RETREAT_CTA_LABEL}</span>
+                  <FileText size={15} className="shrink-0" />
+                  <span>Download resume</span>
                 </a>
+
+                {/* Same shared credentials strip as homepage (can't drift). */}
+                <div
+                  id="trusted-partners"
+                  className="w-full min-w-0 max-w-full scroll-mt-24"
+                >
+                  <TrustedPartnersBar />
+                  <div
+                    id="education"
+                    className="w-full min-w-0 max-w-full scroll-mt-24"
+                  >
+                    <EducationInstitutionsBar />
+                  </div>
+                </div>
+
+                {/* Kept pending owner keep/remove; below shared credentials. */}
+                <div
+                  className="w-full min-w-0 max-w-full"
+                  data-leaders="toolkit-topics-pending"
+                >
+                  <MyEnterpriseToolkitBar
+                    label={ENGINEERING_LEADERS_STACK_LABEL}
+                  />
+                  <KeyTopicsBar
+                    label={ENGINEERING_LEADERS_TOPICS_LABEL}
+                    topics={ENGINEERING_LEADERS_TOPICS}
+                  />
+                </div>
               </div>
             </div>
             <div
@@ -117,10 +162,16 @@ export default function RetreatPage() {
               aria-hidden="true"
             />
           </header>
+
+          <LeadersBody />
         </main>
       </div>
 
-      <Footer profilePhotoAnchor />
+      <Footer
+        profilePhotoAnchor
+        contactBlurb={ENGINEERING_LEADERS_CONTACT_BLURB}
+        philosophyBook={ENGINEERING_LEADERS_PHILOSOPHY_BOOK}
+      />
     </div>
   );
 }
