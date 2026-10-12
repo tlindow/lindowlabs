@@ -292,7 +292,7 @@ async function run() {
     }
 
     console.log(
-      "check-mobile-nav: ok (For engineering leaders visible at 390px, docked scrubber+times at rest, centered play, no Visitors/LinkedIn, header overflow-x safe)"
+      "check-mobile-nav: ok (For engineering leaders → visible at 390px, docked scrubber+times at rest, centered play, no Visitors/LinkedIn, header overflow-x safe)"
     );
   } finally {
     await browser.close();
