@@ -15,7 +15,12 @@ const AUDIENCE_PILL_CLASS =
   "inline-flex items-center rounded-full px-3 py-1.5 text-xs font-mono font-bold transition-all hover:scale-[1.02] active:scale-[0.98] bg-sand/80 hover:bg-sand text-foreground/90 hover:text-indigo-dark border border-border hover:border-indigo-dark/40 shadow-2xs";
 
 export default function Navbar() {
-  const pathname = usePathname() || "/";
+  const pathnameRaw = usePathname() || "/";
+  // Static export / trailing-slash hosts may report /engineering-leaders/.
+  const pathname =
+    pathnameRaw.length > 1 && pathnameRaw.endsWith("/")
+      ? pathnameRaw.slice(0, -1)
+      : pathnameRaw;
   const { returnToHero } = useNavbarActions();
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
   /** Leaders leaf ↔ homepage audience toggle (Login removed from nav). */
@@ -92,7 +97,10 @@ export default function Navbar() {
                 title="For recruiters"
                 data-nav="for-recruiters"
               >
-                For recruiters
+                For recruiters{" "}
+                <span aria-hidden="true" className="ml-0.5">
+                  →
+                </span>
               </Link>
             ) : (
               <Link
@@ -101,7 +109,10 @@ export default function Navbar() {
                 title="For engineering leaders"
                 data-nav="for-engineering-leaders"
               >
-                For engineering leaders
+                For engineering leaders{" "}
+                <span aria-hidden="true" className="ml-0.5">
+                  →
+                </span>
               </Link>
             )}
           </nav>
