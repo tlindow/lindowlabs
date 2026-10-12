@@ -9,7 +9,7 @@ import { trackFunnel } from "@/lib/funnel";
 
 /**
  * Small post-play link under the hero player once audio ends.
- * Download resume only (scheduling is the site-wide Calendly badge).
+ * Download resume only (scheduling is the calendar icon / Calendly popup).
  */
 export default function HeroAudioEndCta() {
   const { hasClip, playbackEnded, heroAnchorVisible } = usePageAudio();

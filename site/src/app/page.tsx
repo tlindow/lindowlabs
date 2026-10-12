@@ -17,6 +17,7 @@ import ScrollMorphAvatar, {
 import ScrollMorphPlayButton from "@/components/animations/ScrollMorphPlayButton";
 import { useAnalytics } from "@/context/AnalyticsProvider";
 import HeroAudioEndCta from "@/components/page-audio/HeroAudioEndCta";
+import ScheduleCalendarButton from "@/components/ScheduleCalendarButton";
 import { trackFunnel } from "@/lib/funnel";
 import { useRegisterReturnToHero } from "@/context/NavbarActions";
 import { useHeroOverflowSpacer } from "@/hooks/useHeroOverflowSpacer";
@@ -320,19 +321,25 @@ export default function Home() {
                   {HOME_DESCRIPTION}
                 </p>
 
-                <a
-                  href={`${basePath}${RESUME_PDF_PATH}`}
-                  download={RESUME_PDF_DOWNLOAD_NAME}
-                  onClick={() => {
-                    logResumeView("download_pdf");
-                    trackFunnel("download_resume");
-                  }}
-                  className="inline-flex items-center gap-2 rounded-xl bg-surface hover:bg-surface-alt text-foreground border border-border px-5 py-2.5 text-xs sm:text-sm font-mono font-bold shadow-xs transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
-                  title="Download Tyler Lindow's resume PDF"
+                <div
+                  className="flex items-center justify-center gap-2.5 sm:gap-3"
+                  data-hero="cta-row"
                 >
-                  <FileText size={15} className="shrink-0" />
-                  <span>Download resume</span>
-                </a>
+                  <a
+                    href={`${basePath}${RESUME_PDF_PATH}`}
+                    download={RESUME_PDF_DOWNLOAD_NAME}
+                    onClick={() => {
+                      logResumeView("download_pdf");
+                      trackFunnel("download_resume");
+                    }}
+                    className="inline-flex items-center gap-2 rounded-xl bg-surface hover:bg-surface-alt text-foreground border border-border px-5 py-2.5 text-xs sm:text-sm font-mono font-bold shadow-xs transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+                    title="Download Tyler Lindow's resume PDF"
+                  >
+                    <FileText size={15} className="shrink-0" />
+                    <span>Download resume</span>
+                  </a>
+                  <ScheduleCalendarButton placement="hero" />
+                </div>
 
                 {/* Previous employers + education logos in one panel */}
                 <div id="trusted-partners" className="w-full min-w-0 max-w-full scroll-mt-24">
