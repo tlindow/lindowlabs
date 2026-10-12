@@ -19,6 +19,17 @@ const nextConfig: NextConfig = {
   },
   devIndicators: false,
   reactStrictMode: true,
+  // Static export ignores redirects; write-redirects.mjs emits HTML for Pages.
+  async redirects() {
+    if (useStaticExport) return [];
+    return [
+      {
+        source: "/get-your-time-back",
+        destination: "/engineering-leaders",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

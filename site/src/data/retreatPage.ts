@@ -1,49 +1,15 @@
-import type { Metadata } from "next";
-
 /**
- * Public retreat page: /get-your-time-back.
- * Homepage-hero layout sibling on cream paper (not lavender).
+ * Compat re-exports for the engineering-leaders leaf (formerly
+ * /get-your-time-back). Prefer `@/data/engineeringLeadersPage`.
  */
-export const RETREAT_CANONICAL_URL =
-  "https://lindowlabs.dev/get-your-time-back";
-
-export const RETREAT_PAGE_TITLE = "Empowering engineering leaders";
-
-export const RETREAT_PAGE_DESCRIPTION =
-  "Get back your time by getting back to a time where engineering was nothing but fun.";
-
-export const RETREAT_KICKER = "30-minute retreat";
-
-export const RETREAT_HEADLINE = "Empowering engineering leaders";
-
-/** One line below the waveform (homepage subtitle style). */
-export const RETREAT_DESCRIPTION = RETREAT_PAGE_DESCRIPTION;
-
-/**
- * Always-visible hero schedule CTA → Calendly get-your-time-back.
- * Separate from Footer's Let's get in touch (/connect).
- */
-export const RETREAT_CALENDLY_URL =
-  "https://calendly.com/tylerlindow/get-your-time-back";
-
-export const RETREAT_CTA_LABEL = "Pick a time";
-
-export const retreatPageMetadata: Metadata = {
-  title: RETREAT_PAGE_TITLE,
-  description: RETREAT_PAGE_DESCRIPTION,
-  alternates: {
-    canonical: RETREAT_CANONICAL_URL,
-  },
-  openGraph: {
-    title: RETREAT_PAGE_TITLE,
-    description: RETREAT_PAGE_DESCRIPTION,
-    url: RETREAT_CANONICAL_URL,
-    siteName: "Lindow Labs",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: RETREAT_PAGE_TITLE,
-    description: RETREAT_PAGE_DESCRIPTION,
-  },
-};
+export {
+  ENGINEERING_LEADERS_CANONICAL_URL as RETREAT_CANONICAL_URL,
+  ENGINEERING_LEADERS_PAGE_TITLE as RETREAT_PAGE_TITLE,
+  ENGINEERING_LEADERS_PAGE_DESCRIPTION as RETREAT_PAGE_DESCRIPTION,
+  ENGINEERING_LEADERS_KICKER as RETREAT_KICKER,
+  ENGINEERING_LEADERS_HEADLINE as RETREAT_HEADLINE,
+  ENGINEERING_LEADERS_DESCRIPTION as RETREAT_DESCRIPTION,
+  ENGINEERING_LEADERS_CALENDLY_URL as RETREAT_CALENDLY_URL,
+  ENGINEERING_LEADERS_CTA_LABEL as RETREAT_CTA_LABEL,
+  engineeringLeadersPageMetadata as retreatPageMetadata,
+} from "@/data/engineeringLeadersPage";

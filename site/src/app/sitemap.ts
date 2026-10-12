@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { blogPosts, getPostHref } from "@/data/blogPosts";
+import { ENGINEERING_LEADERS_CANONICAL_URL } from "@/data/engineeringLeadersPage";
 import { LEADERS_CANONICAL_URL } from "@/data/leadersPage";
-import { RETREAT_CANONICAL_URL } from "@/data/retreatPage";
 
 export const dynamic = "force-static";
 
@@ -12,7 +12,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: `${SITE}/`, changeFrequency: "weekly", priority: 1 },
     { url: LEADERS_CANONICAL_URL, changeFrequency: "weekly", priority: 0.9 },
-    { url: RETREAT_CANONICAL_URL, changeFrequency: "weekly", priority: 0.9 },
+    {
+      url: ENGINEERING_LEADERS_CANONICAL_URL,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
     { url: `${SITE}/resume`, changeFrequency: "weekly", priority: 0.9 },
     { url: `${SITE}/visitors`, changeFrequency: "daily", priority: 0.7 },
     { url: `${SITE}/books-ive-read`, changeFrequency: "monthly", priority: 0.6 },

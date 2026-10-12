@@ -4,19 +4,24 @@ import type { MouseEvent } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useNavbarActions } from "@/context/NavbarActions";
-import { LEARNING_DASHBOARD_URL } from "@/data/urls";
+import { ENGINEERING_LEADERS_PATH } from "@/data/engineeringLeadersPage";
 import NavPageAudioPlayer, {
   NavCenteredPlay,
   NavDesktopScrubber,
   NavPageAudioMobileScrubber,
 } from "@/components/page-audio/NavPageAudioPlayer";
 
+const AUDIENCE_PILL_CLASS =
+  "inline-flex items-center rounded-full px-3 py-1.5 text-xs font-mono font-bold transition-all hover:scale-[1.02] active:scale-[0.98] bg-sand/80 hover:bg-sand text-foreground/90 hover:text-indigo-dark border border-border hover:border-indigo-dark/40 shadow-2xs";
+
 export default function Navbar() {
   const pathname = usePathname() || "/";
   const { returnToHero } = useNavbarActions();
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
-  /** Retreat leaf keeps nav chrome + player; Login is homepage/learning only. */
-  const showLogin = pathname !== "/get-your-time-back";
+  /** Leaders leaf ↔ homepage audience toggle (Login removed from nav). */
+  const onLeadersPage =
+    pathname === ENGINEERING_LEADERS_PATH ||
+    pathname === "/get-your-time-back";
 
   const goHome = (e: MouseEvent) => {
     if (pathname !== "/") return;
@@ -76,20 +81,30 @@ export default function Navbar() {
         {/* Play: true center of the nav bar (morph lands here). */}
         <NavCenteredPlay />
 
-        {/* Desktop scrubber + Login (Name left | Login right). Login hidden on retreat. */}
+        {/* Desktop scrubber + audience pill (Name left | For … right). */}
         <div className="relative z-[2] flex items-center gap-2 sm:gap-3 shrink-0">
           <NavDesktopScrubber />
-          {showLogin ? (
-            <nav aria-label="Primary" className="flex items-center shrink-0">
-              <a
-                href={LEARNING_DASHBOARD_URL}
-                className="inline-flex items-center rounded-full px-3 py-1.5 text-xs font-mono font-bold transition-all hover:scale-[1.02] active:scale-[0.98] bg-sand/80 hover:bg-sand text-foreground/90 hover:text-indigo-dark border border-border hover:border-indigo-dark/40 shadow-2xs"
-                title="Log in to Lindow Labs Learning"
+          <nav aria-label="Audience" className="flex items-center shrink-0">
+            {onLeadersPage ? (
+              <Link
+                href="/"
+                className={AUDIENCE_PILL_CLASS}
+                title="For recruiters"
+                data-nav="for-recruiters"
               >
-                Login
-              </a>
-            </nav>
-          ) : null}
+                For recruiters
+              </Link>
+            ) : (
+              <Link
+                href={ENGINEERING_LEADERS_PATH}
+                className={AUDIENCE_PILL_CLASS}
+                title="For engineering leaders"
+                data-nav="for-engineering-leaders"
+              >
+                For engineering leaders
+              </Link>
+            )}
+          </nav>
         </div>
       </div>
       <NavPageAudioMobileScrubber />

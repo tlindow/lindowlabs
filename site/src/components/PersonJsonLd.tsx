@@ -1,12 +1,14 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import { ENGINEERING_LEADERS_PATH } from "@/data/engineeringLeadersPage";
 import { SITE_TITLE } from "@/data/positioning";
 
-/** Person schema; retreat leaf avoids "engineering manager" in jobTitle. */
+/** Person schema; leaders leaf avoids "engineering manager" in jobTitle. */
 export default function PersonJsonLd() {
   const pathname = usePathname() || "/";
   const jobTitle =
+    pathname === ENGINEERING_LEADERS_PATH ||
     pathname === "/get-your-time-back"
       ? "Engineering Leader, Developer Experience"
       : SITE_TITLE;

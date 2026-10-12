@@ -1,9 +1,0 @@
-import RetreatPage from "@/components/retreat/RetreatPage";
-import { retreatPageMetadata } from "@/data/retreatPage";
-
-export const metadata = retreatPageMetadata;
-
-/** Retreat hero sibling of the homepage: coin + play, then Calendly after audio ends. */
-export default function GetYourTimeBackRoute() {
-  return <RetreatPage />;
-}
