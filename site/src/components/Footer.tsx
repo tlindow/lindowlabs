@@ -2,6 +2,7 @@
 
 import { ArrowUpRight, Mail } from "lucide-react";
 import { LinkedInIcon } from "@/components/brand/PartnerLogos";
+import { OTHER_BOOKS_LABEL } from "@/data/booksIveRead";
 import { HOME_CONTACT_BLURB } from "@/data/homepage";
 import { resumeContact } from "@/data/resumeData";
 import { trackFunnel } from "@/lib/funnel";
@@ -160,7 +161,7 @@ export default function Footer({
             <a
               href={`${basePath}/books-ive-read`}
               className="group relative flex items-center justify-center w-full max-w-md aspect-[16/10] rounded-2xl border border-border bg-surface overflow-hidden hover:border-indigo-dark/40 hover:shadow-md transition-all duration-300 cursor-pointer shadow-2xs"
-              title="Books I've read"
+              title={OTHER_BOOKS_LABEL}
             >
               {/* Blurred ambient book cover background */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
