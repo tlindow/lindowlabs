@@ -56,6 +56,11 @@ type PageAudioContextValue = {
    * and (when a clip exists) the full docked player.
    */
   isDocked: boolean;
+  /**
+   * True after the active clip reaches `ended` once (stays true until the clip
+   * identity changes). Used for the small post-play CTA under the hero player.
+   */
+  playbackEnded: boolean;
   toggle: () => void;
   seek: (time: number) => void;
   play: () => void;
@@ -74,6 +79,7 @@ const PageAudioContext = createContext<PageAudioContextValue>({
   heroAnchorVisible: false,
   contactAnchorVisible: false,
   isDocked: true,
+  playbackEnded: false,
   toggle: () => {},
   seek: () => {},
   play: () => {},
@@ -252,6 +258,7 @@ export function PageAudioProvider({ children }: { children: ReactNode }) {
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [playbackEnded, setPlaybackEnded] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   // Seed from optional durationSeconds so the docked scrubber shows 0:00 / total
   // at rest before media metadata arrives (visible-before-play requirement).
@@ -271,6 +278,7 @@ export function PageAudioProvider({ children }: { children: ReactNode }) {
   if (clipSrc !== prevClipSrc) {
     setPrevClipSrc(clipSrc);
     setIsPlaying(false);
+    setPlaybackEnded(false);
     setCurrentTime(0);
     setDuration(
       typeof clip?.durationSeconds === "number" && clip.durationSeconds > 0
@@ -313,6 +321,7 @@ export function PageAudioProvider({ children }: { children: ReactNode }) {
     const onPause = () => setIsPlaying(false);
     const onEnded = () => {
       setIsPlaying(false);
+      setPlaybackEnded(true);
       setCurrentTime(0);
     };
 
@@ -376,6 +385,7 @@ export function PageAudioProvider({ children }: { children: ReactNode }) {
       heroAnchorVisible,
       contactAnchorVisible,
       isDocked: showNavPhoto,
+      playbackEnded,
       toggle,
       seek,
       play,
@@ -392,6 +402,7 @@ export function PageAudioProvider({ children }: { children: ReactNode }) {
       dock.owner,
       heroAnchorVisible,
       contactAnchorVisible,
+      playbackEnded,
       toggle,
       seek,
       play,

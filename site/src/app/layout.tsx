@@ -6,7 +6,9 @@ import {
   Fraunces,
   Instrument_Sans,
 } from "next/font/google";
+import { Analytics } from "@vercel/analytics/react";
 import PersonJsonLd from "@/components/PersonJsonLd";
+import FunnelCapture from "@/components/FunnelCapture";
 import SiteChrome from "@/components/SiteChrome";
 import { AnalyticsProvider } from "@/context/AnalyticsProvider";
 import { SITE_SHARE_TITLE, SITE_SUPPORT } from "@/data/positioning";
@@ -92,7 +94,9 @@ export default function RootLayout({
       >
         <PersonJsonLd />
         <AnalyticsProvider>
+          <FunnelCapture />
           <SiteChrome>{children}</SiteChrome>
+          <Analytics />
         </AnalyticsProvider>
       </body>
     </html>
