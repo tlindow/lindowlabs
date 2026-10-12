@@ -345,10 +345,7 @@ export default function Home() {
       {/* ========================================================= */}
       {/* 4. FOOTER (LET'S TALK, PHILOSOPHY)                        */}
       {/* ========================================================= */}
-      <Footer
-        profilePhotoAnchor
-        contactCta={{ kind: "calendly-and-channels" }}
-      />
+      <Footer profilePhotoAnchor contactCta={{ kind: "icons" }} />
     </div>
   );
 }

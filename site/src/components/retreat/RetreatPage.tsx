@@ -149,6 +149,11 @@ export default function RetreatPage() {
       <Footer
         profilePhotoAnchor
         contactBlurb={ENGINEERING_LEADERS_CONTACT_BLURB}
+        contactCta={{
+          kind: "calendly",
+          href: ENGINEERING_LEADERS_HERO_CTA_URL,
+          label: ENGINEERING_LEADERS_HERO_CTA_LABEL,
+        }}
         philosophyBook={ENGINEERING_LEADERS_PHILOSOPHY_BOOK}
       />
     </div>
