@@ -621,6 +621,14 @@ body {
   border: none;
 }
 
+/* Bars cap at 14px; on wide viewports leftover free space left-aligned the
+   group. Center only at desktop so mobile (full-width bars) is unchanged. */
+@media (min-width: 1024px) {
+  .retreat-waveform {
+    justify-content: center;
+  }
+}
+
 .retreat-wave-bar {
   flex: 1 1 0;
   min-width: 2px;
