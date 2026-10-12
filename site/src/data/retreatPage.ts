@@ -12,7 +12,7 @@ export const RETREAT_PAGE_TITLE = "Empowering engineering leaders";
 export const RETREAT_PAGE_DESCRIPTION =
   "Get back your time by getting back to a time where engineering was nothing but fun.";
 
-export const RETREAT_KICKER = "micro retreat";
+export const RETREAT_KICKER = "nano retreat";
 
 export const RETREAT_HEADLINE = "Empowering engineering leaders";
 
