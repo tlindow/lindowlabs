@@ -16,7 +16,6 @@ import ScrollMorphAvatar, {
 } from "@/components/animations/ScrollMorphAvatar";
 import ScrollMorphPlayButton from "@/components/animations/ScrollMorphPlayButton";
 import { useAnalytics } from "@/context/AnalyticsProvider";
-import HeroAudioEndCta from "@/components/page-audio/HeroAudioEndCta";
 import ScheduleCalendarButton from "@/components/ScheduleCalendarButton";
 import { trackFunnel } from "@/lib/funnel";
 import { useRegisterReturnToHero } from "@/context/NavbarActions";
@@ -282,8 +281,6 @@ export default function Home() {
                     />
                   </div>
                 </div>
-
-                <HeroAudioEndCta />
 
                 <span className="text-xs sm:text-sm font-mono font-bold text-indigo-dark uppercase tracking-widest block">
                   {HOME_KICKER}
