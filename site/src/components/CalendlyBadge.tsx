@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef } from "react";
 import Script from "next/script";
-import { withPageUtms } from "@/lib/funnel";
+import { captureLandingUtms, withPageUtms } from "@/lib/funnel";
 
 /** Site-wide badge booking URL (UTMs appended at init). */
 export const CALENDLY_BADGE_URL = "https://calendly.com/tylerlindow/connect";
@@ -52,6 +52,7 @@ export default function CalendlyBadge() {
 
   const initBadge = useCallback(() => {
     if (typeof window === "undefined" || !window.Calendly) return;
+    captureLandingUtms();
     clearCalendlyBadgeDom();
     window.Calendly.initBadgeWidget({
       url: withPageUtms(CALENDLY_BADGE_URL),
