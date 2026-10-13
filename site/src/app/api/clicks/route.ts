@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { recordClick } from "@/lib/clicks/store";
+import { emitClickLog } from "@/lib/clicks/log";
 
 export const dynamic = "force-dynamic";
 
@@ -21,7 +21,8 @@ function parseBody(raw: string): ClickBody | null {
 
 /**
  * Public ingest for page-view click logging (outreach UTM tags, etc.).
- * Accepts JSON or text/plain JSON (sendBeacon). No auth - write-only.
+ * Accepts JSON or text/plain JSON (sendBeacon). Writes one structured
+ * console.log line for Vercel Runtime Logs; no external store.
  */
 export async function POST(req: Request) {
   let raw = "";
@@ -39,26 +40,18 @@ export async function POST(req: Request) {
   const headerUa = req.headers.get("user-agent") || "";
   const headerRef = req.headers.get("referer") || "";
 
-  try {
-    const event = await recordClick({
-      path: body.path,
-      query: typeof body.query === "string" ? body.query : "",
-      referrer:
-        typeof body.referrer === "string" && body.referrer
-          ? body.referrer
-          : headerRef,
-      userAgent:
-        typeof body.userAgent === "string" && body.userAgent
-          ? body.userAgent
-          : headerUa,
-    });
-    // KV unset: accept and drop (public pages stay quiet until Tyler adds env).
-    if (!event) {
-      return NextResponse.json({ ok: true, stored: false });
-    }
-    return NextResponse.json({ ok: true, stored: true, id: event.id });
-  } catch (err) {
-    console.error("[clicks] record failed", err);
-    return NextResponse.json({ error: "store_failed" }, { status: 502 });
-  }
+  emitClickLog({
+    path: body.path,
+    query: typeof body.query === "string" ? body.query : "",
+    referrer:
+      typeof body.referrer === "string" && body.referrer
+        ? body.referrer
+        : headerRef,
+    userAgent:
+      typeof body.userAgent === "string" && body.userAgent
+        ? body.userAgent
+        : headerUa,
+  });
+
+  return NextResponse.json({ ok: true });
 }
