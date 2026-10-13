@@ -33,6 +33,8 @@ That runs, in order:
 9. `npm run check:mobile-nav` (390px: Name left | LinkedIn+email icons right; no audience pills / Visitors; guards header `overflow-x: clip`)
 10. `npm run check:profile-photo` (hero / middle / Let's talk: exactly one visible `data-profile-photo`)
 
+PR CI also runs **Visual QA** (`.github/workflows/visual-qa.yml`): Playwright over public routes from `site/visual-qa.config.mjs` at 1440 / 1024 / 375 (plus homepage after audio ends). Fails on console errors, key overlaps, duplicate primary CTAs, and WCAG AA contrast. Not part of local `npm run check` (Chromium download). Run with `cd site && npm run build:static && npm run check:visual-qa`.
+
 ### Shared helpers (client vs server)
 
 Keep pure helpers (formatters, labels, data) in `site/src/data/` or `site/src/lib/`, not in `"use client"` component files. Server pages may render client components, but must not import non-component exports from them.
