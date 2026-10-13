@@ -1,11 +1,12 @@
 "use client";
 
-import { ArrowUpRight, Mail } from "lucide-react";
+import { ArrowUpRight, Calendar, Mail } from "lucide-react";
 import { LinkedInIcon } from "@/components/brand/PartnerLogos";
 import ScheduleCalendarButton from "@/components/ScheduleCalendarButton";
 import { OTHER_BOOKS_LABEL } from "@/data/booksIveRead";
 import { HOME_CONTACT_BLURB } from "@/data/homepage";
 import { resumeContact } from "@/data/resumeData";
+import { CALENDLY_CONNECT_URL } from "@/lib/calendly";
 import { trackFunnel } from "@/lib/funnel";
 
 /**
@@ -104,6 +105,18 @@ export default function Footer({
           </div>
 
           <div className="pt-2 flex flex-col items-center gap-3">
+            {/* INTENTIONAL REGRESSION (#186 + #188): washed-out Let's get in touch
+                on the violet #contact band (duplicate of hero CTA). */}
+            <a
+              href={CALENDLY_CONNECT_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-xl bg-surface hover:bg-surface-alt text-foreground border border-border px-5 py-2.5 text-xs sm:text-sm font-mono font-bold shadow-xs transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+              title="Let's get in touch on Calendly"
+            >
+              <Calendar size={15} className="shrink-0" />
+              <span>Let&apos;s get in touch</span>
+            </a>
             {/* Let's talk: Schedule time + LinkedIn + email. Heading stays plain text. */}
             <div
               className="flex flex-wrap items-center justify-center gap-3"
