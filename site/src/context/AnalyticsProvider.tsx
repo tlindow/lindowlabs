@@ -99,7 +99,7 @@ export function AnalyticsProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  // Track page view on route change (Firebase + site ping + durable click log)
+  // Track page view on route change (Firebase + site ping + Runtime Logs click line)
   useEffect(() => {
     if (pathname) {
       trackEvent("page_view", {
@@ -107,7 +107,7 @@ export function AnalyticsProvider({ children }: { children: ReactNode }) {
         page_title: typeof document !== "undefined" ? document.title : "",
       });
       sendSitePing(pathname);
-      // Full path + query + referrer + UA → Upstash via /api/clicks (Vercel SSR).
+      // Full path + query + referrer + UA → POST /api/clicks → console.log (`click` …).
       sendClickLog(pathname);
     }
   }, [pathname]);

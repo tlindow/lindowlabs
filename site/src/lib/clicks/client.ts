@@ -1,6 +1,6 @@
 /**
- * Client-side page-view logger. Posts to /api/clicks on the Vercel host.
- * Failures are silent so public pages never break.
+ * Client-side page-view logger. Posts to /api/clicks so the server can
+ * emit a Vercel Runtime Logs line. Failures are silent; no public UI change.
  */
 
 export type ClickLogPayload = {
