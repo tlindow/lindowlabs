@@ -248,8 +248,9 @@ body {
   color: color-mix(in srgb, var(--hp-muted) 70%, transparent);
 }
 
+/* Indigo-700 on lavender clears WCAG AA 4.5:1 (hp-accent #4F46E5 was ~4.15:1). */
 .homepage-theme .text-indigo-dark {
-  color: var(--hp-accent);
+  color: #4338ca;
 }
 
 .homepage-theme .hover\:text-indigo-dark:hover {

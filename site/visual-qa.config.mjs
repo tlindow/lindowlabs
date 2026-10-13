@@ -24,14 +24,34 @@ export const viewports = [
 ];
 
 /**
- * Primary CTAs that must not exceed `max` visible matches per page.
- * Schedule time is allowed twice (hero + Let's talk) on the homepage.
+ * Default max visible matches for each primary CTA.
+ * Per-route overrides live in `maxByRoute` (e.g. Schedule time: 2 on `/` only).
  */
 export const primaryButtons = [
   { label: "Let's get in touch", max: 1 },
   { label: "Download resume", max: 1 },
-  { label: "Schedule time", max: 2 },
+  {
+    label: "Schedule time",
+    max: 1,
+    // Homepage: hero + Let's talk. Everywhere else: at most one.
+    maxByRoute: { "/": 2 },
+  },
 ];
+
+/**
+ * Resolve CTA limits for a single route.
+ * @param {string} route
+ * @returns {{ label: string, max: number }[]}
+ */
+export function primaryButtonsForRoute(route) {
+  return primaryButtons.map(({ label, max, maxByRoute }) => ({
+    label,
+    max:
+      maxByRoute && Object.prototype.hasOwnProperty.call(maxByRoute, route)
+        ? maxByRoute[route]
+        : max,
+  }));
+}
 
 /** Route prefixes skipped even if a page.tsx exists under src/app. */
 export const excludeRoutePrefixes = ["/learning"];

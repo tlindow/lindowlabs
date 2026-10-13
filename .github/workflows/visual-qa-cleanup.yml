@@ -1,0 +1,27 @@
+name: Visual QA cleanup
+
+# Delete the ephemeral screenshot branch when a PR closes (merged or not).
+on:
+  pull_request:
+    types: [closed]
+
+permissions:
+  contents: write
+
+jobs:
+  cleanup:
+    name: Delete visual-qa screenshots branch
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete visual-qa/pr-<n> if it exists
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -uo pipefail
+          BRANCH="visual-qa/pr-${{ github.event.pull_request.number }}"
+          if git ls-remote --exit-code --heads "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" "${BRANCH}" >/dev/null 2>&1; then
+            git push "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" --delete "${BRANCH}" \
+              || echo "Could not delete ${BRANCH} (continuing)"
+          else
+            echo "No branch ${BRANCH} to delete"
+          fi

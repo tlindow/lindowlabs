@@ -56,9 +56,12 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          set -euo pipefail
+          set -uo pipefail
           PR_NUMBER="${{ github.event.pull_request.number }}"
           BRANCH="visual-qa/pr-${PR_NUMBER}"
+          echo "published=false" >> "$GITHUB_OUTPUT"
+          echo "branch=${BRANCH}" >> "$GITHUB_OUTPUT"
+
           PUBLISH_DIR="$(mktemp -d)"
           mkdir -p "${PUBLISH_DIR}/screenshots"
           if [ -d site/visual-qa-output/screenshots ]; then
@@ -70,6 +73,15 @@ jobs:
           if [ -f site/visual-qa-output/report.json ]; then
             cp site/visual-qa-output/report.json "${PUBLISH_DIR}/report.json"
           fi
+
+          # Fork PRs (and some permission setups) cannot push branches back to
+          # the base repo. Never fail the job for that — artifact + comment remain.
+          if [ "${{ github.event.pull_request.head.repo.full_name }}" != "${{ github.repository }}" ]; then
+            echo "Fork PR detected; skipping screenshot branch push"
+            echo "push_skipped=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
           cd "${PUBLISH_DIR}"
           git init -q
           git checkout -q -b "${BRANCH}"
@@ -78,13 +90,19 @@ jobs:
           git add -A
           if git diff --cached --quiet; then
             echo "No screenshots to publish"
-            echo "published=false" >> "$GITHUB_OUTPUT"
+            echo "push_skipped=true" >> "$GITHUB_OUTPUT"
             exit 0
           fi
           git commit -q -m "Visual QA screenshots for PR #${PR_NUMBER}"
-          git push -f "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" "HEAD:refs/heads/${BRANCH}"
-          echo "published=true" >> "$GITHUB_OUTPUT"
-          echo "branch=${BRANCH}" >> "$GITHUB_OUTPUT"
+          if git push -f "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" "HEAD:refs/heads/${BRANCH}"; then
+            echo "published=true" >> "$GITHUB_OUTPUT"
+            echo "push_skipped=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "Screenshot branch push failed (permissions/fork); continuing with artifact only"
+            echo "published=false" >> "$GITHUB_OUTPUT"
+            echo "push_skipped=true" >> "$GITHUB_OUTPUT"
+          fi
+          exit 0
 
       - name: Comment screenshots on PR
         if: github.event_name == 'pull_request' && always()
@@ -94,29 +112,80 @@ jobs:
             const fs = require('fs');
             const path = require('path');
             const reportPath = 'site/visual-qa-output/report.json';
-            let report = { ok: false, failures: [], results: [] };
+            let report = { ok: false, failures: [], results: [], byCategory: {} };
             if (fs.existsSync(reportPath)) {
               report = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
             }
             const qaFailed = '${{ steps.qa.outcome }}' !== 'success';
             const status = qaFailed || !report.ok ? 'FAIL' : 'PASS';
             const branch = 'visual-qa/pr-${{ github.event.pull_request.number }}';
+            const published = '${{ steps.publish.outputs.published }}' === 'true';
             const rawBase = `https://raw.githubusercontent.com/${{ github.repository }}/${branch}`;
             const runUrl = `${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}`;
 
-            const shotLines = (report.results || [])
-              .slice(0, 12)
-              .map((r) => {
-                const file = path.posix.basename(r.screenshot || '');
-                const url = `${rawBase}/screenshots/${file}`;
-                return `| \`${r.label}\` | [png](${url}) |`;
-              })
-              .join('\n');
+            const byCategory = report.byCategory && Object.keys(report.byCategory).length
+              ? report.byCategory
+              : (report.failures || []).reduce((acc, f) => {
+                  const m = String(f.message || '').match(/^\[([^\]]+)\]/);
+                  const type = m ? m[1] : 'other';
+                  acc[type] = (acc[type] || 0) + 1;
+                  return acc;
+                }, {});
 
-            const failLines = (report.failures || [])
-              .slice(0, 30)
-              .map((f) => `- \`${f.label}\`: ${f.message}`)
-              .join('\n') || '_None_';
+            const categoryLines = Object.keys(byCategory).length
+              ? Object.entries(byCategory)
+                  .sort(([a], [b]) => a.localeCompare(b))
+                  .map(([type, count]) => `- **${type}**: ${count}`)
+                  .join('\n')
+              : '_None_';
+
+            // One sample per category so every failure type is visible even when
+            // the full list is long.
+            const sampleByCategory = {};
+            for (const f of report.failures || []) {
+              const m = String(f.message || '').match(/^\[([^\]]+)\]/);
+              const type = m ? m[1] : 'other';
+              if (!sampleByCategory[type]) sampleByCategory[type] = [];
+              if (sampleByCategory[type].length < 3) {
+                sampleByCategory[type].push(`- \`${f.label}\`: ${f.message}`);
+              }
+            }
+            const sampleLines = Object.keys(sampleByCategory).length
+              ? Object.entries(sampleByCategory)
+                  .sort(([a], [b]) => a.localeCompare(b))
+                  .map(([type, lines]) => `**${type}**\n${lines.join('\n')}`)
+                  .join('\n\n')
+              : '_None_';
+
+            let shotSection;
+            if (published) {
+              const shotLines = (report.results || [])
+                .slice(0, 12)
+                .map((r) => {
+                  const file = path.posix.basename(r.screenshot || '');
+                  const url = `${rawBase}/screenshots/${file}`;
+                  return `| \`${r.label}\` | [png](${url}) |`;
+                })
+                .join('\n');
+              shotSection = [
+                '### Screenshots',
+                '| Case | Image |',
+                '| --- | --- |',
+                shotLines || '| _(none)_ | |',
+                '',
+                `<details><summary>More screenshots on branch \`${branch}\`</summary>`,
+                '',
+                `Browse: https://github.com/${{ github.repository }}/tree/${branch}/screenshots`,
+                '',
+                '</details>',
+              ].join('\n');
+            } else {
+              shotSection = [
+                '### Screenshots',
+                'Screenshot branch push was skipped (fork PR or missing `contents: write`).',
+                `Download the **\`visual-qa-screenshots\`** artifact from the [check run](${runUrl}).`,
+              ].join('\n');
+            }
 
             const body = [
               '<!-- visual-qa-bot -->',
@@ -125,19 +194,13 @@ jobs:
               `Check run: [Visual QA](${runUrl})`,
               `Artifact: \`visual-qa-screenshots\``,
               '',
-              '### Failures',
-              failLines,
+              '### Failures by category',
+              categoryLines,
               '',
-              '### Screenshots',
-              '| Case | Image |',
-              '| --- | --- |',
-              shotLines || '| _(none)_ | |',
+              '### Sample failures (up to 3 per category)',
+              sampleLines,
               '',
-              `<details><summary>More screenshots on branch \`${branch}\`</summary>`,
-              '',
-              `Browse: https://github.com/${{ github.repository }}/tree/${branch}/screenshots`,
-              '',
-              '</details>',
+              shotSection,
             ].join('\n');
 
             const { data: comments } = await github.rest.issues.listComments({

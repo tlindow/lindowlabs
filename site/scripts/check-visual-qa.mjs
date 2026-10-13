@@ -7,8 +7,8 @@
  * hero audio ends, and fails on:
  *   - console errors / page errors
  *   - key block overlaps (credentials vs About, dock vs badge, content over nav)
- *   - too many of the same primary CTA
- *   - button/link text below WCAG AA contrast
+ *   - too many of the same primary CTA (limits from visual-qa.config.mjs)
+ *   - any visible text below WCAG AA contrast (4.5:1 normal / 3:1 large)
  *
  * Usage:
  *   node scripts/check-visual-qa.mjs
@@ -25,6 +25,7 @@ import {
   routes,
   viewports,
   primaryButtons,
+  primaryButtonsForRoute,
 } from "../visual-qa.config.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -156,9 +157,20 @@ function isCriticalAssetUrl(url, baseUrl) {
   }
 }
 
-async function collectPageFindings(page, { afterAudio = false } = {}) {
+function summarizeFailuresByCategory(failures) {
+  const counts = {};
+  for (const f of failures) {
+    const m = String(f.message || "").match(/^\[([^\]]+)\]/);
+    const type = m ? m[1] : f.type || "other";
+    counts[type] = (counts[type] || 0) + 1;
+  }
+  return counts;
+}
+
+async function collectPageFindings(page, { route, afterAudio = false } = {}) {
+  const buttons = primaryButtonsForRoute(route);
   return page.evaluate(
-    ({ primaryButtons: buttons, afterAudio: audioDone }) => {
+    ({ primaryButtons: buttonLimits, afterAudio: audioDone }) => {
       const findings = [];
 
       function visible(el) {
@@ -261,12 +273,12 @@ async function collectPageFindings(page, { afterAudio = false } = {}) {
         return acc ? blend(acc, root) : { r: root.r, g: root.g, b: root.b };
       }
 
-      // --- Primary CTA duplicates ---
+      // --- Primary CTA duplicates (per-route max) ---
       const clickable = [
         ...document.querySelectorAll("a, button, [role='button']"),
       ].filter(visible);
 
-      for (const { label, max } of buttons) {
+      for (const { label, max } of buttonLimits) {
         const matches = clickable.filter((el) => {
           const t = textOf(el);
           const aria = (el.getAttribute("aria-label") || "").trim();
@@ -334,16 +346,46 @@ async function collectPageFindings(page, { afterAudio = false } = {}) {
               el.getAttribute("data-page-audio")
                 ? `[data-page-audio="${el.getAttribute("data-page-audio")}"]`
                 : ""
+            }${
+              el.getAttribute("data-visual-qa-regression")
+                ? `[data-visual-qa-regression="${el.getAttribute("data-visual-qa-regression")}"]`
+                : ""
             } (z-index ${z})`,
           });
           break;
         }
       }
 
-      // --- WCAG AA contrast on visible buttons/links with text ---
-      for (const el of clickable) {
+      // --- WCAG AA contrast on all visible text (body, headings, captions, CTAs) ---
+      const textParents = new Set();
+      const walker = document.createTreeWalker(
+        document.body,
+        NodeFilter.SHOW_TEXT
+      );
+      let textNode;
+      while ((textNode = walker.nextNode())) {
+        const raw = (textNode.textContent || "").replace(/\s+/g, " ").trim();
+        if (!raw) continue;
+        const el = textNode.parentElement;
+        if (!el) continue;
+        if (
+          el.closest(
+            'script, style, noscript, svg, [aria-hidden="true"], .sr-only, .invisible, [hidden]'
+          )
+        ) {
+          continue;
+        }
+        if (!visible(el)) continue;
+        textParents.add(el);
+      }
+
+      const seenContrast = new Set();
+      // Pure punctuation separators (not body/heading/caption copy).
+      const decorativeOnly = /^[\s|·•‧⋅∙–—/\\·.]+$/u;
+      for (const el of textParents) {
         const t = textOf(el);
-        if (!t || t.length > 80) continue;
+        if (!t || t.length > 120) continue;
+        if (decorativeOnly.test(t)) continue;
         const style = getComputedStyle(el);
         const fg = parseColor(style.color);
         if (!fg) continue;
@@ -352,33 +394,37 @@ async function collectPageFindings(page, { afterAudio = false } = {}) {
         const cr = ratio(solidFg, bg);
         const fontSizePx = parseFloat(style.fontSize) || 14;
         const fontWeight = parseInt(style.fontWeight, 10) || 400;
+        // WCAG: large = ≥18pt (24px) or ≥14pt (18.66px) bold
         const large =
           fontSizePx >= 24 || (fontSizePx >= 18.66 && fontWeight >= 700);
         const min = large ? 3 : 4.5;
-        if (cr < min) {
-          findings.push({
-            type: "contrast",
-            message: `Contrast ${cr.toFixed(2)}:1 < AA ${min}:1 for "${t.slice(
-              0,
-              48
-            )}"`,
-          });
-        }
+        if (cr >= min) continue;
+        const key = `${t.slice(0, 48)}|${cr.toFixed(2)}|${min}`;
+        if (seenContrast.has(key)) continue;
+        seenContrast.add(key);
+        findings.push({
+          type: "contrast",
+          message: `Contrast ${cr.toFixed(2)}:1 < AA ${min}:1 for "${t.slice(
+            0,
+            48
+          )}"`,
+        });
       }
 
-      // Surface audio-end state for debugging in the report.
       if (audioDone) {
         findings.push({
           type: "meta",
           message: `playbackEnded probe: ${Boolean(
-            document.querySelector('[data-hero-audio-end], [data-page-audio="bottom-dock"]')
+            document.querySelector(
+              '[data-hero-audio-end], [data-page-audio="bottom-dock"]'
+            )
           )}`,
         });
       }
 
       return findings.filter((f) => f.type !== "meta");
     },
-    { primaryButtons, afterAudio }
+    { primaryButtons: buttons, afterAudio }
   );
 }
 
@@ -405,8 +451,90 @@ async function forceHeroAudioEnded(page) {
       audio.dispatchEvent(new Event("ended"));
     }
   });
-  // Let React state settle after ended.
   await new Promise((r) => setTimeout(r, 400));
+}
+
+async function runCase(browser, baseUrl, {
+  route,
+  vp,
+  label,
+  afterAudio,
+  failures,
+  results,
+  shotsDir,
+  outputRoot,
+}) {
+  const context = await browser.newContext({
+    viewport: { width: vp.width, height: vp.height },
+    deviceScaleFactor: 1,
+  });
+  const page = await context.newPage();
+  const consoleErrors = [];
+
+  page.on("console", (msg) => {
+    if (msg.type() !== "error") return;
+    const text = msg.text();
+    if (shouldIgnoreConsole(text)) return;
+    consoleErrors.push(text);
+  });
+  page.on("pageerror", (err) => {
+    const text = String(err?.message || err);
+    if (shouldIgnoreConsole(text)) return;
+    consoleErrors.push(text);
+  });
+  page.on("response", (res) => {
+    if (res.status() !== 404) return;
+    if (!isCriticalAssetUrl(res.url(), baseUrl)) return;
+    consoleErrors.push(`Critical asset 404: ${res.url()}`);
+  });
+
+  const target = routeUrl(baseUrl, route);
+  const response = await page.goto(target, {
+    waitUntil: "networkidle",
+    timeout: 60_000,
+  });
+  if (!response || !response.ok()) {
+    failures.push({
+      label,
+      route,
+      viewport: vp.width,
+      type: "http",
+      message: `[http] HTTP ${response ? response.status() : "no response"} for ${target}`,
+    });
+  }
+
+  await new Promise((r) => setTimeout(r, 500));
+  if (afterAudio) {
+    await forceHeroAudioEnded(page);
+  }
+
+  const shotPath = path.join(shotsDir, `${label}.png`);
+  await page.screenshot({ path: shotPath, fullPage: true });
+
+  const findings = await collectPageFindings(page, { route, afterAudio });
+  for (const err of consoleErrors) {
+    findings.push({ type: "console", message: err });
+  }
+
+  results.push({
+    label,
+    route,
+    viewport: vp.width,
+    screenshot: path.relative(outputRoot, shotPath),
+    findings,
+    afterAudio,
+  });
+  for (const f of findings) {
+    failures.push({
+      label,
+      route,
+      viewport: vp.width,
+      type: f.type,
+      message: `[${f.type}] ${f.message}`,
+    });
+  }
+
+  await context.close();
 }
 
 async function main() {
@@ -429,143 +557,47 @@ async function main() {
 
   console.log(`Visual QA: ${routes.length} routes × ${viewports.length} viewports`);
   console.log(`Routes: ${routes.join(", ")}`);
-  console.log(`Primary CTAs: ${primaryButtons.map((b) => `${b.label} (max ${b.max})`).join("; ")}`);
+  console.log(
+    `Primary CTAs: ${primaryButtons
+      .map((b) => {
+        const overrides = b.maxByRoute
+          ? ` default ${b.max}, ${Object.entries(b.maxByRoute)
+              .map(([r, m]) => `${r}=${m}`)
+              .join(", ")}`
+          : ` max ${b.max}`;
+        return `${b.label} (${overrides.trim()})`;
+      })
+      .join("; ")}`
+  );
 
   try {
     for (const route of routes) {
       for (const vp of viewports) {
-        const label = `${slugifyRoute(route)}-${vp.width}`;
-        const context = await browser.newContext({
-          viewport: { width: vp.width, height: vp.height },
-          deviceScaleFactor: 1,
-        });
-        const page = await context.newPage();
-        const consoleErrors = [];
-
-        page.on("console", (msg) => {
-          if (msg.type() !== "error") return;
-          const text = msg.text();
-          if (shouldIgnoreConsole(text)) return;
-          consoleErrors.push(text);
-        });
-        page.on("pageerror", (err) => {
-          const text = String(err?.message || err);
-          if (shouldIgnoreConsole(text)) return;
-          consoleErrors.push(text);
-        });
-        page.on("response", (res) => {
-          if (res.status() !== 404) return;
-          if (!isCriticalAssetUrl(res.url(), baseUrl)) return;
-          consoleErrors.push(`Critical asset 404: ${res.url()}`);
-        });
-
-        const target = routeUrl(baseUrl, route);
-        const response = await page.goto(target, {
-          waitUntil: "networkidle",
-          timeout: 60_000,
-        });
-        if (!response || !response.ok()) {
-          failures.push({
-            label,
-            route,
-            viewport: vp.width,
-            message: `HTTP ${response ? response.status() : "no response"} for ${target}`,
-          });
-        }
-
-        // Allow layout effects (hero overflow spacer) to settle.
-        await new Promise((r) => setTimeout(r, 500));
-
-        const shotPath = path.join(shotsDir, `${label}.png`);
-        await page.screenshot({ path: shotPath, fullPage: true });
-
-        const findings = await collectPageFindings(page, { afterAudio: false });
-        for (const err of consoleErrors) {
-          findings.push({ type: "console", message: err });
-        }
-
-        const caseFailures = findings.filter((f) => f.type !== "meta");
-        results.push({
-          label,
+        await runCase(browser, baseUrl, {
           route,
-          viewport: vp.width,
-          screenshot: path.relative(outputRoot, shotPath),
-          findings: caseFailures,
+          vp,
+          label: `${slugifyRoute(route)}-${vp.width}`,
           afterAudio: false,
+          failures,
+          results,
+          shotsDir,
+          outputRoot,
         });
-        for (const f of caseFailures) {
-          failures.push({
-            label,
-            route,
-            viewport: vp.width,
-            message: `[${f.type}] ${f.message}`,
-          });
-        }
-
-        await context.close();
       }
     }
 
-    // Homepage after hero audio ends (each viewport).
     if (routes.includes("/")) {
       for (const vp of viewports) {
-        const label = `home-after-audio-${vp.width}`;
-        const context = await browser.newContext({
-          viewport: { width: vp.width, height: vp.height },
-          deviceScaleFactor: 1,
-        });
-        const page = await context.newPage();
-        const consoleErrors = [];
-        page.on("console", (msg) => {
-          if (msg.type() !== "error") return;
-          const text = msg.text();
-          if (shouldIgnoreConsole(text)) return;
-          consoleErrors.push(text);
-        });
-        page.on("pageerror", (err) => {
-          const text = String(err?.message || err);
-          if (shouldIgnoreConsole(text)) return;
-          consoleErrors.push(text);
-        });
-        page.on("response", (res) => {
-          if (res.status() !== 404) return;
-          if (!isCriticalAssetUrl(res.url(), baseUrl)) return;
-          consoleErrors.push(`Critical asset 404: ${res.url()}`);
-        });
-
-        await page.goto(routeUrl(baseUrl, "/"), {
-          waitUntil: "networkidle",
-          timeout: 60_000,
-        });
-        await new Promise((r) => setTimeout(r, 400));
-        await forceHeroAudioEnded(page);
-
-        const shotPath = path.join(shotsDir, `${label}.png`);
-        await page.screenshot({ path: shotPath, fullPage: true });
-
-        const findings = await collectPageFindings(page, { afterAudio: true });
-        for (const err of consoleErrors) {
-          findings.push({ type: "console", message: err });
-        }
-
-        results.push({
-          label,
+        await runCase(browser, baseUrl, {
           route: "/",
-          viewport: vp.width,
-          screenshot: path.relative(outputRoot, shotPath),
-          findings,
+          vp,
+          label: `home-after-audio-${vp.width}`,
           afterAudio: true,
+          failures,
+          results,
+          shotsDir,
+          outputRoot,
         });
-        for (const f of findings) {
-          failures.push({
-            label,
-            route: "/",
-            viewport: vp.width,
-            message: `[${f.type}] ${f.message}`,
-          });
-        }
-
-        await context.close();
       }
     }
   } finally {
@@ -573,6 +605,7 @@ async function main() {
     if (server) server.close();
   }
 
+  const byCategory = summarizeFailuresByCategory(failures);
   const report = {
     ok: failures.length === 0,
     generatedAt: new Date().toISOString(),
@@ -581,6 +614,7 @@ async function main() {
     viewports,
     results,
     failures,
+    byCategory,
   };
   const reportPath = path.join(outputRoot, "report.json");
   fs.writeFileSync(reportPath, JSON.stringify(report, null, 2));
@@ -592,9 +626,17 @@ async function main() {
     "",
     `Routes (${routes.length}): ${routes.map((r) => `\`${r}\``).join(", ")}`,
     "",
-    "## Failures",
+    "## Failures by category",
     "",
   ];
+  if (Object.keys(byCategory).length === 0) {
+    md.push("_None_");
+  } else {
+    for (const [type, count] of Object.entries(byCategory).sort()) {
+      md.push(`- **${type}**: ${count}`);
+    }
+  }
+  md.push("", "## Failures", "");
   if (failures.length === 0) {
     md.push("_None_");
   } else {
@@ -610,11 +652,15 @@ async function main() {
 
   if (failures.length) {
     console.error(`\nVisual QA FAILED (${failures.length} issue(s)):`);
-    for (const f of failures.slice(0, 50)) {
+    console.error("By category:");
+    for (const [type, count] of Object.entries(byCategory).sort()) {
+      console.error(`  - ${type}: ${count}`);
+    }
+    for (const f of failures.slice(0, 40)) {
       console.error(`  - ${f.label}: ${f.message}`);
     }
-    if (failures.length > 50) {
-      console.error(`  …and ${failures.length - 50} more`);
+    if (failures.length > 40) {
+      console.error(`  …and ${failures.length - 40} more`);
     }
     process.exitCode = 1;
   } else {
