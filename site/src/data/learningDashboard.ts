@@ -35,26 +35,9 @@ export type LearningAppTile = {
 /** Exercises that live in this repo's exercises/ folder. */
 export const learningExercises: LearningExercise[] = [
   {
-    slug: "proto-learning",
-    title: "Protobuf Mastery: Merchant Settlements & Payout Rails",
-    href: `${GITHUB_EXERCISES_BASE}/proto-learning`,
-  },
-  {
-    slug: "nextjs-learning",
-    title:
-      "Next.js App Router Mastery: High-Performance Ledger & Streaming Architecture",
-    href: `${GITHUB_EXERCISES_BASE}/nextjs-learning`,
-  },
-  {
-    slug: "realtime-deal-room",
-    title:
-      "Exercise: Real-Time Collaboration Architecture (CoderPad / Excalidraw / DealRoom)",
-    href: `${GITHUB_EXERCISES_BASE}/realtime-deal-room`,
-  },
-  {
-    slug: "rest-api-trading",
-    title: "REST API Design: Robinhood-Style Stock Trading Platform",
-    href: `${GITHUB_EXERCISES_BASE}/rest-api-trading`,
+    slug: "api-design",
+    title: "OpenAPI by hand",
+    href: `${GITHUB_EXERCISES_BASE}/api-design`,
   },
 ];
 
@@ -63,6 +46,10 @@ export const learningExercises: LearningExercise[] = [
  * Kept for the legacy LearningDashboard export. Order matches the essay.
  */
 export const learningReadings: LearningReading[] = [
+  {
+    title: "API design",
+    note: "Exercise only: Merchant, Order, Refund OpenAPI",
+  },
   {
     title: "Understanding Distributed Systems",
     author: "Roberto Vitillo",

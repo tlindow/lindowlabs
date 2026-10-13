@@ -79,17 +79,33 @@ export const curriculumEssayTitle =
 
 /** Intro paragraph under the title (verbatim). */
 export const curriculumEssayIntro =
-  "You led merchant and partner integrations at Affirm, ran the merchant domain architecture review, and owned reliability for Merchant Portal. Your Tinker essays show where your understanding is thinner than those claims. You can't yet say how API resources map to routes. You've outgrown introductory reliability material but haven't studied what sits under it. You lean on analogies from other fields when fintech has its own frameworks. And you've said you never mastered data structures and algorithms. This curriculum closes those gaps in order of how often an interviewer will press on them. Understanding Distributed Systems (Vitillo) comes before Designing Data-Intensive Applications (Kleppmann) because it gives the vocabulary so Kleppmann's rigor lands. Grokking Algorithms runs alongside everything else.";
+  "You led merchant and partner integrations at Affirm, ran the merchant domain architecture review, and owned reliability for Merchant Portal. Your Tinker essays show where your understanding is thinner than those claims. You can't yet say how API resources map to routes. You've outgrown introductory reliability material but haven't studied what sits under it. You lean on analogies from other fields when fintech has its own frameworks. And you've said you never mastered data structures and algorithms. This curriculum closes those gaps in order of how often an interviewer will press on them. The API design exercise comes first so you practice turning Merchant, Order, and Refund into routes before the books. Understanding Distributed Systems (Vitillo) comes before Designing Data-Intensive Applications (Kleppmann) because it gives the vocabulary so Kleppmann's rigor lands. Grokking Algorithms runs alongside everything else. Vitillo arrives end of day Wed Oct 14.";
 
 /**
  * Ordered modules. Exercise folder ids stay stable; order matches the essay.
- * Lineup: Vitillo, API design (exercise-only), Khononov, Glenbrook, Kleppmann
- * Ch 7-10 (2nd ed), Grokking (alongside).
+ * Lineup: API design (exercise-only), Vitillo, Khononov, Glenbrook, Kleppmann
+ * Ch 7-10 (2nd ed), Grokking (alongside). Only one exercise: api-design.
  */
 export const readingCurriculum: ReadingCurriculumItem[] = [
   {
-    id: "understanding-distributed-systems",
+    id: "api-design",
     number: 1,
+    heading: "API design exercise.",
+    title: "API design",
+    author: "Exercise",
+    scope: "in Tinker",
+    prose:
+      "No book here. The gap is turning resources into routes, and that only sticks by building it. Each step models Merchant, Order, and Refund in the payments domain and grows an OpenAPI spec by hand, so the design choices come from writing it, not from reading about it.",
+    exercises: [
+      curriculumExerciseLinks(
+        "api-design",
+        "model Merchant, Order and Refund as resources, map each one to routes and methods, then write the OpenAPI spec."
+      ),
+    ],
+  },
+  {
+    id: "understanding-distributed-systems",
+    number: 2,
     heading: "Understanding Distributed Systems (Vitillo), 2nd edition.",
     title: "Understanding Distributed Systems",
     author: "Roberto Vitillo",
@@ -100,22 +116,6 @@ export const readingCurriculum: ReadingCurriculumItem[] = [
       "System Design Interview (Alex Xu) is easier but teaches patterns to recite rather than reasons.",
     getBookUrl: VITILLO_BOOK_URL,
     exercises: [],
-  },
-  {
-    id: "api-design",
-    number: 2,
-    heading: "API design exercise.",
-    title: "API design",
-    author: "Exercise",
-    scope: "in Tinker",
-    prose:
-      "No book here. The gap is turning resources into routes, and that only sticks by building it. Each step in this exercise models one more resource and wires its routes in code, so the design choices come from writing it, not from reading about it.",
-    exercises: [
-      curriculumExerciseLinks(
-        "api-design",
-        "model Merchant, Order and Refund as resources, map each one to routes and methods, then write the OpenAPI spec."
-      ),
-    ],
   },
   {
     id: "learning-domain-driven-design",
@@ -130,12 +130,7 @@ export const readingCurriculum: ReadingCurriculumItem[] = [
       "Domain-Driven Design (Evans) is the original, but it spends most of its pages on modeling objects in code and leaves strategic design for the last part. Implementing Domain-Driven Design (Vernon) is aimed at the engineer writing the code, not the manager drawing the boundaries.",
     getBookUrl:
       "https://www.oreilly.com/library/view/learning-domain-driven-design/9781098100124/",
-    exercises: [
-      curriculumExerciseLinks(
-        "bounded-contexts",
-        "split a small checkout codebase into Merchant, Payments and Disputes contexts, naming each in the words your team actually used."
-      ),
-    ],
+    exercises: [],
   },
   {
     id: "payments-systems-us",
@@ -150,12 +145,7 @@ export const readingCurriculum: ReadingCurriculumItem[] = [
       "The Anatomy of the Swipe (Siddiqui) is a readable story of the card industry, but it covers cards as a business, not payment systems as a structure, and it leaves out ACH and settlement.",
     getBookUrl:
       "https://glenbrook.com/product/payments-systems-in-the-us-a-guide-for-the-payments-professionals/",
-    exercises: [
-      curriculumExerciseLinks(
-        "card-payment-lifecycle",
-        "trace one card payment through authorization, capture, clearing and settlement as a state machine in code."
-      ),
-    ],
+    exercises: [],
   },
   {
     id: "designing-data-intensive-applications",
@@ -170,16 +160,7 @@ export const readingCurriculum: ReadingCurriculumItem[] = [
     consideredInstead:
       "*Site Reliability Engineering* (Google) was started and sat below Tyler's level, since it restates availability and SLO work he already led. *Release It!* (Nygard) teaches the right patterns but at a practitioner pace. Kleppmann's Chapters 9 and 10 explain why those patterns are needed, which is the harder and more durable layer. Database Internals (Petrov) goes down to storage engines, which is deeper than an EM needs.",
     getBookUrl: DDIA_2E_BOOK_URL,
-    exercises: [
-      curriculumExerciseLinks(
-        "idempotent-refund",
-        "build an idempotent refund endpoint, meaning a refund sent twice only refunds once."
-      ),
-      curriculumExerciseLinks(
-        "consensus-under-partition",
-        "a few simulated nodes must agree on one value while the network drops and delays messages, with steps building up from naive voting to a leader/quorum approach and observing where it breaks."
-      ),
-    ],
+    exercises: [],
   },
   {
     id: "grokking-algorithms",
@@ -193,11 +174,6 @@ export const readingCurriculum: ReadingCurriculumItem[] = [
     consideredInstead:
       "Introduction to Algorithms (CLRS) is the full reference, but it's far heavier than a job search allows. Cracking the Coding Interview is a question bank to practice from, not a book to learn from, so it fits better after Grokking.",
     getBookUrl: "https://www.manning.com/books/grokking-algorithms",
-    exercises: [
-      curriculumExerciseLinks(
-        "settlement-binary-search",
-        "one algorithm per session, applied to merchant data, like binary search over sorted settlement records."
-      ),
-    ],
+    exercises: [],
   },
 ];

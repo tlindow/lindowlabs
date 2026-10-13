@@ -1,20 +1,18 @@
 # OpenAPI by hand
 
-**/learning curriculum #2** (exercise-only): in plain English, model
-**Merchant**, **Order**, and **Refund** as resources, map routes/methods, then
-write the OpenAPI. Steps 01–06 practice the shapes on a rides domain; step 07
-(and the worksheet) switch to payments-team words. You may name the checkout
-resource **Order** in your plain-English notes even when the worksheet table
-says payment.
+**/learning curriculum #1** (exercise-only): write an OpenAPI contract for a
+payments platform API. Every step stays in the same domain: **Merchant**,
+**Order** (a checkout payment), and **Refund**.
 
 Start in plain English, then turn that understanding into OpenAPI YAML one
-milestone at a time. Practice files start blank on purpose.
+milestone at a time. Practice files start blank on purpose. Each YAML step
+copies forward from the previous `openapi.yaml`.
 
 1. Step **00**: write [`00-in-plain-english/api.md`](./00-in-plain-english/api.md).
-2. Steps **01** through **06**: copy your `openapi.yaml` forward; each milestone
-   translates a slice of that `api.md` for the **rides** domain.
-3. Step **07**: leave rides behind and write the payments contract from
-   [WORKSHEET.md](./WORKSHEET.md) by hand.
+2. Steps **01** through **06**: grow one `openapi.yaml` around **Order**
+   (ask, return, send, wrong, lists, auth).
+3. Step **07**: from a blank file, write the full Merchant / Order / Refund
+   contract from [WORKSHEET.md](./WORKSHEET.md).
 
 Machine-readable step list: [`steps.json`](./steps.json) (for Tinker to split or
 merge steps later; boundaries stay coarse here).
@@ -30,7 +28,7 @@ merge steps later; boundaries stay coarse here).
 | 04 | [`04-failure/`](./04-failure/) | Shared `Error`, 400, 404 | wrong |
 | 05 | [`05-lists/`](./05-lists/) | Query params and pagination | ask |
 | 06 | [`06-auth/`](./06-auth/) | A security scheme | send |
-| 07 | [`07-from-scratch/`](./07-from-scratch/) | Whole payments spec by hand | all four (payments) |
+| 07 | [`07-from-scratch/`](./07-from-scratch/) | Whole payments spec by hand | all four |
 
 ## How to check
 
@@ -45,8 +43,3 @@ npm run check:step -- 01
 Replace `01` with the step you are on. The check lints your YAML and asserts the
 shapes that step requires. Reference answers live under [`solutions/`](./solutions/)
 (peek only after you have typed your own).
-
-## Later: Fastify implementation
-
-After the OpenAPI track, build the payments API in TypeScript under
-[`extras/`](./extras/).

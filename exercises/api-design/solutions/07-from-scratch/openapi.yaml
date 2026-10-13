@@ -3,22 +3,66 @@ info:
   title: Payments API
   version: "1.0.0"
 paths:
-  /payments:
+  /merchants:
     post:
-      summary: Create a payment
+      summary: Create a merchant
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreatePayment"
+              $ref: "#/components/schemas/CreateMerchant"
       responses:
         "201":
-          description: Payment created
+          description: Merchant created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Payment"
+                $ref: "#/components/schemas/Merchant"
+        "400":
+          description: Invalid create payload
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /merchants/{merchantId}:
+    get:
+      summary: Get a merchant by id
+      parameters:
+        - name: merchantId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: A merchant
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Merchant"
+        "404":
+          description: Merchant not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /orders:
+    post:
+      summary: Create an order
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateOrder"
+      responses:
+        "201":
+          description: Order created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
         "400":
           description: Invalid create payload
           content:
@@ -26,7 +70,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
     get:
-      summary: List payments
+      summary: List orders
       parameters:
         - name: merchantId
           in: query
@@ -34,38 +78,38 @@ paths:
             type: string
       responses:
         "200":
-          description: Payment list
+          description: Order list
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PaymentList"
-  /payments/{paymentId}:
+                $ref: "#/components/schemas/OrderList"
+  /orders/{orderId}:
     get:
-      summary: Get a payment by id
+      summary: Get an order by id
       parameters:
-        - name: paymentId
+        - name: orderId
           in: path
           required: true
           schema:
             type: string
       responses:
         "200":
-          description: A payment
+          description: An order
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Payment"
+                $ref: "#/components/schemas/Order"
         "404":
-          description: Payment not found
+          description: Order not found
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /payments/{paymentId}/refunds:
+  /orders/{orderId}/refunds:
     post:
-      summary: Create a refund for a payment
+      summary: Create a refund for an order
       parameters:
-        - name: paymentId
+        - name: orderId
           in: path
           required: true
           schema:
@@ -90,7 +134,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
         "404":
-          description: Payment not found
+          description: Order not found
           content:
             application/json:
               schema:
@@ -119,17 +163,38 @@ paths:
                 $ref: "#/components/schemas/Error"
 components:
   schemas:
-    Payment:
+    Merchant:
       type: object
       required:
-        - paymentId
+        - merchantId
+        - name
+        - createdAt
+      properties:
+        merchantId:
+          type: string
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+    CreateMerchant:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+    Order:
+      type: object
+      required:
+        - orderId
         - merchantId
         - amountCents
         - currency
         - status
         - createdAt
       properties:
-        paymentId:
+        orderId:
           type: string
         merchantId:
           type: string
@@ -140,12 +205,13 @@ components:
         status:
           type: string
           enum:
-            - pending
+            - created
+            - paid
             - refunded
         createdAt:
           type: string
           format: date-time
-    CreatePayment:
+    CreateOrder:
       type: object
       required:
         - merchantId
@@ -159,26 +225,26 @@ components:
           minimum: 1
         currency:
           type: string
-    PaymentList:
+    OrderList:
       type: object
       required:
-        - payments
+        - orders
       properties:
-        payments:
+        orders:
           type: array
           items:
-            $ref: "#/components/schemas/Payment"
+            $ref: "#/components/schemas/Order"
     Refund:
       type: object
       required:
         - refundId
-        - paymentId
+        - orderId
         - amountCents
         - createdAt
       properties:
         refundId:
           type: string
-        paymentId:
+        orderId:
           type: string
         amountCents:
           type: integer

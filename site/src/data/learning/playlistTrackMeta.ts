@@ -21,13 +21,13 @@ export type PlaylistTrackMeta = {
 
 /** Per curriculum book id. */
 export const playlistTrackMeta: Record<string, PlaylistTrackMeta> = {
-  "understanding-distributed-systems": {
-    chapterLabels: null,
-    estimatedHours: 8,
-  },
   "api-design": {
     chapterLabels: null,
     estimatedHours: 10,
+  },
+  "understanding-distributed-systems": {
+    chapterLabels: null,
+    estimatedHours: 8,
   },
   "learning-domain-driven-design": {
     chapterLabels: null,

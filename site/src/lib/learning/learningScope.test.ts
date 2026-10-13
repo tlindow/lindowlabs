@@ -17,14 +17,6 @@ import {
 
 const EXPECTED_ORDER = [
   {
-    id: "understanding-distributed-systems",
-    title: "Understanding Distributed Systems",
-    author: "Roberto Vitillo",
-    scope: "Whole book, 2nd edition",
-    exerciseIds: [] as string[],
-    hasBook: true,
-  },
-  {
     id: "api-design",
     title: "API design",
     author: "Exercise",
@@ -33,11 +25,19 @@ const EXPECTED_ORDER = [
     hasBook: false,
   },
   {
+    id: "understanding-distributed-systems",
+    title: "Understanding Distributed Systems",
+    author: "Roberto Vitillo",
+    scope: "Whole book, 2nd edition",
+    exerciseIds: [] as string[],
+    hasBook: true,
+  },
+  {
     id: "learning-domain-driven-design",
     title: "Learning Domain-Driven Design",
     author: "Vladik Khononov",
     scope: "Whole book",
-    exerciseIds: ["bounded-contexts"],
+    exerciseIds: [] as string[],
     hasBook: true,
   },
   {
@@ -45,7 +45,7 @@ const EXPECTED_ORDER = [
     title: "Payments Systems in the U.S.",
     author: "Glenbrook",
     scope: "Whole book",
-    exerciseIds: ["card-payment-lifecycle"],
+    exerciseIds: [] as string[],
     hasBook: true,
   },
   {
@@ -53,7 +53,7 @@ const EXPECTED_ORDER = [
     title: "Designing Data-Intensive Applications",
     author: "Martin Kleppmann",
     scope: "2nd edition, Ch 7, 8, 9 and 10",
-    exerciseIds: ["idempotent-refund", "consensus-under-partition"],
+    exerciseIds: [] as string[],
     hasBook: true,
   },
   {
@@ -61,7 +61,7 @@ const EXPECTED_ORDER = [
     title: "Grokking Algorithms",
     author: "Aditya Bhargava",
     scope: "alongside everything else",
-    exerciseIds: ["settlement-binary-search"],
+    exerciseIds: [] as string[],
     hasBook: true,
   },
 ] as const;
@@ -70,7 +70,7 @@ const FORBIDDEN =
   /Oct 4|Sep 30|your earlier pick|on your plan|ruled out|already reading|one chapter in|Owned \(paperback\)|You own this one in paperback|Lauret|Design of Web APIs|Designing Web APIs|Each module is a book|Ch 3, 4, 6, 14 and 15|Ch 4, 6, 21 and 22|Types of Failures|Release It! is the pick|site-reliability-engineering|Ch 7 only|Ch 7, 8 and 9(?! and 10)/i;
 
 describe("readingCurriculumForUser", () => {
-  it("owner sees Vitillo bridge then Kleppmann 2nd-ed Ch 7-10", () => {
+  it("owner sees API design first, then Vitillo bridge then Kleppmann 2nd-ed Ch 7-10", () => {
     const items = readingCurriculumForUser(true);
     assert.equal(items.length, 6);
     assert.equal(items.length, readingCurriculum.length);
@@ -80,6 +80,10 @@ describe("readingCurriculumForUser", () => {
       "A curriculum for an engineering manager in developer experience and payments"
     );
     assert.match(curriculumEssayIntro, /^You led merchant and partner/);
+    assert.match(
+      curriculumEssayIntro,
+      /API design exercise comes first/
+    );
     assert.match(
       curriculumEssayIntro,
       /Vitillo\) comes before Designing Data-Intensive Applications/
@@ -121,12 +125,17 @@ describe("readingCurriculumForUser", () => {
       assert.equal(FORBIDDEN.test(item.consideredInstead ?? ""), false);
     }
 
-    assert.equal(items[0]?.getBookUrl, VITILLO_BOOK_URL);
-    assert.equal(items[0]?.exercises.length, 0);
+    assert.equal(items[0]?.id, "api-design");
+    assert.equal(items[0]?.exercises.length, 1);
+    assert.equal(items[1]?.getBookUrl, VITILLO_BOOK_URL);
+    assert.equal(items[1]?.exercises.length, 0);
     assert.equal(items[4]?.getBookUrl, DDIA_2E_BOOK_URL);
     assert.match(items[4]?.prose ?? "", /Vitillo\) comes first so this is the rigorous version/);
     assert.match(items[4]?.consideredInstead ?? "", /Chapters 9 and 10/);
     assert.match(items[5]?.prose ?? "", /runs alongside everything else/);
+
+    const allExerciseIds = items.flatMap((i) => i.exercises.map((e) => e.id));
+    assert.deepEqual(allExerciseIds, ["api-design"]);
   });
 
   it("non-owner sees empty curriculum (no essay modules)", () => {

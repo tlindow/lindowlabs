@@ -11,7 +11,7 @@
 > *"As software engineers, typing IS learning. When we type, we are embodying the code, the software. If we outsource our typing, we outsource our learning."*
 
 - **Never write the fix directly.** Review Tyler's in-progress draft against open critique points or exercise requirements and ask leading questions to help him close gaps in his own words.
-- Your job is to keep Tyler in flow, close syntax and type gaps, and keep him typing close to the metal.
+- Your job is to keep Tyler in flow, close syntax and type gaps, and keep him typing the practice files himself.
 - Operate strictly before code is committed or pushed to GitHub — this is private practice and scratch work.
 
 ---

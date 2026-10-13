@@ -16,7 +16,7 @@ The Outer-Loop Agent operates in two complementary modes:
 - **Demand proactive ownership**: Push Tyler to state assumptions, clarify business constraints, and articulate defensible trade-offs upfront rather than asking open-ended "how should we build this?" or looking for interviewer validation.
 
 ### Mode B: Post-Push Critique Anchor (On-The-Go GitHub Copilot Review)
-- The **real, rigorous critique occurs once code is committed and pushed to GitHub**.
+- The rigorous critique occurs once code is committed and pushed to GitHub.
 - Pushing to GitHub triggers a code review via **GitHub Copilot** on Pull Requests, structured so Tyler can review feedback asynchronously while on the go (mobile or browser).
 - For translation exercises (e.g., proto IDL critiques), translates Tyler's code **back into the original exercise domain faithfully as-is** (carrying over mistakes and gaps without silently fixing them) so the PR review accurately reflects his current understanding.
 

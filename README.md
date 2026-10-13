@@ -21,7 +21,7 @@ This repository is structured into three clear pillars:
 └── site/         # 🌐 The living Next.js personal website & public story
 ```
 
-- **[`exercises/`](./exercises/README.md)** — Dedicated exclusively to personal learning, technical katas, and schema design exercises (e.g. Protobuf & gRPC settlement engineering).
+- **[`exercises/`](./exercises/README.md)** — Dedicated exclusively to personal learning and technical katas (OpenAPI by hand for a payments API).
 - **[`content/`](./content/README.md)** — Personal journal entries and philosophy essays (like *[Typing is Learning](./content/typing_is_learning.md)*). The working resume is at [/resume](https://lindowlabs.dev/resume).
 - **[`site/`](./site/)** — The living Next.js application powering [tlindow.github.io](https://tlindow.github.io).
 

@@ -90,47 +90,47 @@ function checkStep01(spec) {
   assert(typeof spec.openapi === "string" && spec.openapi.startsWith("3."), "openapi version 3.x required");
   assert(typeof spec.info?.title === "string" && spec.info.title.length > 0, "info.title required");
   assert(typeof spec.info?.version === "string" && spec.info.version.length > 0, "info.version required");
-  const getRide = get(spec, "paths./rides/{id}.get");
-  assert(getRide, "GET /rides/{id} required");
-  assert(getRide.responses?.["200"], "GET /rides/{id} must declare 200");
+  const getOrder = get(spec, "paths./orders/{id}.get");
+  assert(getOrder, "GET /orders/{id} required");
+  assert(getOrder.responses?.["200"], "GET /orders/{id} must declare 200");
 }
 
 function checkStep02(spec) {
   checkStep01(spec);
-  const ride = get(spec, "components.schemas.Ride");
-  assert(ride && ride.type === "object", "components.schemas.Ride required");
+  const order = get(spec, "components.schemas.Order");
+  assert(order && order.type === "object", "components.schemas.Order required");
   assert(
-    responseUsesRef(get(spec, "paths./rides/{id}.get"), "200", "/Ride"),
-    "GET /rides/{id} 200 must $ref Ride"
+    responseUsesRef(get(spec, "paths./orders/{id}.get"), "200", "/Order"),
+    "GET /orders/{id} 200 must $ref Order"
   );
 }
 
 function checkStep03(spec) {
   checkStep02(spec);
-  const post = get(spec, "paths./rides.post");
-  assert(post, "POST /rides required");
-  assert(post.requestBody, "POST /rides requestBody required");
-  const create = get(spec, "components.schemas.CreateRide")
+  const post = get(spec, "paths./orders.post");
+  assert(post, "POST /orders required");
+  assert(post.requestBody, "POST /orders requestBody required");
+  const create = get(spec, "components.schemas.CreateOrder")
     ?? Object.values(spec.components?.schemas ?? {}).find(
-      (s) => Array.isArray(s?.required) && s.required.length > 0 && s !== get(spec, "components.schemas.Ride")
+      (s) => Array.isArray(s?.required) && s.required.length > 0 && s !== get(spec, "components.schemas.Order")
     );
   assert(create, "a create schema with required fields is required");
   assert(Array.isArray(create.required) && create.required.length > 0, "create schema must list required fields");
   const bodySchema = post.requestBody?.content?.["application/json"]?.schema;
-  assert(bodySchema, "POST /rides must accept application/json");
+  assert(bodySchema, "POST /orders must accept application/json");
 }
 
 function checkStep04(spec) {
   checkStep03(spec);
   const error = get(spec, "components.schemas.Error");
   assert(error && error.type === "object", "components.schemas.Error required");
-  const getRide = get(spec, "paths./rides/{id}.get");
-  const post = get(spec, "paths./rides.post");
-  assert(getRide.responses?.["404"] || post.responses?.["404"], "a 404 response is required");
-  assert(getRide.responses?.["400"] || post.responses?.["400"], "a 400 response is required");
+  const getOrder = get(spec, "paths./orders/{id}.get");
+  const post = get(spec, "paths./orders.post");
+  assert(getOrder.responses?.["404"] || post.responses?.["404"], "a 404 response is required");
+  assert(getOrder.responses?.["400"] || post.responses?.["400"], "a 400 response is required");
   const usesError =
-    responseUsesRef(getRide, "404", "/Error") ||
-    responseUsesRef(getRide, "400", "/Error") ||
+    responseUsesRef(getOrder, "404", "/Error") ||
+    responseUsesRef(getOrder, "400", "/Error") ||
     responseUsesRef(post, "404", "/Error") ||
     responseUsesRef(post, "400", "/Error");
   assert(usesError, "400 or 404 must $ref Error");
@@ -138,16 +138,16 @@ function checkStep04(spec) {
 
 function checkStep05(spec) {
   checkStep04(spec);
-  const list = get(spec, "paths./rides.get");
-  assert(list, "GET /rides required");
-  assert(list.responses?.["200"], "GET /rides must declare 200");
+  const list = get(spec, "paths./orders.get");
+  assert(list, "GET /orders required");
+  assert(list.responses?.["200"], "GET /orders must declare 200");
   const hasLimit = hasQueryParam(list, "limit");
   const hasOffset = hasQueryParam(list, "offset");
   const hasPage = hasQueryParam(list, "page");
   const hasCursor = hasQueryParam(list, "cursor");
   assert(
     (hasLimit && hasOffset) || hasPage || hasCursor || hasLimit,
-    "GET /rides needs pagination query params (limit/offset, page, or cursor)"
+    "GET /orders needs pagination query params (limit/offset, page, or cursor)"
   );
 }
 
@@ -156,7 +156,7 @@ function checkStep06(spec) {
   const schemes = spec.components?.securitySchemes;
   assert(schemes && Object.keys(schemes).length > 0, "components.securitySchemes required");
   const rootSecurity = Array.isArray(spec.security) && spec.security.length > 0;
-  const opSecurity = ["paths./rides.get", "paths./rides.post", "paths./rides/{id}.get"].some((p) => {
+  const opSecurity = ["paths./orders.get", "paths./orders.post", "paths./orders/{id}.get"].some((p) => {
     const op = get(spec, p);
     return Array.isArray(op?.security) && op.security.length > 0;
   });
@@ -168,21 +168,23 @@ function checkStep07(spec) {
   assert(typeof spec.info?.title === "string" && spec.info.title.length > 0, "info.title required");
   assert(typeof spec.info?.version === "string" && spec.info.version.length > 0, "info.version required");
 
-  assert(get(spec, "paths./payments.post"), "POST /payments required");
-  assert(get(spec, "paths./payments.get"), "GET /payments required");
-  assert(get(spec, "paths./payments/{paymentId}.get"), "GET /payments/{paymentId} required");
-  assert(get(spec, "paths./payments/{paymentId}/refunds.post"), "POST /payments/{paymentId}/refunds required");
+  assert(get(spec, "paths./merchants.post"), "POST /merchants required");
+  assert(get(spec, "paths./merchants/{merchantId}.get"), "GET /merchants/{merchantId} required");
+  assert(get(spec, "paths./orders.post"), "POST /orders required");
+  assert(get(spec, "paths./orders.get"), "GET /orders required");
+  assert(get(spec, "paths./orders/{orderId}.get"), "GET /orders/{orderId} required");
+  assert(get(spec, "paths./orders/{orderId}/refunds.post"), "POST /orders/{orderId}/refunds required");
   assert(get(spec, "paths./refunds/{refundId}.get"), "GET /refunds/{refundId} required");
 
-  for (const name of ["Payment", "Refund", "Error"]) {
+  for (const name of ["Merchant", "Order", "Refund", "Error"]) {
     assert(get(spec, `components.schemas.${name}`), `components.schemas.${name} required`);
   }
 
-  const createPayment = get(spec, "paths./payments.post");
-  assert(createPayment.requestBody, "POST /payments requestBody required");
-  assert(createPayment.responses?.["201"] || createPayment.responses?.["200"], "POST /payments success response required");
-  assert(createPayment.responses?.["400"], "POST /payments 400 required");
-  assert(get(spec, "paths./payments/{paymentId}.get").responses?.["404"], "GET payment 404 required");
+  const createOrder = get(spec, "paths./orders.post");
+  assert(createOrder.requestBody, "POST /orders requestBody required");
+  assert(createOrder.responses?.["201"] || createOrder.responses?.["200"], "POST /orders success response required");
+  assert(createOrder.responses?.["400"], "POST /orders 400 required");
+  assert(get(spec, "paths./orders/{orderId}.get").responses?.["404"], "GET order 404 required");
 }
 
 const CHECKERS = {

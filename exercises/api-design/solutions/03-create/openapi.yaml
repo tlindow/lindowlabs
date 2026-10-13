@@ -1,11 +1,11 @@
 openapi: "3.0.3"
 info:
-  title: Rides API
+  title: Payments API
   version: "1.0.0"
 paths:
-  /rides/{id}:
+  /orders/{id}:
     get:
-      summary: Get a ride by id
+      summary: Get an order by id
       parameters:
         - name: id
           in: path
@@ -14,43 +14,47 @@ paths:
             type: string
       responses:
         "200":
-          description: A ride
+          description: An order
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Ride"
-  /rides:
+                $ref: "#/components/schemas/Order"
+  /orders:
     post:
-      summary: Create a ride
+      summary: Create an order
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateRide"
+              $ref: "#/components/schemas/CreateOrder"
       responses:
         "201":
-          description: Ride created
+          description: Order created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Ride"
+                $ref: "#/components/schemas/Order"
 components:
   schemas:
-    Ride:
+    Order:
       type: object
       properties:
         id:
           type: string
         status:
           type: string
-    CreateRide:
+    CreateOrder:
       type: object
       required:
-        - pickup
-        - dropoff
+        - merchantId
+        - amountCents
+        - currency
       properties:
-        pickup:
+        merchantId:
           type: string
-        dropoff:
+        amountCents:
+          type: integer
+          minimum: 1
+        currency:
           type: string
