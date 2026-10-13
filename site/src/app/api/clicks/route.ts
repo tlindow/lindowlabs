@@ -52,7 +52,11 @@ export async function POST(req: Request) {
           ? body.userAgent
           : headerUa,
     });
-    return NextResponse.json({ ok: true, id: event.id });
+    // KV unset: accept and drop (public pages stay quiet until Tyler adds env).
+    if (!event) {
+      return NextResponse.json({ ok: true, stored: false });
+    }
+    return NextResponse.json({ ok: true, stored: true, id: event.id });
   } catch (err) {
     console.error("[clicks] record failed", err);
     return NextResponse.json({ error: "store_failed" }, { status: 502 });

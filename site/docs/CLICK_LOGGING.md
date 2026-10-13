@@ -18,6 +18,7 @@ Why this store:
 - Serverless-friendly REST API (`@upstash/redis`).
 
 Events are stored in a Redis list key `ll:clicks` (newest first, capped at 2000).
+There is no in-memory production fallback: without `KV_REST_API_*`, ingest no-ops and `/learning/clicks` stays empty (local `LEARNING_AUTH_BYPASS=1` may show sample rows for screenshots only).
 
 ## What is recorded
 

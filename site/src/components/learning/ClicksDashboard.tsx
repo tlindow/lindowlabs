@@ -31,7 +31,7 @@ export default function ClicksDashboard({
   showSignOut,
 }: {
   groups: ClickTagGroup[];
-  store: "upstash" | "memory" | "sample";
+  store: "upstash" | "sample" | "unconfigured";
   showSignOut?: boolean;
 }) {
   const total = groups.reduce((n, g) => n + g.visits.length, 0);
@@ -39,8 +39,8 @@ export default function ClicksDashboard({
     store === "upstash"
       ? "Upstash Redis (KV_REST_API_*)"
       : store === "sample"
-        ? "sample rows (local bypass, empty store)"
-        : "in-memory (KV not configured)";
+        ? "sample rows (local bypass; set KV_REST_API_* for durable store)"
+        : "KV_REST_API_* not configured";
 
   return (
     <main className="min-h-screen bg-background text-foreground">

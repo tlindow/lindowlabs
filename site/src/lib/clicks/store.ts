@@ -9,14 +9,6 @@ const CLICKS_KEY = "ll:clicks";
 /** Cap retained events (Hobby Upstash free tier is command-limited). */
 const MAX_EVENTS = 2000;
 
-type MemoryBag = { clicks: ClickEvent[] };
-
-function memoryBag(): MemoryBag {
-  const g = globalThis as typeof globalThis & { __llClickLog?: MemoryBag };
-  if (!g.__llClickLog) g.__llClickLog = { clicks: [] };
-  return g.__llClickLog;
-}
-
 /** True when Upstash / Vercel KV REST env is present. */
 export function isClickStoreConfigured(): boolean {
   return Boolean(
@@ -24,10 +16,12 @@ export function isClickStoreConfigured(): boolean {
   );
 }
 
-function redisClient(): Redis | null {
+function redisClient(): Redis {
   const url = process.env.KV_REST_API_URL?.trim();
   const token = process.env.KV_REST_API_TOKEN?.trim();
-  if (!url || !token) return null;
+  if (!url || !token) {
+    throw new Error("click_store_unconfigured");
+  }
   return new Redis({ url, token });
 }
 
@@ -73,7 +67,7 @@ export function buildClickEvent(input: RecordClickInput): ClickEvent {
   };
 }
 
-/** Sample rows for local LEARNING_AUTH_BYPASS screenshots when KV is empty. */
+/** Sample rows for local LEARNING_AUTH_BYPASS screenshots when KV is unset/empty. */
 export function sampleClickEvents(): ClickEvent[] {
   const now = Date.now();
   const mk = (
@@ -125,23 +119,20 @@ export function sampleClickEvents(): ClickEvent[] {
 }
 
 /**
- * Append one page-view event. Uses Upstash Redis when configured; otherwise
- * an in-process memory list (local/dev only - not durable across instances).
+ * Append one page-view event to Upstash Redis (`KV_REST_API_*`).
+ * No in-memory fallback. Returns null when KV env is missing (ingest no-ops).
  */
-export async function recordClick(input: RecordClickInput): Promise<ClickEvent> {
-  const event = buildClickEvent(input);
-  const redis = redisClient();
-  if (redis) {
-    await redis.lpush(CLICKS_KEY, JSON.stringify(event));
-    await redis.ltrim(CLICKS_KEY, 0, MAX_EVENTS - 1);
-    return event;
+export async function recordClick(
+  input: RecordClickInput
+): Promise<ClickEvent | null> {
+  if (!isClickStoreConfigured()) {
+    return null;
   }
 
-  const bag = memoryBag();
-  bag.clicks.unshift(event);
-  if (bag.clicks.length > MAX_EVENTS) {
-    bag.clicks.length = MAX_EVENTS;
-  }
+  const event = buildClickEvent(input);
+  const redis = redisClient();
+  await redis.lpush(CLICKS_KEY, JSON.stringify(event));
+  await redis.ltrim(CLICKS_KEY, 0, MAX_EVENTS - 1);
   return event;
 }
 
@@ -174,33 +165,34 @@ function parseStored(raw: unknown): ClickEvent | null {
 }
 
 /**
- * Recent visits, newest first. When Redis is empty and auth bypass is on,
- * seed sample rows so local screenshots have data.
+ * Recent visits from Upstash, newest first.
+ * Local screenshots only: when KV is unset/empty and LEARNING_AUTH_BYPASS=1,
+ * return sample tagged rows (never used as a production store).
  */
 export async function listRecentClicks(limit = 200): Promise<{
   events: ClickEvent[];
-  store: "upstash" | "memory" | "sample";
+  store: "upstash" | "sample" | "unconfigured";
 }> {
   const capped = Math.min(Math.max(limit, 1), 500);
-  const redis = redisClient();
 
-  if (redis) {
-    const rows = await redis.lrange<string>(CLICKS_KEY, 0, capped - 1);
-    const events = (rows ?? [])
-      .map(parseStored)
-      .filter((e): e is ClickEvent => e !== null);
-    if (events.length > 0) {
-      return { events, store: "upstash" };
-    }
+  if (!isClickStoreConfigured()) {
     if (isLearningAuthBypass()) {
       return { events: sampleClickEvents(), store: "sample" };
     }
-    return { events: [], store: "upstash" };
+    return { events: [], store: "unconfigured" };
   }
 
-  const bag = memoryBag();
-  if (bag.clicks.length === 0 && isLearningAuthBypass()) {
+  const redis = redisClient();
+  const rows = await redis.lrange<string>(CLICKS_KEY, 0, capped - 1);
+  const events = (rows ?? [])
+    .map(parseStored)
+    .filter((e): e is ClickEvent => e !== null);
+
+  if (events.length > 0) {
+    return { events, store: "upstash" };
+  }
+  if (isLearningAuthBypass()) {
     return { events: sampleClickEvents(), store: "sample" };
   }
-  return { events: bag.clicks.slice(0, capped), store: "memory" };
+  return { events: [], store: "upstash" };
 }
