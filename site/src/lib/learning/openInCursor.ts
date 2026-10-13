@@ -15,17 +15,26 @@ export function lindowlabsBlobUrl(pathInRepo: string): string {
   return `https://github.com/tlindow/lindowlabs/blob/main/${cleaned}`;
 }
 
-export const FASTIFY_PAYMENTS_PATH = "exercises/api-design";
+export const API_DESIGN_PATH = "exercises/api-design";
 
-export function fastifyPaymentsExercise() {
-  const githubUrl = lindowlabsTreeUrl(FASTIFY_PAYMENTS_PATH);
+/** The one curriculum exercise: OpenAPI by hand for payments. */
+export function apiDesignExercise() {
+  const githubUrl = lindowlabsTreeUrl(API_DESIGN_PATH);
   return {
-    id: "ex_fastify_payments_api",
-    name: "OpenAPI by hand (then Fastify payments)",
+    id: "ex_api_design_openapi",
+    name: "OpenAPI by hand (payments)",
     description:
-      "Numbered OpenAPI YAML steps, then an optional Fastify payments API using the payments team's ubiquitous language.",
-    path: FASTIFY_PAYMENTS_PATH,
+      "Numbered OpenAPI YAML steps for Merchant, Order, and Refund in the payments domain.",
+    path: API_DESIGN_PATH,
     githubUrl,
     openInCursorUrl: openInCursorUrl(githubUrl),
   };
+}
+
+/** @deprecated Use apiDesignExercise. */
+export const FASTIFY_PAYMENTS_PATH = API_DESIGN_PATH;
+
+/** @deprecated Use apiDesignExercise. */
+export function fastifyPaymentsExercise() {
+  return apiDesignExercise();
 }

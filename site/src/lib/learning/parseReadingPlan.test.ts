@@ -103,7 +103,7 @@ describe("mergeCurriculum with overlay", () => {
     assert.equal(ddd!.lessons[2].status, "pending");
   });
 
-  it("shows Fastify exercise only on reached DDD Ch 2", () => {
+  it("shows API design exercise only on reached DDD Ch 2", () => {
     const ddd = curriculum.courses.find((c) => c.key === "ddd")!;
     const ch1 = ddd.lessons.find((l) => l.key === "ch1")!;
     const ch2 = ddd.lessons.find((l) => l.key === "ch2")!;

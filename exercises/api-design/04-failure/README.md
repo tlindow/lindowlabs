@@ -20,7 +20,7 @@ Copy your step 03 `openapi.yaml` here first.
         $ref: "#/components/schemas/<Error>"
 ```
 
-**Done when:** `npm run check:step -- 04` passes (`Error` schema; ride ops
+**Done when:** `npm run check:step -- 04` passes (`Error` schema; order ops
 declare `400` and `404`; at least one `$ref` to `Error`).
 
 **If stuck:** add `components.schemas.Error` as `type: object`, run the check,

@@ -4,10 +4,10 @@
  * No Tyler writing, no status. Joined by normalized course title / lesson key.
  */
 
-import { fastifyPaymentsExercise } from "@/lib/learning/openInCursor";
+import { apiDesignExercise } from "@/lib/learning/openInCursor";
 import type { OverlayFile } from "@/lib/learning/types";
 
-const fastify = fastifyPaymentsExercise();
+const apiDesign = apiDesignExercise();
 
 export const learningOverlay: OverlayFile = {
   courses: [
@@ -80,7 +80,7 @@ export const learningOverlay: OverlayFile = {
             'Learn why the team should share one "ubiquitous language" that is used the same way in conversation, documents, diagrams, and code.',
           reflectionPrompt:
             "For one payments-team term (for example merchant, payment, or refund), write down where it shows up in conversation, in tickets, and in code, and whether it means the same thing in each place.",
-          exercises: [fastify],
+          exercises: [apiDesign],
         },
         {
           key: "ch3",

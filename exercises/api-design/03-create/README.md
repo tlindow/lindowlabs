@@ -1,6 +1,6 @@
 # 03: Create
 
-**The gap:** Your `api.md` says a caller can create a ride. How does a machine
+**The gap:** Your `api.md` says a caller can create an order. How does a machine
 know what they must send in the body?
 
 **Why it exists:** Reads alone leave create clients guessing. A request body
@@ -22,8 +22,8 @@ Copy your step 02 `openapi.yaml` here first.
             $ref: "#/components/schemas/<CreateThing>"
 ```
 
-**Done when:** `npm run check:step -- 03` passes (`POST /rides` has a JSON body
+**Done when:** `npm run check:step -- 03` passes (`POST /orders` has a JSON body
 and a create schema with at least one required field).
 
-**If stuck:** add `post:` under `/rides` with no body, run the check, then add
+**If stuck:** add `post:` under `/orders` with no body, run the check, then add
 `requestBody` from the error.

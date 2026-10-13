@@ -57,7 +57,7 @@ When there is tension between written reflections and the current UI, assume the
 
 ### Formation exercises: two-agent workflow
 
-`exercises/proto-learning/` (and similar IDL-critique-style exercises) follow a
+IDL-critique-style exercises (when present) follow a
 **two-agent split**, separated by the git push boundary:
 
 1. **Inner-loop agent (pre-push, local, uncommitted work in progress)**
@@ -115,7 +115,7 @@ The `content/` workspace uses a **PR-based workflow**:
 ### Project structure
 
 - `exercises/` — Hands-on technical learning exercises (for Tyler's personal learning)
-  - `exercises/proto-learning/` — Protobuf & gRPC B2B fintech settlement exercises
+  - `exercises/api-design/` — OpenAPI by hand for Merchant, Order, and Refund
 - `content/` — Journal entries, essay drafts, and master resume source
   - `typing_is_learning.md` — Philosophy essay on typing and hands-on coding
   - `resume.md` — Canonical resume markdown

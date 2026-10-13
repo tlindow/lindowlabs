@@ -1,11 +1,11 @@
 openapi: "3.0.3"
 info:
-  title: Rides API
+  title: Payments API
   version: "1.0.0"
 paths:
-  /rides/{id}:
+  /orders/{id}:
     get:
-      summary: Get a ride by id
+      summary: Get an order by id
       parameters:
         - name: id
           in: path
@@ -14,22 +14,22 @@ paths:
             type: string
       responses:
         "200":
-          description: A ride
+          description: An order
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Ride"
+                $ref: "#/components/schemas/Order"
         "404":
-          description: Ride not found
+          description: Order not found
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /rides:
+  /orders:
     get:
-      summary: List rides
+      summary: List orders
       parameters:
-        - name: status
+        - name: merchantId
           in: query
           schema:
             type: string
@@ -45,26 +45,26 @@ paths:
             minimum: 0
       responses:
         "200":
-          description: A page of rides
+          description: A page of orders
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/RideList"
+                $ref: "#/components/schemas/OrderList"
     post:
-      summary: Create a ride
+      summary: Create an order
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateRide"
+              $ref: "#/components/schemas/CreateOrder"
       responses:
         "201":
-          description: Ride created
+          description: Order created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Ride"
+                $ref: "#/components/schemas/Order"
         "400":
           description: Invalid create payload
           content:
@@ -73,30 +73,34 @@ paths:
                 $ref: "#/components/schemas/Error"
 components:
   schemas:
-    Ride:
+    Order:
       type: object
       properties:
         id:
           type: string
         status:
           type: string
-    CreateRide:
+    CreateOrder:
       type: object
       required:
-        - pickup
-        - dropoff
+        - merchantId
+        - amountCents
+        - currency
       properties:
-        pickup:
+        merchantId:
           type: string
-        dropoff:
+        amountCents:
+          type: integer
+          minimum: 1
+        currency:
           type: string
-    RideList:
+    OrderList:
       type: object
       properties:
-        rides:
+        orders:
           type: array
           items:
-            $ref: "#/components/schemas/Ride"
+            $ref: "#/components/schemas/Order"
         limit:
           type: integer
         offset:

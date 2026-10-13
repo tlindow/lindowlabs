@@ -21,20 +21,20 @@ import {
 } from "./playlistProgress.ts";
 
 describe("playlistProgress", () => {
-  it("starts on Vitillo; Kleppmann has Ch 7 bookmark and 4-chapter length", () => {
+  it("starts on API design; then Vitillo; Kleppmann has Ch 7 bookmark and 4-chapter length", () => {
     let p = parsePlaylistProgressCookie(undefined, "u1");
+    assert.equal(lengthLabelFor("api-design"), "~10h");
     assert.equal(lengthLabelFor("understanding-distributed-systems"), "~8h");
     assert.equal(
       lengthLabelFor("designing-data-intensive-applications"),
       "4 ch · ~10h"
     );
-    assert.equal(lengthLabelFor("api-design"), "~10h");
 
+    assert.equal(nowReadingItem(readingCurriculum, p)?.id, "api-design");
     assert.equal(
-      nowReadingItem(readingCurriculum, p)?.id,
+      upNextItem(readingCurriculum, p)?.id,
       "understanding-distributed-systems"
     );
-    assert.equal(upNextItem(readingCurriculum, p)?.id, "api-design");
 
     assert.equal(
       formatBookmark(p.books["designing-data-intensive-applications"]!.bookmark),
@@ -49,11 +49,14 @@ describe("playlistProgress", () => {
       false
     );
 
-    p = markBookFinished(p, "understanding-distributed-systems");
-    assert.equal(nowReadingItem(readingCurriculum, p)?.id, "api-design");
+    p = markBookFinished(p, "api-design");
+    assert.equal(
+      nowReadingItem(readingCurriculum, p)?.id,
+      "understanding-distributed-systems"
+    );
 
     // After finishing tracks before Kleppmann, Now reading is Kleppmann Ch 7.
-    p = markBookFinished(p, "api-design");
+    p = markBookFinished(p, "understanding-distributed-systems");
     p = markBookFinished(p, "learning-domain-driven-design");
     p = markBookFinished(p, "payments-systems-us");
     assert.equal(
