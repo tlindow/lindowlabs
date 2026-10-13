@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useCallback, useMemo } from "react";
 import { useScroll, useMotionValue, useSpring } from "framer-motion";
-import { FileText } from "lucide-react";
+import { Calendar, FileText } from "lucide-react";
 import {
   TrustedPartnersBar,
   EducationInstitutionsBar,
@@ -17,9 +17,12 @@ import ScrollMorphAvatar, {
 import ScrollMorphPlayButton from "@/components/animations/ScrollMorphPlayButton";
 import { useAnalytics } from "@/context/AnalyticsProvider";
 import ScheduleCalendarButton from "@/components/ScheduleCalendarButton";
+import HeroAudioEndCta from "@/components/page-audio/HeroAudioEndCta";
+import VisualQaRegressionNoise from "@/components/VisualQaRegressionNoise";
+import VisualQaStickyNavOverlap from "@/components/VisualQaStickyNavOverlap";
 import { trackFunnel } from "@/lib/funnel";
+import { CALENDLY_CONNECT_URL } from "@/lib/calendly";
 import { useRegisterReturnToHero } from "@/context/NavbarActions";
-import { useHeroOverflowSpacer } from "@/hooks/useHeroOverflowSpacer";
 import { usePrefersReducedMotion } from "@/hooks/useProfileAnchors";
 import { setDirectToHeroActive } from "@/lib/profileDock";
 import {
@@ -206,7 +209,8 @@ export default function Home() {
     directToHero,
     computeContactProgress,
   ]);
-  useHeroOverflowSpacer();
+  // INTENTIONAL REGRESSION (#193): no useHeroOverflowSpacer() — credentials
+  // can paint over About around 1024px; Visual QA overlap check must catch it.
 
   const handleReturnToHero = useCallback(() => {
     // Intentional skip-nav flight (coin click / back-to-top only).
@@ -241,6 +245,10 @@ export default function Home() {
 
   return (
     <div className="homepage-theme min-h-screen bg-background text-foreground selection:bg-indigo-light selection:text-indigo-dark font-mono flex flex-col justify-between overflow-x-clip">
+      {/* INTENTIONAL REGRESSION (#197): removeChild-style page error */}
+      <VisualQaRegressionNoise />
+      {/* INTENTIONAL REGRESSION: fixed layer over sticky nav */}
+      <VisualQaStickyNavOverlap />
       {/* Scroll-animated profile picture bridging hero, navbar, and contact section */}
       <ScrollMorphAvatar
         progress={avatarProgress}
@@ -336,7 +344,20 @@ export default function Home() {
                     <span>Download resume</span>
                   </a>
                   <ScheduleCalendarButton placement="hero" />
+                  {/* INTENTIONAL REGRESSION (#188): second Let's get in touch */}
+                  <a
+                    href={CALENDLY_CONNECT_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-xl bg-surface hover:bg-surface-alt text-foreground border border-border px-5 py-2.5 text-xs sm:text-sm font-mono font-bold shadow-xs transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+                    title="Let's get in touch on Calendly"
+                  >
+                    <Calendar size={15} className="shrink-0" />
+                    <span>Let&apos;s get in touch</span>
+                  </a>
                 </div>
+                {/* INTENTIONAL REGRESSION (#204): stray Download resume after audio */}
+                <HeroAudioEndCta />
 
                 {/* Previous employers + education logos in one panel */}
                 <div id="trusted-partners" className="w-full min-w-0 max-w-full scroll-mt-24">
