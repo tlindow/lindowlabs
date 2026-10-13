@@ -15,6 +15,7 @@
     "check:locations": "node scripts/check-locations.mjs",
     "check:mobile-nav": "node scripts/check-mobile-nav.mjs",
     "check:profile-photo": "node scripts/check-profile-photo.mjs",
+    "check:visual-qa": "node scripts/check-visual-qa.mjs",
     "typecheck": "tsc --noEmit",
     "start": "next start",
     "lint": "eslint",
@@ -41,12 +42,14 @@
   },
   "devDependencies": {
     "@imgly/background-removal-node": "^1.4.5",
+    "@playwright/test": "^1.64.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
+    "playwright": "^1.64.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
