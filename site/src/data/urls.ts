@@ -12,8 +12,9 @@ export const BEGINNER_HOST = BEGINNER_URL.replace(/^https?:\/\//, "");
 
 /**
  * Private Lindow Labs Learning dashboard (Vercel SSR + Stytch).
- * lindowlabs.dev still points at GitHub Pages (static stub); Login must
- * hit the Vercel host until the custom domain is moved to the SSR project.
+ * While lindowlabs.dev cutover to the Vercel project `lindowlabs`
+ * (team lindow-labs-2) is in flight, Login still targets the vercel.app
+ * host so the static Pages stub does not loop onto itself.
  */
 export const LEARNING_DASHBOARD_URL =
   "https://lindowlabs.vercel.app/learning";

@@ -19,6 +19,7 @@ import {
   logScrollDepth,
   RecruitClickParams,
 } from "@/lib/firebase/analytics";
+import { sendClickLog } from "@/lib/clicks/client";
 import { sendSitePing } from "@/lib/sitePing";
 import {
   initRemoteConfig,
@@ -98,7 +99,7 @@ export function AnalyticsProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  // Track page view on route change (Firebase + privacy-respecting site ping)
+  // Track page view on route change (Firebase + site ping + durable click log)
   useEffect(() => {
     if (pathname) {
       trackEvent("page_view", {
@@ -106,6 +107,8 @@ export function AnalyticsProvider({ children }: { children: ReactNode }) {
         page_title: typeof document !== "undefined" ? document.title : "",
       });
       sendSitePing(pathname);
+      // Full path + query + referrer + UA → Upstash via /api/clicks (Vercel SSR).
+      sendClickLog(pathname);
     }
   }, [pathname]);
 
