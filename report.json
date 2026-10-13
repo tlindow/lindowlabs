@@ -1,0 +1,826 @@
+{
+  "ok": false,
+  "generatedAt": "2026-10-13T18:41:36.180Z",
+  "routes": [
+    "/",
+    "/blog",
+    "/blog/building-product-as-system-architecture",
+    "/blog/over-index-on-intuition",
+    "/books-ive-read",
+    "/brand",
+    "/how-i-lead-teams/building-teams-as-raising-funds",
+    "/resume",
+    "/schedule-time",
+    "/time",
+    "/visitors"
+  ],
+  "primaryButtons": [
+    {
+      "label": "Let's get in touch",
+      "max": 1
+    },
+    {
+      "label": "Download resume",
+      "max": 1
+    },
+    {
+      "label": "Schedule time",
+      "max": 1,
+      "maxByRoute": {
+        "/": 2
+      }
+    }
+  ],
+  "viewports": [
+    {
+      "name": "desktop",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "name": "laptop",
+      "width": 1024,
+      "height": 768
+    },
+    {
+      "name": "mobile",
+      "width": 375,
+      "height": 812
+    }
+  ],
+  "results": [
+    {
+      "label": "home-1440",
+      "route": "/",
+      "viewport": 1440,
+      "screenshot": "screenshots/home-1440.png",
+      "findings": [
+        {
+          "type": "duplicate-cta",
+          "message": "Found 2 visible \"Let's get in touch\" (max 1)"
+        },
+        {
+          "type": "overlap",
+          "message": "Overlapping blocks: credentials vs About"
+        },
+        {
+          "type": "overlap",
+          "message": "Content paints over sticky nav: div[data-visual-qa-regression=\"sticky-nav-overlap\"] (z-index 60)"
+        },
+        {
+          "type": "contrast",
+          "message": "Contrast 1.09:1 < AA 4.5:1 for \"Let's get in touch\""
+        },
+        {
+          "type": "console",
+          "message": "Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node."
+        }
+      ],
+      "afterAudio": false
+    },
+    {
+      "label": "home-1024",
+      "route": "/",
+      "viewport": 1024,
+      "screenshot": "screenshots/home-1024.png",
+      "findings": [
+        {
+          "type": "duplicate-cta",
+          "message": "Found 2 visible \"Let's get in touch\" (max 1)"
+        },
+        {
+          "type": "overlap",
+          "message": "Overlapping blocks: credentials vs About"
+        },
+        {
+          "type": "overlap",
+          "message": "Content paints over sticky nav: div[data-visual-qa-regression=\"sticky-nav-overlap\"] (z-index 60)"
+        },
+        {
+          "type": "contrast",
+          "message": "Contrast 1.09:1 < AA 4.5:1 for \"Let's get in touch\""
+        },
+        {
+          "type": "console",
+          "message": "Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node."
+        }
+      ],
+      "afterAudio": false
+    },
+    {
+      "label": "home-375",
+      "route": "/",
+      "viewport": 375,
+      "screenshot": "screenshots/home-375.png",
+      "findings": [
+        {
+          "type": "duplicate-cta",
+          "message": "Found 2 visible \"Let's get in touch\" (max 1)"
+        },
+        {
+          "type": "overlap",
+          "message": "Overlapping blocks: credentials vs About"
+        },
+        {
+          "type": "overlap",
+          "message": "Content paints over sticky nav: div[data-visual-qa-regression=\"sticky-nav-overlap\"] (z-index 60)"
+        },
+        {
+          "type": "contrast",
+          "message": "Contrast 1.09:1 < AA 4.5:1 for \"Let's get in touch\""
+        },
+        {
+          "type": "console",
+          "message": "Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node."
+        }
+      ],
+      "afterAudio": false
+    },
+    {
+      "label": "blog-1440",
+      "route": "/blog",
+      "viewport": 1440,
+      "screenshot": "screenshots/blog-1440.png",
+      "findings": [],
+      "afterAudio": false
+    },
+    {
+      "label": "blog-1024",
+      "route": "/blog",
+      "viewport": 1024,
+      "screenshot": "screenshots/blog-1024.png",
+      "findings": [],
+      "afterAudio": false
+    },
+    {
+      "label": "blog-375",
+      "route": "/blog",
+      "viewport": 375,
+      "screenshot": "screenshots/blog-375.png",
+      "findings": [],
+      "afterAudio": false
+    },
+    {
+      "label": "blog__building-product-as-system-architecture-1440",
+      "route": "/blog/building-product-as-system-architecture",
+      "viewport": 1440,
+      "screenshot": "screenshots/blog__building-product-as-system-architecture-1440.png",
+      "findings": [],
+      "afterAudio": false
+    },
+    {
+      "label": "blog__building-product-as-system-architecture-1024",
+      "route": "/blog/building-product-as-system-architecture",
+      "viewport": 1024,
+      "screenshot": "screenshots/blog__building-product-as-system-architecture-1024.png",
+      "findings": [],
+      "afterAudio": false
+    },
+    {
+      "label": "blog__building-product-as-system-architecture-375",
+      "route": "/blog/building-product-as-system-architecture",
+      "viewport": 375,
+      "screenshot": "screenshots/blog__building-product-as-system-architecture-375.png",
+      "findings": [],
+      "afterAudio": false
+    },
+    {
+      "label": "blog__over-index-on-intuition-1440",
+      "route": "/blog/over-index-on-intuition",
+      "viewport": 1440,
+      "screenshot": "screenshots/blog__over-index-on-intuition-1440.png",
+      "findings": [],
+      "afterAudio": false
+    },
+    {
+      "label": "blog__over-index-on-intuition-1024",
+      "route": "/blog/over-index-on-intuition",
+      "viewport": 1024,
+      "screenshot": "screenshots/blog__over-index-on-intuition-1024.png",
+      "findings": [],
+      "afterAudio": false
+    },
+    {
+      "label": "blog__over-index-on-intuition-375",
+      "route": "/blog/over-index-on-intuition",
+      "viewport": 375,
+      "screenshot": "screenshots/blog__over-index-on-intuition-375.png",
+      "findings": [],
+      "afterAudio": false
+    },
+    {
+      "label": "books-ive-read-1440",
+      "route": "/books-ive-read",
+      "viewport": 1440,
+      "screenshot": "screenshots/books-ive-read-1440.png",
+      "findings": [],
+      "afterAudio": false
+    },
+    {
+      "label": "books-ive-read-1024",
+      "route": "/books-ive-read",
+      "viewport": 1024,
+      "screenshot": "screenshots/books-ive-read-1024.png",
+      "findings": [],
+      "afterAudio": false
+    },
+    {
+      "label": "books-ive-read-375",
+      "route": "/books-ive-read",
+      "viewport": 375,
+      "screenshot": "screenshots/books-ive-read-375.png",
+      "findings": [],
+      "afterAudio": false
+    },
+    {
+      "label": "brand-1440",
+      "route": "/brand",
+      "viewport": 1440,
+      "screenshot": "screenshots/brand-1440.png",
+      "findings": [],
+      "afterAudio": false
+    },
+    {
+      "label": "brand-1024",
+      "route": "/brand",
+      "viewport": 1024,
+      "screenshot": "screenshots/brand-1024.png",
+      "findings": [],
+      "afterAudio": false
+    },
+    {
+      "label": "brand-375",
+      "route": "/brand",
+      "viewport": 375,
+      "screenshot": "screenshots/brand-375.png",
+      "findings": [],
+      "afterAudio": false
+    },
+    {
+      "label": "how-i-lead-teams__building-teams-as-raising-funds-1440",
+      "route": "/how-i-lead-teams/building-teams-as-raising-funds",
+      "viewport": 1440,
+      "screenshot": "screenshots/how-i-lead-teams__building-teams-as-raising-funds-1440.png",
+      "findings": [],
+      "afterAudio": false
+    },
+    {
+      "label": "how-i-lead-teams__building-teams-as-raising-funds-1024",
+      "route": "/how-i-lead-teams/building-teams-as-raising-funds",
+      "viewport": 1024,
+      "screenshot": "screenshots/how-i-lead-teams__building-teams-as-raising-funds-1024.png",
+      "findings": [],
+      "afterAudio": false
+    },
+    {
+      "label": "how-i-lead-teams__building-teams-as-raising-funds-375",
+      "route": "/how-i-lead-teams/building-teams-as-raising-funds",
+      "viewport": 375,
+      "screenshot": "screenshots/how-i-lead-teams__building-teams-as-raising-funds-375.png",
+      "findings": [],
+      "afterAudio": false
+    },
+    {
+      "label": "resume-1440",
+      "route": "/resume",
+      "viewport": 1440,
+      "screenshot": "screenshots/resume-1440.png",
+      "findings": [],
+      "afterAudio": false
+    },
+    {
+      "label": "resume-1024",
+      "route": "/resume",
+      "viewport": 1024,
+      "screenshot": "screenshots/resume-1024.png",
+      "findings": [],
+      "afterAudio": false
+    },
+    {
+      "label": "resume-375",
+      "route": "/resume",
+      "viewport": 375,
+      "screenshot": "screenshots/resume-375.png",
+      "findings": [],
+      "afterAudio": false
+    },
+    {
+      "label": "schedule-time-1440",
+      "route": "/schedule-time",
+      "viewport": 1440,
+      "screenshot": "screenshots/schedule-time-1440.png",
+      "findings": [
+        {
+          "type": "contrast",
+          "message": "Contrast 1.09:1 < AA 4.5:1 for \"Let's get in touch\""
+        }
+      ],
+      "afterAudio": false
+    },
+    {
+      "label": "schedule-time-1024",
+      "route": "/schedule-time",
+      "viewport": 1024,
+      "screenshot": "screenshots/schedule-time-1024.png",
+      "findings": [
+        {
+          "type": "contrast",
+          "message": "Contrast 1.09:1 < AA 4.5:1 for \"Let's get in touch\""
+        }
+      ],
+      "afterAudio": false
+    },
+    {
+      "label": "schedule-time-375",
+      "route": "/schedule-time",
+      "viewport": 375,
+      "screenshot": "screenshots/schedule-time-375.png",
+      "findings": [
+        {
+          "type": "contrast",
+          "message": "Contrast 1.09:1 < AA 4.5:1 for \"Let's get in touch\""
+        }
+      ],
+      "afterAudio": false
+    },
+    {
+      "label": "time-1440",
+      "route": "/time",
+      "viewport": 1440,
+      "screenshot": "screenshots/time-1440.png",
+      "findings": [
+        {
+          "type": "contrast",
+          "message": "Contrast 1.09:1 < AA 4.5:1 for \"Let's get in touch\""
+        }
+      ],
+      "afterAudio": false
+    },
+    {
+      "label": "time-1024",
+      "route": "/time",
+      "viewport": 1024,
+      "screenshot": "screenshots/time-1024.png",
+      "findings": [
+        {
+          "type": "contrast",
+          "message": "Contrast 1.09:1 < AA 4.5:1 for \"Let's get in touch\""
+        }
+      ],
+      "afterAudio": false
+    },
+    {
+      "label": "time-375",
+      "route": "/time",
+      "viewport": 375,
+      "screenshot": "screenshots/time-375.png",
+      "findings": [
+        {
+          "type": "contrast",
+          "message": "Contrast 1.09:1 < AA 4.5:1 for \"Let's get in touch\""
+        }
+      ],
+      "afterAudio": false
+    },
+    {
+      "label": "visitors-1440",
+      "route": "/visitors",
+      "viewport": 1440,
+      "screenshot": "screenshots/visitors-1440.png",
+      "findings": [
+        {
+          "type": "contrast",
+          "message": "Contrast 1.09:1 < AA 4.5:1 for \"Let's get in touch\""
+        }
+      ],
+      "afterAudio": false
+    },
+    {
+      "label": "visitors-1024",
+      "route": "/visitors",
+      "viewport": 1024,
+      "screenshot": "screenshots/visitors-1024.png",
+      "findings": [
+        {
+          "type": "contrast",
+          "message": "Contrast 1.09:1 < AA 4.5:1 for \"Let's get in touch\""
+        }
+      ],
+      "afterAudio": false
+    },
+    {
+      "label": "visitors-375",
+      "route": "/visitors",
+      "viewport": 375,
+      "screenshot": "screenshots/visitors-375.png",
+      "findings": [
+        {
+          "type": "contrast",
+          "message": "Contrast 1.09:1 < AA 4.5:1 for \"Let's get in touch\""
+        }
+      ],
+      "afterAudio": false
+    },
+    {
+      "label": "home-after-audio-1440",
+      "route": "/",
+      "viewport": 1440,
+      "screenshot": "screenshots/home-after-audio-1440.png",
+      "findings": [
+        {
+          "type": "duplicate-cta",
+          "message": "Found 2 visible \"Let's get in touch\" (max 1)"
+        },
+        {
+          "type": "duplicate-cta",
+          "message": "Found 2 visible \"Download resume\" (max 1)"
+        },
+        {
+          "type": "overlap",
+          "message": "Overlapping blocks: credentials vs About"
+        },
+        {
+          "type": "overlap",
+          "message": "Content paints over sticky nav: div[data-visual-qa-regression=\"sticky-nav-overlap\"] (z-index 60)"
+        },
+        {
+          "type": "contrast",
+          "message": "Contrast 1.09:1 < AA 4.5:1 for \"Let's get in touch\""
+        },
+        {
+          "type": "console",
+          "message": "Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node."
+        }
+      ],
+      "afterAudio": true
+    },
+    {
+      "label": "home-after-audio-1024",
+      "route": "/",
+      "viewport": 1024,
+      "screenshot": "screenshots/home-after-audio-1024.png",
+      "findings": [
+        {
+          "type": "duplicate-cta",
+          "message": "Found 2 visible \"Let's get in touch\" (max 1)"
+        },
+        {
+          "type": "duplicate-cta",
+          "message": "Found 2 visible \"Download resume\" (max 1)"
+        },
+        {
+          "type": "overlap",
+          "message": "Overlapping blocks: credentials vs About"
+        },
+        {
+          "type": "overlap",
+          "message": "Content paints over sticky nav: div[data-visual-qa-regression=\"sticky-nav-overlap\"] (z-index 60)"
+        },
+        {
+          "type": "contrast",
+          "message": "Contrast 1.09:1 < AA 4.5:1 for \"Let's get in touch\""
+        },
+        {
+          "type": "console",
+          "message": "Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node."
+        }
+      ],
+      "afterAudio": true
+    },
+    {
+      "label": "home-after-audio-375",
+      "route": "/",
+      "viewport": 375,
+      "screenshot": "screenshots/home-after-audio-375.png",
+      "findings": [
+        {
+          "type": "duplicate-cta",
+          "message": "Found 2 visible \"Let's get in touch\" (max 1)"
+        },
+        {
+          "type": "duplicate-cta",
+          "message": "Found 2 visible \"Download resume\" (max 1)"
+        },
+        {
+          "type": "overlap",
+          "message": "Overlapping blocks: credentials vs About"
+        },
+        {
+          "type": "overlap",
+          "message": "Content paints over sticky nav: div[data-visual-qa-regression=\"sticky-nav-overlap\"] (z-index 60)"
+        },
+        {
+          "type": "contrast",
+          "message": "Contrast 1.09:1 < AA 4.5:1 for \"Let's get in touch\""
+        },
+        {
+          "type": "console",
+          "message": "Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node."
+        }
+      ],
+      "afterAudio": true
+    }
+  ],
+  "failures": [
+    {
+      "label": "home-1440",
+      "route": "/",
+      "viewport": 1440,
+      "type": "duplicate-cta",
+      "message": "[duplicate-cta] Found 2 visible \"Let's get in touch\" (max 1)"
+    },
+    {
+      "label": "home-1440",
+      "route": "/",
+      "viewport": 1440,
+      "type": "overlap",
+      "message": "[overlap] Overlapping blocks: credentials vs About"
+    },
+    {
+      "label": "home-1440",
+      "route": "/",
+      "viewport": 1440,
+      "type": "overlap",
+      "message": "[overlap] Content paints over sticky nav: div[data-visual-qa-regression=\"sticky-nav-overlap\"] (z-index 60)"
+    },
+    {
+      "label": "home-1440",
+      "route": "/",
+      "viewport": 1440,
+      "type": "contrast",
+      "message": "[contrast] Contrast 1.09:1 < AA 4.5:1 for \"Let's get in touch\""
+    },
+    {
+      "label": "home-1440",
+      "route": "/",
+      "viewport": 1440,
+      "type": "console",
+      "message": "[console] Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node."
+    },
+    {
+      "label": "home-1024",
+      "route": "/",
+      "viewport": 1024,
+      "type": "duplicate-cta",
+      "message": "[duplicate-cta] Found 2 visible \"Let's get in touch\" (max 1)"
+    },
+    {
+      "label": "home-1024",
+      "route": "/",
+      "viewport": 1024,
+      "type": "overlap",
+      "message": "[overlap] Overlapping blocks: credentials vs About"
+    },
+    {
+      "label": "home-1024",
+      "route": "/",
+      "viewport": 1024,
+      "type": "overlap",
+      "message": "[overlap] Content paints over sticky nav: div[data-visual-qa-regression=\"sticky-nav-overlap\"] (z-index 60)"
+    },
+    {
+      "label": "home-1024",
+      "route": "/",
+      "viewport": 1024,
+      "type": "contrast",
+      "message": "[contrast] Contrast 1.09:1 < AA 4.5:1 for \"Let's get in touch\""
+    },
+    {
+      "label": "home-1024",
+      "route": "/",
+      "viewport": 1024,
+      "type": "console",
+      "message": "[console] Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node."
+    },
+    {
+      "label": "home-375",
+      "route": "/",
+      "viewport": 375,
+      "type": "duplicate-cta",
+      "message": "[duplicate-cta] Found 2 visible \"Let's get in touch\" (max 1)"
+    },
+    {
+      "label": "home-375",
+      "route": "/",
+      "viewport": 375,
+      "type": "overlap",
+      "message": "[overlap] Overlapping blocks: credentials vs About"
+    },
+    {
+      "label": "home-375",
+      "route": "/",
+      "viewport": 375,
+      "type": "overlap",
+      "message": "[overlap] Content paints over sticky nav: div[data-visual-qa-regression=\"sticky-nav-overlap\"] (z-index 60)"
+    },
+    {
+      "label": "home-375",
+      "route": "/",
+      "viewport": 375,
+      "type": "contrast",
+      "message": "[contrast] Contrast 1.09:1 < AA 4.5:1 for \"Let's get in touch\""
+    },
+    {
+      "label": "home-375",
+      "route": "/",
+      "viewport": 375,
+      "type": "console",
+      "message": "[console] Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node."
+    },
+    {
+      "label": "schedule-time-1440",
+      "route": "/schedule-time",
+      "viewport": 1440,
+      "type": "contrast",
+      "message": "[contrast] Contrast 1.09:1 < AA 4.5:1 for \"Let's get in touch\""
+    },
+    {
+      "label": "schedule-time-1024",
+      "route": "/schedule-time",
+      "viewport": 1024,
+      "type": "contrast",
+      "message": "[contrast] Contrast 1.09:1 < AA 4.5:1 for \"Let's get in touch\""
+    },
+    {
+      "label": "schedule-time-375",
+      "route": "/schedule-time",
+      "viewport": 375,
+      "type": "contrast",
+      "message": "[contrast] Contrast 1.09:1 < AA 4.5:1 for \"Let's get in touch\""
+    },
+    {
+      "label": "time-1440",
+      "route": "/time",
+      "viewport": 1440,
+      "type": "contrast",
+      "message": "[contrast] Contrast 1.09:1 < AA 4.5:1 for \"Let's get in touch\""
+    },
+    {
+      "label": "time-1024",
+      "route": "/time",
+      "viewport": 1024,
+      "type": "contrast",
+      "message": "[contrast] Contrast 1.09:1 < AA 4.5:1 for \"Let's get in touch\""
+    },
+    {
+      "label": "time-375",
+      "route": "/time",
+      "viewport": 375,
+      "type": "contrast",
+      "message": "[contrast] Contrast 1.09:1 < AA 4.5:1 for \"Let's get in touch\""
+    },
+    {
+      "label": "visitors-1440",
+      "route": "/visitors",
+      "viewport": 1440,
+      "type": "contrast",
+      "message": "[contrast] Contrast 1.09:1 < AA 4.5:1 for \"Let's get in touch\""
+    },
+    {
+      "label": "visitors-1024",
+      "route": "/visitors",
+      "viewport": 1024,
+      "type": "contrast",
+      "message": "[contrast] Contrast 1.09:1 < AA 4.5:1 for \"Let's get in touch\""
+    },
+    {
+      "label": "visitors-375",
+      "route": "/visitors",
+      "viewport": 375,
+      "type": "contrast",
+      "message": "[contrast] Contrast 1.09:1 < AA 4.5:1 for \"Let's get in touch\""
+    },
+    {
+      "label": "home-after-audio-1440",
+      "route": "/",
+      "viewport": 1440,
+      "type": "duplicate-cta",
+      "message": "[duplicate-cta] Found 2 visible \"Let's get in touch\" (max 1)"
+    },
+    {
+      "label": "home-after-audio-1440",
+      "route": "/",
+      "viewport": 1440,
+      "type": "duplicate-cta",
+      "message": "[duplicate-cta] Found 2 visible \"Download resume\" (max 1)"
+    },
+    {
+      "label": "home-after-audio-1440",
+      "route": "/",
+      "viewport": 1440,
+      "type": "overlap",
+      "message": "[overlap] Overlapping blocks: credentials vs About"
+    },
+    {
+      "label": "home-after-audio-1440",
+      "route": "/",
+      "viewport": 1440,
+      "type": "overlap",
+      "message": "[overlap] Content paints over sticky nav: div[data-visual-qa-regression=\"sticky-nav-overlap\"] (z-index 60)"
+    },
+    {
+      "label": "home-after-audio-1440",
+      "route": "/",
+      "viewport": 1440,
+      "type": "contrast",
+      "message": "[contrast] Contrast 1.09:1 < AA 4.5:1 for \"Let's get in touch\""
+    },
+    {
+      "label": "home-after-audio-1440",
+      "route": "/",
+      "viewport": 1440,
+      "type": "console",
+      "message": "[console] Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node."
+    },
+    {
+      "label": "home-after-audio-1024",
+      "route": "/",
+      "viewport": 1024,
+      "type": "duplicate-cta",
+      "message": "[duplicate-cta] Found 2 visible \"Let's get in touch\" (max 1)"
+    },
+    {
+      "label": "home-after-audio-1024",
+      "route": "/",
+      "viewport": 1024,
+      "type": "duplicate-cta",
+      "message": "[duplicate-cta] Found 2 visible \"Download resume\" (max 1)"
+    },
+    {
+      "label": "home-after-audio-1024",
+      "route": "/",
+      "viewport": 1024,
+      "type": "overlap",
+      "message": "[overlap] Overlapping blocks: credentials vs About"
+    },
+    {
+      "label": "home-after-audio-1024",
+      "route": "/",
+      "viewport": 1024,
+      "type": "overlap",
+      "message": "[overlap] Content paints over sticky nav: div[data-visual-qa-regression=\"sticky-nav-overlap\"] (z-index 60)"
+    },
+    {
+      "label": "home-after-audio-1024",
+      "route": "/",
+      "viewport": 1024,
+      "type": "contrast",
+      "message": "[contrast] Contrast 1.09:1 < AA 4.5:1 for \"Let's get in touch\""
+    },
+    {
+      "label": "home-after-audio-1024",
+      "route": "/",
+      "viewport": 1024,
+      "type": "console",
+      "message": "[console] Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node."
+    },
+    {
+      "label": "home-after-audio-375",
+      "route": "/",
+      "viewport": 375,
+      "type": "duplicate-cta",
+      "message": "[duplicate-cta] Found 2 visible \"Let's get in touch\" (max 1)"
+    },
+    {
+      "label": "home-after-audio-375",
+      "route": "/",
+      "viewport": 375,
+      "type": "duplicate-cta",
+      "message": "[duplicate-cta] Found 2 visible \"Download resume\" (max 1)"
+    },
+    {
+      "label": "home-after-audio-375",
+      "route": "/",
+      "viewport": 375,
+      "type": "overlap",
+      "message": "[overlap] Overlapping blocks: credentials vs About"
+    },
+    {
+      "label": "home-after-audio-375",
+      "route": "/",
+      "viewport": 375,
+      "type": "overlap",
+      "message": "[overlap] Content paints over sticky nav: div[data-visual-qa-regression=\"sticky-nav-overlap\"] (z-index 60)"
+    },
+    {
+      "label": "home-after-audio-375",
+      "route": "/",
+      "viewport": 375,
+      "type": "contrast",
+      "message": "[contrast] Contrast 1.09:1 < AA 4.5:1 for \"Let's get in touch\""
+    },
+    {
+      "label": "home-after-audio-375",
+      "route": "/",
+      "viewport": 375,
+      "type": "console",
+      "message": "[console] Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node."
+    }
+  ],
+  "byCategory": {
+    "duplicate-cta": 9,
+    "overlap": 12,
+    "contrast": 15,
+    "console": 6
+  }
+}
