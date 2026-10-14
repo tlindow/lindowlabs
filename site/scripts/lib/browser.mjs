@@ -50,29 +50,36 @@ export function startStaticServer(outDir = OUT_DIR) {
     throw new Error(`Missing ${outDir}. Run npm run build:static first.`);
   }
 
-  const server = http.createServer((req, res) => {
-    const urlPath = decodeURIComponent((req.url || "/").split("?")[0]);
-    const rel = urlPath === "/" ? "/index.html" : urlPath;
-    let filePath = path.join(outDir, rel);
+  const root = path.resolve(outDir);
+  // Only ever serve regular files that resolve inside site/out.
+  const safeFile = (candidate) => {
+    const resolved = path.resolve(root, candidate);
+    const rel = path.relative(root, resolved);
+    if (rel.startsWith("..") || path.isAbsolute(rel)) return null;
+    try {
+      const stat = fs.statSync(resolved);
+      if (stat.isDirectory()) return safeFile(path.join(rel, "index.html"));
+      return stat.isFile() ? resolved : null;
+    } catch {
+      return null;
+    }
+  };
 
-    if (!filePath.startsWith(outDir)) {
-      res.writeHead(403);
-      res.end("Forbidden");
+  const server = http.createServer((req, res) => {
+    let urlPath;
+    try {
+      urlPath = decodeURIComponent((req.url || "/").split("?")[0]);
+    } catch {
+      res.writeHead(400);
+      res.end("Bad request");
       return;
     }
+    const rel = (urlPath === "/" ? "/index.html" : urlPath).replace(/^\/+/, "");
+    const trimmed = rel.replace(/\/$/, "");
+    const filePath =
+      safeFile(rel) ?? safeFile(`${trimmed}.html`) ?? safeFile(path.join(trimmed, "index.html"));
 
-    if (fs.existsSync(filePath) && fs.statSync(filePath).isDirectory()) {
-      filePath = path.join(filePath, "index.html");
-    }
-
-    if (!fs.existsSync(filePath)) {
-      const htmlAlt = path.join(outDir, `${rel.replace(/\/$/, "")}.html`);
-      const indexAlt = path.join(outDir, rel.replace(/\/$/, ""), "index.html");
-      if (fs.existsSync(htmlAlt)) filePath = htmlAlt;
-      else if (fs.existsSync(indexAlt)) filePath = indexAlt;
-    }
-
-    if (!fs.existsSync(filePath) || !fs.statSync(filePath).isFile()) {
+    if (!filePath) {
       res.writeHead(404);
       res.end("Not found");
       return;
