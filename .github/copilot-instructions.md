@@ -18,9 +18,10 @@ You own **post-push CI fix-ups**. Cursor agents own the **pre-push inner loop**.
 
 ### When you open a CI fix PR
 
-1. Add one line to `docs/loop-log.md`: date, `outer: Copilot`, failure type, this PR number, and prevention (`none yet` if you only fixed the symptom).
+1. Add one line to `docs/loop-log.md`: date, `outer: Copilot`, failure type, this PR number, prevention, and a `Check` naming the npm script(s) that now catch it. `npm run check:loop-log` fails on an outer row without an existing script, so add or extend a step in `site/scripts/check-manifest.mjs` rather than only patching the symptom.
 2. In the PR body, include a short **prevention idea for the inner loop** (what Cursor agents should run or where shared helpers should live) so the next pre-push checklist can absorb it.
-3. Prefer minimal copy/behavior changes. Do not add permanent redirects unless asked.
+3. Reproduce with the same pipeline CI runs: `cd site && node scripts/check.mjs --tier <fast|build|artifact|browser>` (CI: `.github/workflows/site-check.yml`).
+4. Prefer minimal copy/behavior changes. Do not add permanent redirects unless asked.
 
 ## Repository Structure
 
@@ -35,7 +36,7 @@ You own **post-push CI fix-ups**. Cursor agents own the **pre-push inner loop**.
   - `src/components/animations/` - Composable Framer Motion building blocks
   - `src/components/brand/` - Brand marks gallery, previews, and download logic
   - `public/` - Static assets, brand SVGs, PNG exports, and downloadable resume files
-- `.github/workflows/` - CI/CD workflows for GitHub Pages static deployments
+- `.github/workflows/` - CI/CD workflows: `site-check.yml` (PR gate) and `deploy.yml` (GitHub Pages), both running `site/scripts/check.mjs`
 
 ## Core Tech Stack & Patterns
 

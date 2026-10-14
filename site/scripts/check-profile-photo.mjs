@@ -2,7 +2,7 @@
 /**
  * Assert exactly one profile photo is visible at hero, mid-page, and Let's talk.
  *
- * Uses Puppeteer against the static export (or --url). Counts elements marked
+ * Uses Playwright Chromium (scripts/lib/browser.mjs) against the static export (or --url). Counts elements marked
  * data-profile-photo whose computed opacity is > 0.15 and that intersect the
  * viewport (with a small fudge for the sticky nav / morph coin).
  *
@@ -11,87 +11,14 @@
  *   node scripts/check-profile-photo.mjs --url http://127.0.0.1:3000
  */
 
-import http from "node:http";
-import fs from "node:fs";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-import puppeteer from "puppeteer";
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const outDir = path.resolve(__dirname, "..", "out");
-
-function parseUrlFlag() {
-  const idx = process.argv.indexOf("--url");
-  if (idx >= 0 && process.argv[idx + 1]) return process.argv[idx + 1];
-  return null;
-}
-
-function contentType(filePath) {
-  const ext = path.extname(filePath).toLowerCase();
-  return (
-    {
-      ".html": "text/html; charset=utf-8",
-      ".js": "text/javascript; charset=utf-8",
-      ".css": "text/css; charset=utf-8",
-      ".json": "application/json",
-      ".svg": "image/svg+xml",
-      ".png": "image/png",
-      ".jpg": "image/jpeg",
-      ".jpeg": "image/jpeg",
-      ".webp": "image/webp",
-      ".ico": "image/x-icon",
-      ".woff": "font/woff",
-      ".woff2": "font/woff2",
-      ".txt": "text/plain; charset=utf-8",
-    }[ext] || "application/octet-stream"
-  );
-}
-
-function startStaticServer() {
-  if (!fs.existsSync(outDir)) {
-    throw new Error(`Missing ${outDir}. Run npm run build:static first.`);
-  }
-
-  const server = http.createServer((req, res) => {
-    const urlPath = decodeURIComponent((req.url || "/").split("?")[0]);
-    let rel = urlPath === "/" ? "/index.html" : urlPath;
-    let filePath = path.join(outDir, rel);
-
-    if (!filePath.startsWith(outDir)) {
-      res.writeHead(403);
-      res.end("Forbidden");
-      return;
-    }
-
-    if (fs.existsSync(filePath) && fs.statSync(filePath).isDirectory()) {
-      filePath = path.join(filePath, "index.html");
-    }
-
-    if (!fs.existsSync(filePath)) {
-      const htmlAlt = path.join(outDir, `${rel.replace(/\/$/, "")}.html`);
-      const indexAlt = path.join(outDir, rel.replace(/\/$/, ""), "index.html");
-      if (fs.existsSync(htmlAlt)) filePath = htmlAlt;
-      else if (fs.existsSync(indexAlt)) filePath = indexAlt;
-    }
-
-    if (!fs.existsSync(filePath) || !fs.statSync(filePath).isFile()) {
-      res.writeHead(404);
-      res.end("Not found");
-      return;
-    }
-
-    res.writeHead(200, { "Content-Type": contentType(filePath) });
-    fs.createReadStream(filePath).pipe(res);
-  });
-
-  return new Promise((resolve, reject) => {
-    server.listen(0, "127.0.0.1", () => {
-      const { port } = server.address();
-      resolve({ server, baseUrl: `http://127.0.0.1:${port}` });
-    });
-    server.on("error", reject);
-  });
-}
+import {
+  closeCheckPage,
+  closeServer,
+  launchChromium,
+  newCheckPage,
+  resolveBaseUrl,
+  waitForStable,
+} from "./lib/browser.mjs";
 
 async function countVisibleProfilePhotos(page) {
   return page.evaluate(() => {
@@ -136,13 +63,14 @@ async function waitForMorphReady(page) {
       const opacity = Number.parseFloat(getComputedStyle(morph).opacity || "0");
       return opacity > 0.15;
     },
+    null,
     { timeout: 20000 }
   );
 }
 
 async function settle(page) {
-  await page.evaluate(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))));
-  await new Promise((r) => setTimeout(r, 450));
+  // Wait for springs / fades to settle instead of a fixed sleep.
+  await waitForStable(page);
 }
 
 async function assertOnePhoto(page, label) {
@@ -156,9 +84,8 @@ async function assertOnePhoto(page, label) {
 }
 
 async function runAtViewport(browser, baseUrl, width, height) {
-  const page = await browser.newPage();
-  await page.setViewport({ width, height, deviceScaleFactor: 1 });
-  await page.goto(baseUrl, { waitUntil: "networkidle0", timeout: 60000 });
+  const page = await newCheckPage(browser, { width, height });
+  await page.goto(baseUrl, { waitUntil: "networkidle", timeout: 60000 });
   await waitForMorphReady(page);
   await settle(page);
 
@@ -274,6 +201,7 @@ async function runAtViewport(browser, baseUrl, width, height) {
       if (!morph) return false;
       return getComputedStyle(morph).display === "none";
     },
+    null,
     { timeout: 5000 }
   );
   const morphLeak = await page.evaluate(() => {
@@ -344,6 +272,7 @@ async function runAtViewport(browser, baseUrl, width, height) {
       const cr = contact.getBoundingClientRect();
       return cr.width > 24 && cr.height > 24;
     },
+    null,
     { timeout: 5000 }
   );
   await settle(page);
@@ -364,23 +293,13 @@ async function runAtViewport(browser, baseUrl, width, height) {
     );
   }
 
-  await page.close();
+  await closeCheckPage(page);
   return { hero: hero.id, middle: mid.id, footer: footer.id };
 }
 
 async function run() {
-  const externalUrl = parseUrlFlag();
-  let server = null;
-  let baseUrl = externalUrl;
-
-  if (!baseUrl) {
-    ({ server, baseUrl } = await startStaticServer());
-  }
-
-  const browser = await puppeteer.launch({
-    headless: true,
-    args: ["--no-sandbox", "--disable-setuid-sandbox"],
-  });
+  const { server, baseUrl } = await resolveBaseUrl();
+  const browser = await launchChromium();
 
   try {
     const desktop = await runAtViewport(browser, baseUrl, 1280, 800);
@@ -390,9 +309,7 @@ async function run() {
     );
   } finally {
     await browser.close();
-    if (server) {
-      await new Promise((resolve) => server.close(resolve));
-    }
+    await closeServer(server);
   }
 }
 

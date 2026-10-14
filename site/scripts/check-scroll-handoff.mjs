@@ -2,23 +2,31 @@
 /**
  * Frame-by-frame scrollY + CLS check across the Let's talk ↔ nav handoff.
  *
+ * Serves site/out by default (after npm run build:static), like the other
+ * browser checks. Motion stays ON here: this is the motion-on run.
+ *
  * Usage:
+ *   node scripts/check-scroll-handoff.mjs
  *   node scripts/check-scroll-handoff.mjs --url http://127.0.0.1:3000
  */
 
-import puppeteer from "puppeteer";
+import {
+  closeCheckPage,
+  closeServer,
+  launchChromium,
+  newCheckPage,
+  resolveBaseUrl,
+  waitForStable,
+} from "./lib/browser.mjs";
 
-function parseUrl() {
-  const idx = process.argv.indexOf("--url");
-  if (idx >= 0 && process.argv[idx + 1]) return process.argv[idx + 1];
-  return "http://127.0.0.1:3000";
-}
-
-async function sampleHandoff(page, width, height, label) {
-  await page.setViewport({ width, height, deviceScaleFactor: 1 });
-  await page.goto(parseUrl(), { waitUntil: "networkidle0", timeout: 60000 });
-  await page.waitForSelector('[data-profile-photo="morph"]', { timeout: 20000 });
-  await new Promise((r) => setTimeout(r, 600));
+async function sampleHandoff(browser, baseUrl, width, height, label) {
+  const page = await newCheckPage(browser, { width, height });
+  await page.goto(baseUrl, { waitUntil: "networkidle", timeout: 60000 });
+  await page.waitForSelector('[data-profile-photo="morph"]', {
+    state: "attached",
+    timeout: 20000,
+  });
+  await waitForStable(page);
   // Instant scroll so html.scroll-smooth does not fake stalled/backward samples.
   await page.evaluate(() => {
     document.documentElement.style.scrollBehavior = "auto";
@@ -170,18 +178,31 @@ async function sampleHandoff(page, width, height, label) {
     await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
     await new Promise((r) => setTimeout(r, 100));
     window.scrollTo(0, midNavY);
-    await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
-    await new Promise((r) => setTimeout(r, 400));
-    const afterUp = [...document.querySelectorAll("[data-profile-photo]")].filter((el) => {
-      const op = Number.parseFloat(getComputedStyle(el).opacity || "0");
-      const rect = el.getBoundingClientRect();
-      return (
-        op > 0.15 &&
-        rect.width > 4 &&
-        rect.bottom > 0 &&
-        rect.top < window.innerHeight
-      );
-    });
+    const visiblePhotos = () =>
+      [...document.querySelectorAll("[data-profile-photo]")].filter((el) => {
+        const op = Number.parseFloat(getComputedStyle(el).opacity || "0");
+        const rect = el.getBoundingClientRect();
+        return (
+          op > 0.15 &&
+          rect.width > 4 &&
+          rect.bottom > 0 &&
+          rect.top < window.innerHeight
+        );
+      });
+    // Poll until exactly the nav photo shows (settled) or 3s passes, instead
+    // of a fixed sleep that races the springs on slow CI runners.
+    const settleStart = performance.now();
+    let afterUp = visiblePhotos();
+    while (performance.now() - settleStart < 3000) {
+      await new Promise((r) => requestAnimationFrame(r));
+      afterUp = visiblePhotos();
+      if (
+        afterUp.length === 1 &&
+        afterUp[0].getAttribute("data-profile-photo") === "nav"
+      ) {
+        break;
+      }
+    }
     const afterUpIds = afterUp.map((p) => p.getAttribute("data-profile-photo"));
 
     return {
@@ -223,21 +244,20 @@ async function sampleHandoff(page, width, height, label) {
       `${label}: scroll-up from Let's talk must show only nav photo, got ${JSON.stringify(result.afterUpIds)} at y≈${result.midNavY}`
     );
   }
+  await closeCheckPage(page);
   return result;
 }
 
 async function run() {
-  const browser = await puppeteer.launch({
-    headless: true,
-    args: ["--no-sandbox", "--disable-setuid-sandbox"],
-  });
+  const { server, baseUrl } = await resolveBaseUrl();
+  const browser = await launchChromium();
   try {
-    const page = await browser.newPage();
-    await sampleHandoff(page, 1280, 800, "handoff@1280");
-    await sampleHandoff(page, 390, 844, "handoff@390");
+    await sampleHandoff(browser, baseUrl, 1280, 800, "handoff@1280");
+    await sampleHandoff(browser, baseUrl, 390, 844, "handoff@390");
     console.log("check-scroll-handoff: ok");
   } finally {
     await browser.close();
+    await closeServer(server);
   }
 }
 

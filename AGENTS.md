@@ -9,31 +9,30 @@ This repository contains **Tyler Lindow's workspace**, organized into three core
 
 - **Inner loop (Cursor agents):** pre-push work. Catch CI failures locally before anything hits `main`.
 - **Outer loop (GitHub Copilot coding agent):** post-push CI fix-ups. See `.github/copilot-instructions.md`.
-- Hand off through the repo only. Read [`docs/loop-log.md`](docs/loop-log.md) before starting site work. When you add or change a check, append one line to that log.
+- Hand off through the repo only. Read [`docs/loop-log.md`](docs/loop-log.md) before starting site work. When you add or change a check, append one line to that log and name the npm script in its `Check` column.
 
 ### Pre-push checks (required)
 
-From `site/`, every Cursor agent must run and pass before push:
+One pipeline, defined once in `site/scripts/check-manifest.mjs` and run by `site/scripts/check.mjs`. `npm run check`, the pre-push hook, PR CI (`.github/workflows/site-check.yml`) and the Pages deploy (`.github/workflows/deploy.yml`) all run it. Add or change a step there, never in a workflow or this file.
 
 ```bash
+nvm use            # Node from .nvmrc (CI uses the same file)
 cd site
-npm run check
+npm ci             # also points git at .githooks (pre-push gate)
+npx playwright install chromium   # once; every browser check uses Playwright Chromium
+npm run check      # every tier; npm run check:fast for the fast tier only
 ```
 
-That runs, in order:
+Tiers (`node scripts/check.mjs --list` prints the exact steps):
 
-1. `npm run lint`
-2. `npm run typecheck`
-3. `npm run check:client-imports` (server files must not import camelCase helpers from `"use client"` modules)
-4. `npm run check:em-dashes -- --source` (U+2014 in live copy/data; prints `file:line`)
-5. `npm run build:static` (static export for Pages / HTML checks; stashes SSR-only routes)
-6. `npm run check:labels`
-7. `npm run check:em-dashes` (U+2014 in `site/out/**/*.html`)
-8. `npm run check:locations`
-9. `npm run check:mobile-nav` (390px: Name left | LinkedIn+email icons right; no audience pills / Visitors; guards header `overflow-x: clip`)
-10. `npm run check:profile-photo` (hero / middle / Let's talk: exactly one visible `data-profile-photo`)
+1. **fast**: lint (includes a no-em-dash rule for all `src/` copy), typecheck, test, `check:client-imports`, `check:em-dashes -- --source`, `check:loop-log`
+2. **build**: `build:static` (no network: fonts are self-hosted in `src/app/fonts/`)
+3. **artifact**: `check:labels`, `check:em-dashes` (built HTML), `check:locations`
+4. **browser**: `check:mobile-nav` (reduced motion), `check:profile-photo`, `check:scroll-handoff` (motion on), `check:visual-qa`. Each retries once; a pass on retry prints **FLAKY** and must be fixed by waiting for a settled state (`waitForStable` in `scripts/lib/browser.mjs`), never by adding a sleep.
 
-PR CI also runs **Visual QA** (`.github/workflows/visual-qa.yml`): Playwright over public routes from `site/visual-qa.config.mjs` at 1440 / 1024 / 375 (plus homepage after audio ends). Fails on console errors, key overlaps, duplicate primary CTAs, and WCAG AA contrast. Not part of local `npm run check` (Chromium download). Run with `cd site && npm run build:static && npm run check:visual-qa`.
+The committed `.githooks/pre-push` runs the fast tier on every push and the full pipeline when the pushed commits touch `site/` or `docs/loop-log.md`. Do not push with `--no-verify`; PR CI runs the same steps and blocks the merge. If `core.hooksPath` was already set, run `git config core.hooksPath .githooks`.
+
+On failure, `check.mjs` prints the `docs/loop-log.md` rows whose `Check` column names the failing script. Start there.
 
 ### Shared helpers (client vs server)
 

@@ -1,11 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import {
-  Inter,
-  Space_Mono,
-  Silkscreen,
-  Fraunces,
-  Instrument_Sans,
-} from "next/font/google";
+import localFont from "next/font/local";
 import { Analytics } from "@vercel/analytics/react";
 import PersonJsonLd from "@/components/PersonJsonLd";
 import FunnelCapture from "@/components/FunnelCapture";
@@ -22,38 +16,46 @@ export const viewport: Viewport = {
   userScalable: false,
 };
 
-const inter = Inter({
+// Self-hosted (src/app/fonts, OFL-1.1 via Fontsource) so builds never fetch
+// Google Fonts. A network blip there used to fail build:static in CI.
+const inter = localFont({
   variable: "--font-inter",
-  subsets: ["latin"],
+  src: "./fonts/inter-latin-wght-normal.woff2",
+  weight: "100 900",
   display: "swap",
 });
 
-const spaceMono = Space_Mono({
+const spaceMono = localFont({
   variable: "--font-space-mono",
-  weight: ["400", "700"],
-  subsets: ["latin"],
+  src: [
+    { path: "./fonts/space-mono-latin-400-normal.woff2", weight: "400" },
+    { path: "./fonts/space-mono-latin-700-normal.woff2", weight: "700" },
+  ],
   display: "swap",
 });
 
-const silkscreen = Silkscreen({
+const silkscreen = localFont({
   variable: "--font-pixel",
-  weight: ["400", "700"],
-  subsets: ["latin"],
+  src: [
+    { path: "./fonts/silkscreen-latin-400-normal.woff2", weight: "400" },
+    { path: "./fonts/silkscreen-latin-700-normal.woff2", weight: "700" },
+  ],
   display: "swap",
 });
 
-const fraunces = Fraunces({
+/** Fraunces with SOFT / opsz / WONK axes. */
+const fraunces = localFont({
   variable: "--font-fraunces",
-  subsets: ["latin"],
-  axes: ["SOFT", "opsz", "WONK"],
+  src: "./fonts/fraunces-latin-full-normal.woff2",
+  weight: "100 900",
   display: "swap",
 });
 
 /** Tinker login UI face (body / inputs on /learning gate). */
-const instrumentSans = Instrument_Sans({
+const instrumentSans = localFont({
   variable: "--font-instrument-sans",
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  src: "./fonts/instrument-sans-latin-wght-normal.woff2",
+  weight: "400 700",
   display: "swap",
 });
 

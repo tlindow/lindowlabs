@@ -1,45 +1,107 @@
-name: Visual QA
+name: Site check
 
+# PR gate. Runs the same pipeline as `npm run check` / the pre-push hook
+# (site/scripts/check-manifest.mjs), split into jobs that share one static
+# build. Replaces em-dash-check.yml and visual-qa.yml.
 on:
   pull_request:
   workflow_dispatch:
 
 permissions:
-  contents: write
-  pull-requests: write
+  contents: read
+
+concurrency:
+  group: site-check-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
+  fast:
+    name: Fast (lint, typecheck, test, source scans)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-site
+      - name: check.mjs --tier fast
+        working-directory: ./site
+        run: node scripts/check.mjs --tier fast
+
+  build:
+    name: Build static export
+    needs: fast
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-site
+      - name: check.mjs --tier build
+        working-directory: ./site
+        run: node scripts/check.mjs --tier build
+      - name: Upload static export
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-out
+          path: site/out/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 3
+
+  artifact:
+    name: Artifact checks (labels, em dashes, locations)
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-site
+      - uses: actions/download-artifact@v4
+        with:
+          name: site-out
+          path: site/out
+      - name: check.mjs --tier artifact
+        working-directory: ./site
+        run: node scripts/check.mjs --tier artifact
+
+  browser:
+    name: Browser checks (mobile nav, profile photo, scroll handoff)
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-site
+        with:
+          browser: "true"
+      - uses: actions/download-artifact@v4
+        with:
+          name: site-out
+          path: site/out
+      - name: check.mjs --tier browser (visual-qa runs in its own job)
+        working-directory: ./site
+        run: node scripts/check.mjs --tier browser --skip visual-qa
+
   visual-qa:
     name: Visual QA
+    needs: build
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-site
         with:
-          node-version: 20
-          cache: npm
-          cache-dependency-path: site/package-lock.json
-
-      - name: Install dependencies
-        working-directory: ./site
-        run: npm ci
-
-      - name: Install Playwright Chromium
-        working-directory: ./site
-        run: npx playwright install --with-deps chromium
-
-      - name: Build static site
-        working-directory: ./site
-        run: npm run build:static
+          browser: "true"
+      - uses: actions/download-artifact@v4
+        with:
+          name: site-out
+          path: site/out
 
       - name: Run visual QA
         id: qa
         working-directory: ./site
-        run: npm run check:visual-qa
+        run: node scripts/check.mjs --tier browser --only visual-qa
         continue-on-error: true
 
       - name: Upload screenshots artifact

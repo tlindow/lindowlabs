@@ -16,49 +16,23 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build-and-deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  verify:
+    name: Verify (full npm run check pipeline)
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: ./.github/actions/setup-site
         with:
-          node-version: 20
-          cache: npm
-          cache-dependency-path: site/package-lock.json
+          browser: "true"
 
-      - name: Install dependencies
+      # Same manifest as `npm run check`, pre-push, and site-check.yml.
+      # Only the site/out that passed every tier gets uploaded for deploy.
+      - name: check.mjs (all tiers)
         working-directory: ./site
-        run: npm ci
-
-      - name: Build static site
-        working-directory: ./site
-        run: npm run build:static
-
-      - name: Check labels against catalog
-        working-directory: ./site
-        run: npm run check:labels
-
-      - name: Check em dashes in built HTML
-        working-directory: ./site
-        run: npm run check:em-dashes
-
-      - name: Check essay locations
-        working-directory: ./site
-        run: npm run check:locations
-
-      - name: Check mobile nav Login layout (no Visitors/LinkedIn)
-        working-directory: ./site
-        run: npm run check:mobile-nav
-
-      - name: Check single profile photo at hero / middle / Let's talk
-        working-directory: ./site
-        run: npm run check:profile-photo
+        run: node scripts/check.mjs
 
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
@@ -68,6 +42,14 @@ jobs:
         with:
           path: site/out
 
+  deploy:
+    name: Deploy verified artifact
+    needs: verify
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

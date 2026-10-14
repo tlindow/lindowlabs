@@ -1,0 +1,52 @@
+name: Set up site
+description: >-
+  Node from .nvmrc, npm ci in site/, and (optionally) the same Playwright
+  Chromium that local `npm run check` uses, cached by Playwright version.
+
+inputs:
+  browser:
+    description: Install Playwright Chromium for the browser tier
+    required: false
+    default: "false"
+
+runs:
+  using: composite
+  steps:
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version-file: .nvmrc
+        cache: npm
+        cache-dependency-path: site/package-lock.json
+
+    - name: Install dependencies
+      shell: bash
+      working-directory: ./site
+      run: npm ci
+
+    - name: Resolve Playwright version
+      if: inputs.browser == 'true'
+      id: pw
+      shell: bash
+      working-directory: ./site
+      run: echo "version=$(node -p "require('playwright/package.json').version")" >> "$GITHUB_OUTPUT"
+
+    - name: Cache Playwright browsers
+      if: inputs.browser == 'true'
+      id: pw-cache
+      uses: actions/cache@v4
+      with:
+        path: ~/.cache/ms-playwright
+        key: playwright-${{ runner.os }}-${{ steps.pw.outputs.version }}
+
+    - name: Install Playwright Chromium
+      if: inputs.browser == 'true' && steps.pw-cache.outputs.cache-hit != 'true'
+      shell: bash
+      working-directory: ./site
+      run: npx playwright install --with-deps chromium
+
+    - name: Install Playwright system deps (cached browser)
+      if: inputs.browser == 'true' && steps.pw-cache.outputs.cache-hit == 'true'
+      shell: bash
+      working-directory: ./site
+      run: npx playwright install-deps chromium

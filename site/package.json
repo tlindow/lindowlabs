@@ -2,13 +2,18 @@
   "name": "site",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=22.6"
+  },
   "scripts": {
     "dev": "node scripts/sync-resume-data.mjs && (node scripts/watch-resume.mjs & next dev)",
     "build": "node scripts/sync-resume-data.mjs && next build && node scripts/write-redirects.mjs",
     "build:static": "node scripts/build-static-export.mjs",
     "test": "node --experimental-strip-types --import ./scripts/register-ts-paths.mjs --test src/lib/auth/learningPhones.test.ts src/lib/auth/learningOwner.test.ts src/lib/stytchPhones.test.ts src/lib/learning/learningScope.test.ts src/lib/learning/playlistProgress.test.ts src/lib/learning/parseReadingPlan.test.ts src/lib/profileDock.test.ts src/lib/clicks/clicks.test.ts",
     "check:scroll-handoff": "node scripts/check-scroll-handoff.mjs",
-    "check": "npm run lint && npm run typecheck && npm run test && npm run check:client-imports && npm run check:em-dashes -- --source && npm run build:static && npm run check:labels && npm run check:em-dashes && npm run check:locations && npm run check:mobile-nav && npm run check:profile-photo",
+    "check": "node scripts/check.mjs",
+    "check:fast": "node scripts/check.mjs --tier fast",
+    "check:loop-log": "node scripts/check-loop-log.mjs",
     "check:em-dashes": "node scripts/check-em-dashes.mjs",
     "check:client-imports": "node scripts/check-client-imports.mjs",
     "check:labels": "node scripts/verify-labeled-paragraphs.mjs",
@@ -24,7 +29,8 @@
     "export:pdf": "node scripts/sync-resume-gdrive.mjs --pdf-only",
     "sync:gdrive": "node scripts/sync-resume-gdrive.mjs",
     "export:gdoc": "node scripts/export-resume-gdoc.mjs --local-only",
-    "sync:gdoc": "node scripts/export-resume-gdoc.mjs"
+    "sync:gdoc": "node scripts/export-resume-gdoc.mjs",
+    "prepare": "node scripts/install-git-hooks.mjs"
   },
   "dependencies": {
     "@types/three": "^0.185.4",
