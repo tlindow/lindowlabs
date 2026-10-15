@@ -20,6 +20,36 @@
       "source": "/get-your-time-back/",
       "destination": "/",
       "permanent": true
+    },
+    {
+      "source": "/schedule-time",
+      "destination": "https://calendly.com/tylerlindow/connect",
+      "permanent": true
+    },
+    {
+      "source": "/schedule-time/",
+      "destination": "https://calendly.com/tylerlindow/connect",
+      "permanent": true
+    },
+    {
+      "source": "/schedule-time/:path*",
+      "destination": "https://calendly.com/tylerlindow/connect",
+      "permanent": true
+    },
+    {
+      "source": "/time",
+      "destination": "https://calendly.com/tylerlindow/connect",
+      "permanent": true
+    },
+    {
+      "source": "/time/",
+      "destination": "https://calendly.com/tylerlindow/connect",
+      "permanent": true
+    },
+    {
+      "source": "/time/:path*",
+      "destination": "https://calendly.com/tylerlindow/connect",
+      "permanent": true
     }
   ]
 }

@@ -14,7 +14,8 @@ const PATH_MOVES = [
 ];
 
 /** Top-level path moves (not under /blog). Written as nested index.html.
- *  Each legacy path hops straight to / (no chain). */
+ *  Each legacy homepage path hops straight to / (no chain).
+ *  Retired contact leaf hops straight to Calendly connect. */
 const TOP_LEVEL_PATH_MOVES = [
   {
     from: "get-your-time-back",
@@ -23,6 +24,14 @@ const TOP_LEVEL_PATH_MOVES = [
   {
     from: "engineering-leaders",
     href: "/",
+  },
+  {
+    from: "schedule-time",
+    href: "https://calendly.com/tylerlindow/connect",
+  },
+  {
+    from: "time",
+    href: "https://calendly.com/tylerlindow/connect",
   },
 ];
 
@@ -35,6 +44,7 @@ function absoluteHref(href) {
   return `${base}${href.startsWith("/") ? href : `/${href}`}`;
 }
 
+/** HTML redirect; JS merges location.search onto the destination when possible. */
 function redirectHtml(href) {
   const safeHref = href.replace(/"/g, "%22");
   return `<!DOCTYPE html>
@@ -44,7 +54,22 @@ function redirectHtml(href) {
 <link rel="canonical" href="${safeHref}">
 <meta http-equiv="refresh" content="0; url=${safeHref}">
 <title>Redirect</title>
-<script>location.replace(${JSON.stringify(href)});</script>
+<script>
+(function () {
+  var dest = ${JSON.stringify(href)};
+  try {
+    var url = new URL(dest, location.href);
+    var incoming = new URLSearchParams(location.search);
+    incoming.forEach(function (value, key) {
+      if (!url.searchParams.has(key)) url.searchParams.set(key, value);
+    });
+    if (location.hash) url.hash = location.hash;
+    location.replace(url.toString());
+  } catch (e) {
+    location.replace(dest);
+  }
+})();
+</script>
 </head>
 <body>
 <p><a href="${safeHref}">Continue</a></p>

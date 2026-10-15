@@ -7,6 +7,9 @@ const basePath = process.env.BASE_PATH || "";
 // Vercel (and default `next build`) stays SSR so Auth.js can protect /learning.
 const useStaticExport = process.env.STATIC_EXPORT === "1";
 
+/** Retired contact leaf → Calendly connect (query string preserved by Next). */
+const CALENDLY_CONNECT = "https://calendly.com/tylerlindow/connect";
+
 const nextConfig: NextConfig = {
   output: useStaticExport ? "export" : undefined,
   basePath: basePath || undefined,
@@ -20,7 +23,8 @@ const nextConfig: NextConfig = {
   devIndicators: false,
   reactStrictMode: true,
   // Static export ignores redirects; write-redirects.mjs emits HTML for Pages.
-  // Both legacy paths go straight to / (no chain through each other).
+  // Legacy homepage aliases hop straight to / (no chain through each other).
+  // Retired /schedule-time (+ /time alias) hop straight to Calendly.
   async redirects() {
     if (useStaticExport) return [];
     return [
@@ -42,6 +46,36 @@ const nextConfig: NextConfig = {
       {
         source: "/get-your-time-back/",
         destination: "/",
+        permanent: true,
+      },
+      {
+        source: "/schedule-time",
+        destination: CALENDLY_CONNECT,
+        permanent: true,
+      },
+      {
+        source: "/schedule-time/",
+        destination: CALENDLY_CONNECT,
+        permanent: true,
+      },
+      {
+        source: "/schedule-time/:path*",
+        destination: CALENDLY_CONNECT,
+        permanent: true,
+      },
+      {
+        source: "/time",
+        destination: CALENDLY_CONNECT,
+        permanent: true,
+      },
+      {
+        source: "/time/",
+        destination: CALENDLY_CONNECT,
+        permanent: true,
+      },
+      {
+        source: "/time/:path*",
+        destination: CALENDLY_CONNECT,
         permanent: true,
       },
     ];
