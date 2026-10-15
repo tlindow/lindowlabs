@@ -6,7 +6,7 @@ import { fileURLToPath } from "node:url";
 const basePath = process.env.BASE_PATH || "";
 
 // Static HTML export for GitHub Pages + local HTML checks only.
-// Vercel (and default `next build`) stays SSR so Auth.js can protect /learning.
+// Vercel (and default `next build`) stays SSR for API routes and dynamic pages.
 const useStaticExport = process.env.STATIC_EXPORT === "1";
 
 /** Retired contact leaf → Calendly connect (query string preserved by Next). */

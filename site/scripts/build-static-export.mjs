@@ -1,12 +1,12 @@
-import { existsSync, mkdirSync, renameSync, rmSync, cpSync } from "node:fs";
+import { existsSync, mkdirSync, renameSync, rmSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
 
 /**
  * Build a static export for GitHub Pages + pre-push HTML checks.
- * Stytch auth (proxy, API routes, dynamic /learning) only runs on Vercel SSR,
- * so those paths are stashed for the export build and restored afterward.
+ * API routes only run on Vercel SSR, so they are stashed for the export
+ * build and restored afterward.
  *
  * Important: never call process.exit while paths are stashed; always restore
  * in a finally block first.
@@ -18,18 +18,11 @@ const stashRoot = path.join(siteRoot, ".ssr-stash");
 const srcRoot = path.join(siteRoot, "src");
 
 const STASH_ITEMS = [
-  { from: path.join(srcRoot, "proxy.ts"), to: path.join(stashRoot, "proxy.ts") },
   {
     from: path.join(srcRoot, "app", "api"),
     to: path.join(stashRoot, "api"),
   },
-  {
-    from: path.join(srcRoot, "app", "learning"),
-    to: path.join(stashRoot, "learning"),
-  },
 ];
-
-const stubFallback = path.join(here, "learning-static-stub.tsx");
 
 function stash() {
   mkdirSync(stashRoot, { recursive: true });
@@ -39,25 +32,9 @@ function stash() {
     renameSync(item.from, item.to);
     console.log(`stash ${path.relative(siteRoot, item.from)}`);
   }
-
-  const learningDir = path.join(srcRoot, "app", "learning");
-  mkdirSync(learningDir, { recursive: true });
-  const stubFrom = existsSync(path.join(stashRoot, "learning", "page.static-stub.tsx"))
-    ? path.join(stashRoot, "learning", "page.static-stub.tsx")
-    : stubFallback;
-  if (!existsSync(stubFrom)) {
-    throw new Error("learning static stub missing");
-  }
-  cpSync(stubFrom, path.join(learningDir, "page.tsx"));
-  console.log("wrote static /learning stub");
 }
 
 function restore() {
-  const learningDir = path.join(srcRoot, "app", "learning");
-  if (existsSync(learningDir)) {
-    rmSync(learningDir, { recursive: true, force: true });
-  }
-
   for (const item of STASH_ITEMS) {
     if (!existsSync(item.to)) continue;
     const parent = path.dirname(item.from);
