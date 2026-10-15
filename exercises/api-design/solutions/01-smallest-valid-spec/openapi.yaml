@@ -3,9 +3,9 @@ info:
   title: Payments API
   version: "1.0.0"
 paths:
-  /orders/{id}:
+  /payment_intents/{id}:
     get:
-      summary: Get an order by id
+      summary: Get a payment intent by id
       parameters:
         - name: id
           in: path
@@ -14,7 +14,7 @@ paths:
             type: string
       responses:
         "200":
-          description: An order
+          description: A payment intent
           content:
             application/json:
               schema:

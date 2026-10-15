@@ -3,9 +3,9 @@ info:
   title: Payments API
   version: "1.0.0"
 paths:
-  /orders/{id}:
+  /payment_intents/{id}:
     get:
-      summary: Get an order by id
+      summary: Get a payment intent by id
       parameters:
         - name: id
           in: path
@@ -14,25 +14,21 @@ paths:
             type: string
       responses:
         "200":
-          description: An order
+          description: A payment intent
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Order"
+                $ref: "#/components/schemas/PaymentIntent"
         "404":
-          description: Order not found
+          description: Payment intent not found
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /orders:
+  /payment_intents:
     get:
-      summary: List orders
+      summary: List payment intents
       parameters:
-        - name: merchantId
-          in: query
-          schema:
-            type: string
         - name: limit
           in: query
           schema:
@@ -45,26 +41,26 @@ paths:
             minimum: 0
       responses:
         "200":
-          description: A page of orders
+          description: A page of payment intents
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/OrderList"
+                $ref: "#/components/schemas/PaymentIntentList"
     post:
-      summary: Create an order
+      summary: Create a payment intent
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateOrder"
+              $ref: "#/components/schemas/CreatePaymentIntent"
       responses:
         "201":
-          description: Order created
+          description: Payment intent created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Order"
+                $ref: "#/components/schemas/PaymentIntent"
         "400":
           description: Invalid create payload
           content:
@@ -73,34 +69,31 @@ paths:
                 $ref: "#/components/schemas/Error"
 components:
   schemas:
-    Order:
+    PaymentIntent:
       type: object
       properties:
         id:
           type: string
         status:
           type: string
-    CreateOrder:
+    CreatePaymentIntent:
       type: object
       required:
-        - merchantId
         - amountCents
         - currency
       properties:
-        merchantId:
-          type: string
         amountCents:
           type: integer
           minimum: 1
         currency:
           type: string
-    OrderList:
+    PaymentIntentList:
       type: object
       properties:
-        orders:
+        paymentIntents:
           type: array
           items:
-            $ref: "#/components/schemas/Order"
+            $ref: "#/components/schemas/PaymentIntent"
         limit:
           type: integer
         offset:

@@ -12,7 +12,7 @@
       "id": "00",
       "folder": "00-in-plain-english",
       "title": "In plain English",
-      "goal": "Before YAML: learn the payments domain, then answer ask, send, return, and wrong for Merchant, Order, and Refund in your own words.",
+      "goal": "Before YAML: learn the small payments API domain, then answer ask, send, return, and wrong for PaymentIntent, Capture, Refund, and WebhookEvent in your own words.",
       "check": null,
       "apiMd": ["ask", "send", "return", "wrong"]
     },
@@ -20,7 +20,7 @@
       "id": "01",
       "folder": "01-smallest-valid-spec",
       "title": "Smallest valid spec",
-      "goal": "Turn one ask and one return into openapi + info + GET /orders/{id} with 200.",
+      "goal": "Turn one ask and one return into openapi + info + GET /payment_intents/{id} with 200.",
       "check": "npm run check:step -- 01",
       "apiMd": ["ask", "return"]
     },
@@ -36,7 +36,7 @@
       "id": "03",
       "folder": "03-create",
       "title": "Create",
-      "goal": "Translate send into POST /orders with a JSON body and required create fields.",
+      "goal": "Translate send into POST /payment_intents with a JSON body and required create fields.",
       "check": "npm run check:step -- 03",
       "apiMd": ["send"]
     },
@@ -44,7 +44,7 @@
       "id": "04",
       "folder": "04-failure",
       "title": "Failure",
-      "goal": "Translate wrong into a shared Error schema plus 400 and 404 on order ops.",
+      "goal": "Translate wrong into a shared Error schema plus 400 and 404 on payment intent ops.",
       "check": "npm run check:step -- 04",
       "apiMd": ["wrong"]
     },
@@ -52,7 +52,7 @@
       "id": "05",
       "folder": "05-lists",
       "title": "Lists",
-      "goal": "Expand ask with GET /orders, query filters, and pagination params.",
+      "goal": "Expand ask with GET /payment_intents, query filters, and pagination params.",
       "check": "npm run check:step -- 05",
       "apiMd": ["ask"]
     },
@@ -68,7 +68,7 @@
       "id": "07",
       "folder": "07-from-scratch",
       "title": "From scratch",
-      "goal": "Apply ask/send/return/wrong to the payments worksheet and type the full Merchant, Order, and Refund YAML by hand.",
+      "goal": "Apply ask/send/return/wrong to the payments worksheet and type the full PaymentIntent, Capture, Refund, and WebhookEvent YAML by hand.",
       "check": "npm run check:step -- 07",
       "apiMd": ["ask", "send", "return", "wrong"],
       "worksheet": "WORKSHEET.md"

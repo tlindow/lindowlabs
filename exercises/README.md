@@ -8,7 +8,7 @@ Prefer plain-English notes first, then a blank starter file.
 
 | # | Exercise | Book | Brief |
 | :--- | :--- | :--- | :--- |
-| 1 | [`api-design/`](./api-design/) | *(exercise-only)* | Merchant / Order / Refund resources → OpenAPI by hand |
+| 1 | [`api-design/`](./api-design/) | *(exercise-only)* | PaymentIntent / Capture / Refund / WebhookEvent → OpenAPI by hand |
 | 2 | *(none)* | Understanding Distributed Systems (Vitillo, 2nd ed.) | Vocabulary bridge before Kleppmann |
 | 3 | *(none)* | Learning Domain-Driven Design (Khononov) | Strategic design and team boundaries |
 | 4 | *(none)* | Payments Systems in the U.S. (Glenbrook) | Card networks, ACH, wires, settlement |

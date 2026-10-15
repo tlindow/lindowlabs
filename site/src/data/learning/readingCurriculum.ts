@@ -79,7 +79,7 @@ export const curriculumEssayTitle =
 
 /** Intro paragraph under the title (verbatim). */
 export const curriculumEssayIntro =
-  "You led merchant and partner integrations at Affirm, ran the merchant domain architecture review, and owned reliability for Merchant Portal. Your Tinker essays show where your understanding is thinner than those claims. You can't yet say how API resources map to routes. You've outgrown introductory reliability material but haven't studied what sits under it. You lean on analogies from other fields when fintech has its own frameworks. And you've said you never mastered data structures and algorithms. This curriculum closes those gaps in order of how often an interviewer will press on them. The API design exercise comes first so you practice turning Merchant, Order, and Refund into routes before the books. Understanding Distributed Systems (Vitillo) comes before Designing Data-Intensive Applications (Kleppmann) because it gives the vocabulary so Kleppmann's rigor lands. Grokking Algorithms runs alongside everything else. Vitillo arrives end of day Wed Oct 14.";
+  "You led merchant and partner integrations at Affirm, ran the merchant domain architecture review, and owned reliability for Merchant Portal. Your Tinker essays show where your understanding is thinner than those claims. You can't yet say how API resources map to routes. You've outgrown introductory reliability material but haven't studied what sits under it. You lean on analogies from other fields when fintech has its own frameworks. And you've said you never mastered data structures and algorithms. This curriculum closes those gaps in order of how often an interviewer will press on them. The API design exercise comes first so you practice turning PaymentIntent, Capture, Refund, and WebhookEvent into routes before the books. Understanding Distributed Systems (Vitillo) comes before Designing Data-Intensive Applications (Kleppmann) because it gives the vocabulary so Kleppmann's rigor lands. Grokking Algorithms runs alongside everything else. Vitillo arrives end of day Wed Oct 14.";
 
 /**
  * Ordered modules. Exercise folder ids stay stable; order matches the essay.
@@ -95,11 +95,11 @@ export const readingCurriculum: ReadingCurriculumItem[] = [
     author: "Exercise",
     scope: "in Tinker",
     prose:
-      "No book here. The gap is turning resources into routes, and that only sticks by building it. Each step models Merchant, Order, and Refund in the payments domain and grows an OpenAPI spec by hand, so the design choices come from writing it, not from reading about it.",
+      "No book here. The gap is turning resources into routes, and that only sticks by building it. Each step models PaymentIntent, Capture, Refund, and WebhookEvent in the payments domain and grows an OpenAPI spec by hand, so the design choices come from writing it, not from reading about it.",
     exercises: [
       curriculumExerciseLinks(
         "api-design",
-        "model Merchant, Order and Refund as resources, map each one to routes and methods, then write the OpenAPI spec."
+        "model PaymentIntent, Capture, Refund, and WebhookEvent as resources, map each one to routes and methods, then write the OpenAPI spec."
       ),
     ],
   },
