@@ -1,11 +1,7 @@
 /**
- * Static content for the private Lindow Labs Learning dashboard.
- * Exercises mirror the repo's exercises/ folder; readings are the working list.
+ * Historical learning dashboard content, retained for reference.
+ * Notion is now the source of truth; the website no longer publishes the dashboard.
  */
-
-import { LEARNING_DASHBOARD_URL } from "@/data/urls";
-
-export { LEARNING_DASHBOARD_URL };
 
 const GITHUB_EXERCISES_BASE =
   "https://github.com/tlindow/lindowlabs/tree/main/exercises";

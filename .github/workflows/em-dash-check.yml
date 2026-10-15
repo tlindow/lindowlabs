@@ -27,6 +27,10 @@ jobs:
         working-directory: ./site
         run: npm run build:static
 
+      - name: Check learning dashboard stays retired
+        working-directory: ./site
+        run: npm run check:retired-learning
+
       - name: Check labels against catalog
         working-directory: ./site
         run: npm run check:labels

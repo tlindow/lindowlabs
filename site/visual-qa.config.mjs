@@ -2,7 +2,6 @@
  * Visual QA config (LL-86): public routes + one-per-page primary CTAs.
  *
  * Routes are derived from src/app page.tsx files and blog post metadata.
- * `/learning` (and anything under it) is excluded — it sits behind login.
  *
  * Beacon owns keeping primaryButtons current as logged-out CTAs change.
  */
@@ -54,7 +53,7 @@ export function primaryButtonsForRoute(route) {
 }
 
 /** Route prefixes skipped even if a page.tsx exists under src/app. */
-export const excludeRoutePrefixes = ["/learning"];
+export const excludeRoutePrefixes = [];
 
 /**
  * Parse slug + optional canonicalPath from blogPosts.ts without a TS loader.
@@ -127,7 +126,7 @@ function scanAppRoutes() {
 }
 
 /**
- * Public routes under test. Derived from the repo; `/learning*` omitted.
+ * Public routes under test. Derived from the repo; all current public pages included.
  * @returns {string[]}
  */
 export function derivePublicRoutes() {

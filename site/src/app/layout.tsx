@@ -4,7 +4,6 @@ import {
   Space_Mono,
   Silkscreen,
   Fraunces,
-  Instrument_Sans,
 } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import PersonJsonLd from "@/components/PersonJsonLd";
@@ -49,14 +48,6 @@ const fraunces = Fraunces({
   display: "swap",
 });
 
-/** Tinker login UI face (body / inputs on /learning gate). */
-const instrumentSans = Instrument_Sans({
-  variable: "--font-instrument-sans",
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  display: "swap",
-});
-
 export const metadata: Metadata = {
   metadataBase: new URL("https://lindowlabs.dev"),
   title: SITE_SHARE_TITLE,
@@ -90,7 +81,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body
-        className={`${inter.variable} ${spaceMono.variable} ${silkscreen.variable} ${fraunces.variable} ${instrumentSans.variable} font-mono antialiased bg-background text-foreground selection:bg-indigo-light selection:text-indigo-dark`}
+        className={`${inter.variable} ${spaceMono.variable} ${silkscreen.variable} ${fraunces.variable} font-mono antialiased bg-background text-foreground selection:bg-indigo-light selection:text-indigo-dark`}
       >
         <PersonJsonLd />
         <AnalyticsProvider>
