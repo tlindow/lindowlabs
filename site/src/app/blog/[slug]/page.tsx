@@ -4,8 +4,8 @@ import { notFound, redirect } from "next/navigation";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import LabeledBody from "@/components/blog/LabeledBody";
 import {
+  blogPosts,
   getAdjacentPosts,
-  getBlogIndexPosts,
   getBlogPostBySlug,
   getPostHref,
 } from "@/data/blogPosts";
@@ -15,8 +15,10 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
+// Include canonicalPath posts too so /blog/[slug] → leaf redirects are
+// prerendered and do not require a cold serverless read of content/.
 export async function generateStaticParams() {
-  return getBlogIndexPosts().map((post) => ({
+  return blogPosts.map((post) => ({
     slug: post.slug,
   }));
 }
