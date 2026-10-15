@@ -1,18 +1,19 @@
 # OpenAPI by hand
 
 **/learning curriculum #1** (exercise-only): write an OpenAPI contract for a
-payments platform API. Every step stays in the same domain: **Merchant**,
-**Order** (a checkout payment), and **Refund**.
+small payments API. Every step stays in the same domain: **PaymentIntent**,
+**Capture**, **Refund**, and **WebhookEvent**.
 
 Start in plain English, then turn that understanding into OpenAPI YAML one
-milestone at a time. Practice files start blank on purpose. Each YAML step
-copies forward from the previous `openapi.yaml`.
+milestone at a time. Practice files start blank on purpose. Write every YAML
+line by feel; never copy-paste from solutions or from an earlier step's file
+into a later one (you may re-type forward what you already learned).
 
 1. Step **00**: write [`00-in-plain-english/api.md`](./00-in-plain-english/api.md).
-2. Steps **01** through **06**: grow one `openapi.yaml` around **Order**
+2. Steps **01** through **06**: grow one `openapi.yaml` around **PaymentIntent**
    (ask, return, send, wrong, lists, auth).
-3. Step **07**: from a blank file, write the full Merchant / Order / Refund
-   contract from [WORKSHEET.md](./WORKSHEET.md).
+3. Step **07**: from a blank file, write the full PaymentIntent / Capture /
+   Refund / WebhookEvent contract from [WORKSHEET.md](./WORKSHEET.md).
 
 Machine-readable step list: [`steps.json`](./steps.json) (for Tinker to split or
 merge steps later; boundaries stay coarse here).

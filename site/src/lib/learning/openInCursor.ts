@@ -24,7 +24,7 @@ export function apiDesignExercise() {
     id: "ex_api_design_openapi",
     name: "OpenAPI by hand (payments)",
     description:
-      "Numbered OpenAPI YAML steps for Merchant, Order, and Refund in the payments domain.",
+      "Numbered OpenAPI YAML steps for PaymentIntent, Capture, Refund, and WebhookEvent in the payments domain.",
     path: API_DESIGN_PATH,
     githubUrl,
     openInCursorUrl: openInCursorUrl(githubUrl),

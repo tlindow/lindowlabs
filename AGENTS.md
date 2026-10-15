@@ -115,7 +115,7 @@ The `content/` workspace uses a **PR-based workflow**:
 ### Project structure
 
 - `exercises/` — Hands-on technical learning exercises (for Tyler's personal learning)
-  - `exercises/api-design/` — OpenAPI by hand for Merchant, Order, and Refund
+  - `exercises/api-design/` — OpenAPI by hand for PaymentIntent, Capture, Refund, and WebhookEvent
 - `content/` — Journal entries, essay drafts, and master resume source
   - `typing_is_learning.md` — Philosophy essay on typing and hands-on coding
   - `resume.md` — Canonical resume markdown

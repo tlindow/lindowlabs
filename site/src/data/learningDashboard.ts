@@ -48,7 +48,7 @@ export const learningExercises: LearningExercise[] = [
 export const learningReadings: LearningReading[] = [
   {
     title: "API design",
-    note: "Exercise only: Merchant, Order, Refund OpenAPI",
+    note: "Exercise only: PaymentIntent, Capture, Refund, WebhookEvent OpenAPI",
   },
   {
     title: "Understanding Distributed Systems",

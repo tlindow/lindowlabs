@@ -7,7 +7,7 @@ does the contract declare that credential so tools stop treating calls as open?
 security scheme names how credentials travel; a `security` list applies it to
 the API or one operation.
 
-Copy your step 05 `openapi.yaml` here first.
+Re-type your step 05 `openapi.yaml` here first (by feel; no paste).
 
 **Shape hint:**
 

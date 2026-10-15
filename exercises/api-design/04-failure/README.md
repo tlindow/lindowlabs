@@ -7,7 +7,7 @@ status codes and the shared error shape?
 `404` (missing resource) only help if the contract also names the error JSON
 once and reuses it.
 
-Copy your step 03 `openapi.yaml` here first.
+Re-type your step 03 `openapi.yaml` here first (by feel; no paste).
 
 **Shape hint:**
 
@@ -20,8 +20,8 @@ Copy your step 03 `openapi.yaml` here first.
         $ref: "#/components/schemas/<Error>"
 ```
 
-**Done when:** `npm run check:step -- 04` passes (`Error` schema; order ops
-declare `400` and `404`; at least one `$ref` to `Error`).
+**Done when:** `npm run check:step -- 04` passes (`Error` schema; payment intent
+ops declare `400` and `404`; at least one `$ref` to `Error`).
 
 **If stuck:** add `components.schemas.Error` as `type: object`, run the check,
 then wire one failure response.

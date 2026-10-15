@@ -3,66 +3,22 @@ info:
   title: Payments API
   version: "1.0.0"
 paths:
-  /merchants:
+  /payment_intents:
     post:
-      summary: Create a merchant
+      summary: Create a payment intent
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateMerchant"
+              $ref: "#/components/schemas/CreatePaymentIntent"
       responses:
         "201":
-          description: Merchant created
+          description: Payment intent created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Merchant"
-        "400":
-          description: Invalid create payload
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-  /merchants/{merchantId}:
-    get:
-      summary: Get a merchant by id
-      parameters:
-        - name: merchantId
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: A merchant
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Merchant"
-        "404":
-          description: Merchant not found
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-  /orders:
-    post:
-      summary: Create an order
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/CreateOrder"
-      responses:
-        "201":
-          description: Order created
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Order"
+                $ref: "#/components/schemas/PaymentIntent"
         "400":
           description: Invalid create payload
           content:
@@ -70,46 +26,86 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
     get:
-      summary: List orders
+      summary: List payment intents
       parameters:
-        - name: merchantId
+        - name: limit
           in: query
           schema:
-            type: string
+            type: integer
+            minimum: 1
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            minimum: 0
       responses:
         "200":
-          description: Order list
+          description: Payment intent list
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/OrderList"
-  /orders/{orderId}:
+                $ref: "#/components/schemas/PaymentIntentList"
+  /payment_intents/{paymentIntentId}:
     get:
-      summary: Get an order by id
+      summary: Get a payment intent by id
       parameters:
-        - name: orderId
+        - name: paymentIntentId
           in: path
           required: true
           schema:
             type: string
       responses:
         "200":
-          description: An order
+          description: A payment intent
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Order"
+                $ref: "#/components/schemas/PaymentIntent"
         "404":
-          description: Order not found
+          description: Payment intent not found
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /orders/{orderId}/refunds:
+  /payment_intents/{paymentIntentId}/capture:
     post:
-      summary: Create a refund for an order
+      summary: Capture a payment intent
       parameters:
-        - name: orderId
+        - name: paymentIntentId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateCapture"
+      responses:
+        "201":
+          description: Capture created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Capture"
+        "400":
+          description: Invalid capture payload
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Payment intent not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /payment_intents/{paymentIntentId}/refunds:
+    post:
+      summary: Refund a payment intent
+      parameters:
+        - name: paymentIntentId
           in: path
           required: true
           schema:
@@ -134,7 +130,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
         "404":
-          description: Order not found
+          description: Payment intent not found
           content:
             application/json:
               schema:
@@ -161,93 +157,116 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+  /events/{eventId}:
+    get:
+      summary: Get a webhook event by id
+      parameters:
+        - name: eventId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: A webhook event
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WebhookEvent"
+        "404":
+          description: Event not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 components:
   schemas:
-    Merchant:
+    PaymentIntent:
       type: object
       required:
-        - merchantId
-        - name
-        - createdAt
-      properties:
-        merchantId:
-          type: string
-        name:
-          type: string
-        createdAt:
-          type: string
-          format: date-time
-    CreateMerchant:
-      type: object
-      required:
-        - name
-      properties:
-        name:
-          type: string
-    Order:
-      type: object
-      required:
-        - orderId
-        - merchantId
+        - paymentIntentId
         - amountCents
         - currency
         - status
         - createdAt
       properties:
-        orderId:
-          type: string
-        merchantId:
-          type: string
-        amountCents:
-          type: integer
-        currency:
-          type: string
-        status:
-          type: string
-          enum:
-            - created
-            - paid
-            - refunded
-        createdAt:
-          type: string
-          format: date-time
-    CreateOrder:
-      type: object
-      required:
-        - merchantId
-        - amountCents
-        - currency
-      properties:
-        merchantId:
+        paymentIntentId:
           type: string
         amountCents:
           type: integer
           minimum: 1
         currency:
           type: string
-    OrderList:
+        status:
+          type: string
+          enum:
+            - requires_capture
+            - succeeded
+            - refunded
+        createdAt:
+          type: string
+          format: date-time
+    CreatePaymentIntent:
       type: object
       required:
-        - orders
+        - amountCents
+        - currency
       properties:
-        orders:
+        amountCents:
+          type: integer
+          minimum: 1
+        currency:
+          type: string
+    PaymentIntentList:
+      type: object
+      properties:
+        paymentIntents:
           type: array
           items:
-            $ref: "#/components/schemas/Order"
+            $ref: "#/components/schemas/PaymentIntent"
+        limit:
+          type: integer
+        offset:
+          type: integer
+    Capture:
+      type: object
+      required:
+        - captureId
+        - paymentIntentId
+        - amountCents
+        - createdAt
+      properties:
+        captureId:
+          type: string
+        paymentIntentId:
+          type: string
+        amountCents:
+          type: integer
+          minimum: 1
+        createdAt:
+          type: string
+          format: date-time
+    CreateCapture:
+      type: object
+      properties:
+        amountCents:
+          type: integer
+          minimum: 1
     Refund:
       type: object
       required:
         - refundId
-        - orderId
+        - paymentIntentId
         - amountCents
         - createdAt
       properties:
         refundId:
           type: string
-        orderId:
+        paymentIntentId:
           type: string
         amountCents:
           type: integer
+          minimum: 1
         createdAt:
           type: string
           format: date-time
@@ -259,6 +278,24 @@ components:
         amountCents:
           type: integer
           minimum: 1
+    WebhookEvent:
+      type: object
+      required:
+        - eventId
+        - type
+        - createdAt
+        - data
+      properties:
+        eventId:
+          type: string
+        type:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        data:
+          type: object
+          additionalProperties: true
     Error:
       type: object
       required:
