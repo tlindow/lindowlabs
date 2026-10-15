@@ -1,0 +1,293 @@
+{
+  "ok": true,
+  "generatedAt": "2026-10-15T06:39:17.726Z",
+  "routes": [
+    "/",
+    "/blog",
+    "/blog/building-product-as-system-architecture",
+    "/blog/over-index-on-intuition",
+    "/books-ive-read",
+    "/brand",
+    "/how-i-lead-teams/building-teams-as-raising-funds",
+    "/resume",
+    "/visitors"
+  ],
+  "primaryButtons": [
+    {
+      "label": "Let's get in touch",
+      "max": 1
+    },
+    {
+      "label": "Download resume",
+      "max": 1
+    },
+    {
+      "label": "Schedule time",
+      "max": 1,
+      "maxByRoute": {
+        "/": 2
+      }
+    }
+  ],
+  "viewports": [
+    {
+      "name": "desktop",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "name": "laptop",
+      "width": 1024,
+      "height": 768
+    },
+    {
+      "name": "mobile",
+      "width": 375,
+      "height": 812
+    }
+  ],
+  "results": [
+    {
+      "label": "home-1440",
+      "route": "/",
+      "viewport": 1440,
+      "screenshot": "screenshots/home-1440.png",
+      "findings": [],
+      "afterAudio": false
+    },
+    {
+      "label": "home-1024",
+      "route": "/",
+      "viewport": 1024,
+      "screenshot": "screenshots/home-1024.png",
+      "findings": [],
+      "afterAudio": false
+    },
+    {
+      "label": "home-375",
+      "route": "/",
+      "viewport": 375,
+      "screenshot": "screenshots/home-375.png",
+      "findings": [],
+      "afterAudio": false
+    },
+    {
+      "label": "blog-1440",
+      "route": "/blog",
+      "viewport": 1440,
+      "screenshot": "screenshots/blog-1440.png",
+      "findings": [],
+      "afterAudio": false
+    },
+    {
+      "label": "blog-1024",
+      "route": "/blog",
+      "viewport": 1024,
+      "screenshot": "screenshots/blog-1024.png",
+      "findings": [],
+      "afterAudio": false
+    },
+    {
+      "label": "blog-375",
+      "route": "/blog",
+      "viewport": 375,
+      "screenshot": "screenshots/blog-375.png",
+      "findings": [],
+      "afterAudio": false
+    },
+    {
+      "label": "blog__building-product-as-system-architecture-1440",
+      "route": "/blog/building-product-as-system-architecture",
+      "viewport": 1440,
+      "screenshot": "screenshots/blog__building-product-as-system-architecture-1440.png",
+      "findings": [],
+      "afterAudio": false
+    },
+    {
+      "label": "blog__building-product-as-system-architecture-1024",
+      "route": "/blog/building-product-as-system-architecture",
+      "viewport": 1024,
+      "screenshot": "screenshots/blog__building-product-as-system-architecture-1024.png",
+      "findings": [],
+      "afterAudio": false
+    },
+    {
+      "label": "blog__building-product-as-system-architecture-375",
+      "route": "/blog/building-product-as-system-architecture",
+      "viewport": 375,
+      "screenshot": "screenshots/blog__building-product-as-system-architecture-375.png",
+      "findings": [],
+      "afterAudio": false
+    },
+    {
+      "label": "blog__over-index-on-intuition-1440",
+      "route": "/blog/over-index-on-intuition",
+      "viewport": 1440,
+      "screenshot": "screenshots/blog__over-index-on-intuition-1440.png",
+      "findings": [],
+      "afterAudio": false
+    },
+    {
+      "label": "blog__over-index-on-intuition-1024",
+      "route": "/blog/over-index-on-intuition",
+      "viewport": 1024,
+      "screenshot": "screenshots/blog__over-index-on-intuition-1024.png",
+      "findings": [],
+      "afterAudio": false
+    },
+    {
+      "label": "blog__over-index-on-intuition-375",
+      "route": "/blog/over-index-on-intuition",
+      "viewport": 375,
+      "screenshot": "screenshots/blog__over-index-on-intuition-375.png",
+      "findings": [],
+      "afterAudio": false
+    },
+    {
+      "label": "books-ive-read-1440",
+      "route": "/books-ive-read",
+      "viewport": 1440,
+      "screenshot": "screenshots/books-ive-read-1440.png",
+      "findings": [],
+      "afterAudio": false
+    },
+    {
+      "label": "books-ive-read-1024",
+      "route": "/books-ive-read",
+      "viewport": 1024,
+      "screenshot": "screenshots/books-ive-read-1024.png",
+      "findings": [],
+      "afterAudio": false
+    },
+    {
+      "label": "books-ive-read-375",
+      "route": "/books-ive-read",
+      "viewport": 375,
+      "screenshot": "screenshots/books-ive-read-375.png",
+      "findings": [],
+      "afterAudio": false
+    },
+    {
+      "label": "brand-1440",
+      "route": "/brand",
+      "viewport": 1440,
+      "screenshot": "screenshots/brand-1440.png",
+      "findings": [],
+      "afterAudio": false
+    },
+    {
+      "label": "brand-1024",
+      "route": "/brand",
+      "viewport": 1024,
+      "screenshot": "screenshots/brand-1024.png",
+      "findings": [],
+      "afterAudio": false
+    },
+    {
+      "label": "brand-375",
+      "route": "/brand",
+      "viewport": 375,
+      "screenshot": "screenshots/brand-375.png",
+      "findings": [],
+      "afterAudio": false
+    },
+    {
+      "label": "how-i-lead-teams__building-teams-as-raising-funds-1440",
+      "route": "/how-i-lead-teams/building-teams-as-raising-funds",
+      "viewport": 1440,
+      "screenshot": "screenshots/how-i-lead-teams__building-teams-as-raising-funds-1440.png",
+      "findings": [],
+      "afterAudio": false
+    },
+    {
+      "label": "how-i-lead-teams__building-teams-as-raising-funds-1024",
+      "route": "/how-i-lead-teams/building-teams-as-raising-funds",
+      "viewport": 1024,
+      "screenshot": "screenshots/how-i-lead-teams__building-teams-as-raising-funds-1024.png",
+      "findings": [],
+      "afterAudio": false
+    },
+    {
+      "label": "how-i-lead-teams__building-teams-as-raising-funds-375",
+      "route": "/how-i-lead-teams/building-teams-as-raising-funds",
+      "viewport": 375,
+      "screenshot": "screenshots/how-i-lead-teams__building-teams-as-raising-funds-375.png",
+      "findings": [],
+      "afterAudio": false
+    },
+    {
+      "label": "resume-1440",
+      "route": "/resume",
+      "viewport": 1440,
+      "screenshot": "screenshots/resume-1440.png",
+      "findings": [],
+      "afterAudio": false
+    },
+    {
+      "label": "resume-1024",
+      "route": "/resume",
+      "viewport": 1024,
+      "screenshot": "screenshots/resume-1024.png",
+      "findings": [],
+      "afterAudio": false
+    },
+    {
+      "label": "resume-375",
+      "route": "/resume",
+      "viewport": 375,
+      "screenshot": "screenshots/resume-375.png",
+      "findings": [],
+      "afterAudio": false
+    },
+    {
+      "label": "visitors-1440",
+      "route": "/visitors",
+      "viewport": 1440,
+      "screenshot": "screenshots/visitors-1440.png",
+      "findings": [],
+      "afterAudio": false
+    },
+    {
+      "label": "visitors-1024",
+      "route": "/visitors",
+      "viewport": 1024,
+      "screenshot": "screenshots/visitors-1024.png",
+      "findings": [],
+      "afterAudio": false
+    },
+    {
+      "label": "visitors-375",
+      "route": "/visitors",
+      "viewport": 375,
+      "screenshot": "screenshots/visitors-375.png",
+      "findings": [],
+      "afterAudio": false
+    },
+    {
+      "label": "home-after-audio-1440",
+      "route": "/",
+      "viewport": 1440,
+      "screenshot": "screenshots/home-after-audio-1440.png",
+      "findings": [],
+      "afterAudio": true
+    },
+    {
+      "label": "home-after-audio-1024",
+      "route": "/",
+      "viewport": 1024,
+      "screenshot": "screenshots/home-after-audio-1024.png",
+      "findings": [],
+      "afterAudio": true
+    },
+    {
+      "label": "home-after-audio-375",
+      "route": "/",
+      "viewport": 375,
+      "screenshot": "screenshots/home-after-audio-375.png",
+      "findings": [],
+      "afterAudio": true
+    }
+  ],
+  "failures": [],
+  "byCategory": {}
+}
