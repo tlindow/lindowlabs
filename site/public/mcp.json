@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "name": "tyler-lindow-profile",
   "version": "1.0.0",
-  "description": "Public story for Tyler Lindow. Headline: Tyler Lindow | Engineering Manager, Developer Experience. The working resume is at /resume.",
+  "description": "Public story for Tyler Lindow. Headline: Tyler Lindow | Engineering Manager, Coaching & APIs. The working resume is at /resume.",
   "author": {
     "name": "Tyler Lindow",
     "email": "tyler@lindowlabs.dev",
