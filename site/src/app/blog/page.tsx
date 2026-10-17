@@ -6,11 +6,11 @@ import { getBlogIndexPosts, getPostHref } from "@/data/blogPosts";
 export const metadata: Metadata = {
   title: "Blog: Tyler Lindow",
   description:
-    "Writing from an engineering manager for developer experience on product as system architecture.",
+    "Writing from an engineering manager for APIs, partner integrations, and developer education on product as system architecture.",
   openGraph: {
     title: "Blog: Tyler Lindow",
     description:
-      "Writing from an engineering manager for developer experience on product as system architecture.",
+      "Writing from an engineering manager for APIs, partner integrations, and developer education on product as system architecture.",
     url: "https://tlindow.github.io/blog",
     siteName: "Tyler Lindow",
     type: "website",
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Blog: Tyler Lindow",
     description:
-      "Writing from an engineering manager for developer experience on product as system architecture.",
+      "Writing from an engineering manager for APIs, partner integrations, and developer education on product as system architecture.",
   },
 };
 

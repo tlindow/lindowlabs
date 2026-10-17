@@ -112,8 +112,8 @@ export const professionalSummary = {
       bg: "bg-sky-light",
     },
     {
-      number: "DevX",
-      value: "DevX",
+      number: "Education",
+      value: "Education",
       label: "Beginner market",
       context: "Educational institutions and the developer market",
       description: "Educational institutions and the developer market",

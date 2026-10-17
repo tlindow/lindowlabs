@@ -54,7 +54,7 @@ export default function Timeline() {
               Timeline of Milestones
             </h2>
             <p className="mt-3 sm:mt-4 text-[15px] sm:text-lg text-muted font-sans leading-relaxed">
-              From evolutionary biology research in Chicago to building founder platforms,
+              From evolutionary biology research in Chicago to building for founders,
               crafting botanical elixirs, delivering keynote talks on AI cognition, and mentoring
               engineers in San Diego.
             </p>

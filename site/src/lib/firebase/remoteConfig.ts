@@ -23,29 +23,29 @@ export const VARIANT_PRESETS: Record<string, RemoteConfigValues> = {
   baseline: {
     recruit_cta_label: "Let's talk",
     recruit_cta_style: "forest_solid",
-    hero_headline_variant: "Engineering Manager, Developer Experience",
+    hero_headline_variant: "Engineering Manager, Coaching & APIs",
     hero_subtitle_variant:
-      "Engineering manager for developer experience, platforms, and merchant and partner integrations. Ex-Affirm, ex-founder of Beginner Work.",
+      "Engineering manager for coaching, APIs, partner integrations, and developer education. Ex-Affirm, ex-founder of Beginner Work.",
   },
   action_oriented: {
     recruit_cta_label: "Let's talk",
     recruit_cta_style: "pulse_accent",
-    hero_headline_variant: "Engineering Manager, Developer Experience",
+    hero_headline_variant: "Engineering Manager, Coaching & APIs",
     hero_subtitle_variant:
-      "Engineering manager for developer experience, platforms, and merchant and partner integrations. Ex-Affirm, ex-founder of Beginner Work.",
+      "Engineering manager for coaching, APIs, partner integrations, and developer education. Ex-Affirm, ex-founder of Beginner Work.",
   },
   low_friction: {
     recruit_cta_label: "Connect on LinkedIn",
     recruit_cta_style: "sprout_glow",
-    hero_headline_variant: "Engineering Manager, Developer Experience",
+    hero_headline_variant: "Engineering Manager, Coaching & APIs",
     hero_subtitle_variant: "ex-Affirm, ex-founder",
   },
   executive_authority: {
     recruit_cta_label: "Hire Engineering Manager",
     recruit_cta_style: "high_contrast",
-    hero_headline_variant: "Engineering Manager, Developer Experience",
+    hero_headline_variant: "Engineering Manager, Coaching & APIs",
     hero_subtitle_variant:
-      "Engineering manager for developer experience, platforms, and merchant and partner integrations. Ex-Affirm, ex-founder of Beginner Work.",
+      "Engineering manager for coaching, APIs, partner integrations, and developer education. Ex-Affirm, ex-founder of Beginner Work.",
   },
 };
 
@@ -115,7 +115,10 @@ export function getRemoteConfigValues(): RemoteConfigValues {
       rawSubtitle.includes("B2B SaaS Scale on GenAI Rails") ||
       rawSubtitle.includes("B2B SaaS on GenAI Rails") ||
       rawSubtitle.includes("B2B SaaS on Safe, GenAI Rails") ||
-      rawSubtitle.includes("B2B SaaS on Builder-safe GenAI Rails")
+      rawSubtitle.includes("B2B SaaS on Builder-safe GenAI Rails") ||
+      rawSubtitle.toLowerCase().includes("developer experience") ||
+      rawSubtitle.toLowerCase().includes("fintech platforms") ||
+      rawSubtitle.includes("platforms, and merchant")
         ? DEFAULT_REMOTE_CONFIG.hero_subtitle_variant
         : rawSubtitle.trim();
 
@@ -128,7 +131,10 @@ export function getRemoteConfigValues(): RemoteConfigValues {
       rawHeadline.includes("Staff Product Manager") ||
       rawHeadline === "Fintech Eng Product Manager" ||
       rawHeadline === "Fintech Eng-Product Manager" ||
-      rawHeadline === "Fintech Product Eng Manager"
+      rawHeadline === "Fintech Product Eng Manager" ||
+      rawHeadline.includes("Developer Experience") ||
+      rawHeadline.includes("Fintech Platforms") ||
+      rawHeadline.includes("Fintech")
         ? DEFAULT_REMOTE_CONFIG.hero_headline_variant
         : rawHeadline;
 

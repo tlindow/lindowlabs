@@ -102,7 +102,7 @@ export default function CareerNarrative() {
 
         <div className="space-y-4 border-t border-border/70 pt-6">
           <h3 className="text-lg font-bold text-foreground">
-            Earlier · beginner and DevX
+            Earlier · beginner and developer education
           </h3>
           <ul className="space-y-3">
             {earlierRoles.map((item) => (

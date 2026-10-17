@@ -34,8 +34,8 @@ export function parseResumeMarkdown(markdownText: string): ParsedResume {
 
   const contact: ContactInfo = {
     name: "Tyler Lindow",
-    title: "Engineering Manager | Developer experience, platform, merchant & partner integrations | Ex-Affirm | Ex-founder",
-    subtitle: "Developer experience, platforms, and partner integrations",
+    title: "Engineering Manager | Coaching, APIs & partner integrations | Ex-Affirm | Ex-founder",
+    subtitle: "Coaching, APIs, and partner integrations",
     location: "San Diego, CA",
     relocation: "Open to relocation",
     phone: RESUME_PHONE,

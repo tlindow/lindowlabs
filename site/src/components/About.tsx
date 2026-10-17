@@ -22,7 +22,7 @@ export default function About({
             About
           </span>
           <h2 className="mt-3 font-mono text-xl sm:text-2xl md:text-3xl tracking-tight text-foreground font-bold leading-snug">
-            Engineering Manager, Developer Experience
+            Engineering Manager, Coaching &amp; APIs
           </h2>
         </ScrollReveal>
 
