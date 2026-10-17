@@ -75,7 +75,7 @@ export function curriculumBookCount(
 
 /** Essay title (owner desk H1). */
 export const curriculumEssayTitle =
-  "A curriculum for an engineering manager in APIs, partner integrations, and developer education";
+  "A curriculum for an engineering manager and founder";
 
 /** Intro paragraph under the title (verbatim). */
 export const curriculumEssayIntro =

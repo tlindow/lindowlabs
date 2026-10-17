@@ -65,7 +65,7 @@ function FoldoverWord({
  */
 export default function RetroClockFoldover({
   fromText = "Software Engineering Manager",
-  toText = "Engineering Manager, Coaching & APIs",
+  toText = "Engineering Manager & Founder",
   flipDelay = 1200,
   className = "",
 }: RetroClockFoldoverProps) {

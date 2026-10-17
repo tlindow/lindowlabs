@@ -53,14 +53,14 @@ const columns: ColumnDefinition[] = [
     id: "col-3",
     number: "03",
     title: "B2B",
-    tagline: "0-to-1 APIs & Partner Integrations",
+    tagline: "0-to-1 Engineering Leadership",
     stats: [
       { value: "Flagship", label: "Partner Support", sublabel: "Affirm" },
       { value: "300+", label: "SMB Merchants", sublabel: "Affirm" },
     ],
     scope: [
       "0-to-1 product development & MVP launch",
-      "Enterprise APIs, partner integrations & telemetry",
+      "Enterprise integrations & telemetry",
       "Merchant Portal reliability & SLA reports",
     ],
   },

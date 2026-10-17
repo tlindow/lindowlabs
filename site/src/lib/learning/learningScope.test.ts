@@ -77,7 +77,7 @@ describe("readingCurriculumForUser", () => {
     assert.equal(curriculumBookCount(items), 5);
     assert.equal(
       curriculumEssayTitle,
-      "A curriculum for an engineering manager in APIs, partner integrations, and developer education"
+      "A curriculum for an engineering manager and founder"
     );
     assert.match(curriculumEssayIntro, /^You led merchant and partner/);
     assert.match(
