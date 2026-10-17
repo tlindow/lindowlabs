@@ -5,7 +5,7 @@ import { parseResumeMarkdown, ParsedResume } from "@/lib/parseResumeMarkdown";
 
 export const rawResumeMarkdown = `# Tyler Lindow
 
-**Engineering Manager | Coaching, APIs & partner integrations**  
+**Engineering Manager | Developer experience, platform, merchant & partner integrations**  
 San Diego, CA | Open to relocation  
 (650) 580-5788 | tyler@lindowlabs.dev  
 
@@ -15,7 +15,7 @@ San Diego, CA | Open to relocation
 
 ## Summary
 
-Led up to 9 engineers on Affirm's merchant and partner integrations and developer support. Cut higher-transaction merchant outage detection from ~1 hour to under 5 minutes, led a merchant domain architecture review that reshaped the merchant org, and took Merchant Portal from ~99.7% to 99.9% availability with zero BFCM 2025 incidents. As founder of Beginner Work, built Tinker, an IDE for founders who want to get more technical. Targeting EM / Senior EM roles leading customer-facing technical teams in APIs, partner integrations, and developer education.
+Led up to 9 engineers on Affirm's merchant and partner integrations and developer experience. Cut higher-transaction merchant outage detection from ~1 hour to under 5 minutes, led a merchant domain architecture review that reshaped the merchant org, and took Merchant Portal from ~99.7% to 99.9% availability with zero BFCM 2025 incidents. As founder of Beginner Work, built Tinker, an IDE for founders who want to get more technical. Targeting EM / Senior EM roles in developer experience, developer platforms, and partner integrations.
 
 ---
 
@@ -61,7 +61,7 @@ Led up to 9 engineers on Affirm's merchant and partner integrations and develope
 *San Francisco, CA (Hybrid) | Sep 2019 – Jul 2021*
 
 - **Merchant checkout integrations:** Primary technical liaison for 300+ SMB merchants; diagnosed JavaScript, REST API, and webhook defects in checkout / payment-method integrations on Shopify, Magento, WooCommerce, and Salesforce Commerce Cloud.
-- **Developer feedback loop:** Built Snowflake ETL pipelines to cluster integration defects, turned developer feedback into product fixes, and routed integration tickets to the ecommerce plugin team, cutting my team's ticket load 10–20% at first and ~50% by the time I left.
+- **DevX feedback loop:** Built Snowflake ETL pipelines to cluster integration defects, turned developer feedback into platform fixes, and routed integration tickets to the ecommerce plugin team, cutting my team's ticket load 10–20% at first and ~50% by the time I left.
 
 ### Earlier Experience
 

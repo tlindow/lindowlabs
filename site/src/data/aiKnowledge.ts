@@ -101,7 +101,7 @@ export const knowledgeBase: KnowledgeTopic[] = [
     details: [
       "🌱 1:1 Mentoring & Advisory ($150 / session): Hands-on code reviews, architecture pairing, career pivots, and GenAI workflows (booked via Calendly).",
       "⚡ Fractional Advisory & Sprints ($5,000 / mo or sprint): Strategic B2B SaaS architecture, enterprise SLA telemetry, launch de-risking, and executive advisory.",
-      "💼 Full-Time Product-Eng Leadership (Custom / Retained): Embedded Software Engineering Manager / PM scaling engineering orgs and customer-facing technical teams in APIs and partner integrations.",
+      "💼 Full-Time Product-Eng Leadership (Custom / Retained): Embedded Software Engineering Manager / PM scaling engineering orgs and customer-facing technical teams.",
     ],
     actions: [
       { label: "View Pricing Tiers", href: "#pricing", variant: "primary" },

@@ -1,7 +1,11 @@
 "use client";
 
 import ScrollReveal from "@/components/animations/ScrollReveal";
-import { FORMATION_SUMMARY } from "@/data/positioning";
+import {
+  FORMATION_SUMMARY,
+  SITE_HEADLINE,
+  SITE_TAGLINE,
+} from "@/data/positioning";
 
 type AboutProps = {
   /** Defaults to FORMATION_SUMMARY; homepage passes HOME_ABOUT_BODY. */
@@ -22,8 +26,11 @@ export default function About({
             About
           </span>
           <h2 className="mt-3 font-mono text-xl sm:text-2xl md:text-3xl tracking-tight text-foreground font-bold leading-snug">
-            Engineering Manager, Coaching &amp; APIs
+            {SITE_HEADLINE}
           </h2>
+          <p className="mt-2 text-sm sm:text-base text-muted font-mono leading-snug">
+            {SITE_TAGLINE}
+          </p>
         </ScrollReveal>
 
         <ScrollReveal delay={0.12}>

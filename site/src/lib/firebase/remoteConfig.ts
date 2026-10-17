@@ -23,29 +23,29 @@ export const VARIANT_PRESETS: Record<string, RemoteConfigValues> = {
   baseline: {
     recruit_cta_label: "Let's talk",
     recruit_cta_style: "forest_solid",
-    hero_headline_variant: "Engineering Manager, Coaching & APIs",
+    hero_headline_variant: "Engineering Manager & Founder | Engineering enablement",
     hero_subtitle_variant:
-      "Engineering manager for coaching, APIs, partner integrations, and developer education. Ex-Affirm, ex-founder of Beginner Work.",
+      "Engineering Manager & Founder focused on engineering enablement. Ex-Affirm, ex-founder of Beginner Work.",
   },
   action_oriented: {
     recruit_cta_label: "Let's talk",
     recruit_cta_style: "pulse_accent",
-    hero_headline_variant: "Engineering Manager, Coaching & APIs",
+    hero_headline_variant: "Engineering Manager & Founder | Engineering enablement",
     hero_subtitle_variant:
-      "Engineering manager for coaching, APIs, partner integrations, and developer education. Ex-Affirm, ex-founder of Beginner Work.",
+      "Engineering Manager & Founder focused on engineering enablement. Ex-Affirm, ex-founder of Beginner Work.",
   },
   low_friction: {
     recruit_cta_label: "Connect on LinkedIn",
     recruit_cta_style: "sprout_glow",
-    hero_headline_variant: "Engineering Manager, Coaching & APIs",
+    hero_headline_variant: "Engineering Manager & Founder | Engineering enablement",
     hero_subtitle_variant: "ex-Affirm, ex-founder",
   },
   executive_authority: {
     recruit_cta_label: "Hire Engineering Manager",
     recruit_cta_style: "high_contrast",
-    hero_headline_variant: "Engineering Manager, Coaching & APIs",
+    hero_headline_variant: "Engineering Manager & Founder | Engineering enablement",
     hero_subtitle_variant:
-      "Engineering manager for coaching, APIs, partner integrations, and developer education. Ex-Affirm, ex-founder of Beginner Work.",
+      "Engineering Manager & Founder focused on engineering enablement. Ex-Affirm, ex-founder of Beginner Work.",
   },
 };
 

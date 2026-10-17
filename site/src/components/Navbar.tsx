@@ -55,7 +55,7 @@ export default function Navbar() {
                 Tyler Lindow
               </span>
               <span className="text-[10px] text-muted font-mono leading-none hidden sm:inline truncate">
-                Engineering Manager &amp; Founder
+                Engineering Manager &amp; Founder | Engineering enablement
               </span>
             </div>
           </Link>

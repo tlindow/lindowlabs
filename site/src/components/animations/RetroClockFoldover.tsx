@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { SITE_TITLE_SHORT } from "@/data/positioning";
 
 interface RetroClockFoldoverProps {
   fromText?: string;
@@ -65,7 +66,7 @@ function FoldoverWord({
  */
 export default function RetroClockFoldover({
   fromText = "Software Engineering Manager",
-  toText = "Engineering Manager, Coaching & APIs",
+  toText = SITE_TITLE_SHORT,
   flipDelay = 1200,
   className = "",
 }: RetroClockFoldoverProps) {
