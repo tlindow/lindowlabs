@@ -20,7 +20,7 @@ export const HOME_DESCRIPTION =
  * About body: reader frame, then locked Affirm / Beginner Work facts (no invented metrics).
  */
 export const HOME_ABOUT_BODY =
-  "I help engineering leaders get the most out of their teams. Led up to 9 engineers on Affirm's merchant and partner integrations and developer experience. Cut higher-transaction merchant outage detection from ~1 hour to under 5 minutes, led a merchant domain architecture review that reshaped the merchant org, and took Merchant Portal from ~99.7% to 99.9% availability with zero BFCM 2025 incidents. As founder of Beginner Work, built Tinker, an IDE for founders who want to get more technical.";
+  "I help engineering leaders get the most out of their teams. Led up to 9 engineers on Affirm's merchant and partner integrations and developer support. Cut higher-transaction merchant outage detection from ~1 hour to under 5 minutes, led a merchant domain architecture review that reshaped the merchant org, and took Merchant Portal from ~99.7% to 99.9% availability with zero BFCM 2025 incidents. As founder of Beginner Work, built Tinker, an IDE for founders who want to get more technical.";
 
 /** Museum paragraph painted immediately after About body. */
 export const HOME_MUSEUM_BODY =
